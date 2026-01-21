@@ -255,16 +255,16 @@ export default function AutoWizard() {
 
     switch(vType) {
       case 'micro': 
-        vehicles = budgetLevel <= 2 ? ['Chevrolet Spark', 'Mitsubishi Mirage', 'Nissan Versa', 'Kia Rio'] : ['Mini Cooper', 'Fiat 500', 'Mini Cooper SE (Electric)'];
+        vehicles = budgetLevel <= 2 ? ['Chevrolet Spark', 'Mitsubishi Mirage', 'Nissan Versa', 'Kia Rio'] : ['Mini Cooper', 'Fiat 500', 'Mini Cooper'];
         description = 'Perfect for city driving with excellent fuel efficiency and easy maneuverability. Ideal for urban commuters who need easy parking and low running costs.';
         features = ['Excellent fuel economy (35+ MPG)', 'Easy parking & tight turns', 'Low insurance costs', 'Nimble handling', 'Affordable maintenance'];
         reasoning.push('Ideal for urban commuting with tight parking');
         if (answers['fuel-priority'] === 'critical') reasoning.push('Maximizes fuel efficiency');
         break;
       case 'hatchback': 
-        vehicles = brand === 'japanese' ? ['Honda Civic Hatchback', 'Mazda3 Hatchback', 'Toyota Corolla Hatchback'] :
-                   budgetLevel >= 5 ? ['Volkswagen Golf GTI', 'Mini Cooper S', 'Mercedes-Benz A-Class'] :
-                   ['Honda Civic Hatchback', 'Mazda3 Hatchback', 'Hyundai Elantra GT', 'Kia Forte5'];
+        vehicles = brand === 'japanese' ? ['Honda Civic', 'Mazda3', 'Toyota Corolla'] :
+                   budgetLevel >= 5 ? ['Volkswagen Golf', 'Mini Cooper', 'Mercedes-Benz A-Class'] :
+                   ['Honda Civic', 'Mazda3', 'Hyundai Elantra GT', 'Kia Forte5'];
         description = 'Versatile hatchbacks combine sedan comfort with SUV-like cargo flexibility. Great for active lifestyles that need occasional hauling without the bulk.';
         features = ['Flexible fold-flat cargo area', 'Fun-to-drive dynamics', 'Good fuel economy (30+ MPG)', 'Practical yet sporty', 'Easy city maneuverability'];
         reasoning.push('Great balance of practicality and driving enjoyment');
@@ -292,14 +292,14 @@ export default function AutoWizard() {
         break;
       case 'coupe': 
         vehicles = budgetLevel >= 7 ? ['BMW M4', 'Mercedes-AMG C63', 'Audi RS5', 'Lexus LC'] :
-                   budgetLevel >= 5 ? ['BMW 4 Series', 'Audi A5', 'Mercedes-Benz C-Class Coupe', 'Lexus RC'] :
-                   ['Toyota GR86', 'Subaru BRZ', 'Honda Civic Si', 'Hyundai Elantra N'];
+                   budgetLevel >= 5 ? ['BMW 4 Series', 'Audi A5', 'Mercedes-Benz C-Class', 'Lexus RC'] :
+                   ['Toyota GR86', 'Subaru BRZ', 'Honda Civic', 'Hyundai Elantra'];
         description = 'Coupes prioritize style and driving dynamics over practicality. Perfect for enthusiasts who want a sporty daily driver with head-turning looks.';
         features = ['Sporty, aggressive styling', 'Sharp handling dynamics', 'Performance-oriented', 'Premium interior feel', 'Engaging driving experience'];
         reasoning.push('Style and driving enjoyment prioritized');
         break;
       case 'midsizeSuv': 
-        vehicles = needsOffroad ? ['Subaru Forester Wilderness', 'Toyota RAV4 TRD Off-Road', 'Mazda CX-50', 'Jeep Cherokee Trailhawk'] :
+        vehicles = needsOffroad ? ['Subaru Forester', 'Toyota RAV4', 'Mazda CX-50', 'Jeep Cherokee'] :
                    priorities.includes('reliability') ? ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5', 'Subaru Forester'] :
                    wantsLuxury && budgetLevel >= 5 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan', 'Audi Q5'] :
                    brand === 'korean' ? ['Hyundai Tucson', 'Kia Sportage', 'Genesis GV70'] :
@@ -310,7 +310,7 @@ export default function AutoWizard() {
         if (needsSnow) reasoning.push('AWD provides winter weather capability');
         break;
       case 'suv': 
-        vehicles = needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner TRD Pro', 'Land Rover Defender', 'Jeep Grand Cherokee Trailhawk'] :
+        vehicles = needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner', 'Land Rover Defender', 'Jeep Grand Cherokee'] :
                    wantsLuxury && budgetLevel >= 7 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover', 'Mercedes-Benz GLS'] :
                    budgetLevel >= 5 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7', 'Genesis GV80', 'Volvo XC90'] :
                    ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Kia Telluride', 'Hyundai Palisade'];
@@ -320,7 +320,7 @@ export default function AutoWizard() {
         if (towing === 'medium' || towing === 'heavy') reasoning.push('Towing capability for your needs');
         break;
       case 'midsizeTruck': 
-        vehicles = needsOffroad ? ['Toyota Tacoma TRD Pro', 'Jeep Gladiator Rubicon', 'Chevrolet Colorado ZR2', 'Ford Ranger Tremor'] :
+        vehicles = needsOffroad ? ['Toyota Tacoma', 'Jeep Gladiator', 'Chevrolet Colorado', 'Ford Ranger'] :
                    budgetLevel <= 3 ? ['Ford Maverick', 'Hyundai Santa Cruz', 'Nissan Frontier'] :
                    brand === 'japanese' ? ['Toyota Tacoma', 'Honda Ridgeline', 'Nissan Frontier'] :
                    ['Ford Ranger', 'Chevrolet Colorado', 'GMC Canyon', 'Jeep Gladiator'];
@@ -333,8 +333,8 @@ export default function AutoWizard() {
         break;
       case 'truck': 
         const needsHD = towing === 'max';
-        vehicles = needsHD ? ['Ford F-250 Super Duty', 'Ram 2500', 'Chevrolet Silverado 2500HD', 'GMC Sierra 2500HD'] :
-                   wantsLuxury && budgetLevel >= 6 ? ['Ram 1500 Limited', 'Ford F-150 Platinum', 'GMC Sierra Denali', 'Chevrolet Silverado High Country'] :
+        vehicles = needsHD ? ['Ford F-250', 'Ram 2500', 'Chevrolet Silverado 2500HD', 'GMC Sierra 2500HD'] :
+                   wantsLuxury && budgetLevel >= 6 ? ['Ram 1500', 'Ford F-150', 'GMC Sierra', 'Chevrolet Silverado'] :
                    isWork ? ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'GMC Sierra 1500'] :
                    brand === 'japanese' ? ['Toyota Tundra', 'Nissan Titan'] :
                    ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'Toyota Tundra'];
@@ -347,7 +347,7 @@ export default function AutoWizard() {
         if (towing === 'heavy' || towing === 'max') reasoning.push('Heavy towing requirement');
         break;
       case 'minivan': 
-        vehicles = budgetLevel >= 5 ? ['Toyota Sienna', 'Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica Pinnacle'] :
+        vehicles = budgetLevel >= 5 ? ['Toyota Sienna', 'Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica'] :
                    ['Honda Odyssey', 'Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica'];
         description = 'Minivans are the ultimate family vehicles - unmatched interior space, easy access with sliding doors, and features designed for family life. Nothing else comes close for family practicality.';
         features = ['Sliding doors for easy kid access', 'Flat-folding seats for max cargo', 'Best-in-class interior space', 'Entertainment systems available', 'Stow-and-go seating', 'Built-in vacuum (some models)'];
@@ -362,39 +362,39 @@ export default function AutoWizard() {
         reasoning.push('Maximum cargo capacity for work needs');
         break;
       case 'wagon': 
-        vehicles = wantsLuxury && budgetLevel >= 6 ? ['Porsche Taycan Sport Turismo', 'Audi A6 Allroad', 'Mercedes-Benz E-Class Wagon', 'Audi RS6 Avant'] :
-                   needsSnow ? ['Subaru Outback', 'Volvo V60 Cross Country', 'Audi A4 Allroad'] :
+        vehicles = wantsLuxury && budgetLevel >= 6 ? ['Porsche Taycan', 'Audi A6', 'Mercedes-Benz E-Class', 'Audi RS6'] :
+                   needsSnow ? ['Subaru Outback', 'Volvo V60', 'Audi A4'] :
                    ['Subaru Outback', 'Volvo V60', 'Volkswagen Golf Alltrack'];
         description = 'Wagons combine sedan driving dynamics with SUV-like cargo space. Lower center of gravity means better handling than crossovers while matching their practicality.';
         features = ['Sedan driving dynamics', 'SUV-level cargo space', 'Lower center of gravity', 'Standard AWD (most models)', 'Better fuel economy than SUVs'];
         reasoning.push('Best of both worlds: car handling with SUV cargo');
         break;
       case 'sport': 
-        vehicles = budgetLevel >= 8 ? ['Porsche 911 Carrera', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Chevrolet Corvette Z06'] :
-                   budgetLevel >= 6 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette Stingray'] :
-                   ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata RF', 'Nissan Z'];
+        vehicles = budgetLevel >= 8 ? ['Porsche 911', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Chevrolet Corvette'] :
+                   budgetLevel >= 6 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette'] :
+                   ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata', 'Nissan Z'];
         description = 'Pure driving excitement - sports cars deliver the most engaging driving experience available. Perfect for enthusiasts who prioritize driving joy above all else.';
         features = ['Sharp, precise handling', 'Exhilarating acceleration', 'Driver-focused cockpit', 'Performance brakes', 'Aggressive styling'];
         reasoning.push('Pure driving pleasure prioritized');
         break;
       case 'roadster': 
-        vehicles = budgetLevel >= 8 ? ['Porsche 911 Cabriolet', 'Mercedes-AMG SL', 'BMW M4 Convertible', 'Chevrolet Corvette Convertible'] :
-                   budgetLevel >= 5 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type Convertible'] :
-                   ['Mazda MX-5 Miata', 'Ford Mustang Convertible', 'Chevrolet Camaro Convertible'];
+        vehicles = budgetLevel >= 8 ? ['Porsche 911', 'Mercedes-AMG SL', 'BMW M4', 'Chevrolet Corvette'] :
+                   budgetLevel >= 5 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type'] :
+                   ['Mazda MX-5 Miata', 'Ford Mustang', 'Chevrolet Camaro'];
         description = 'Open-air driving experience - roadsters and convertibles combine sports car dynamics with the thrill of wind-in-your-hair driving.';
         features = ['Convertible top (power or manual)', 'Engaging driving dynamics', 'Head-turning style', 'Pure driving connection', 'Weekend escape vehicle'];
         reasoning.push('Open-air driving experience');
         break;
       case 'hyper': 
         vehicles = budgetLevel >= 9 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto'] :
-                   ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán EVO', 'Porsche 911 Turbo S', 'Aston Martin Vantage'];
+                   ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán', 'Porsche 911', 'Aston Martin Vantage'];
         description = 'The pinnacle of automotive engineering - supercars and hypercars deliver extreme performance, exotic design, and exclusivity that few vehicles can match.';
         features = ['Extreme performance (600+ HP)', 'Exotic engineering & materials', 'Exclusive ownership experience', 'Investment potential', 'Head-turning presence'];
         reasoning.push('Ultimate automotive experience');
         break;
       case 'muscle': 
-        vehicles = budgetLevel >= 6 ? ['Ford Mustang GT', 'Dodge Challenger R/T Scat Pack', 'Chevrolet Camaro SS', 'Ford Mustang Mach 1'] :
-                   ['Ford Mustang EcoBoost', 'Dodge Challenger R/T', 'Chevrolet Camaro LT1', 'Dodge Charger R/T'];
+        vehicles = budgetLevel >= 6 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Ford Mustang'] :
+                   ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Dodge Charger'];
         description = 'American muscle cars deliver V8 power, iconic styling, and attainable performance. The most accessible way to experience serious horsepower.';
         features = ['V8 power (300-700+ HP)', 'Iconic American styling', 'Rear-wheel drive thrills', 'Affordable performance', 'Daily drivable'];
         reasoning.push('Classic American muscle power');
