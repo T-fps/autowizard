@@ -895,8 +895,8 @@ export default function AutoWizard() {
             <div>
               <h4 className="font-semibold mb-4 text-white">Contact</h4>
               <ul className="space-y-2 text-sm text-white/50">
-                <li className="flex items-center gap-2"><Mail className="w-4 h-4 text-amber-400" />autowizardcompany@gmail.com</li>
-                <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-amber-400" />(413) 333-8401</li>
+                <li><button onClick={() => setCurrentPage('consultation')} className="flex items-center gap-2 hover:text-amber-400 transition-colors"><Mail className="w-4 h-4 text-amber-400" />autowizardcompany@gmail.com</button></li>
+                <li><button onClick={() => setCurrentPage('consultation')} className="flex items-center gap-2 hover:text-amber-400 transition-colors"><Phone className="w-4 h-4 text-amber-400" />(413) 333-8401</button></li>
               </ul>
             </div>
           </div>
