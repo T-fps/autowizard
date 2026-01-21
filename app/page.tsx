@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Car, Calendar, Users, Wrench, MapPin, ChevronRight, ChevronLeft, Check, ArrowLeft, ArrowRight, Sparkles, Shield, CreditCard, Star, Phone, Mail, Clock, Zap, Heart, Target, Building2, CarFront, Gauge, Send, X, Eye, FileText, DollarSign, Award, TrendingUp, BookOpen, Calculator, RefreshCw, Briefcase } from 'lucide-react';
 
 export default function AutoWizard() {
@@ -15,7 +15,6 @@ export default function AutoWizard() {
   const [showEmailCollection, setShowEmailCollection] = useState(false);
   const [consultForm, setConsultForm] = useState<Record<string, any>>({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
   const [canSkip, setCanSkip] = useState(false);
-  const optionsRef = useRef<HTMLDivElement>(null);
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -24,26 +23,10 @@ export default function AutoWizard() {
 
   useEffect(() => { setIsAnimating(true); const t = setTimeout(() => setIsAnimating(false), 150); return () => clearTimeout(t); }, [testStep]);
 
-  // Reset canSkip when question changes, then check if scrolling is needed
+  // Always allow Next button since all options are visible
   useEffect(() => {
-    setCanSkip(false);
-    const timer = setTimeout(() => {
-      if (optionsRef.current) {
-        const { scrollHeight, clientHeight } = optionsRef.current;
-        if (scrollHeight <= clientHeight) {
-          setCanSkip(true);
-        }
-      }
-    }, 200);
-    return () => clearTimeout(timer);
+    setCanSkip(true);
   }, [testStep]);
-
-  const handleOptionsScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    if (scrollTop + clientHeight >= scrollHeight - 10) {
-      setCanSkip(true);
-    }
-  };
 
   // 23-question comprehensive assessment
   const allQuestions = [
@@ -703,7 +686,7 @@ export default function AutoWizard() {
                   
                   {isMultiple ? (
                     <div className="space-y-3">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto pr-2" ref={optionsRef} onScroll={handleOptionsScroll}>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {currentQ.options.map((o, i) => {
                           const selected = getArr(answers[currentQ.id]).includes(o.value);
                           return (
@@ -722,7 +705,7 @@ export default function AutoWizard() {
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <div className="space-y-3 max-h-[350px] overflow-y-auto pr-2" ref={optionsRef} onScroll={handleOptionsScroll}>
+                      <div className="space-y-3">
                         {currentQ.options.map((o, i) => (
                           <button key={i} onClick={() => handleAnswer(currentQ.id, o.value)} className="w-full text-left p-4 bg-black/30 border border-white/10 rounded-xl hover:border-amber-500/50 hover:bg-white/5 transition-all group">
                             <div className="flex items-center justify-between">
