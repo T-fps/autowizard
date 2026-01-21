@@ -21,168 +21,399 @@ export default function AutoWizard() {
 
   useEffect(() => { setIsAnimating(true); const t = setTimeout(() => setIsAnimating(false), 150); return () => clearTimeout(t); }, [testStep]);
 
-  // 13-question test
+  // 23-question comprehensive assessment
   const allQuestions = [
-    { id: 'passengers', question: 'How many passengers do you need to accommodate?', icon: '👥', type: 'single',
-      options: [{ value: '1-2', label: '1-2 people' }, { value: '3-4', label: '3-4 people' }, { value: '5', label: '5 people' }, { value: '6+', label: '6 or more' }] },
+    { id: 'passengers', question: 'How many passengers do you regularly need to accommodate?', icon: '👥', type: 'single',
+      options: [{ value: '1-2', label: '1-2 people (just me or with a partner)' }, { value: '3-4', label: '3-4 people (small family/friends)' }, { value: '5', label: '5 people (family with kids)' }, { value: '6-7', label: '6-7 people (large family)' }, { value: '8+', label: '8+ people (extended family/groups)' }] },
     { id: 'primary-use', question: 'What is the PRIMARY purpose of this vehicle?', icon: '🎯', type: 'single',
-      options: [{ value: 'commute', label: 'Daily commuting' }, { value: 'family', label: 'Family transportation' }, { value: 'work', label: 'Work vehicle (trades/construction/farm)' }, { value: 'adventure', label: 'Adventure & outdoor activities' }, { value: 'towing', label: 'Towing boats/campers/trailers' }, { value: 'fun', label: 'Weekend fun / performance' }] },
-    { id: 'cargo-needs', question: 'What are your cargo/hauling needs?', icon: '📦', type: 'single',
-      options: [{ value: 'minimal', label: 'Minimal - groceries, bags' }, { value: 'moderate', label: 'Moderate - sports gear, luggage' }, { value: 'large', label: 'Large items - furniture, equipment' }, { value: 'truck-bed', label: 'Need open truck bed for materials' }, { value: 'commercial', label: 'Commercial cargo/deliveries' }] },
+      options: [{ value: 'commute', label: 'Daily commuting to work/school' }, { value: 'family', label: 'Family transportation & activities' }, { value: 'work', label: 'Work vehicle (trades/construction/farm)' }, { value: 'adventure', label: 'Adventure & outdoor activities' }, { value: 'towing', label: 'Towing boats/campers/trailers' }, { value: 'fun', label: 'Weekend fun / performance driving' }, { value: 'luxury', label: 'Luxury & status' }, { value: 'errands', label: 'General errands & around town' }] },
+    { id: 'commute-distance', question: 'How many miles do you drive on a typical day?', icon: '📍', type: 'single',
+      options: [{ value: 'minimal', label: 'Under 10 miles' }, { value: 'short', label: '10-25 miles' }, { value: 'medium', label: '25-50 miles' }, { value: 'long', label: '50-100 miles' }, { value: 'very-long', label: 'Over 100 miles' }] },
+    { id: 'driving-environment', question: 'Where do you do most of your driving?', icon: '🛣️', type: 'single',
+      options: [{ value: 'city', label: 'Mostly city/urban streets' }, { value: 'suburban', label: 'Suburban neighborhoods' }, { value: 'highway', label: 'Mostly highway/interstate' }, { value: 'mixed', label: 'Mix of city and highway' }, { value: 'rural', label: 'Rural roads & countryside' }] },
+    { id: 'weather', question: 'What weather conditions do you regularly drive in? (Select all)', icon: '🌦️', type: 'multiple',
+      options: [{ value: 'sunny', label: 'Mostly sunny/dry climate' }, { value: 'rain', label: 'Frequent rain' }, { value: 'snow', label: 'Snow & ice in winter' }, { value: 'extreme-cold', label: 'Extreme cold (below 0°F)' }, { value: 'extreme-heat', label: 'Extreme heat (above 100°F)' }, { value: 'flooding', label: 'Occasional flooding' }] },
+    { id: 'terrain', question: 'What road conditions do you encounter? (Select all)', icon: '⛰️', type: 'multiple',
+      options: [{ value: 'paved', label: 'Paved roads only' }, { value: 'gravel', label: 'Gravel/dirt roads' }, { value: 'offroad', label: 'Off-road trails' }, { value: 'steep', label: 'Steep hills/mountains' }, { value: 'worksite', label: 'Construction/farm sites' }, { value: 'beach', label: 'Beach/sand driving' }] },
+    { id: 'cargo-needs', question: 'What are your typical cargo/hauling needs?', icon: '📦', type: 'single',
+      options: [{ value: 'minimal', label: 'Minimal - groceries, bags, small items' }, { value: 'moderate', label: 'Moderate - sports gear, luggage, strollers' }, { value: 'large', label: 'Large items - furniture, appliances, bikes' }, { value: 'truck-bed', label: 'Need open truck bed for materials/equipment' }, { value: 'commercial', label: 'Commercial cargo/deliveries' }] },
+    { id: 'activities', question: 'What activities do you need your vehicle to support? (Select all)', icon: '🏄', type: 'multiple',
+      options: [{ value: 'none', label: 'No special activities' }, { value: 'camping', label: 'Camping & overlanding' }, { value: 'water-sports', label: 'Boating/kayaking/surfing' }, { value: 'winter-sports', label: 'Skiing/snowboarding' }, { value: 'biking', label: 'Mountain biking/cycling' }, { value: 'golf', label: 'Golf' }, { value: 'pets', label: 'Transporting pets' }, { value: 'kids-sports', label: 'Kids sports & activities' }, { value: 'home-improvement', label: 'Home improvement projects' }] },
     { id: 'towing', question: 'Do you need towing capability?', icon: '🚤', type: 'single',
-      options: [{ value: 'none', label: 'No towing needed' }, { value: 'light', label: 'Light (under 5,000 lbs)' }, { value: 'heavy', label: 'Heavy (5,000-12,000 lbs)' }, { value: 'max', label: 'Maximum (12,000+ lbs)' }] },
-    { id: 'terrain', question: 'What conditions do you drive in? (Select all)', icon: '🛣️', type: 'multiple',
-      options: [{ value: 'city', label: 'City/urban' }, { value: 'highway', label: 'Highway' }, { value: 'snow', label: 'Snow/ice' }, { value: 'offroad', label: 'Off-road/trails' }, { value: 'worksite', label: 'Construction/farm sites' }] },
-    { id: 'parking', question: 'What is your parking situation?', icon: '🅿️', type: 'single',
-      options: [{ value: 'tight', label: 'Tight city spaces' }, { value: 'normal', label: 'Normal suburban' }, { value: 'spacious', label: 'Spacious/rural' }] },
-    { id: 'powertrain', question: 'Powertrain preference?', icon: '⚡', type: 'single',
-      options: [{ value: 'gas', label: 'Gasoline' }, { value: 'hybrid', label: 'Hybrid' }, { value: 'electric', label: 'Electric' }, { value: 'diesel', label: 'Diesel' }, { value: 'any', label: 'No preference' }] },
-    { id: 'budget', question: 'What is your budget?', icon: '💰', type: 'single',
-      options: [{ value: 'under-10k', label: 'Under $10,000' }, { value: '10k-20k', label: '$10,000 - $20,000' }, { value: '20k-30k', label: '$20,000 - $30,000' }, { value: '30k-40k', label: '$30,000 - $40,000' }, { value: '40k-50k', label: '$40,000 - $50,000' }, { value: '50k-75k', label: '$50,000 - $75,000' }, { value: '75k-100k', label: '$75,000 - $100,000' }, { value: '100k-200k', label: '$100,000 - $200,000' }, { value: '200k-400k', label: '$200,000 - $400,000' }, { value: '400k-plus', label: '$400,000+' }] },
-    { id: 'driving-style', question: 'How would you describe your driving style?', icon: '🏎️', type: 'single',
-      options: [{ value: 'relaxed', label: 'Relaxed & comfortable' }, { value: 'practical', label: 'Practical & efficient' }, { value: 'spirited', label: 'Spirited & fun' }, { value: 'performance', label: 'Performance-focused' }, { value: 'rugged', label: 'Rugged & tough' }] },
-    { id: 'important-features', question: 'What features matter most to you? (Select up to 3)', icon: '✨', type: 'multiple', maxSelect: 3,
-      options: [{ value: 'luxury', label: 'Luxury & premium materials' }, { value: 'all-terrain', label: 'All-terrain capability' }, { value: 'comfort', label: 'Comfort & smooth ride' }, { value: 'power', label: 'Power & engine sound' }, { value: 'technology', label: 'Technology & infotainment' }, { value: 'fuel-efficiency', label: 'Fuel efficiency' }, { value: 'safety', label: 'Advanced safety features' }, { value: 'cargo', label: 'Cargo space & versatility' }, { value: 'towing-capability', label: 'Towing & hauling capability' }, { value: 'off-road', label: 'Off-road performance' }] },
-    { id: 'priorities', question: 'Top priorities? (Select up to 3)', icon: '⭐', type: 'multiple', maxSelect: 3,
-      options: [{ value: 'reliability', label: 'Reliability' }, { value: 'fuel-economy', label: 'Fuel economy' }, { value: 'safety', label: 'Safety' }, { value: 'comfort', label: 'Comfort' }, { value: 'performance', label: 'Performance' }, { value: 'capability', label: 'Capability (tow/haul)' }, { value: 'luxury', label: 'Luxury' }, { value: 'value', label: 'Value for money' }, { value: 'style', label: 'Style/looks' }] },
-    { id: 'brand', question: 'Brand preference?', icon: '🏷️', type: 'single',
-      options: [{ value: 'domestic', label: 'American (Ford, Chevy, Ram)' }, { value: 'japanese', label: 'Japanese (Toyota, Honda)' }, { value: 'european', label: 'European (BMW, Mercedes)' }, { value: 'luxury', label: 'Luxury brands' }, { value: 'any', label: 'No preference' }] },
-    { id: 'body-style', question: 'Body style preferences? (Select all that interest you)', icon: '🚗', type: 'multiple',
-      options: [{ value: 'any', label: 'No preference - recommend best fit' }, { value: 'small', label: 'Small car / hatchback' }, { value: 'sedan', label: 'Sedan' }, { value: 'suv', label: 'SUV / Crossover' }, { value: 'truck', label: 'Pickup truck' }, { value: 'van', label: 'Van / Minivan' }, { value: 'sports', label: 'Sports car / Coupe' }, { value: 'convertible', label: 'Convertible' }] }
+      options: [{ value: 'none', label: 'No towing needed' }, { value: 'light', label: 'Light - small trailer/jet skis (under 3,500 lbs)' }, { value: 'medium', label: 'Medium - boat/small camper (3,500-7,000 lbs)' }, { value: 'heavy', label: 'Heavy - large boat/travel trailer (7,000-12,000 lbs)' }, { value: 'max', label: 'Maximum - 5th wheel/horse trailer (12,000+ lbs)' }] },
+    { id: 'parking', question: 'What is your typical parking situation?', icon: '🅿️', type: 'single',
+      options: [{ value: 'tight', label: 'Tight city spaces & parking garages' }, { value: 'street', label: 'Street parking in neighborhoods' }, { value: 'normal', label: 'Standard driveways & parking lots' }, { value: 'spacious', label: 'Large driveway or rural property' }] },
+    { id: 'budget', question: 'What is your total budget for this vehicle?', icon: '💰', type: 'single',
+      options: [{ value: 'under-15k', label: 'Under $15,000' }, { value: '15k-25k', label: '$15,000 - $25,000' }, { value: '25k-35k', label: '$25,000 - $35,000' }, { value: '35k-50k', label: '$35,000 - $50,000' }, { value: '50k-75k', label: '$50,000 - $75,000' }, { value: '75k-100k', label: '$75,000 - $100,000' }, { value: '100k-150k', label: '$100,000 - $150,000' }, { value: '150k-250k', label: '$150,000 - $250,000' }, { value: '250k-plus', label: '$250,000+' }] },
+    { id: 'new-used', question: 'Are you considering new, used, or certified pre-owned?', icon: '🔑', type: 'single',
+      options: [{ value: 'new-only', label: 'New only' }, { value: 'cpo', label: 'New or Certified Pre-Owned' }, { value: 'any', label: 'Open to new or used' }, { value: 'used-only', label: 'Used only (to maximize value)' }] },
+    { id: 'ownership-length', question: 'How long do you plan to keep this vehicle?', icon: '📅', type: 'single',
+      options: [{ value: 'short', label: '1-2 years (lease or flip)' }, { value: 'medium', label: '3-5 years' }, { value: 'long', label: '5-10 years' }, { value: 'forever', label: '10+ years (drive it until it dies)' }] },
+    { id: 'fuel-priority', question: 'How important is fuel efficiency to you?', icon: '⛽', type: 'single',
+      options: [{ value: 'critical', label: 'Critical - top priority, want best MPG possible' }, { value: 'important', label: 'Important - prefer good fuel economy' }, { value: 'moderate', label: 'Moderate - nice to have but not essential' }, { value: 'not-important', label: 'Not important - performance matters more' }] },
+    { id: 'powertrain', question: 'What powertrain are you interested in?', icon: '⚡', type: 'single',
+      options: [{ value: 'gas', label: 'Traditional gasoline' }, { value: 'hybrid', label: 'Hybrid (gas + electric)' }, { value: 'plugin-hybrid', label: 'Plug-in hybrid (short EV range + gas)' }, { value: 'electric', label: 'Fully electric (EV)' }, { value: 'diesel', label: 'Diesel' }, { value: 'any', label: 'Open to any powertrain' }] },
+    { id: 'driving-style', question: 'How would you describe your driving personality?', icon: '🏎️', type: 'single',
+      options: [{ value: 'cautious', label: 'Cautious & safety-focused' }, { value: 'relaxed', label: 'Relaxed & comfortable cruiser' }, { value: 'practical', label: 'Practical & efficient' }, { value: 'confident', label: 'Confident & assertive' }, { value: 'spirited', label: 'Spirited & enjoys driving' }, { value: 'performance', label: 'Performance enthusiast' }] },
+    { id: 'tech-features', question: 'Which technology features are most important? (Select up to 4)', icon: '📱', type: 'multiple', maxSelect: 4,
+      options: [{ value: 'basic', label: 'Just the basics - don\'t need fancy tech' }, { value: 'apple-android', label: 'Apple CarPlay / Android Auto' }, { value: 'premium-audio', label: 'Premium sound system' }, { value: 'navigation', label: 'Built-in navigation' }, { value: 'digital-dash', label: 'Digital instrument cluster' }, { value: 'hud', label: 'Head-up display' }, { value: 'wireless-charging', label: 'Wireless phone charging' }, { value: 'wifi', label: 'Built-in WiFi hotspot' }, { value: 'remote-start', label: 'Remote start & app control' }] },
+    { id: 'safety-features', question: 'Which safety features are essential? (Select all that apply)', icon: '🛡️', type: 'multiple',
+      options: [{ value: 'basic', label: 'Standard safety is fine' }, { value: 'blind-spot', label: 'Blind spot monitoring' }, { value: 'lane-keep', label: 'Lane keeping assist' }, { value: 'adaptive-cruise', label: 'Adaptive cruise control' }, { value: 'auto-brake', label: 'Automatic emergency braking' }, { value: 'parking-sensors', label: 'Parking sensors & cameras' }, { value: 'surround-view', label: '360° surround view camera' }, { value: 'self-driving', label: 'Semi-autonomous driving features' }] },
+    { id: 'comfort-features', question: 'Which comfort features matter most? (Select up to 4)', icon: '🛋️', type: 'multiple', maxSelect: 4,
+      options: [{ value: 'basic', label: 'Basic comfort is fine' }, { value: 'leather', label: 'Leather/premium seats' }, { value: 'heated-seats', label: 'Heated seats' }, { value: 'cooled-seats', label: 'Ventilated/cooled seats' }, { value: 'heated-wheel', label: 'Heated steering wheel' }, { value: 'pano-roof', label: 'Panoramic sunroof' }, { value: 'quiet-cabin', label: 'Quiet, well-insulated cabin' }, { value: 'massage', label: 'Massage seats' }, { value: 'air-suspension', label: 'Adjustable air suspension' }] },
+    { id: 'priorities', question: 'What are your TOP priorities in a vehicle? (Select exactly 3)', icon: '⭐', type: 'multiple', maxSelect: 3,
+      options: [{ value: 'reliability', label: 'Reliability & dependability' }, { value: 'safety', label: 'Safety ratings & features' }, { value: 'fuel-economy', label: 'Fuel economy' }, { value: 'performance', label: 'Performance & acceleration' }, { value: 'comfort', label: 'Comfort & ride quality' }, { value: 'luxury', label: 'Luxury & premium feel' }, { value: 'capability', label: 'Off-road/towing capability' }, { value: 'value', label: 'Value for money' }, { value: 'style', label: 'Style & design' }, { value: 'tech', label: 'Technology & features' }, { value: 'resale', label: 'Resale value' }, { value: 'brand', label: 'Brand reputation' }] },
+    { id: 'brand', question: 'Do you have brand preferences or requirements?', icon: '🏷️', type: 'single',
+      options: [{ value: 'domestic', label: 'Prefer American (Ford, Chevy, Ram, Jeep)' }, { value: 'japanese', label: 'Prefer Japanese (Toyota, Honda, Mazda, Subaru)' }, { value: 'korean', label: 'Prefer Korean (Hyundai, Kia, Genesis)' }, { value: 'german', label: 'Prefer German (BMW, Mercedes, Audi, VW, Porsche)' }, { value: 'european', label: 'Prefer European luxury (Land Rover, Volvo, Jaguar)' }, { value: 'any', label: 'No preference - best vehicle for my needs' }] },
+    { id: 'image', question: 'How important is the image/status your vehicle projects?', icon: '✨', type: 'single',
+      options: [{ value: 'not-important', label: 'Not important - just needs to work well' }, { value: 'somewhat', label: 'Somewhat - want something respectable' }, { value: 'important', label: 'Important - want to make a good impression' }, { value: 'very-important', label: 'Very important - want a head-turner' }] },
+    { id: 'body-style', question: 'Which body styles appeal to you? (Select all that interest you)', icon: '🚗', type: 'multiple',
+      options: [{ value: 'any', label: 'No preference - recommend the best fit' }, { value: 'sedan', label: 'Sedan' }, { value: 'hatchback', label: 'Hatchback' }, { value: 'wagon', label: 'Wagon / Estate' }, { value: 'compact-suv', label: 'Compact SUV / Crossover' }, { value: 'midsize-suv', label: 'Midsize SUV' }, { value: 'fullsize-suv', label: 'Full-size SUV' }, { value: 'truck', label: 'Pickup truck' }, { value: 'minivan', label: 'Minivan' }, { value: 'sports', label: 'Sports car / Coupe' }, { value: 'convertible', label: 'Convertible / Roadster' }] }
   ];
 
   const vehicleSizeNames = { micro: 'Micro / City Car', hatchback: 'Hatchback', crossover: 'Compact Crossover', sedan: 'Sedan', coupe: 'Coupe', midsizeSuv: 'Midsize SUV', suv: 'Full-Size SUV', midsizeTruck: 'Midsize Truck', truck: 'Full-Size Truck', minivan: 'Minivan', van: 'Full-Size Van', wagon: 'Wagon', sport: 'Sports Car', roadster: 'Roadster', hyper: 'Supercar / Hypercar', muscle: 'Muscle Car' };
   const getArr = (val: any): any[] => Array.isArray(val) ? val : (val ? [val] : []);
 
   const calculateRecommendation = () => {
-    const scores = { micro: 0, hatchback: 0, crossover: 0, sedan: 0, coupe: 0, midsizeSuv: 0, suv: 0, midsizeTruck: 0, truck: 0, minivan: 0, van: 0, wagon: 0, sport: 0, roadster: 0, hyper: 0, muscle: 0 };
+    const scores: Record<string, number> = { micro: 0, hatchback: 0, crossover: 0, sedan: 0, coupe: 0, midsizeSuv: 0, suv: 0, midsizeTruck: 0, truck: 0, minivan: 0, van: 0, wagon: 0, sport: 0, roadster: 0, hyper: 0, muscle: 0 };
     
+    // PASSENGER SCORING
     const p = answers.passengers;
-    if (p === '1-2') { scores.micro += 8; scores.hatchback += 7; scores.coupe += 8; scores.sport += 9; scores.roadster += 10; scores.muscle += 8; scores.sedan += 5; scores.midsizeTruck += 5; }
-    else if (p === '3-4') { scores.sedan += 8; scores.hatchback += 6; scores.crossover += 7; scores.midsizeSuv += 7; scores.wagon += 7; scores.midsizeTruck += 6; scores.truck += 5; scores.muscle += 5; }
-    else if (p === '5') { scores.midsizeSuv += 8; scores.suv += 7; scores.wagon += 6; scores.minivan += 7; scores.truck += 5; }
-    else if (p === '6+') { scores.suv += 10; scores.minivan += 10; scores.van += 8; }
+    if (p === '1-2') { scores.micro += 10; scores.hatchback += 8; scores.coupe += 10; scores.sport += 12; scores.roadster += 12; scores.muscle += 10; scores.sedan += 6; scores.midsizeTruck += 6; }
+    else if (p === '3-4') { scores.sedan += 10; scores.hatchback += 7; scores.crossover += 8; scores.midsizeSuv += 8; scores.wagon += 8; scores.midsizeTruck += 7; scores.truck += 6; scores.muscle += 5; scores.coupe += 4; }
+    else if (p === '5') { scores.midsizeSuv += 10; scores.suv += 9; scores.wagon += 7; scores.minivan += 9; scores.truck += 6; scores.crossover += 5; }
+    else if (p === '6-7') { scores.suv += 12; scores.minivan += 12; scores.van += 8; scores.midsizeSuv += 4; }
+    else if (p === '8+') { scores.suv += 10; scores.minivan += 14; scores.van += 12; }
 
+    // PRIMARY USE SCORING
     const use = answers['primary-use'];
-    if (use === 'commute') { scores.micro += 8; scores.hatchback += 8; scores.sedan += 9; scores.crossover += 7; scores.wagon += 6; }
-    else if (use === 'family') { scores.midsizeSuv += 9; scores.suv += 8; scores.minivan += 10; scores.crossover += 6; scores.wagon += 6; }
-    else if (use === 'work') { scores.truck += 15; scores.van += 10; scores.midsizeTruck += 6; scores.suv += 4; }
-    else if (use === 'adventure') { scores.midsizeTruck += 12; scores.suv += 9; scores.midsizeSuv += 7; scores.truck += 5; scores.wagon += 5; }
-    else if (use === 'towing') { scores.truck += 14; scores.suv += 8; scores.midsizeTruck += 4; }
-    else if (use === 'fun') { scores.sport += 10; scores.roadster += 10; scores.muscle += 9; scores.coupe += 8; scores.hyper += 7; }
+    if (use === 'commute') { scores.micro += 10; scores.hatchback += 10; scores.sedan += 12; scores.crossover += 8; scores.wagon += 7; scores.midsizeSuv += 5; }
+    else if (use === 'family') { scores.midsizeSuv += 12; scores.suv += 10; scores.minivan += 14; scores.crossover += 7; scores.wagon += 7; scores.sedan += 5; }
+    else if (use === 'work') { scores.truck += 18; scores.van += 14; scores.midsizeTruck += 10; scores.suv += 5; }
+    else if (use === 'adventure') { scores.midsizeTruck += 14; scores.suv += 12; scores.midsizeSuv += 9; scores.truck += 7; scores.wagon += 6; scores.crossover += 5; }
+    else if (use === 'towing') { scores.truck += 16; scores.suv += 10; scores.midsizeTruck += 6; }
+    else if (use === 'fun') { scores.sport += 14; scores.roadster += 14; scores.muscle += 12; scores.coupe += 10; scores.hyper += 10; }
+    else if (use === 'luxury') { scores.sedan += 10; scores.suv += 10; scores.coupe += 8; scores.hyper += 12; scores.roadster += 6; }
+    else if (use === 'errands') { scores.hatchback += 8; scores.crossover += 10; scores.midsizeSuv += 8; scores.sedan += 6; scores.micro += 6; }
 
-    const cargo = answers['cargo-needs'];
-    if (cargo === 'minimal') { scores.micro += 5; scores.coupe += 5; scores.sport += 5; scores.roadster += 5; scores.sedan += 4; }
-    else if (cargo === 'moderate') { scores.midsizeSuv += 5; scores.wagon += 6; scores.crossover += 5; scores.hatchback += 5; scores.midsizeTruck += 4; }
-    else if (cargo === 'large') { scores.suv += 6; scores.minivan += 7; scores.midsizeTruck += 6; scores.truck += 5; scores.van += 6; }
-    else if (cargo === 'truck-bed') { scores.truck += 8; scores.midsizeTruck += 10; scores.micro = 0; scores.sedan = 0; scores.coupe = 0; scores.sport = 0; scores.roadster = 0; scores.hyper = 0; }
-    else if (cargo === 'commercial') { scores.van += 12; scores.truck += 10; scores.midsizeTruck += 3; }
+    // COMMUTE DISTANCE SCORING
+    const commute = answers['commute-distance'];
+    if (commute === 'minimal') { scores.micro += 6; scores.sport += 4; scores.roadster += 4; }
+    else if (commute === 'short') { scores.hatchback += 5; scores.crossover += 4; scores.sedan += 4; }
+    else if (commute === 'medium') { scores.sedan += 6; scores.crossover += 5; scores.midsizeSuv += 4; scores.wagon += 4; }
+    else if (commute === 'long' || commute === 'very-long') { scores.sedan += 8; scores.suv += 6; scores.midsizeSuv += 6; scores.wagon += 5; scores.truck += 4; scores.micro -= 4; scores.sport -= 3; }
 
-    const tow = answers.towing;
-    if (tow === 'light') { scores.midsizeTruck += 6; scores.suv += 5; scores.midsizeSuv += 4; scores.truck += 3; }
-    else if (tow === 'heavy') { scores.truck += 12; scores.suv += 6; scores.midsizeTruck += 2; scores.micro = 0; scores.hatchback = 0; scores.sedan = 0; scores.coupe = 0; scores.sport = 0; scores.roadster = 0; }
-    else if (tow === 'max') { scores.truck += 18; scores.micro = 0; scores.hatchback = 0; scores.sedan = 0; scores.coupe = 0; scores.crossover = 0; scores.midsizeSuv = 0; scores.sport = 0; scores.roadster = 0; scores.hyper = 0; scores.muscle = 0; scores.minivan = 0; scores.wagon = 0; scores.midsizeTruck = 0; }
+    // DRIVING ENVIRONMENT SCORING
+    const drivingEnv = answers['driving-environment'];
+    if (drivingEnv === 'city') { scores.micro += 10; scores.hatchback += 8; scores.sedan += 6; scores.crossover += 5; scores.truck -= 4; scores.suv -= 3; }
+    else if (drivingEnv === 'suburban') { scores.crossover += 6; scores.midsizeSuv += 6; scores.sedan += 5; scores.minivan += 5; }
+    else if (drivingEnv === 'highway') { scores.sedan += 8; scores.suv += 6; scores.wagon += 6; scores.truck += 5; scores.midsizeSuv += 5; }
+    else if (drivingEnv === 'mixed') { scores.crossover += 5; scores.midsizeSuv += 5; scores.sedan += 5; scores.hatchback += 4; }
+    else if (drivingEnv === 'rural') { scores.truck += 8; scores.midsizeTruck += 8; scores.suv += 7; scores.midsizeSuv += 5; scores.micro -= 3; }
 
+    // WEATHER SCORING
+    const weather = getArr(answers.weather);
+    if (weather.includes('snow')) { scores.suv += 6; scores.midsizeSuv += 6; scores.crossover += 6; scores.wagon += 5; scores.midsizeTruck += 4; scores.truck += 4; scores.roadster -= 4; scores.sport -= 3; scores.micro -= 2; }
+    if (weather.includes('extreme-cold')) { scores.suv += 4; scores.truck += 4; scores.midsizeTruck += 4; scores.roadster -= 3; }
+    if (weather.includes('extreme-heat')) { scores.sedan += 3; scores.suv += 3; scores.midsizeSuv += 3; }
+    if (weather.includes('flooding')) { scores.truck += 5; scores.suv += 5; scores.midsizeTruck += 4; scores.micro -= 3; scores.sedan -= 2; scores.sport -= 4; }
+
+    // TERRAIN SCORING
     const terrain = getArr(answers.terrain);
-    if (terrain.includes('city')) { scores.micro += 4; scores.hatchback += 4; scores.sedan += 3; }
-    if (terrain.includes('offroad')) { scores.midsizeTruck += 10; scores.suv += 8; scores.midsizeSuv += 5; scores.truck += 4; scores.micro = 0; scores.sedan -= 3; scores.sport -= 3; }
-    if (terrain.includes('worksite')) { scores.truck += 10; scores.midsizeTruck += 5; scores.van += 5; }
-    if (terrain.includes('snow')) { scores.suv += 4; scores.midsizeSuv += 4; scores.crossover += 4; scores.wagon += 4; scores.midsizeTruck += 3; scores.roadster -= 2; }
+    if (terrain.includes('gravel')) { scores.midsizeTruck += 6; scores.suv += 5; scores.truck += 5; scores.crossover += 3; }
+    if (terrain.includes('offroad')) { scores.midsizeTruck += 14; scores.suv += 12; scores.truck += 8; scores.midsizeSuv += 5; scores.micro = -10; scores.sedan -= 5; scores.sport -= 5; scores.hatchback -= 3; }
+    if (terrain.includes('steep')) { scores.suv += 5; scores.midsizeTruck += 5; scores.truck += 5; scores.crossover += 3; }
+    if (terrain.includes('worksite')) { scores.truck += 12; scores.midsizeTruck += 8; scores.van += 8; }
+    if (terrain.includes('beach')) { scores.midsizeTruck += 6; scores.suv += 6; scores.truck += 4; }
 
+    // CARGO SCORING
+    const cargo = answers['cargo-needs'];
+    if (cargo === 'minimal') { scores.micro += 6; scores.coupe += 6; scores.sport += 6; scores.roadster += 6; scores.sedan += 4; }
+    else if (cargo === 'moderate') { scores.midsizeSuv += 6; scores.wagon += 7; scores.crossover += 6; scores.hatchback += 6; scores.midsizeTruck += 5; scores.minivan += 4; }
+    else if (cargo === 'large') { scores.suv += 8; scores.minivan += 10; scores.midsizeTruck += 7; scores.truck += 7; scores.van += 8; scores.wagon += 5; }
+    else if (cargo === 'truck-bed') { scores.truck += 12; scores.midsizeTruck += 14; scores.micro = -10; scores.sedan = -10; scores.coupe = -10; scores.sport = -10; scores.roadster = -10; scores.hyper = -10; scores.minivan -= 5; }
+    else if (cargo === 'commercial') { scores.van += 16; scores.truck += 12; scores.midsizeTruck += 5; }
+
+    // ACTIVITIES SCORING
+    const activities = getArr(answers.activities);
+    if (activities.includes('camping')) { scores.midsizeTruck += 8; scores.suv += 7; scores.truck += 6; scores.midsizeSuv += 5; scores.wagon += 4; }
+    if (activities.includes('water-sports')) { scores.midsizeTruck += 8; scores.truck += 10; scores.suv += 6; }
+    if (activities.includes('winter-sports')) { scores.suv += 6; scores.midsizeSuv += 6; scores.wagon += 5; scores.crossover += 4; }
+    if (activities.includes('biking')) { scores.midsizeTruck += 6; scores.suv += 5; scores.wagon += 5; scores.midsizeSuv += 4; scores.van += 4; }
+    if (activities.includes('golf')) { scores.sedan += 4; scores.suv += 4; scores.midsizeSuv += 3; }
+    if (activities.includes('pets')) { scores.suv += 5; scores.midsizeSuv += 5; scores.wagon += 5; scores.crossover += 4; scores.minivan += 4; }
+    if (activities.includes('kids-sports')) { scores.minivan += 8; scores.suv += 6; scores.midsizeSuv += 5; }
+    if (activities.includes('home-improvement')) { scores.truck += 8; scores.midsizeTruck += 10; scores.van += 6; }
+
+    // TOWING SCORING
+    const tow = answers.towing;
+    if (tow === 'light') { scores.midsizeTruck += 6; scores.suv += 6; scores.midsizeSuv += 5; scores.truck += 4; scores.crossover += 2; }
+    else if (tow === 'medium') { scores.truck += 10; scores.suv += 8; scores.midsizeTruck += 6; scores.micro = -10; scores.hatchback -= 3; scores.sedan -= 3; }
+    else if (tow === 'heavy') { scores.truck += 14; scores.suv += 8; scores.midsizeTruck += 2; scores.micro = -10; scores.hatchback = -10; scores.sedan = -10; scores.coupe = -10; scores.sport = -10; scores.roadster = -10; }
+    else if (tow === 'max') { scores.truck += 20; Object.keys(scores).forEach(k => { if (k !== 'truck' && k !== 'suv') scores[k] = -10; }); scores.suv = 5; }
+
+    // PARKING SCORING
     const park = answers.parking;
-    if (park === 'tight') { scores.micro += 10; scores.hatchback += 6; scores.sedan += 4; scores.coupe += 5; scores.truck -= 5; scores.suv -= 3; scores.van -= 5; scores.midsizeTruck += 2; }
-    else if (park === 'spacious') { scores.truck += 3; scores.suv += 3; scores.van += 3; }
+    if (park === 'tight') { scores.micro += 12; scores.hatchback += 8; scores.sedan += 5; scores.coupe += 6; scores.truck -= 6; scores.suv -= 5; scores.van -= 6; }
+    else if (park === 'street') { scores.sedan += 4; scores.hatchback += 4; scores.crossover += 3; scores.truck -= 2; }
+    else if (park === 'spacious') { scores.truck += 4; scores.suv += 4; scores.van += 4; }
 
+    // FUEL PRIORITY SCORING
+    const fuelPriority = answers['fuel-priority'];
+    if (fuelPriority === 'critical') { scores.micro += 10; scores.hatchback += 8; scores.sedan += 6; scores.crossover += 4; scores.truck -= 6; scores.suv -= 5; scores.muscle -= 5; scores.hyper -= 5; }
+    else if (fuelPriority === 'important') { scores.micro += 5; scores.hatchback += 5; scores.sedan += 4; scores.crossover += 3; scores.truck -= 3; scores.suv -= 2; }
+    else if (fuelPriority === 'not-important') { scores.truck += 3; scores.muscle += 4; scores.sport += 3; scores.hyper += 3; }
+
+    // DRIVING STYLE SCORING
     const style = answers['driving-style'];
-    if (style === 'performance') { scores.sport += 10; scores.hyper += 10; scores.muscle += 8; scores.roadster += 7; scores.coupe += 5; }
-    else if (style === 'spirited') { scores.sport += 6; scores.muscle += 6; scores.coupe += 5; scores.hatchback += 4; scores.roadster += 5; }
-    else if (style === 'rugged') { scores.midsizeTruck += 8; scores.truck += 7; scores.suv += 8; }
-    else if (style === 'relaxed') { scores.sedan += 5; scores.midsizeSuv += 4; scores.suv += 4; scores.minivan += 5; scores.wagon += 4; }
-    else if (style === 'practical') { scores.hatchback += 5; scores.crossover += 5; scores.sedan += 4; scores.wagon += 5; scores.midsizeTruck += 4; }
+    if (style === 'cautious') { scores.sedan += 6; scores.crossover += 5; scores.midsizeSuv += 5; scores.minivan += 4; }
+    else if (style === 'relaxed') { scores.sedan += 6; scores.midsizeSuv += 5; scores.suv += 5; scores.minivan += 6; scores.wagon += 5; }
+    else if (style === 'practical') { scores.hatchback += 6; scores.crossover += 6; scores.sedan += 5; scores.wagon += 6; scores.midsizeTruck += 5; }
+    else if (style === 'confident') { scores.suv += 5; scores.truck += 5; scores.midsizeSuv += 4; scores.sedan += 3; }
+    else if (style === 'spirited') { scores.sport += 8; scores.muscle += 7; scores.coupe += 6; scores.hatchback += 5; scores.roadster += 6; }
+    else if (style === 'performance') { scores.sport += 12; scores.hyper += 12; scores.muscle += 10; scores.roadster += 8; scores.coupe += 6; }
 
-    // Important features scoring
-    const importantFeatures = getArr(answers['important-features']);
-    if (importantFeatures.includes('luxury')) { scores.sedan += 5; scores.suv += 5; scores.coupe += 4; scores.hyper += 6; scores.roadster += 3; }
-    if (importantFeatures.includes('all-terrain')) { scores.midsizeTruck += 8; scores.suv += 8; scores.truck += 6; scores.midsizeSuv += 5; scores.crossover += 3; scores.micro -= 3; scores.sedan -= 2; scores.sport -= 3; }
-    if (importantFeatures.includes('comfort')) { scores.sedan += 6; scores.suv += 5; scores.midsizeSuv += 5; scores.minivan += 5; scores.wagon += 4; scores.crossover += 3; }
-    if (importantFeatures.includes('power')) { scores.muscle += 10; scores.sport += 9; scores.hyper += 10; scores.truck += 6; scores.coupe += 5; scores.roadster += 5; scores.micro -= 3; scores.hatchback -= 2; }
-    if (importantFeatures.includes('technology')) { scores.sedan += 4; scores.crossover += 4; scores.midsizeSuv += 4; scores.suv += 4; scores.hyper += 3; }
-    if (importantFeatures.includes('fuel-efficiency')) { scores.micro += 8; scores.hatchback += 7; scores.sedan += 5; scores.crossover += 4; scores.truck -= 4; scores.suv -= 3; scores.muscle -= 3; }
-    if (importantFeatures.includes('safety')) { scores.midsizeSuv += 5; scores.suv += 5; scores.sedan += 4; scores.crossover += 4; scores.minivan += 4; }
-    if (importantFeatures.includes('cargo')) { scores.suv += 6; scores.minivan += 7; scores.wagon += 6; scores.midsizeSuv += 5; scores.midsizeTruck += 5; scores.van += 6; scores.coupe -= 3; scores.sport -= 3; scores.roadster -= 3; }
-    if (importantFeatures.includes('towing-capability')) { scores.truck += 10; scores.suv += 7; scores.midsizeTruck += 5; scores.micro = 0; scores.hatchback -= 2; scores.sedan -= 2; scores.coupe -= 2; scores.sport -= 3; }
-    if (importantFeatures.includes('off-road')) { scores.midsizeTruck += 10; scores.suv += 9; scores.truck += 7; scores.midsizeSuv += 4; scores.micro = 0; scores.sedan -= 3; scores.coupe -= 3; scores.sport -= 3; scores.roadster -= 3; }
+    // COMFORT FEATURES SCORING
+    const comfortFeatures = getArr(answers['comfort-features']);
+    if (comfortFeatures.includes('leather')) { scores.sedan += 3; scores.suv += 3; scores.coupe += 3; }
+    if (comfortFeatures.includes('cooled-seats')) { scores.sedan += 4; scores.suv += 4; scores.truck += 3; }
+    if (comfortFeatures.includes('pano-roof')) { scores.crossover += 3; scores.midsizeSuv += 3; scores.suv += 3; scores.sedan += 2; }
+    if (comfortFeatures.includes('quiet-cabin')) { scores.sedan += 5; scores.suv += 4; scores.midsizeSuv += 4; scores.truck -= 2; }
+    if (comfortFeatures.includes('massage') || comfortFeatures.includes('air-suspension')) { scores.sedan += 4; scores.suv += 5; scores.hyper += 3; }
 
+    // PRIORITIES SCORING
     const priorities = getArr(answers.priorities);
-    if (priorities.includes('capability')) { if (use === 'work' || tow === 'heavy' || tow === 'max') { scores.truck += 8; scores.suv += 5; } else { scores.midsizeTruck += 7; scores.suv += 6; scores.truck += 4; } }
-    if (priorities.includes('performance')) { scores.sport += 7; scores.muscle += 6; scores.hyper += 7; scores.coupe += 4; }
-    if (priorities.includes('fuel-economy')) { scores.micro += 6; scores.hatchback += 5; scores.sedan += 4; scores.crossover += 3; scores.truck -= 3; scores.suv -= 2; scores.midsizeTruck += 2; }
-    if (priorities.includes('comfort')) { scores.sedan += 4; scores.suv += 4; scores.minivan += 4; scores.wagon += 3; scores.truck += 2; }
-    if (priorities.includes('luxury')) { scores.sedan += 3; scores.suv += 3; scores.coupe += 3; scores.hyper += 4; }
-    if (priorities.includes('style')) { scores.coupe += 4; scores.sport += 4; scores.muscle += 4; scores.roadster += 4; scores.hyper += 4; }
+    if (priorities.includes('reliability')) { scores.sedan += 5; scores.midsizeSuv += 5; scores.crossover += 4; scores.minivan += 4; scores.midsizeTruck += 4; }
+    if (priorities.includes('safety')) { scores.midsizeSuv += 6; scores.suv += 6; scores.sedan += 5; scores.crossover += 5; scores.minivan += 5; }
+    if (priorities.includes('fuel-economy')) { scores.micro += 7; scores.hatchback += 6; scores.sedan += 5; scores.crossover += 4; scores.truck -= 4; scores.suv -= 3; }
+    if (priorities.includes('performance')) { scores.sport += 8; scores.muscle += 7; scores.hyper += 8; scores.coupe += 5; scores.roadster += 5; }
+    if (priorities.includes('comfort')) { scores.sedan += 5; scores.suv += 5; scores.minivan += 5; scores.wagon += 4; }
+    if (priorities.includes('luxury')) { scores.sedan += 4; scores.suv += 4; scores.coupe += 4; scores.hyper += 5; scores.roadster += 3; }
+    if (priorities.includes('capability')) { scores.truck += 8; scores.midsizeTruck += 7; scores.suv += 6; }
+    if (priorities.includes('value')) { scores.hatchback += 5; scores.crossover += 5; scores.sedan += 4; scores.midsizeTruck += 4; scores.hyper -= 5; }
+    if (priorities.includes('style')) { scores.coupe += 5; scores.sport += 5; scores.muscle += 5; scores.roadster += 5; scores.hyper += 5; scores.minivan -= 3; }
+    if (priorities.includes('resale')) { scores.midsizeTruck += 5; scores.truck += 4; scores.midsizeSuv += 4; scores.suv += 3; }
 
+    // IMAGE/STATUS SCORING
+    const image = answers.image;
+    if (image === 'important') { scores.sedan += 4; scores.suv += 5; scores.coupe += 4; scores.sport += 4; scores.micro -= 3; scores.minivan -= 3; }
+    else if (image === 'very-important') { scores.hyper += 10; scores.sport += 8; scores.suv += 6; scores.coupe += 6; scores.roadster += 5; scores.sedan += 4; scores.micro -= 5; scores.minivan -= 5; scores.hatchback -= 3; }
+
+    // BODY STYLE PREFERENCE SCORING
     const bodyPref = getArr(answers['body-style']);
     if (!bodyPref.includes('any') && bodyPref.length > 0) {
-      if (bodyPref.includes('small')) { scores.micro += 8; scores.hatchback += 8; }
-      if (bodyPref.includes('sedan')) { scores.sedan += 8; }
-      if (bodyPref.includes('suv')) { scores.crossover += 6; scores.midsizeSuv += 7; scores.suv += 8; }
-      if (bodyPref.includes('truck')) { if (use === 'work' || tow === 'heavy' || tow === 'max' || cargo === 'commercial') { scores.truck += 10; scores.midsizeTruck += 4; } else { scores.midsizeTruck += 10; scores.truck += 5; } }
-      if (bodyPref.includes('van')) { scores.minivan += 7; scores.van += 8; }
-      if (bodyPref.includes('sports')) { scores.sport += 8; scores.coupe += 7; scores.muscle += 6; scores.hyper += 6; }
-      if (bodyPref.includes('convertible')) { scores.roadster += 10; scores.muscle += 3; }
+      if (bodyPref.includes('sedan')) { scores.sedan += 10; }
+      if (bodyPref.includes('hatchback')) { scores.hatchback += 10; scores.micro += 5; }
+      if (bodyPref.includes('wagon')) { scores.wagon += 10; }
+      if (bodyPref.includes('compact-suv')) { scores.crossover += 10; scores.midsizeSuv += 5; }
+      if (bodyPref.includes('midsize-suv')) { scores.midsizeSuv += 10; scores.crossover += 4; }
+      if (bodyPref.includes('fullsize-suv')) { scores.suv += 10; }
+      if (bodyPref.includes('truck')) { 
+        if (use === 'work' || tow === 'heavy' || tow === 'max' || cargo === 'commercial') { scores.truck += 12; scores.midsizeTruck += 5; } 
+        else { scores.midsizeTruck += 12; scores.truck += 6; } 
+      }
+      if (bodyPref.includes('minivan')) { scores.minivan += 10; }
+      if (bodyPref.includes('sports')) { scores.sport += 10; scores.coupe += 8; scores.muscle += 7; scores.hyper += 7; }
+      if (bodyPref.includes('convertible')) { scores.roadster += 12; scores.muscle += 4; scores.sport += 3; }
     }
 
+    // BUDGET SCORING & RESTRICTIONS
     const budget = answers.budget;
-    const bLvl = { 'under-10k': 1, '10k-20k': 2, '20k-30k': 3, '30k-40k': 4, '40k-50k': 5, '50k-75k': 6, '75k-100k': 7, '100k-200k': 8, '200k-400k': 9, '400k-plus': 10 }[budget] || 4;
-    if (bLvl < 8) { scores.hyper = 0; }
-    if (bLvl < 5) { scores.sport = Math.min(scores.sport, 5); }
+    const bLvl: Record<string, number> = { 'under-15k': 1, '15k-25k': 2, '25k-35k': 3, '35k-50k': 4, '50k-75k': 5, '75k-100k': 6, '100k-150k': 7, '150k-250k': 8, '250k-plus': 9 };
+    const budgetLevel = bLvl[budget] || 4;
+    
+    // Restrict vehicles by budget
+    if (budgetLevel < 7) { scores.hyper = -10; }
+    if (budgetLevel < 5) { scores.sport = Math.min(scores.sport, 5); scores.roadster = Math.min(scores.roadster, 5); }
+    if (budgetLevel < 3) { scores.suv = Math.min(scores.suv, 5); scores.truck = Math.min(scores.truck, 5); }
+    
+    // Boost luxury options at high budgets
+    if (budgetLevel >= 7) { scores.hyper += 5; scores.sport += 3; scores.roadster += 3; }
+    if (budgetLevel >= 8) { scores.hyper += 5; }
 
+    // Find top recommendation
     const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-    return generateModels(sorted[0][0]);
+    return generateModels(sorted[0][0], budgetLevel);
   };
 
-  const generateModels = (vType) => {
-    const budget = answers.budget;
+  const generateModels = (vType: string, budgetLevel: number) => {
     const priorities = getArr(answers.priorities);
     const terrain = getArr(answers.terrain);
     const towing = answers.towing;
     const use = answers['primary-use'];
     const cargo = answers['cargo-needs'];
     const brand = answers.brand;
-    const importantFeatures = getArr(answers['important-features']);
+    const activities = getArr(answers.activities);
+    const weather = getArr(answers.weather);
+    const comfortFeatures = getArr(answers['comfort-features']);
     
-    let vehicles = [], description = '', features = [], reasoning = [];
-    const bLvl = { 'under-10k': 1, '10k-20k': 2, '20k-30k': 3, '30k-40k': 4, '40k-50k': 5, '50k-75k': 6, '75k-100k': 7, '100k-200k': 8, '200k-400k': 9, '400k-plus': 10 }[budget] || 4;
-    const needsOffroad = terrain.includes('offroad');
+    let vehicles: string[] = [], description = '', features: string[] = [], reasoning: string[] = [];
+    const needsOffroad = terrain.includes('offroad') || terrain.includes('gravel');
     const isWork = use === 'work';
+    const needsSnow = weather.includes('snow');
+    const wantsLuxury = priorities.includes('luxury') || answers.image === 'very-important';
 
     switch(vType) {
-      case 'micro': vehicles = bLvl <= 2 ? ['Chevrolet Spark', 'Mitsubishi Mirage', 'Nissan Versa'] : ['Mini Cooper', 'Fiat 500']; description = 'Perfect for city driving with excellent fuel efficiency.'; features = ['Great MPG', 'Easy parking', 'Low costs', 'Nimble']; reasoning.push('Ideal for urban commuting'); break;
-      case 'hatchback': vehicles = bLvl <= 3 ? ['Honda Civic', 'Mazda3', 'Toyota Corolla'] : bLvl <= 5 ? ['Volkswagen Golf', 'Honda Civic', 'Mazda3'] : ['Volkswagen Golf', 'Mercedes-Benz A-Class']; description = 'Versatile hatchbacks with great cargo flexibility.'; features = ['Flexible cargo', 'Fun to drive', 'Good MPG', 'Practical']; reasoning.push('Great balance of fun and practicality'); break;
-      case 'crossover': vehicles = priorities.includes('reliability') ? ['Toyota Corolla Cross', 'Honda HR-V', 'Mazda CX-30'] : bLvl >= 6 ? ['BMW X1', 'Audi Q3', 'Volvo XC40'] : ['Mazda CX-30', 'Hyundai Kona', 'Kia Seltos', 'Subaru Crosstrek']; description = 'Compact crossovers with SUV versatility.'; features = ['Elevated seating', 'Available AWD', 'Versatile', 'Easy to maneuver']; reasoning.push('SUV capability in compact size'); break;
-      case 'sedan': vehicles = priorities.includes('reliability') ? (bLvl <= 3 ? ['Honda Civic', 'Toyota Camry', 'Mazda3'] : ['Lexus ES', 'Toyota Camry']) : bLvl >= 7 ? ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Genesis G80'] : bLvl >= 5 ? ['BMW 3 Series', 'Mercedes-Benz C-Class', 'Genesis G70'] : ['Honda Accord', 'Toyota Camry', 'Hyundai Sonata']; description = 'Comfortable sedans for daily driving.'; features = ['Comfortable', 'Good MPG', 'Refined', 'Practical trunk']; reasoning.push('Excellent for commuting'); break;
-      case 'coupe': vehicles = bLvl <= 3 ? ['Hyundai Elantra', 'Subaru BRZ', 'Toyota GR86'] : bLvl <= 5 ? ['BMW 2 Series', 'Audi A5', 'Infiniti Q60'] : ['BMW 4 Series', 'Lexus RC']; description = 'Sporty coupes with style.'; features = ['Sporty design', 'Great handling', 'Premium feel', 'Performance']; reasoning.push('Style and sport combined'); break;
-      case 'midsizeSuv': vehicles = needsOffroad ? ['Mazda CX-50', 'Subaru Forester', 'Toyota RAV4'] : priorities.includes('reliability') ? ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5'] : bLvl >= 6 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan'] : ['Honda CR-V', 'Toyota RAV4', 'Mazda CX-5', 'Hyundai Tucson']; description = 'Versatile midsize SUVs.'; features = ['Flexible cargo', 'Available AWD', 'Comfortable', 'Family-friendly']; reasoning.push('Versatile for families'); break;
-      case 'suv': vehicles = needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner', 'Land Rover Defender'] : bLvl >= 8 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover'] : bLvl >= 6 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7'] : ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Kia Telluride']; description = 'Full-size SUVs with maximum space.'; features = ['3-row seating', 'Strong towing', 'Commanding presence', 'Premium space']; reasoning.push('Maximum space and capability'); break;
-      case 'midsizeTruck': vehicles = needsOffroad ? ['Toyota Tacoma', 'Jeep Gladiator', 'Chevrolet Colorado', 'Ford Ranger'] : bLvl <= 3 ? ['Ford Maverick', 'Hyundai Santa Cruz', 'Nissan Frontier'] : brand === 'japanese' ? ['Toyota Tacoma', 'Honda Ridgeline', 'Nissan Frontier'] : ['Ford Ranger', 'Chevrolet Colorado', 'GMC Canyon', 'Jeep Gladiator']; description = 'Midsize trucks offer excellent capability with better maneuverability and fuel economy than full-size trucks. Ideal for off-roading, outdoor adventures, and everyday hauling.'; features = ['Versatile bed', 'Better fuel economy', 'Easier to park', 'Great off-road capability', '4WD available']; reasoning.push('Right-sized for most truck needs'); reasoning.push('More maneuverable than full-size'); if (needsOffroad) reasoning.push('Excellent off-road capability'); break;
-      case 'truck': const needsHD = towing === 'max'; vehicles = needsHD ? ['Ford F-250', 'Ram 2500', 'Chevrolet Silverado 2500'] : bLvl >= 7 ? ['Ram 1500', 'Ford F-150', 'GMC Sierra'] : isWork ? ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado'] : brand === 'japanese' ? ['Toyota Tundra', 'Nissan Titan'] : ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado', 'Toyota Tundra']; description = needsHD ? 'Heavy-duty trucks for maximum towing and payload. Built for serious work demands.' : 'Full-size trucks deliver maximum towing capacity, payload, and power. Best for work use, heavy towing, or when you need the most capability.'; features = needsHD ? ['Max towing capacity', 'Heavy payload', 'Diesel available', 'Built for work'] : ['Strong towing (10,000+ lbs)', 'Large payload capacity', 'Spacious cab', 'V8 power available']; reasoning.push(needsHD ? 'Heavy-duty capability required' : 'Full-size power and capability needed'); if (isWork) reasoning.push('Built for work demands'); if (towing === 'heavy' || towing === 'max') reasoning.push('Heavy towing requirement'); if (importantFeatures.includes('power')) reasoning.push('Power and engine sound priority'); break;
-      case 'minivan': vehicles = ['Honda Odyssey', 'Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica']; description = 'Family-focused minivans.'; features = ['Sliding doors', 'Flat-folding seats', 'Maximum interior', 'Family features']; reasoning.push('Ultimate family vehicle'); break;
-      case 'van': vehicles = isWork ? ['Ford Transit', 'Mercedes-Benz Sprinter', 'Ram ProMaster'] : ['Ford Transit', 'Mercedes-Benz Sprinter']; description = 'Full-size cargo vans.'; features = ['Maximum cargo', 'Standing height', 'Commercial ready']; reasoning.push('Maximum cargo capacity'); break;
-      case 'wagon': vehicles = bLvl >= 6 ? ['Porsche Taycan', 'Audi A6 Allroad', 'Mercedes-Benz E-Class'] : ['Subaru Outback', 'Volvo V60']; description = 'Wagons: sedan driving, SUV cargo.'; features = ['Low center of gravity', 'Great cargo', 'Car handling', 'AWD available']; reasoning.push('Best of both worlds'); break;
-      case 'sport': vehicles = bLvl >= 8 ? ['Porsche 911', 'BMW M4', 'Mercedes-AMG GT', 'Audi R8'] : bLvl >= 6 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette'] : ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata', 'Nissan Z']; description = 'Pure driving excitement.'; features = ['Sharp handling', 'Engaging drive', 'Performance focused']; reasoning.push('Pure driving joy'); if (importantFeatures.includes('power')) reasoning.push('Power and engine sound priority'); break;
-      case 'roadster': vehicles = bLvl >= 8 ? ['Porsche 911', 'Mercedes-AMG SL', 'BMW M4'] : bLvl >= 6 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type'] : ['Mazda MX-5 Miata', 'Ford Mustang']; description = 'Open-air driving experience.'; features = ['Convertible top', 'Great handling', 'Head-turning']; reasoning.push('Open-air thrills'); break;
-      case 'hyper': vehicles = bLvl >= 9 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90', 'McLaren 765LT'] : ['McLaren 720S', 'Ferrari 296', 'Lamborghini Huracán', 'Porsche 911 Turbo S']; description = 'Pinnacle of performance.'; features = ['Extreme performance', 'Exotic engineering', 'Exclusive']; reasoning.push('Ultimate automotive experience'); if (importantFeatures.includes('power')) reasoning.push('Maximum power and engine sound'); break;
-      case 'muscle': vehicles = bLvl >= 6 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro'] : bLvl >= 4 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro'] : ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro']; description = 'American muscle power.'; features = ['V8 power', 'Iconic styling', 'Rear-wheel drive', 'Affordable performance']; reasoning.push('Classic American muscle'); if (importantFeatures.includes('power')) reasoning.push('Power and engine sound priority'); break;
-      default: vehicles = ['Honda Accord', 'Toyota Camry', 'Honda CR-V', 'Toyota RAV4']; description = 'Reliable vehicles with great value.'; features = ['Reliability', 'Good MPG', 'Versatile'];
+      case 'micro': 
+        vehicles = budgetLevel <= 2 ? ['Chevrolet Spark', 'Mitsubishi Mirage', 'Nissan Versa', 'Kia Rio'] : ['Mini Cooper', 'Fiat 500', 'Mini Cooper SE (Electric)'];
+        description = 'Perfect for city driving with excellent fuel efficiency and easy maneuverability. Ideal for urban commuters who need easy parking and low running costs.';
+        features = ['Excellent fuel economy (35+ MPG)', 'Easy parking & tight turns', 'Low insurance costs', 'Nimble handling', 'Affordable maintenance'];
+        reasoning.push('Ideal for urban commuting with tight parking');
+        if (answers['fuel-priority'] === 'critical') reasoning.push('Maximizes fuel efficiency');
+        break;
+      case 'hatchback': 
+        vehicles = brand === 'japanese' ? ['Honda Civic Hatchback', 'Mazda3 Hatchback', 'Toyota Corolla Hatchback'] :
+                   budgetLevel >= 5 ? ['Volkswagen Golf GTI', 'Mini Cooper S', 'Mercedes-Benz A-Class'] :
+                   ['Honda Civic Hatchback', 'Mazda3 Hatchback', 'Hyundai Elantra GT', 'Kia Forte5'];
+        description = 'Versatile hatchbacks combine sedan comfort with SUV-like cargo flexibility. Great for active lifestyles that need occasional hauling without the bulk.';
+        features = ['Flexible fold-flat cargo area', 'Fun-to-drive dynamics', 'Good fuel economy (30+ MPG)', 'Practical yet sporty', 'Easy city maneuverability'];
+        reasoning.push('Great balance of practicality and driving enjoyment');
+        break;
+      case 'crossover': 
+        vehicles = priorities.includes('reliability') ? ['Toyota Corolla Cross', 'Honda HR-V', 'Mazda CX-30', 'Subaru Crosstrek'] :
+                   needsSnow ? ['Subaru Crosstrek', 'Mazda CX-30 AWD', 'Toyota Corolla Cross AWD'] :
+                   budgetLevel >= 5 ? ['BMW X1', 'Audi Q3', 'Volvo XC40', 'Lexus UX'] :
+                   ['Mazda CX-30', 'Hyundai Kona', 'Kia Seltos', 'Honda HR-V'];
+        description = 'Compact crossovers offer SUV versatility in a manageable size. Perfect for those who want elevated seating and cargo space without a large footprint.';
+        features = ['Elevated driving position', 'Available AWD for weather confidence', 'Versatile cargo area', 'Car-like handling', 'Better fuel economy than larger SUVs'];
+        reasoning.push('SUV capability in a compact, efficient package');
+        if (needsSnow) reasoning.push('AWD available for winter weather confidence');
+        break;
+      case 'sedan': 
+        vehicles = priorities.includes('reliability') ? (budgetLevel <= 3 ? ['Honda Civic', 'Toyota Camry', 'Mazda3'] : ['Lexus ES', 'Toyota Avalon', 'Honda Accord']) :
+                   wantsLuxury && budgetLevel >= 6 ? ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Genesis G80', 'Audi A6'] :
+                   budgetLevel >= 5 ? ['BMW 3 Series', 'Mercedes-Benz C-Class', 'Genesis G70', 'Audi A4'] :
+                   brand === 'korean' ? ['Hyundai Sonata', 'Kia K5', 'Genesis G70'] :
+                   ['Honda Accord', 'Toyota Camry', 'Mazda6', 'Hyundai Sonata'];
+        description = 'Sedans offer the best combination of comfort, efficiency, and refined driving. Ideal for commuters and those who prioritize a smooth, quiet ride.';
+        features = ['Comfortable highway cruising', 'Good fuel economy', 'Refined ride quality', 'Spacious trunk', 'Advanced safety features'];
+        reasoning.push('Excellent for daily commuting and long trips');
+        if (priorities.includes('comfort')) reasoning.push('Optimized for ride comfort');
+        break;
+      case 'coupe': 
+        vehicles = budgetLevel >= 7 ? ['BMW M4', 'Mercedes-AMG C63', 'Audi RS5', 'Lexus LC'] :
+                   budgetLevel >= 5 ? ['BMW 4 Series', 'Audi A5', 'Mercedes-Benz C-Class Coupe', 'Lexus RC'] :
+                   ['Toyota GR86', 'Subaru BRZ', 'Honda Civic Si', 'Hyundai Elantra N'];
+        description = 'Coupes prioritize style and driving dynamics over practicality. Perfect for enthusiasts who want a sporty daily driver with head-turning looks.';
+        features = ['Sporty, aggressive styling', 'Sharp handling dynamics', 'Performance-oriented', 'Premium interior feel', 'Engaging driving experience'];
+        reasoning.push('Style and driving enjoyment prioritized');
+        break;
+      case 'midsizeSuv': 
+        vehicles = needsOffroad ? ['Subaru Forester Wilderness', 'Toyota RAV4 TRD Off-Road', 'Mazda CX-50', 'Jeep Cherokee Trailhawk'] :
+                   priorities.includes('reliability') ? ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5', 'Subaru Forester'] :
+                   wantsLuxury && budgetLevel >= 5 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan', 'Audi Q5'] :
+                   brand === 'korean' ? ['Hyundai Tucson', 'Kia Sportage', 'Genesis GV70'] :
+                   ['Honda CR-V', 'Toyota RAV4', 'Mazda CX-5', 'Hyundai Tucson'];
+        description = 'Midsize SUVs are the versatile sweet spot - enough space for family life without being too large. Great for those balancing practicality with maneuverability.';
+        features = ['Flexible cargo space', 'Available AWD', 'Comfortable for 5 passengers', 'Family-friendly features', 'Good fuel economy for an SUV'];
+        reasoning.push('Versatile size for families and active lifestyles');
+        if (needsSnow) reasoning.push('AWD provides winter weather capability');
+        break;
+      case 'suv': 
+        vehicles = needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner TRD Pro', 'Land Rover Defender', 'Jeep Grand Cherokee Trailhawk'] :
+                   wantsLuxury && budgetLevel >= 7 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover', 'Mercedes-Benz GLS'] :
+                   budgetLevel >= 5 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7', 'Genesis GV80', 'Volvo XC90'] :
+                   ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Kia Telluride', 'Hyundai Palisade'];
+        description = 'Full-size SUVs deliver maximum passenger and cargo space with strong towing capability. Ideal for large families or those who need serious hauling ability.';
+        features = ['3-row seating (7-8 passengers)', 'Strong towing capacity (5,000+ lbs)', 'Commanding road presence', 'Maximum cargo space', 'Premium comfort features'];
+        reasoning.push('Maximum space and capability for families');
+        if (towing === 'medium' || towing === 'heavy') reasoning.push('Towing capability for your needs');
+        break;
+      case 'midsizeTruck': 
+        vehicles = needsOffroad ? ['Toyota Tacoma TRD Pro', 'Jeep Gladiator Rubicon', 'Chevrolet Colorado ZR2', 'Ford Ranger Tremor'] :
+                   budgetLevel <= 3 ? ['Ford Maverick', 'Hyundai Santa Cruz', 'Nissan Frontier'] :
+                   brand === 'japanese' ? ['Toyota Tacoma', 'Honda Ridgeline', 'Nissan Frontier'] :
+                   ['Ford Ranger', 'Chevrolet Colorado', 'GMC Canyon', 'Jeep Gladiator'];
+        description = 'Midsize trucks offer the best balance of capability and daily drivability. Better fuel economy and easier parking than full-size trucks while still handling most hauling needs.';
+        features = ['Versatile truck bed (5-6 ft)', 'Better fuel economy than full-size', 'Easier to park and maneuver', 'Excellent off-road capability', '4WD/AWD available', 'Towing up to 7,500 lbs'];
+        reasoning.push('Right-sized truck for most needs');
+        reasoning.push('More maneuverable and efficient than full-size');
+        if (needsOffroad) reasoning.push('Excellent off-road capability');
+        if (activities.includes('camping') || activities.includes('home-improvement')) reasoning.push('Perfect for your outdoor/DIY lifestyle');
+        break;
+      case 'truck': 
+        const needsHD = towing === 'max';
+        vehicles = needsHD ? ['Ford F-250 Super Duty', 'Ram 2500', 'Chevrolet Silverado 2500HD', 'GMC Sierra 2500HD'] :
+                   wantsLuxury && budgetLevel >= 6 ? ['Ram 1500 Limited', 'Ford F-150 Platinum', 'GMC Sierra Denali', 'Chevrolet Silverado High Country'] :
+                   isWork ? ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'GMC Sierra 1500'] :
+                   brand === 'japanese' ? ['Toyota Tundra', 'Nissan Titan'] :
+                   ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'Toyota Tundra'];
+        description = needsHD ? 'Heavy-duty trucks for maximum towing and payload. Built for serious work demands including 5th wheel trailers, horse trailers, and heavy equipment.' :
+                      'Full-size trucks deliver maximum capability with comfortable daily driving. Best for work use, heavy towing, or when you need the most power and payload.';
+        features = needsHD ? ['Max towing (15,000-20,000+ lbs)', 'Heavy payload capacity', 'Diesel engine available', 'Built for commercial work', 'Gooseneck/5th wheel ready'] :
+                   ['Strong towing (10,000-14,000 lbs)', 'Large payload capacity', 'Spacious crew cab', 'V8/V6 twin-turbo power', 'Luxury interior available'];
+        reasoning.push(needsHD ? 'Heavy-duty capability required for your towing needs' : 'Full-size power and capability');
+        if (isWork) reasoning.push('Built for professional work demands');
+        if (towing === 'heavy' || towing === 'max') reasoning.push('Heavy towing requirement');
+        break;
+      case 'minivan': 
+        vehicles = budgetLevel >= 5 ? ['Toyota Sienna', 'Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica Pinnacle'] :
+                   ['Honda Odyssey', 'Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica'];
+        description = 'Minivans are the ultimate family vehicles - unmatched interior space, easy access with sliding doors, and features designed for family life. Nothing else comes close for family practicality.';
+        features = ['Sliding doors for easy kid access', 'Flat-folding seats for max cargo', 'Best-in-class interior space', 'Entertainment systems available', 'Stow-and-go seating', 'Built-in vacuum (some models)'];
+        reasoning.push('Ultimate family vehicle - nothing matches the practicality');
+        if (activities.includes('kids-sports')) reasoning.push('Perfect for hauling kids and their gear');
+        break;
+      case 'van': 
+        vehicles = isWork ? ['Ford Transit', 'Mercedes-Benz Sprinter', 'Ram ProMaster', 'Chevrolet Express'] :
+                   ['Ford Transit Connect', 'Mercedes-Benz Metris', 'Ram ProMaster City'];
+        description = 'Full-size cargo vans for commercial use or serious hauling needs. Standing-height cargo areas and maximum payload capacity.';
+        features = ['Maximum cargo volume', 'Standing height available', 'Commercial-grade durability', 'Multiple wheelbase options', 'Upfit-ready'];
+        reasoning.push('Maximum cargo capacity for work needs');
+        break;
+      case 'wagon': 
+        vehicles = wantsLuxury && budgetLevel >= 6 ? ['Porsche Taycan Sport Turismo', 'Audi A6 Allroad', 'Mercedes-Benz E-Class Wagon', 'Audi RS6 Avant'] :
+                   needsSnow ? ['Subaru Outback', 'Volvo V60 Cross Country', 'Audi A4 Allroad'] :
+                   ['Subaru Outback', 'Volvo V60', 'Volkswagen Golf Alltrack'];
+        description = 'Wagons combine sedan driving dynamics with SUV-like cargo space. Lower center of gravity means better handling than crossovers while matching their practicality.';
+        features = ['Sedan driving dynamics', 'SUV-level cargo space', 'Lower center of gravity', 'Standard AWD (most models)', 'Better fuel economy than SUVs'];
+        reasoning.push('Best of both worlds: car handling with SUV cargo');
+        break;
+      case 'sport': 
+        vehicles = budgetLevel >= 8 ? ['Porsche 911 Carrera', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Chevrolet Corvette Z06'] :
+                   budgetLevel >= 6 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette Stingray'] :
+                   ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata RF', 'Nissan Z'];
+        description = 'Pure driving excitement - sports cars deliver the most engaging driving experience available. Perfect for enthusiasts who prioritize driving joy above all else.';
+        features = ['Sharp, precise handling', 'Exhilarating acceleration', 'Driver-focused cockpit', 'Performance brakes', 'Aggressive styling'];
+        reasoning.push('Pure driving pleasure prioritized');
+        break;
+      case 'roadster': 
+        vehicles = budgetLevel >= 8 ? ['Porsche 911 Cabriolet', 'Mercedes-AMG SL', 'BMW M4 Convertible', 'Chevrolet Corvette Convertible'] :
+                   budgetLevel >= 5 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type Convertible'] :
+                   ['Mazda MX-5 Miata', 'Ford Mustang Convertible', 'Chevrolet Camaro Convertible'];
+        description = 'Open-air driving experience - roadsters and convertibles combine sports car dynamics with the thrill of wind-in-your-hair driving.';
+        features = ['Convertible top (power or manual)', 'Engaging driving dynamics', 'Head-turning style', 'Pure driving connection', 'Weekend escape vehicle'];
+        reasoning.push('Open-air driving experience');
+        break;
+      case 'hyper': 
+        vehicles = budgetLevel >= 9 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto'] :
+                   ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán EVO', 'Porsche 911 Turbo S', 'Aston Martin Vantage'];
+        description = 'The pinnacle of automotive engineering - supercars and hypercars deliver extreme performance, exotic design, and exclusivity that few vehicles can match.';
+        features = ['Extreme performance (600+ HP)', 'Exotic engineering & materials', 'Exclusive ownership experience', 'Investment potential', 'Head-turning presence'];
+        reasoning.push('Ultimate automotive experience');
+        break;
+      case 'muscle': 
+        vehicles = budgetLevel >= 6 ? ['Ford Mustang GT', 'Dodge Challenger R/T Scat Pack', 'Chevrolet Camaro SS', 'Ford Mustang Mach 1'] :
+                   ['Ford Mustang EcoBoost', 'Dodge Challenger R/T', 'Chevrolet Camaro LT1', 'Dodge Charger R/T'];
+        description = 'American muscle cars deliver V8 power, iconic styling, and attainable performance. The most accessible way to experience serious horsepower.';
+        features = ['V8 power (300-700+ HP)', 'Iconic American styling', 'Rear-wheel drive thrills', 'Affordable performance', 'Daily drivable'];
+        reasoning.push('Classic American muscle power');
+        break;
+      default: 
+        vehicles = ['Honda Accord', 'Toyota Camry', 'Honda CR-V', 'Toyota RAV4'];
+        description = 'Reliable vehicles with great value.';
+        features = ['Proven reliability', 'Good fuel economy', 'Versatile'];
     }
     
-    // Add feature-based reasoning
-    if (importantFeatures.includes('luxury')) reasoning.push('Luxury features prioritized');
-    if (importantFeatures.includes('all-terrain')) reasoning.push('All-terrain capability important');
-    if (importantFeatures.includes('comfort')) reasoning.push('Comfort and smooth ride valued');
-    if (importantFeatures.includes('off-road')) reasoning.push('Off-road performance needed');
+    // Add contextual reasoning
+    if (priorities.includes('reliability')) reasoning.push('Reliability prioritized in selection');
+    if (priorities.includes('safety')) reasoning.push('Top safety ratings considered');
+    if (wantsLuxury) reasoning.push('Premium features and materials included');
+    if (needsSnow) reasoning.push('All-weather capability considered');
     
-    reasoning.push('Budget: ' + budget);
+    const budgetLabels: Record<number, string> = { 1: 'Under $15K', 2: '$15K-$25K', 3: '$25K-$35K', 4: '$35K-$50K', 5: '$50K-$75K', 6: '$75K-$100K', 7: '$100K-$150K', 8: '$150K-$250K', 9: '$250K+' };
+    reasoning.push('Budget: ' + (budgetLabels[budgetLevel] || 'Not specified'));
+    
     return { vehicleType: vType, vehicleSizeName: vehicleSizeNames[vType], vehicles: vehicles.slice(0, 5), description, features, reasoning, answers: { ...answers }, timestamp: new Date().toISOString() };
   };
 
@@ -262,9 +493,9 @@ export default function AutoWizard() {
         <div className="relative">
           <section className="relative max-w-7xl mx-auto px-6 pt-20 pb-16">
             <div className="relative text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-8"><Sparkles className="w-4 h-4 text-amber-400" />Quick & Accurate Vehicle Matching</div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-8"><Sparkles className="w-4 h-4 text-amber-400" />Comprehensive 23-Question Assessment</div>
               <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight"><span className="text-white">Find Your </span><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Perfect</span><br /><span className="text-white">Vehicle</span></h2>
-              <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">Our quick {allQuestions.length}-question assessment analyzes your needs to recommend from 16 vehicle categories.</p>
+              <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">Our comprehensive {allQuestions.length}-question assessment analyzes your lifestyle, needs, and preferences to match you with your dream vehicle from 16 categories and 200+ models.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="group px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-2xl shadow-amber-500/30 hover:scale-105"><span className="flex items-center justify-center gap-2">Start Your Free Assessment<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span></button>
                 <button onClick={() => setCurrentPage('consultation')} className="px-8 py-4 rounded-xl border border-white/20 text-white hover:border-amber-500/50 hover:text-amber-400 transition-all">Contact One of Our Experts</button>
