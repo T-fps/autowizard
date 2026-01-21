@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Car, Calendar, Users, Wrench, MapPin, ChevronRight, ChevronLeft, Check, ArrowLeft, Sparkles, Shield, CreditCard, Star, Phone, Mail, Clock, Zap, Heart, Target, Building2, CarFront, Gauge, Send, X, Eye, FileText, DollarSign, Award, TrendingUp, BookOpen, Calculator, RefreshCw, Briefcase, SkipForward } from 'lucide-react';
+import { Car, Calendar, Users, Wrench, MapPin, ChevronRight, ChevronLeft, Check, ArrowLeft, ArrowRight, Sparkles, Shield, CreditCard, Star, Phone, Mail, Clock, Zap, Heart, Target, Building2, CarFront, Gauge, Send, X, Eye, FileText, DollarSign, Award, TrendingUp, BookOpen, Calculator, RefreshCw, Briefcase } from 'lucide-react';
 
 export default function AutoWizard() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -12,6 +12,7 @@ export default function AutoWizard() {
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
   const [emailSent, setEmailSent] = useState(false);
+  const [showEmailCollection, setShowEmailCollection] = useState(false);
   const [consultForm, setConsultForm] = useState<Record<string, any>>({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
   const [canSkip, setCanSkip] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
@@ -65,9 +66,9 @@ export default function AutoWizard() {
     { id: 'towing', question: 'Do you need towing capability?', icon: '🚤', type: 'single',
       options: [{ value: 'none', label: 'No towing needed' }, { value: 'light', label: 'Light - small trailer/jet skis (under 3,500 lbs)' }, { value: 'medium', label: 'Medium - boat/small camper (3,500-7,000 lbs)' }, { value: 'heavy', label: 'Heavy - large boat/travel trailer (7,000-12,000 lbs)' }, { value: 'max', label: 'Maximum - 5th wheel/horse trailer (12,000+ lbs)' }] },
     { id: 'parking', question: 'What is your typical parking situation?', icon: '🅿️', type: 'single',
-      options: [{ value: 'tight', label: 'Tight city spaces & parking garages' }, { value: 'street', label: 'Street parking in neighborhoods' }, { value: 'normal', label: 'Standard driveways & parking lots' }, { value: 'spacious', label: 'Large driveway or rural property' }] },
+      options: [{ value: 'tight', label: 'Tight city spaces & parking garages' }, { value: 'street', label: 'Street parking in neighborhoods' }, { value: 'normal', label: 'Standard driveways & parking lots' }, { value: 'garage', label: 'Personal garage' }, { value: 'spacious', label: 'Large driveway or rural property' }] },
     { id: 'budget', question: 'What is your total budget for this vehicle?', icon: '💰', type: 'single',
-      options: [{ value: 'under-15k', label: 'Under $15,000' }, { value: '15k-25k', label: '$15,000 - $25,000' }, { value: '25k-35k', label: '$25,000 - $35,000' }, { value: '35k-50k', label: '$35,000 - $50,000' }, { value: '50k-75k', label: '$50,000 - $75,000' }, { value: '75k-100k', label: '$75,000 - $100,000' }, { value: '100k-150k', label: '$100,000 - $150,000' }, { value: '150k-250k', label: '$150,000 - $250,000' }, { value: '250k-plus', label: '$250,000+' }] },
+      options: [{ value: 'under-25k', label: 'Under $25,000' }, { value: '25k-35k', label: '$25,000 - $35,000' }, { value: '35k-50k', label: '$35,000 - $50,000' }, { value: '50k-75k', label: '$50,000 - $75,000' }, { value: '75k-100k', label: '$75,000 - $100,000' }, { value: '100k-200k', label: '$100,000 - $200,000' }, { value: '200k-plus', label: 'Over $200,000' }] },
     { id: 'new-used', question: 'Are you considering new, used, or certified pre-owned?', icon: '🔑', type: 'single',
       options: [{ value: 'new-only', label: 'New only' }, { value: 'cpo', label: 'New or Certified Pre-Owned' }, { value: 'any', label: 'Open to new or used' }, { value: 'used-only', label: 'Used only (to maximize value)' }] },
     { id: 'ownership-length', question: 'How long do you plan to keep this vehicle?', icon: '📅', type: 'single',
@@ -242,17 +243,17 @@ export default function AutoWizard() {
 
     // BUDGET SCORING & RESTRICTIONS
     const budget = answers.budget;
-    const bLvl: Record<string, number> = { 'under-15k': 1, '15k-25k': 2, '25k-35k': 3, '35k-50k': 4, '50k-75k': 5, '75k-100k': 6, '100k-150k': 7, '150k-250k': 8, '250k-plus': 9 };
-    const budgetLevel = bLvl[budget] || 4;
+    const bLvl: Record<string, number> = { 'under-25k': 1, '25k-35k': 2, '35k-50k': 3, '50k-75k': 4, '75k-100k': 5, '100k-200k': 6, '200k-plus': 7 };
+    const budgetLevel = bLvl[budget] || 3;
     
     // Restrict vehicles by budget
-    if (budgetLevel < 7) { scores.hyper = -10; }
-    if (budgetLevel < 5) { scores.sport = Math.min(scores.sport, 5); scores.roadster = Math.min(scores.roadster, 5); }
-    if (budgetLevel < 3) { scores.suv = Math.min(scores.suv, 5); scores.truck = Math.min(scores.truck, 5); }
+    if (budgetLevel < 6) { scores.hyper = -10; }
+    if (budgetLevel < 3) { scores.sport = Math.min(scores.sport, 5); scores.roadster = Math.min(scores.roadster, 5); }
+    if (budgetLevel < 2) { scores.suv = Math.min(scores.suv, 5); scores.truck = Math.min(scores.truck, 5); }
     
     // Boost luxury options at high budgets
-    if (budgetLevel >= 7) { scores.hyper += 5; scores.sport += 3; scores.roadster += 3; }
-    if (budgetLevel >= 8) { scores.hyper += 5; }
+    if (budgetLevel >= 5) { scores.hyper += 5; scores.sport += 3; scores.roadster += 3; }
+    if (budgetLevel >= 6) { scores.hyper += 5; }
 
     // Find top recommendation
     const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
@@ -286,7 +287,7 @@ export default function AutoWizard() {
         break;
       case 'hatchback': 
         vehicles = brand === 'japanese' ? ['Honda Civic', 'Mazda3', 'Toyota Corolla'] :
-                   budgetLevel >= 5 ? ['Volkswagen Golf', 'Mini Cooper', 'Mercedes-Benz A-Class'] :
+                   budgetLevel >= 4 ? ['Volkswagen Golf', 'Mini Cooper', 'Mercedes-Benz A-Class'] :
                    ['Honda Civic', 'Mazda3', 'Hyundai Elantra GT', 'Kia Forte5'];
         description = 'Versatile hatchbacks combine sedan comfort with SUV-like cargo flexibility. Great for active lifestyles that need occasional hauling without the bulk.';
         features = ['Flexible fold-flat cargo area', 'Fun-to-drive dynamics', 'Good fuel economy (30+ MPG)', 'Practical yet sporty', 'Easy city maneuverability'];
@@ -295,7 +296,7 @@ export default function AutoWizard() {
       case 'crossover': 
         vehicles = priorities.includes('reliability') ? ['Toyota Corolla Cross', 'Honda HR-V', 'Mazda CX-30', 'Subaru Crosstrek'] :
                    needsSnow ? ['Subaru Crosstrek', 'Mazda CX-30 AWD', 'Toyota Corolla Cross AWD'] :
-                   budgetLevel >= 5 ? ['BMW X1', 'Audi Q3', 'Volvo XC40', 'Lexus UX'] :
+                   budgetLevel >= 4 ? ['BMW X1', 'Audi Q3', 'Volvo XC40', 'Lexus UX'] :
                    ['Mazda CX-30', 'Hyundai Kona', 'Kia Seltos', 'Honda HR-V'];
         description = 'Compact crossovers offer SUV versatility in a manageable size. Perfect for those who want elevated seating and cargo space without a large footprint.';
         features = ['Elevated driving position', 'Available AWD for weather confidence', 'Versatile cargo area', 'Car-like handling', 'Better fuel economy than larger SUVs'];
@@ -304,8 +305,8 @@ export default function AutoWizard() {
         break;
       case 'sedan': 
         vehicles = priorities.includes('reliability') ? (budgetLevel <= 3 ? ['Honda Civic', 'Toyota Camry', 'Mazda3'] : ['Lexus ES', 'Toyota Avalon', 'Honda Accord']) :
-                   wantsLuxury && budgetLevel >= 6 ? ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Genesis G80', 'Audi A6'] :
-                   budgetLevel >= 5 ? ['BMW 3 Series', 'Mercedes-Benz C-Class', 'Genesis G70', 'Audi A4'] :
+                   wantsLuxury && budgetLevel >= 5 ? ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Genesis G80', 'Audi A6'] :
+                   budgetLevel >= 4 ? ['BMW 3 Series', 'Mercedes-Benz C-Class', 'Genesis G70', 'Audi A4'] :
                    brand === 'korean' ? ['Hyundai Sonata', 'Kia K5', 'Genesis G70'] :
                    ['Honda Accord', 'Toyota Camry', 'Mazda6', 'Hyundai Sonata'];
         description = 'Sedans offer the best combination of comfort, efficiency, and refined driving. Ideal for commuters and those who prioritize a smooth, quiet ride.';
@@ -314,8 +315,8 @@ export default function AutoWizard() {
         if (priorities.includes('comfort')) reasoning.push('Optimized for ride comfort');
         break;
       case 'coupe': 
-        vehicles = budgetLevel >= 7 ? ['BMW M4', 'Mercedes-AMG C63', 'Audi RS5', 'Lexus LC'] :
-                   budgetLevel >= 5 ? ['BMW 4 Series', 'Audi A5', 'Mercedes-Benz C-Class', 'Lexus RC'] :
+        vehicles = budgetLevel >= 5 ? ['BMW M4', 'Mercedes-AMG C63', 'Audi RS5', 'Lexus LC'] :
+                   budgetLevel >= 3 ? ['BMW 4 Series', 'Audi A5', 'Mercedes-Benz C-Class', 'Lexus RC'] :
                    ['Toyota GR86', 'Subaru BRZ', 'Honda Civic', 'Hyundai Elantra'];
         description = 'Coupes prioritize style and driving dynamics over practicality. Perfect for enthusiasts who want a sporty daily driver with head-turning looks.';
         features = ['Sporty, aggressive styling', 'Sharp handling dynamics', 'Performance-oriented', 'Premium interior feel', 'Engaging driving experience'];
@@ -324,7 +325,7 @@ export default function AutoWizard() {
       case 'midsizeSuv': 
         vehicles = needsOffroad ? ['Subaru Forester', 'Toyota RAV4', 'Mazda CX-50', 'Jeep Cherokee'] :
                    priorities.includes('reliability') ? ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5', 'Subaru Forester'] :
-                   wantsLuxury && budgetLevel >= 5 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan', 'Audi Q5'] :
+                   wantsLuxury && budgetLevel >= 4 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan', 'Audi Q5'] :
                    brand === 'korean' ? ['Hyundai Tucson', 'Kia Sportage', 'Genesis GV70'] :
                    ['Honda CR-V', 'Toyota RAV4', 'Mazda CX-5', 'Hyundai Tucson'];
         description = 'Midsize SUVs are the versatile sweet spot - enough space for family life without being too large. Great for those balancing practicality with maneuverability.';
@@ -334,8 +335,8 @@ export default function AutoWizard() {
         break;
       case 'suv': 
         vehicles = needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner', 'Land Rover Defender', 'Jeep Grand Cherokee'] :
-                   wantsLuxury && budgetLevel >= 7 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover', 'Mercedes-Benz GLS'] :
-                   budgetLevel >= 5 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7', 'Genesis GV80', 'Volvo XC90'] :
+                   wantsLuxury && budgetLevel >= 6 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover', 'Mercedes-Benz GLS'] :
+                   budgetLevel >= 4 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7', 'Genesis GV80', 'Volvo XC90'] :
                    ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Kia Telluride', 'Hyundai Palisade'];
         description = 'Full-size SUVs deliver maximum passenger and cargo space with strong towing capability. Ideal for large families or those who need serious hauling ability.';
         features = ['3-row seating (7-8 passengers)', 'Strong towing capacity (5,000+ lbs)', 'Commanding road presence', 'Maximum cargo space', 'Premium comfort features'];
@@ -357,7 +358,7 @@ export default function AutoWizard() {
       case 'truck': 
         const needsHD = towing === 'max';
         vehicles = needsHD ? ['Ford F-250', 'Ram 2500', 'Chevrolet Silverado 2500HD', 'GMC Sierra 2500HD'] :
-                   wantsLuxury && budgetLevel >= 6 ? ['Ram 1500', 'Ford F-150', 'GMC Sierra', 'Chevrolet Silverado'] :
+                   wantsLuxury && budgetLevel >= 5 ? ['Ram 1500', 'Ford F-150', 'GMC Sierra', 'Chevrolet Silverado'] :
                    isWork ? ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'GMC Sierra 1500'] :
                    brand === 'japanese' ? ['Toyota Tundra', 'Nissan Titan'] :
                    ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'Toyota Tundra'];
@@ -370,7 +371,7 @@ export default function AutoWizard() {
         if (towing === 'heavy' || towing === 'max') reasoning.push('Heavy towing requirement');
         break;
       case 'minivan': 
-        vehicles = budgetLevel >= 5 ? ['Toyota Sienna', 'Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica'] :
+        vehicles = budgetLevel >= 3 ? ['Toyota Sienna', 'Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica'] :
                    ['Honda Odyssey', 'Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica'];
         description = 'Minivans are the ultimate family vehicles - unmatched interior space, easy access with sliding doors, and features designed for family life. Nothing else comes close for family practicality.';
         features = ['Sliding doors for easy kid access', 'Flat-folding seats for max cargo', 'Best-in-class interior space', 'Entertainment systems available', 'Stow-and-go seating', 'Built-in vacuum (some models)'];
@@ -385,7 +386,7 @@ export default function AutoWizard() {
         reasoning.push('Maximum cargo capacity for work needs');
         break;
       case 'wagon': 
-        vehicles = wantsLuxury && budgetLevel >= 6 ? ['Porsche Taycan', 'Audi A6', 'Mercedes-Benz E-Class', 'Audi RS6'] :
+        vehicles = wantsLuxury && budgetLevel >= 5 ? ['Porsche Taycan', 'Audi A6', 'Mercedes-Benz E-Class', 'Audi RS6'] :
                    needsSnow ? ['Subaru Outback', 'Volvo V60', 'Audi A4'] :
                    ['Subaru Outback', 'Volvo V60', 'Volkswagen Golf Alltrack'];
         description = 'Wagons combine sedan driving dynamics with SUV-like cargo space. Lower center of gravity means better handling than crossovers while matching their practicality.';
@@ -393,30 +394,30 @@ export default function AutoWizard() {
         reasoning.push('Best of both worlds: car handling with SUV cargo');
         break;
       case 'sport': 
-        vehicles = budgetLevel >= 8 ? ['Porsche 911', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Chevrolet Corvette'] :
-                   budgetLevel >= 6 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette'] :
+        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Chevrolet Corvette'] :
+                   budgetLevel >= 4 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette'] :
                    ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata', 'Nissan Z'];
         description = 'Pure driving excitement - sports cars deliver the most engaging driving experience available. Perfect for enthusiasts who prioritize driving joy above all else.';
         features = ['Sharp, precise handling', 'Exhilarating acceleration', 'Driver-focused cockpit', 'Performance brakes', 'Aggressive styling'];
         reasoning.push('Pure driving pleasure prioritized');
         break;
       case 'roadster': 
-        vehicles = budgetLevel >= 8 ? ['Porsche 911', 'Mercedes-AMG SL', 'BMW M4', 'Chevrolet Corvette'] :
-                   budgetLevel >= 5 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type'] :
+        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'Mercedes-AMG SL', 'BMW M4', 'Chevrolet Corvette'] :
+                   budgetLevel >= 4 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type'] :
                    ['Mazda MX-5 Miata', 'Ford Mustang', 'Chevrolet Camaro'];
         description = 'Open-air driving experience - roadsters and convertibles combine sports car dynamics with the thrill of wind-in-your-hair driving.';
         features = ['Convertible top (power or manual)', 'Engaging driving dynamics', 'Head-turning style', 'Pure driving connection', 'Weekend escape vehicle'];
         reasoning.push('Open-air driving experience');
         break;
       case 'hyper': 
-        vehicles = budgetLevel >= 9 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto'] :
+        vehicles = budgetLevel >= 7 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto'] :
                    ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán', 'Porsche 911', 'Aston Martin Vantage'];
         description = 'The pinnacle of automotive engineering - supercars and hypercars deliver extreme performance, exotic design, and exclusivity that few vehicles can match.';
         features = ['Extreme performance (600+ HP)', 'Exotic engineering & materials', 'Exclusive ownership experience', 'Investment potential', 'Head-turning presence'];
         reasoning.push('Ultimate automotive experience');
         break;
       case 'muscle': 
-        vehicles = budgetLevel >= 6 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Ford Mustang'] :
+        vehicles = budgetLevel >= 5 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Ford Mustang'] :
                    ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Dodge Charger'];
         description = 'American muscle cars deliver V8 power, iconic styling, and attainable performance. The most accessible way to experience serious horsepower.';
         features = ['V8 power (300-700+ HP)', 'Iconic American styling', 'Rear-wheel drive thrills', 'Affordable performance', 'Daily drivable'];
@@ -434,18 +435,19 @@ export default function AutoWizard() {
     if (wantsLuxury) reasoning.push('Premium features and materials included');
     if (needsSnow) reasoning.push('All-weather capability considered');
     
-    const budgetLabels: Record<number, string> = { 1: 'Under $15K', 2: '$15K-$25K', 3: '$25K-$35K', 4: '$35K-$50K', 5: '$50K-$75K', 6: '$75K-$100K', 7: '$100K-$150K', 8: '$150K-$250K', 9: '$250K+' };
+    const budgetLabels: Record<number, string> = { 1: 'Under $25K', 2: '$25K-$35K', 3: '$35K-$50K', 4: '$50K-$75K', 5: '$75K-$100K', 6: '$100K-$200K', 7: 'Over $200K' };
     reasoning.push('Budget: ' + (budgetLabels[budgetLevel] || 'Not specified'));
     
     return { vehicleType: vType, vehicleSizeName: vehicleSizeNames[vType], vehicles: vehicles.slice(0, 5), description, features, reasoning, answers: { ...answers }, timestamp: new Date().toISOString() };
   };
 
-  const saveResult = (r) => { const d = { ...r, id: Date.now().toString(), savedAt: new Date().toISOString() }; const e = JSON.parse(localStorage.getItem('autoWizardResults') || '[]'); e.push(d); localStorage.setItem('autoWizardResults', JSON.stringify(e)); };
+  const saveResult = (r, email) => { const d = { ...r, id: Date.now().toString(), savedAt: new Date().toISOString(), email: email }; const e = JSON.parse(localStorage.getItem('autoWizardResults') || '[]'); e.push(d); localStorage.setItem('autoWizardResults', JSON.stringify(e)); };
+  const submitEmailAndShowResults = () => { const r = calculateRecommendation(); setResult({ ...r, email: emailAddress }); saveResult(r, emailAddress); setShowEmailCollection(false); };
   const sendEmail = () => { setTimeout(() => { setEmailSent(true); setTimeout(() => { setShowEmailModal(false); setEmailSent(false); setEmailAddress(''); }, 2000); }, 1000); };
-  const handleAnswer = (qId, val) => { setAnswers({ ...answers, [qId]: val }); if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { const r = calculateRecommendation(); setResult(r); saveResult(r); } };
+  const handleAnswer = (qId, val) => { setAnswers({ ...answers, [qId]: val }); if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { setShowEmailCollection(true); } };
   const handleMultiSelect = (qId: string, val: string, maxSelect?: number) => { const current = getArr(answers[qId]); let newVal; if (current.includes(val)) { newVal = current.filter((v: string) => v !== val); } else { if (maxSelect && current.length >= maxSelect) { newVal = [...current.slice(1), val]; } else { newVal = [...current, val]; } } setAnswers({ ...answers, [qId]: newVal }); };
-  const skipQuestion = () => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { const r = calculateRecommendation(); setResult(r); saveResult(r); } };
-  const resetTest = () => { setTestStep(0); setAnswers({}); setResult(null); };
+  const skipQuestion = () => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { setShowEmailCollection(true); } };
+  const resetTest = () => { setTestStep(0); setAnswers({}); setResult(null); setShowEmailCollection(false); setEmailAddress(''); };
   
   const toggleService = (val) => {
     const current = consultForm.services || [];
@@ -677,7 +679,7 @@ export default function AutoWizard() {
         </div>
       )}
 
-      {currentPage === 'test' && !result && (
+      {currentPage === 'test' && !result && !showEmailCollection && (
         <div className="max-w-3xl mx-auto px-6 py-12">
           <div className={`transition-opacity duration-200 ease-in-out ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
@@ -715,8 +717,7 @@ export default function AutoWizard() {
                         })}
                       </div>
                       <div className="flex gap-3 mt-4">
-                        <button onClick={() => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { const r = calculateRecommendation(); setResult(r); saveResult(r); }}} disabled={getArr(answers[currentQ.id]).length === 0} className="flex-1 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">Continue <ChevronRight className="w-5 h-5" /></button>
-                        {canSkip && <button onClick={skipQuestion} className="px-6 py-4 rounded-xl border border-white/20 text-white/60 hover:text-amber-400 hover:border-amber-500/50 transition-all flex items-center gap-2"><SkipForward className="w-5 h-5" />Skip</button>}
+                        <button onClick={() => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { setShowEmailCollection(true); }}} disabled={getArr(answers[currentQ.id]).length === 0} className="flex-1 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">Continue <ChevronRight className="w-5 h-5" /></button>
                       </div>
                     </div>
                   ) : (
@@ -731,14 +732,51 @@ export default function AutoWizard() {
                           </button>
                         ))}
                       </div>
-                      {canSkip && <button onClick={skipQuestion} className="w-full mt-4 py-3 rounded-xl border border-white/20 text-white/60 hover:text-amber-400 hover:border-amber-500/50 transition-all flex items-center justify-center gap-2"><SkipForward className="w-5 h-5" />Skip this question</button>}
                     </div>
                   )}
                 </>
               )}
               
-              {testStep > 0 && <button onClick={() => setTestStep(testStep - 1)} className="mt-6 text-white/50 hover:text-amber-400 flex items-center gap-2"><ArrowLeft className="w-4 h-4" />Back</button>}
+              <div className="mt-6 flex items-center justify-between">
+                {testStep > 0 ? <button onClick={() => setTestStep(testStep - 1)} className="text-white/50 hover:text-amber-400 flex items-center gap-2"><ArrowLeft className="w-4 h-4" />Back</button> : <div></div>}
+                {canSkip && <button onClick={skipQuestion} className="text-white/50 hover:text-amber-400 flex items-center gap-2">Next<ArrowRight className="w-4 h-4" /></button>}
+              </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {currentPage === 'test' && showEmailCollection && !result && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-500/20 mb-6">
+                <Mail className="w-8 h-8 text-amber-400" />
+              </div>
+              <h2 className="text-3xl font-bold text-white mb-3">Almost There!</h2>
+              <p className="text-white/60 max-w-md mx-auto">Enter your email to see your personalized vehicle recommendation. We'll also send you a copy of your results.</p>
+            </div>
+            
+            <div className="max-w-md mx-auto">
+              <input 
+                type="email" 
+                value={emailAddress} 
+                onChange={(e) => setEmailAddress(e.target.value)} 
+                placeholder="Enter your email address" 
+                className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-4 text-white mb-4 focus:outline-none focus:border-amber-500 text-center"
+                onKeyDown={(e) => { if (e.key === 'Enter' && emailAddress.includes('@') && emailAddress.includes('.')) submitEmailAndShowResults(); }}
+              />
+              <button 
+                onClick={submitEmailAndShowResults} 
+                disabled={!emailAddress.includes('@') || !emailAddress.includes('.')} 
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
+              >
+                See My Results <ChevronRight className="w-5 h-5" />
+              </button>
+              <p className="text-white/40 text-xs text-center mt-4">We respect your privacy. No spam, ever.</p>
+            </div>
+            
+            <button onClick={() => { setShowEmailCollection(false); }} className="mt-8 text-white/50 hover:text-amber-400 flex items-center gap-2 mx-auto"><ArrowLeft className="w-4 h-4" />Back to questions</button>
           </div>
         </div>
       )}
