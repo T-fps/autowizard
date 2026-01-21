@@ -496,17 +496,24 @@ export default function AutoWizard() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden"><div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[120px]" /><div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[100px]" /></div>
 
       <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setCurrentPage('home')}>
-            <div className="relative"><div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity" /><div className="relative bg-gradient-to-br from-amber-400 to-amber-500 p-2.5 rounded-xl"><Sparkles className="w-6 h-6 text-black" /></div></div>
-            <h1 className="text-2xl font-bold"><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Auto</span><span className="text-white"> Wizard</span></h1>
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setCurrentPage('home')}>
+              <div className="relative"><div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity" /><div className="relative bg-gradient-to-br from-amber-400 to-amber-500 p-2.5 rounded-xl"><Sparkles className="w-6 h-6 text-black" /></div></div>
+              <h1 className="text-2xl font-bold"><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Auto</span><span className="text-white"> Wizard</span></h1>
+            </div>
+            <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2">
+              <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Take Test</button>
+              <button onClick={() => setCurrentPage('services')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
+              <button onClick={() => setCurrentPage('expertise')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
+            </nav>
+            <button onClick={() => setCurrentPage('consultation')} className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 text-sm md:text-base">Book Consultation</button>
           </div>
-          <nav className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2">
-            <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Take Test</button>
-            <button onClick={() => setCurrentPage('services')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
-            <button onClick={() => setCurrentPage('expertise')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
+          <nav className="md:hidden flex items-center justify-center gap-2 mt-3 pt-3 border-t border-white/10">
+            <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Take Test</button>
+            <button onClick={() => setCurrentPage('services')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
+            <button onClick={() => setCurrentPage('expertise')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
           </nav>
-          <button onClick={() => setCurrentPage('consultation')} className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25">Book Consultation</button>
         </div>
       </header>
 
