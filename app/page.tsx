@@ -19,7 +19,7 @@ export default function AutoWizard() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
 
-  useEffect(() => { setIsAnimating(true); const t = setTimeout(() => setIsAnimating(false), 400); return () => clearTimeout(t); }, [testStep]);
+  useEffect(() => { setIsAnimating(true); const t = setTimeout(() => setIsAnimating(false), 300); return () => clearTimeout(t); }, [testStep]);
 
   // 13-question test
   const allQuestions = [
@@ -418,7 +418,7 @@ export default function AutoWizard() {
 
       {currentPage === 'test' && !result && (
         <div className="max-w-3xl mx-auto px-6 py-12">
-          <div className={`transition-all duration-400 ${isAnimating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <div className={`transition-all duration-300 ease-out ${isAnimating ? 'opacity-0 translate-y-3 scale-[0.98]' : 'opacity-100 translate-y-0 scale-100'}`}>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
               <div className="mb-8">
                 <div className="flex justify-between items-center mb-3">
