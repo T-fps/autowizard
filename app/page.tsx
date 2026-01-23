@@ -508,17 +508,17 @@ export default function AutoWizard() {
         <div className="relative">
           <section className="relative max-w-7xl mx-auto px-6 pt-20 pb-16">
             <div className="relative text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-8"><Sparkles className="w-4 h-4 text-amber-400" />Comprehensive 23-Question Assessment</div>
-              <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight"><span className="text-white">Find Your </span><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Perfect</span><br /><span className="text-white">Vehicle</span></h2>
-              <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">Our comprehensive {allQuestions.length}-question assessment analyzes your lifestyle, needs, and preferences to match you with your dream vehicle from 16 categories and 200+ models.</p>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-8"><Sparkles className="w-4 h-4 text-amber-400" />Quick & Easy Vehicle Matching Assessment</div>
+              <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight"><span className="text-white">Find The </span><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Perfect</span><br /><span className="text-white">Vehicle</span></h2>
+              <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">Our quick and easy vehicle matching assessment analyzes your lifestyle, needs, and preferences to match you with the car of your dreams from 16 categories and 200+ models.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="group px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-2xl shadow-amber-500/30 hover:scale-105"><span className="flex items-center justify-center gap-2">Start Your Free Assessment<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span></button>
+                <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="group px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-2xl shadow-amber-500/30 hover:scale-105"><span className="flex items-center justify-center gap-2">Find Your Dream Car<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span></button>
                 <button onClick={() => setCurrentPage('consultation')} className="px-8 py-4 rounded-xl border border-white/20 text-white hover:border-amber-500/50 hover:text-amber-400 transition-all">Contact One of Our Experts</button>
               </div>
             </div>
             <div className="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
               {[{ value: allQuestions.length.toString(), label: 'Questions', icon: Target }, { value: '16', label: 'Categories', icon: CarFront }, { value: '200+', label: 'Models', icon: Gauge }, { value: '100%', label: 'Free', icon: Heart }].map((s, i) => (
-                <div key={i} className="text-center p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-500/20 transition-all">
+                <div key={i} className="text-center p-6 rounded-2xl bg-white/5 border border-white/10">
                   <s.icon className="w-6 h-6 text-amber-400 mx-auto mb-3" />
                   <div className="text-3xl font-bold text-white mb-1">{s.value}</div>
                   <div className="text-sm text-white/50">{s.label}</div>
@@ -535,7 +535,7 @@ export default function AutoWizard() {
                 { icon: Wrench, title: 'Aftermarket Support', desc: 'Connect with trusted customization and accessory providers' },
                 { icon: MapPin, title: 'Dealership Network', desc: 'Direct connections to dealerships, financing, and sales' }
               ].map((item, i) => (
-                <div key={i} className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10 hover:border-amber-500/30 transition-all">
+                <div key={i} className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
                   <item.icon className="w-10 h-10 text-amber-400 mb-4" strokeWidth={1.5} />
                   <h3 className="text-xl font-semibold text-white mb-2">{item.title}</h3>
                   <p className="text-white/60">{item.desc}</p>
@@ -649,7 +649,7 @@ export default function AutoWizard() {
               { icon: RefreshCw, title: 'Trade-In Values', desc: 'Maximize the value of your current vehicle', items: ['Value estimation tools', 'Preparation tips', 'Timing strategies', 'Negotiation tactics'] },
               { icon: Shield, title: 'Warranty & Protection', desc: 'Understanding coverage options', items: ['Factory warranty details', 'Extended warranty options', 'GAP insurance explained', 'Maintenance plans'] }
             ].map((resource, i) => (
-              <div key={i} className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10 hover:border-amber-500/30 transition-all">
+              <div key={i} className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
                 <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-4"><resource.icon className="w-6 h-6 text-amber-400" /></div>
                 <h3 className="text-xl font-semibold text-white mb-2">{resource.title}</h3>
                 <p className="text-white/60 mb-4">{resource.desc}</p>
