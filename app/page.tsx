@@ -498,9 +498,8 @@ export default function AutoWizard() {
       <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setCurrentPage('home')}>
-              <div className="relative"><div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity" /><div className="relative bg-gradient-to-br from-amber-400 to-amber-500 p-2.5 rounded-xl"><Sparkles className="w-6 h-6 text-black" /></div></div>
-              <h1 className="text-2xl font-bold"><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Auto</span><span className="text-white"> Wizard</span></h1>
+            <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setCurrentPage('home')}>
+              <img src="/logo.png" alt="Auto Wizard" className="h-12 w-auto" />
             </div>
             <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2">
               <button onClick={startTest} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Take Test</button>
@@ -1020,8 +1019,7 @@ export default function AutoWizard() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-gradient-to-br from-amber-400 to-amber-500 p-2 rounded-lg"><Sparkles className="w-5 h-5 text-black" /></div>
-                <span className="font-bold text-lg">Auto Wizard</span>
+                <img src="/logo.png" alt="Auto Wizard" className="h-10 w-auto" />
               </div>
               <p className="text-white/50 text-sm">Your partner in finding the perfect vehicle.</p>
             </div>
