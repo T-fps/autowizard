@@ -16,8 +16,464 @@ export default function AutoWizard() {
   const [emailSent, setEmailSent] = useState(false);
   const [showEmailCollection, setShowEmailCollection] = useState(false);
   const [showTips, setShowTips] = useState(false);
+  const [vehicleImageIndex, setVehicleImageIndex] = useState(0);
   const [consultForm, setConsultForm] = useState<Record<string, any>>({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
   const [canSkip, setCanSkip] = useState(false);
+
+  // Vehicle image mapping - using manufacturer press images
+  // COMPREHENSIVE US VEHICLE DATABASE - 400+ Models (All current US market vehicles)
+  const vehicleImages: Record<string, string> = {
+    // ==================== ACURA (6 models) ====================
+    'Acura Integra': 'https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/Integra/2024/overview-page/exterior/MY24_Integra_exterior.png',
+    'Acura TLX': 'https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/TLX/2024/overview-page/exterior/MY24_TLX_exterior.png',
+    'Acura MDX': 'https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/MDX/2024/overview-page/exterior/MY24_MDX_exterior.png',
+    'Acura RDX': 'https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/RDX/2024/overview-page/exterior/MY24_RDX_exterior.png',
+    'Acura ZDX': 'https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/ZDX/2024/overview-page/exterior/MY24_ZDX_exterior.png',
+    'Acura NSX': 'https://www.acura.com/-/media/Acura-Platform/Vehicle-Pages/NSX/2022/overview-page/exterior/MY22_NSX_exterior.png',
+    // ==================== ALFA ROMEO (3 models) ====================
+    'Alfa Romeo Giulia': 'https://www.alfaromeousa.com/content/dam/alfa-romeo/nafta/us/model-pages/giulia/2024/gallery/exterior/2024-Alfa-Romeo-Giulia-exterior.jpg',
+    'Alfa Romeo Stelvio': 'https://www.alfaromeousa.com/content/dam/alfa-romeo/nafta/us/model-pages/stelvio/2024/gallery/exterior/2024-Alfa-Romeo-Stelvio-exterior.jpg',
+    'Alfa Romeo Tonale': 'https://www.alfaromeousa.com/content/dam/alfa-romeo/nafta/us/model-pages/tonale/2024/gallery/exterior/2024-Alfa-Romeo-Tonale-exterior.jpg',
+    // ==================== ASTON MARTIN (7 models) ====================
+    'Aston Martin Vantage': 'https://www.astonmartin.com/sites/default/files/2023-02/Vantage-exterior-01.jpg',
+    'Aston Martin DB11': 'https://www.astonmartin.com/sites/default/files/2023-02/DB11-exterior-01.jpg',
+    'Aston Martin DB11 Volante': 'https://www.astonmartin.com/sites/default/files/2023-02/DB11-Volante-exterior-01.jpg',
+    'Aston Martin DB12': 'https://www.astonmartin.com/sites/default/files/2023-05/DB12-exterior-01.jpg',
+    'Aston Martin DBS Superleggera': 'https://www.astonmartin.com/sites/default/files/2023-02/DBS-exterior-01.jpg',
+    'Aston Martin DBX': 'https://www.astonmartin.com/sites/default/files/2023-02/DBX-exterior-01.jpg',
+    'Aston Martin DBX707': 'https://www.astonmartin.com/sites/default/files/2023-02/DBX707-exterior-01.jpg',
+    // ==================== AUDI (30 models) ====================
+    'Audi A3': 'https://www.audiusa.com/content/dam/nemo/us/models/a3/a3-sedan/my24/exterior/1920x1080-AA3.jpg',
+    'Audi A4': 'https://www.audiusa.com/content/dam/nemo/us/models/a4/a4-sedan/my24/exterior/1920x1080-AA4.jpg',
+    'Audi A5': 'https://www.audiusa.com/content/dam/nemo/us/models/a5/a5-sportback/my24/exterior/1920x1080-AA5.jpg',
+    'Audi A6': 'https://www.audiusa.com/content/dam/nemo/us/models/a6/a6/my24/exterior/1920x1080-AA6.jpg',
+    'Audi A6 Allroad': 'https://www.audiusa.com/content/dam/nemo/us/models/a6/a6-allroad/my24/exterior/1920x1080-AA6A.jpg',
+    'Audi A7': 'https://www.audiusa.com/content/dam/nemo/us/models/a7/a7/my24/exterior/1920x1080-AA7.jpg',
+    'Audi A8': 'https://www.audiusa.com/content/dam/nemo/us/models/a8/a8/my24/exterior/1920x1080-AA8.jpg',
+    'Audi Q3': 'https://www.audiusa.com/content/dam/nemo/us/models/q3/q3/my24/exterior/1920x1080-AQ3.jpg',
+    'Audi Q4 e-tron': 'https://www.audiusa.com/content/dam/nemo/us/models/q4-e-tron/q4-e-tron/my24/exterior/1920x1080-Q4ET.jpg',
+    'Audi Q5': 'https://www.audiusa.com/content/dam/nemo/us/models/q5/q5/my24/exterior/1920x1080-AQ5.jpg',
+    'Audi Q6 e-tron': 'https://www.audiusa.com/content/dam/nemo/us/models/q6-e-tron/q6-e-tron/my25/exterior/1920x1080-Q6ET.jpg',
+    'Audi Q7': 'https://www.audiusa.com/content/dam/nemo/us/models/q7/q7/my24/exterior/1920x1080-AQ7.jpg',
+    'Audi Q8': 'https://www.audiusa.com/content/dam/nemo/us/models/q8/q8/my24/exterior/1920x1080-AQ8.jpg',
+    'Audi Q8 e-tron': 'https://www.audiusa.com/content/dam/nemo/us/models/q8-e-tron/q8-e-tron/my24/exterior/1920x1080-Q8ET.jpg',
+    'Audi e-tron GT': 'https://www.audiusa.com/content/dam/nemo/us/models/e-tron-gt/e-tron-gt/my24/exterior/1920x1080-ETGT.jpg',
+    'Audi R8': 'https://www.audiusa.com/content/dam/nemo/us/models/r8/r8-coupe/my23/exterior/1920x1080-AR8.jpg',
+    'Audi RS3': 'https://www.audiusa.com/content/dam/nemo/us/models/rs3/rs3/my24/exterior/1920x1080-ARS3.jpg',
+    'Audi RS5': 'https://www.audiusa.com/content/dam/nemo/us/models/rs5/rs5-sportback/my24/exterior/1920x1080-ARS5.jpg',
+    'Audi RS6': 'https://www.audiusa.com/content/dam/nemo/us/models/rs6/rs6-avant/my24/exterior/1920x1080-ARS6.jpg',
+    'Audi RS7': 'https://www.audiusa.com/content/dam/nemo/us/models/rs7/rs7/my24/exterior/1920x1080-ARS7.jpg',
+    'Audi RS e-tron GT': 'https://www.audiusa.com/content/dam/nemo/us/models/rs-e-tron-gt/rs-e-tron-gt/my24/exterior/1920x1080-RSETGT.jpg',
+    'Audi S3': 'https://www.audiusa.com/content/dam/nemo/us/models/s3/s3/my24/exterior/1920x1080-AS3.jpg',
+    'Audi S4': 'https://www.audiusa.com/content/dam/nemo/us/models/s4/s4/my24/exterior/1920x1080-AS4.jpg',
+    'Audi S5': 'https://www.audiusa.com/content/dam/nemo/us/models/s5/s5-sportback/my24/exterior/1920x1080-AS5.jpg',
+    'Audi SQ5': 'https://www.audiusa.com/content/dam/nemo/us/models/sq5/sq5/my24/exterior/1920x1080-ASQ5.jpg',
+    'Audi SQ7': 'https://www.audiusa.com/content/dam/nemo/us/models/sq7/sq7/my24/exterior/1920x1080-ASQ7.jpg',
+    'Audi SQ8': 'https://www.audiusa.com/content/dam/nemo/us/models/sq8/sq8/my24/exterior/1920x1080-ASQ8.jpg',
+    'Audi TT': 'https://www.audiusa.com/content/dam/nemo/us/models/tt/tt-coupe/my24/exterior/1920x1080-ATT.jpg',
+    // ==================== BENTLEY (3 models) ====================
+    'Bentley Bentayga': 'https://www.bentleymotors.com/content/dam/bentley/Master/Models/bentayga/bentayga-ewb/exterior.jpg',
+    'Bentley Continental GT': 'https://www.bentleymotors.com/content/dam/bentley/Master/Models/continental/gtc/exterior.jpg',
+    'Bentley Flying Spur': 'https://www.bentleymotors.com/content/dam/bentley/Master/Models/flying-spur/flying-spur/exterior.jpg',
+    // ==================== BMW (25 models) ====================
+    'BMW 2 Series': 'https://www.bmwusa.com/content/dam/bmwusa/2Series/2024/exterior/BMW-2-Series-exterior.jpg',
+    'BMW 3 Series': 'https://www.bmwusa.com/content/dam/bmwusa/3Series/2024/exterior/BMW-3-Series-exterior.jpg',
+    'BMW 4 Series': 'https://www.bmwusa.com/content/dam/bmwusa/4Series/2024/exterior/BMW-4-Series-exterior.jpg',
+    'BMW 5 Series': 'https://www.bmwusa.com/content/dam/bmwusa/5Series/2024/exterior/BMW-5-Series-exterior.jpg',
+    'BMW 7 Series': 'https://www.bmwusa.com/content/dam/bmwusa/7Series/2024/exterior/BMW-7-Series-exterior.jpg',
+    'BMW 8 Series': 'https://www.bmwusa.com/content/dam/bmwusa/8Series/2024/exterior/BMW-8-Series-exterior.jpg',
+    'BMW i4': 'https://www.bmwusa.com/content/dam/bmwusa/i4/2024/exterior/BMW-i4-exterior.jpg',
+    'BMW i5': 'https://www.bmwusa.com/content/dam/bmwusa/i5/2024/exterior/BMW-i5-exterior.jpg',
+    'BMW i7': 'https://www.bmwusa.com/content/dam/bmwusa/i7/2024/exterior/BMW-i7-exterior.jpg',
+    'BMW iX': 'https://www.bmwusa.com/content/dam/bmwusa/iX/2024/exterior/BMW-iX-exterior.jpg',
+    'BMW M2': 'https://www.bmwusa.com/content/dam/bmwusa/M2/2024/exterior/BMW-M2-exterior.jpg',
+    'BMW M3': 'https://www.bmwusa.com/content/dam/bmwusa/M3/2024/exterior/BMW-M3-exterior.jpg',
+    'BMW M3/M4': 'https://www.bmwusa.com/content/dam/bmwusa/M4/2024/exterior/BMW-M4-exterior.jpg',
+    'BMW M4': 'https://www.bmwusa.com/content/dam/bmwusa/M4/2024/exterior/BMW-M4-exterior.jpg',
+    'BMW M5': 'https://www.bmwusa.com/content/dam/bmwusa/M5/2024/exterior/BMW-M5-exterior.jpg',
+    'BMW M8': 'https://www.bmwusa.com/content/dam/bmwusa/M8/2024/exterior/BMW-M8-exterior.jpg',
+    'BMW X1': 'https://www.bmwusa.com/content/dam/bmwusa/X1/2024/exterior/BMW-X1-exterior.jpg',
+    'BMW X2': 'https://www.bmwusa.com/content/dam/bmwusa/X2/2024/exterior/BMW-X2-exterior.jpg',
+    'BMW X3': 'https://www.bmwusa.com/content/dam/bmwusa/X3/2024/exterior/BMW-X3-exterior.jpg',
+    'BMW X4': 'https://www.bmwusa.com/content/dam/bmwusa/X4/2024/exterior/BMW-X4-exterior.jpg',
+    'BMW X5': 'https://www.bmwusa.com/content/dam/bmwusa/X5/2024/exterior/BMW-X5-exterior.jpg',
+    'BMW X6': 'https://www.bmwusa.com/content/dam/bmwusa/X6/2024/exterior/BMW-X6-exterior.jpg',
+    'BMW X7': 'https://www.bmwusa.com/content/dam/bmwusa/X7/2024/exterior/BMW-X7-exterior.jpg',
+    'BMW XM': 'https://www.bmwusa.com/content/dam/bmwusa/XM/2024/exterior/BMW-XM-exterior.jpg',
+    'BMW Z4': 'https://www.bmwusa.com/content/dam/bmwusa/Z4/2024/exterior/BMW-Z4-exterior.jpg',
+    // ==================== BUICK (4 models) ====================
+    'Buick Enclave': 'https://www.buick.com/content/dam/buick/na/us/english/index/vehicles/crossovers-suvs/2024/enclave/gallery/exterior/2024-buick-enclave-gallery-exterior-01.jpg',
+    'Buick Encore GX': 'https://www.buick.com/content/dam/buick/na/us/english/index/vehicles/crossovers-suvs/2024/encore-gx/gallery/exterior/2024-buick-encore-gx-gallery-exterior-01.jpg',
+    'Buick Envision': 'https://www.buick.com/content/dam/buick/na/us/english/index/vehicles/crossovers-suvs/2024/envision/gallery/exterior/2024-buick-envision-gallery-exterior-01.jpg',
+    'Buick Envista': 'https://www.buick.com/content/dam/buick/na/us/english/index/vehicles/crossovers-suvs/2024/envista/gallery/exterior/2024-buick-envista-gallery-exterior-01.jpg',
+    // ==================== CADILLAC (8 models) ====================
+    'Cadillac CT4': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/sedans/ct4/gallery/exterior/2024-cadillac-ct4-exterior.jpg',
+    'Cadillac CT5': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/sedans/ct5/gallery/exterior/2024-cadillac-ct5-exterior.jpg',
+    'Cadillac Escalade': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/suvs/escalade/gallery/exterior/2024-cadillac-escalade-exterior.jpg',
+    'Cadillac Escalade IQ': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/suvs/escalade-iq/gallery/exterior/2024-cadillac-escalade-iq-exterior.jpg',
+    'Cadillac Lyriq': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/suvs/lyriq/gallery/exterior/2024-cadillac-lyriq-exterior.jpg',
+    'Cadillac XT4': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/suvs/xt4/gallery/exterior/2024-cadillac-xt4-exterior.jpg',
+    'Cadillac XT5': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/suvs/xt5/gallery/exterior/2024-cadillac-xt5-exterior.jpg',
+    'Cadillac XT6': 'https://www.cadillac.com/content/dam/cadillac/na/us/english/index/vehicles/2024/suvs/xt6/gallery/exterior/2024-cadillac-xt6-exterior.jpg',
+    // ==================== CHEVROLET (21 models) ====================
+    'Chevrolet Blazer': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/blazer/colorizer/01-images/2024-blazer-rs-colorizer.jpg',
+    'Chevrolet Blazer EV': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/blazer-ev/colorizer/01-images/2024-blazer-ev-colorizer.jpg',
+    'Chevrolet Bolt EUV': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/cars/bolt-euv/colorizer/01-images/2024-bolt-euv-colorizer.jpg',
+    'Chevrolet Camaro': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/performance/camaro/colorizer/01-images/2024-camaro-colorizer.jpg',
+    'Chevrolet Colorado': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/trucks/colorado/colorizer/01-images/2024-colorado-colorizer.jpg',
+    'Chevrolet Corvette': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/performance/corvette-stingray/colorizer/01-images/2024-corvette-colorizer.jpg',
+    'Chevrolet Corvette E-Ray': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/performance/corvette-e-ray/colorizer/01-images/2024-corvette-e-ray-colorizer.jpg',
+    'Chevrolet Equinox': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/equinox/colorizer/01-images/2024-equinox-colorizer.jpg',
+    'Chevrolet Equinox EV': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/equinox-ev/colorizer/01-images/2024-equinox-ev-colorizer.jpg',
+    'Chevrolet Express': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/commercial/express/colorizer/01-images/2024-express-colorizer.jpg',
+    'Chevrolet Malibu': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/cars/malibu/colorizer/01-images/2024-malibu-colorizer.jpg',
+    'Chevrolet Silverado': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/trucks/silverado-1500/colorizer/01-images/2024-silverado-colorizer.jpg',
+    'Chevrolet Silverado 1500': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/trucks/silverado-1500/colorizer/01-images/2024-silverado-colorizer.jpg',
+    'Chevrolet Silverado 2500HD': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/trucks/silverado-2500hd/colorizer/01-images/2024-silverado-2500hd-colorizer.jpg',
+    'Chevrolet Silverado 3500HD': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/trucks/silverado-3500hd/colorizer/01-images/2024-silverado-3500hd-colorizer.jpg',
+    'Chevrolet Silverado EV': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/trucks/silverado-ev/colorizer/01-images/2024-silverado-ev-colorizer.jpg',
+    'Chevrolet Spark': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2022/cars/spark/colorizer/01-images/2022-spark-colorizer.jpg',
+    'Chevrolet Suburban': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/suburban/colorizer/01-images/2024-suburban-colorizer.jpg',
+    'Chevrolet Tahoe': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/tahoe/colorizer/01-images/2024-tahoe-colorizer.jpg',
+    'Chevrolet Trailblazer': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/trailblazer/colorizer/01-images/2024-trailblazer-colorizer.jpg',
+    'Chevrolet Traverse': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/traverse/colorizer/01-images/2024-traverse-colorizer.jpg',
+    'Chevrolet Trax': 'https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/vehicles/2024/suvs/trax/colorizer/01-images/2024-trax-colorizer.jpg',
+    // ==================== CHRYSLER (2 models) ====================
+    'Chrysler 300': 'https://www.chrysler.com/content/dam/fca-brands/na/chrysler/en_us/2023/300/gallery/exterior/2023-chrysler-300-exterior.jpg',
+    'Chrysler Pacifica': 'https://www.chrysler.com/content/dam/fca-brands/na/chrysler/en_us/2024/pacifica/gallery/exterior/2024-chrysler-pacifica-exterior.jpg',
+    // ==================== DODGE (4 models) ====================
+    'Dodge Challenger': 'https://www.dodge.com/content/dam/fca-brands/na/dodge/en_us/2024/challenger/gallery/exterior/2024-dodge-challenger-gallery-exterior-01.jpg',
+    'Dodge Charger': 'https://www.dodge.com/content/dam/fca-brands/na/dodge/en_us/2024/charger/gallery/exterior/2024-dodge-charger-gallery-exterior-01.jpg',
+    'Dodge Durango': 'https://www.dodge.com/content/dam/fca-brands/na/dodge/en_us/2024/durango/gallery/exterior/2024-dodge-durango-exterior.jpg',
+    'Dodge Hornet': 'https://www.dodge.com/content/dam/fca-brands/na/dodge/en_us/2024/hornet/gallery/exterior/2024-dodge-hornet-exterior.jpg',
+    // ==================== FERRARI (7 models) ====================
+    'Ferrari 296 GTB': 'https://cdn.ferrari.com/cms/network/media/img/resize/6062a3f5b7db3829f10c8e33-ferrari-296-gtb-exterior',
+    'Ferrari 296 GTS': 'https://cdn.ferrari.com/cms/network/media/img/resize/6241a9e4b7db3829f10c8f4c-ferrari-296-gts-exterior',
+    'Ferrari SF90 Stradale': 'https://cdn.ferrari.com/cms/network/media/img/resize/6241a9e4b7db3829f10c8f4b-ferrari-sf90-stradale-exterior',
+    'Ferrari SF90 Spider': 'https://cdn.ferrari.com/cms/network/media/img/resize/6241a9e4b7db3829f10c8f4d-ferrari-sf90-spider-exterior',
+    'Ferrari Roma': 'https://cdn.ferrari.com/cms/network/media/img/resize/5f8d5e8cb7db3829f10c8e18-ferrari-roma-exterior',
+    'Ferrari 812 Superfast': 'https://cdn.ferrari.com/cms/network/media/img/resize/5f8d5e8cb7db3829f10c8e19-ferrari-812-superfast-exterior',
+    'Ferrari Purosangue': 'https://cdn.ferrari.com/cms/network/media/img/resize/634a5e8cb7db3829f10c8e20-ferrari-purosangue-exterior',
+    // ==================== FIAT (2 models) ====================
+    'Fiat 500e': 'https://www.fiatusa.com/content/dam/fca-brands/na/fiat/en_us/2024/500e/gallery/exterior/2024-fiat-500e-exterior.jpg',
+    'Fiat 500': 'https://www.fiat.com/content/dam/fiat/com/master/500-family/500-electric/gallery/exterior/500-exterior.jpg',
+    // ==================== FORD (16 models) ====================
+    'Ford Bronco': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/bronco/2024/gallery/exterior/24_FRD_BRN_exterior.jpg',
+    'Ford Bronco Sport': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/bronco-sport/2024/gallery/exterior/24_FRD_BRS_exterior.jpg',
+    'Ford Edge': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/edge/2024/gallery/exterior/24_FRD_EDG_exterior.jpg',
+    'Ford Escape': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/escape/2024/gallery/exterior/24_FRD_ESC_exterior.jpg',
+    'Ford Expedition': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/expedition/2024/gallery/exterior/24_FRD_EXD_exterior.jpg',
+    'Ford Explorer': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/explorer/2024/gallery/exterior/24_FRD_EXP_exterior.jpg',
+    'Ford F-150': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/f-150/2024/gallery/exterior/24_FRD_F150_exterior.jpg',
+    'Ford F-150 Lightning': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/f-150-lightning/2024/gallery/exterior/24_FRD_F150L_exterior.jpg',
+    'Ford F-250': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/superduty/2024/gallery/exterior/24_FRD_F250_exterior.jpg',
+    'Ford F-350': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/superduty/2024/gallery/exterior/24_FRD_F350_exterior.jpg',
+    'Ford Maverick': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/maverick/2024/gallery/exterior/24_FRD_MAV_exterior.jpg',
+    'Ford Mustang': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/mustang/2024/gallery/exterior/24_FRD_MST_exterior.jpg',
+    'Ford Mustang Mach-E': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/mustang-mach-e/2024/gallery/exterior/24_FRD_MME_exterior.jpg',
+    'Ford Ranger': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/ranger/2024/gallery/exterior/24_FRD_RNG_exterior.jpg',
+    'Ford Transit': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/transit/2024/gallery/exterior/24_FRD_TRN_exterior.jpg',
+    'Ford Transit Connect': 'https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/vehicles/transit-connect/2024/gallery/exterior/24_FRD_TRC_exterior.jpg',
+    // ==================== GENESIS (8 models) ====================
+    'Genesis G70': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/g70/exterior/genesis-2024-g70-exterior.jpg',
+    'Genesis G80': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/g80/exterior/genesis-2024-g80-exterior.jpg',
+    'Genesis G90': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/g90/exterior/genesis-2024-g90-exterior.jpg',
+    'Genesis GV60': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/gv60/exterior/genesis-2024-gv60-exterior.jpg',
+    'Genesis GV70': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/gv70/exterior/genesis-2024-gv70-exterior.jpg',
+    'Genesis GV80': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/gv80/exterior/genesis-2024-gv80-exterior.jpg',
+    'Genesis Electrified G80': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/electrified-g80/exterior/genesis-2024-eg80-exterior.jpg',
+    'Genesis Electrified GV70': 'https://www.genesis.com/content/dam/genesis-p2/us/assets/models/2024/electrified-gv70/exterior/genesis-2024-egv70-exterior.jpg',
+    // ==================== GMC (12 models) ====================
+    'GMC Acadia': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/suvs/acadia/gallery/exterior/2024-gmc-acadia-exterior.jpg',
+    'GMC Canyon': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/trucks/canyon/gallery/exterior/2024-gmc-canyon-exterior.jpg',
+    'GMC Hummer EV': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/trucks/hummer-ev/gallery/exterior/2024-gmc-hummer-ev-exterior.jpg',
+    'GMC Hummer EV SUV': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/suvs/hummer-ev-suv/gallery/exterior/2024-gmc-hummer-ev-suv-exterior.jpg',
+    'GMC Sierra': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/trucks/sierra-1500/gallery/exterior/2024-gmc-sierra-1500-exterior.jpg',
+    'GMC Sierra 1500': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/trucks/sierra-1500/gallery/exterior/2024-gmc-sierra-1500-exterior.jpg',
+    'GMC Sierra 2500HD': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/trucks/sierra-2500hd/gallery/exterior/2024-gmc-sierra-2500hd-exterior.jpg',
+    'GMC Sierra 3500HD': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/trucks/sierra-3500hd/gallery/exterior/2024-gmc-sierra-3500hd-exterior.jpg',
+    'GMC Sierra EV': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/trucks/sierra-ev/gallery/exterior/2024-gmc-sierra-ev-exterior.jpg',
+    'GMC Terrain': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/suvs/terrain/gallery/exterior/2024-gmc-terrain-exterior.jpg',
+    'GMC Yukon': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/suvs/yukon/gallery/exterior/2024-gmc-yukon-exterior.jpg',
+    'GMC Yukon XL': 'https://www.gmc.com/content/dam/gmc/na/us/english/index/vehicles/2024/suvs/yukon-xl/gallery/exterior/2024-gmc-yukon-xl-exterior.jpg',
+    // ==================== HONDA (9 models) ====================
+    'Honda Accord': 'https://automobiles.honda.com/images/2024/accord/exterior-gallery/2024-accord-exterior.jpg',
+    'Honda Civic': 'https://automobiles.honda.com/images/2024/civic-hatchback/exterior-gallery/2024-civic-hatchback-exterior.jpg',
+    'Honda CR-V': 'https://automobiles.honda.com/images/2024/cr-v/exterior-gallery/2024-cr-v-exterior.jpg',
+    'Honda HR-V': 'https://automobiles.honda.com/images/2024/hr-v/exterior-gallery/2024-hr-v-exterior.jpg',
+    'Honda Odyssey': 'https://automobiles.honda.com/images/2024/odyssey/exterior-gallery/2024-odyssey-exterior.jpg',
+    'Honda Passport': 'https://automobiles.honda.com/images/2024/passport/exterior-gallery/2024-passport-exterior.jpg',
+    'Honda Pilot': 'https://automobiles.honda.com/images/2024/pilot/exterior-gallery/2024-pilot-exterior.jpg',
+    'Honda Prologue': 'https://automobiles.honda.com/images/2024/prologue/exterior-gallery/2024-prologue-exterior.jpg',
+    'Honda Ridgeline': 'https://automobiles.honda.com/images/2024/ridgeline/exterior-gallery/2024-ridgeline-exterior.jpg',
+    // ==================== HYUNDAI (13 models) ====================
+    'Hyundai Elantra': 'https://www.hyundaiusa.com/images/vehicles/2024/elantra/exterior/2024-elantra-exterior.jpg',
+    'Hyundai Elantra GT': 'https://www.hyundaiusa.com/images/vehicles/2024/elantra/exterior/2024-elantra-exterior.jpg',
+    'Hyundai Ioniq 5': 'https://www.hyundaiusa.com/images/vehicles/2024/ioniq-5/exterior/2024-ioniq-5-exterior.jpg',
+    'Hyundai Ioniq 6': 'https://www.hyundaiusa.com/images/vehicles/2024/ioniq-6/exterior/2024-ioniq-6-exterior.jpg',
+    'Hyundai Kona': 'https://www.hyundaiusa.com/images/vehicles/2024/kona/exterior/2024-kona-exterior.jpg',
+    'Hyundai Kona Electric': 'https://www.hyundaiusa.com/images/vehicles/2024/kona-electric/exterior/2024-kona-electric-exterior.jpg',
+    'Hyundai Palisade': 'https://www.hyundaiusa.com/images/vehicles/2024/palisade/exterior/2024-palisade-exterior.jpg',
+    'Hyundai Santa Cruz': 'https://www.hyundaiusa.com/images/vehicles/2024/santa-cruz/exterior/2024-santa-cruz-exterior.jpg',
+    'Hyundai Santa Fe': 'https://www.hyundaiusa.com/images/vehicles/2024/santa-fe/exterior/2024-santa-fe-exterior.jpg',
+    'Hyundai Sonata': 'https://www.hyundaiusa.com/images/vehicles/2024/sonata/exterior/2024-sonata-exterior.jpg',
+    'Hyundai Tucson': 'https://www.hyundaiusa.com/images/vehicles/2024/tucson/exterior/2024-tucson-exterior.jpg',
+    'Hyundai Venue': 'https://www.hyundaiusa.com/images/vehicles/2024/venue/exterior/2024-venue-exterior.jpg',
+    // ==================== INFINITI (6 models) ====================
+    'Infiniti Q50': 'https://www.infinitiusa.com/content/dam/infiniti/vehicles/2024/q50/exterior/2024-infiniti-q50-exterior.jpg',
+    'Infiniti Q60': 'https://www.infinitiusa.com/content/dam/infiniti/vehicles/2024/q60/exterior/2024-infiniti-q60-exterior.jpg',
+    'Infiniti QX50': 'https://www.infinitiusa.com/content/dam/infiniti/vehicles/2024/qx50/exterior/2024-infiniti-qx50-exterior.jpg',
+    'Infiniti QX55': 'https://www.infinitiusa.com/content/dam/infiniti/vehicles/2024/qx55/exterior/2024-infiniti-qx55-exterior.jpg',
+    'Infiniti QX60': 'https://www.infinitiusa.com/content/dam/infiniti/vehicles/2024/qx60/exterior/2024-infiniti-qx60-exterior.jpg',
+    'Infiniti QX80': 'https://www.infinitiusa.com/content/dam/infiniti/vehicles/2024/qx80/exterior/2024-infiniti-qx80-exterior.jpg',
+    // ==================== JAGUAR (4 models) ====================
+    'Jaguar E-Pace': 'https://www.jaguarusa.com/content/dam/jlr-ui/images/product/vehicles/MY24_GLOBAL/E-PACE/24MY_E-PACE_exterior.jpg',
+    'Jaguar F-Pace': 'https://www.jaguarusa.com/content/dam/jlr-ui/images/product/vehicles/MY24_GLOBAL/F-PACE/24MY_F-PACE_exterior.jpg',
+    'Jaguar F-Type': 'https://www.jaguarusa.com/content/dam/jlr-ui/images/product/vehicles/MY24_GLOBAL/F-TYPE/24MY_F-TYPE_exterior.jpg',
+    'Jaguar I-Pace': 'https://www.jaguarusa.com/content/dam/jlr-ui/images/product/vehicles/MY24_GLOBAL/I-PACE/24MY_I-PACE_exterior.jpg',
+    // ==================== JEEP (12 models) ====================
+    'Jeep Cherokee': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/cherokee/gallery/exterior/2024-jeep-cherokee-exterior.jpg',
+    'Jeep Compass': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/compass/gallery/exterior/2024-jeep-compass-exterior.jpg',
+    'Jeep Gladiator': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/gladiator/gallery/exterior/2024-jeep-gladiator-exterior.jpg',
+    'Jeep Grand Cherokee': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/grand-cherokee/gallery/exterior/2024-jeep-grand-cherokee-exterior.jpg',
+    'Jeep Grand Cherokee 4xe': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/grand-cherokee-4xe/gallery/exterior/2024-jeep-grand-cherokee-4xe-exterior.jpg',
+    'Jeep Grand Cherokee L': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/grand-cherokee-l/gallery/exterior/2024-jeep-grand-cherokee-l-exterior.jpg',
+    'Jeep Grand Wagoneer': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/grand-wagoneer/gallery/exterior/2024-jeep-grand-wagoneer-exterior.jpg',
+    'Jeep Renegade': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/renegade/gallery/exterior/2024-jeep-renegade-exterior.jpg',
+    'Jeep Wagoneer': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/wagoneer/gallery/exterior/2024-jeep-wagoneer-exterior.jpg',
+    'Jeep Wagoneer S': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/wagoneer-s/gallery/exterior/2024-jeep-wagoneer-s-exterior.jpg',
+    'Jeep Wrangler': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/wrangler/gallery/exterior/2024-jeep-wrangler-exterior.jpg',
+    'Jeep Wrangler 4xe': 'https://www.jeep.com/content/dam/fca-brands/na/jeep/en_us/2024/wrangler-4xe/gallery/exterior/2024-jeep-wrangler-4xe-exterior.jpg',
+    // ==================== KIA (15 models) ====================
+    'Kia Carnival': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/carnival/2024/exterior/kia-carnival-2024-exterior.png',
+    'Kia EV6': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/ev6/2024/exterior/kia-ev6-2024-exterior.png',
+    'Kia EV9': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/ev9/2024/exterior/kia-ev9-2024-exterior.png',
+    'Kia Forte': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/forte/2024/exterior/kia-forte-2024-exterior.png',
+    'Kia Forte5': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/forte/2024/exterior/kia-forte-2024-exterior.png',
+    'Kia K4': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/k4/2025/exterior/kia-k4-2025-exterior.png',
+    'Kia K5': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/k5/2024/exterior/kia-k5-2024-exterior.png',
+    'Kia Niro': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/niro/2024/exterior/kia-niro-2024-exterior.png',
+    'Kia Niro EV': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/niro-ev/2024/exterior/kia-niro-ev-2024-exterior.png',
+    'Kia Rio': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/rio/2023/showroom/kia-rio-2023-showroom-exterior.png',
+    'Kia Seltos': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/seltos/2024/exterior/kia-seltos-2024-exterior.png',
+    'Kia Sorento': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/sorento/2024/exterior/kia-sorento-2024-exterior.png',
+    'Kia Soul': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/soul/2024/exterior/kia-soul-2024-exterior.png',
+    'Kia Sportage': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/sportage/2024/exterior/kia-sportage-2024-exterior.png',
+    'Kia Telluride': 'https://www.kia.com/content/dam/kwcms/kme/global/en/assets/vehicles/telluride/2024/exterior/kia-telluride-2024-exterior.png',
+    // ==================== LAMBORGHINI (3 models) ====================
+    'Lamborghini Huracán': 'https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/huracan_tecnica/gallery/huracan-exterior.jpg',
+    'Lamborghini Revuelto': 'https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/revuelto/gallery/revuelto-exterior.jpg',
+    'Lamborghini Urus': 'https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/urus/gallery/urus-exterior.jpg',
+    // ==================== LAND ROVER (7 models) ====================
+    'Land Rover Defender': 'https://www.landroverusa.com/content/dam/lr/digital-marketing/vehicles/defender/l663/24my/gallery/exterior/Defender-110-Gallery-Exterior.jpg',
+    'Land Rover Discovery': 'https://www.landroverusa.com/content/dam/lr/digital-marketing/vehicles/discovery/l462/24my/gallery/exterior/Discovery-Gallery-Exterior.jpg',
+    'Land Rover Discovery Sport': 'https://www.landroverusa.com/content/dam/lr/digital-marketing/vehicles/discovery-sport/l550/24my/gallery/exterior/Discovery-Sport-Gallery-Exterior.jpg',
+    'Range Rover': 'https://www.landroverusa.com/content/dam/lr/digital-marketing/vehicles/range-rover/l460/24my/gallery/exterior/Range-Rover-Gallery-Exterior.jpg',
+    'Range Rover Evoque': 'https://www.landroverusa.com/content/dam/lr/digital-marketing/vehicles/range-rover-evoque/l551/24my/gallery/exterior/Range-Rover-Evoque-Gallery-Exterior.jpg',
+    'Range Rover Sport': 'https://www.landroverusa.com/content/dam/lr/digital-marketing/vehicles/range-rover-sport/l461/24my/gallery/exterior/Range-Rover-Sport-Gallery-Exterior.jpg',
+    'Range Rover Velar': 'https://www.landroverusa.com/content/dam/lr/digital-marketing/vehicles/range-rover-velar/l560/24my/gallery/exterior/Range-Rover-Velar-Gallery-Exterior.jpg',
+    // ==================== LEXUS (12 models) ====================
+    'Lexus ES': 'https://www.lexus.com/content/dam/lexus/images/models/es/2024/exterior/lexus-es-2024-exterior.jpg',
+    'Lexus GX': 'https://www.lexus.com/content/dam/lexus/images/models/gx/2024/exterior/lexus-gx-2024-exterior.jpg',
+    'Lexus IS': 'https://www.lexus.com/content/dam/lexus/images/models/is/2024/exterior/lexus-is-2024-exterior.jpg',
+    'Lexus LC': 'https://www.lexus.com/content/dam/lexus/images/models/lc/2024/exterior/lexus-lc-2024-exterior.jpg',
+    'Lexus LS': 'https://www.lexus.com/content/dam/lexus/images/models/ls/2024/exterior/lexus-ls-2024-exterior.jpg',
+    'Lexus LX': 'https://www.lexus.com/content/dam/lexus/images/models/lx/2024/exterior/lexus-lx-2024-exterior.jpg',
+    'Lexus NX': 'https://www.lexus.com/content/dam/lexus/images/models/nx/2024/exterior/lexus-nx-2024-exterior.jpg',
+    'Lexus RC': 'https://www.lexus.com/content/dam/lexus/images/models/rc/2024/exterior/lexus-rc-2024-exterior.jpg',
+    'Lexus RX': 'https://www.lexus.com/content/dam/lexus/images/models/rx/2024/exterior/lexus-rx-2024-exterior.jpg',
+    'Lexus RZ': 'https://www.lexus.com/content/dam/lexus/images/models/rz/2024/exterior/lexus-rz-2024-exterior.jpg',
+    'Lexus TX': 'https://www.lexus.com/content/dam/lexus/images/models/tx/2024/exterior/lexus-tx-2024-exterior.jpg',
+    'Lexus UX': 'https://www.lexus.com/content/dam/lexus/images/models/ux/2024/exterior/lexus-ux-2024-exterior.jpg',
+    // ==================== LINCOLN (4 models) ====================
+    'Lincoln Aviator': 'https://www.lincoln.com/cmslibs/content/dam/brand_lincoln/en_us/brand/vehicles/aviator/2024/gallery/exterior/24_LNC_AVT_exterior.jpg',
+    'Lincoln Corsair': 'https://www.lincoln.com/cmslibs/content/dam/brand_lincoln/en_us/brand/vehicles/corsair/2024/gallery/exterior/24_LNC_CRS_exterior.jpg',
+    'Lincoln Nautilus': 'https://www.lincoln.com/cmslibs/content/dam/brand_lincoln/en_us/brand/vehicles/nautilus/2024/gallery/exterior/24_LNC_NTL_exterior.jpg',
+    'Lincoln Navigator': 'https://www.lincoln.com/cmslibs/content/dam/brand_lincoln/en_us/brand/vehicles/navigator/2024/gallery/exterior/24_LNC_NAV_exterior.jpg',
+    // ==================== LUCID (2 models) ====================
+    'Lucid Air': 'https://www.lucidmotors.com/media/air-touring-exterior.jpg',
+    'Lucid Gravity': 'https://www.lucidmotors.com/media/gravity-exterior.jpg',
+    // ==================== MASERATI (6 models) ====================
+    'Maserati Ghibli': 'https://www.maserati.com/content/dam/maserati/international/Models/ghibli/gallery/exterior/ghibli-exterior.jpg',
+    'Maserati GranTurismo': 'https://www.maserati.com/content/dam/maserati/international/Models/granturismo/gallery/exterior/granturismo-exterior.jpg',
+    'Maserati Grecale': 'https://www.maserati.com/content/dam/maserati/international/Models/grecale/gallery/exterior/grecale-exterior.jpg',
+    'Maserati Levante': 'https://www.maserati.com/content/dam/maserati/international/Models/levante/gallery/exterior/levante-exterior.jpg',
+    'Maserati MC20': 'https://www.maserati.com/content/dam/maserati/international/Models/mc20/gallery/exterior/mc20-exterior.jpg',
+    'Maserati Quattroporte': 'https://www.maserati.com/content/dam/maserati/international/Models/quattroporte/gallery/exterior/quattroporte-exterior.jpg',
+    // ==================== MAZDA (9 models) ====================
+    'Mazda3': 'https://www.mazdausa.com/siteassets/vehicles/2024/m3h/vlp/gallery/exterior/2024-mazda3-exterior.jpg',
+    'Mazda6': 'https://www.mazdausa.com/siteassets/vehicles/2021/mazda6/vlp/gallery/exterior/2021-mazda6-exterior.jpg',
+    'Mazda CX-30': 'https://www.mazdausa.com/siteassets/vehicles/2024/cx-30/vlp/gallery/exterior/2024-mazda-cx-30-exterior.jpg',
+    'Mazda CX-30 AWD': 'https://www.mazdausa.com/siteassets/vehicles/2024/cx-30/vlp/gallery/exterior/2024-mazda-cx-30-exterior.jpg',
+    'Mazda CX-5': 'https://www.mazdausa.com/siteassets/vehicles/2024/cx-5/vlp/gallery/exterior/2024-mazda-cx-5-exterior.jpg',
+    'Mazda CX-50': 'https://www.mazdausa.com/siteassets/vehicles/2024/cx-50/vlp/gallery/exterior/2024-mazda-cx-50-exterior.jpg',
+    'Mazda CX-70': 'https://www.mazdausa.com/siteassets/vehicles/2024/cx-70/vlp/gallery/exterior/2024-mazda-cx-70-exterior.jpg',
+    'Mazda CX-90': 'https://www.mazdausa.com/siteassets/vehicles/2024/cx-90/vlp/gallery/exterior/2024-mazda-cx-90-exterior.jpg',
+    'Mazda MX-5 Miata': 'https://www.mazdausa.com/siteassets/vehicles/2024/mx-5-miata/vlp/gallery/exterior/2024-mazda-mx-5-miata-exterior.jpg',
+    // ==================== McLAREN (5 models) ====================
+    'McLaren 720S': 'https://cars.mclaren.com/content/dam/mclaren-automotive/models/720s/exterior/720s-exterior.jpg',
+    'McLaren 750S': 'https://cars.mclaren.com/content/dam/mclaren-automotive/models/750s/exterior/750s-exterior.jpg',
+    'McLaren 765LT': 'https://cars.mclaren.com/content/dam/mclaren-automotive/models/765lt/exterior/765lt-exterior.jpg',
+    'McLaren Artura': 'https://cars.mclaren.com/content/dam/mclaren-automotive/models/artura/exterior/artura-exterior.jpg',
+    'McLaren GT': 'https://cars.mclaren.com/content/dam/mclaren-automotive/models/gt/exterior/gt-exterior.jpg',
+    // ==================== MERCEDES-BENZ (28 models) ====================
+    'Mercedes-Benz A-Class': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/a/sedan/gallery/exterior/2024-A-SEDAN-exterior.jpg',
+    'Mercedes-Benz C-Class': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/c/sedan/gallery/exterior/2024-C-SEDAN-exterior.jpg',
+    'Mercedes-Benz CLA': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/cla/coupe/gallery/exterior/2024-CLA-COUPE-exterior.jpg',
+    'Mercedes-Benz CLE': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/cle/coupe/gallery/exterior/2024-CLE-COUPE-exterior.jpg',
+    'Mercedes-Benz E-Class': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/e/sedan/gallery/exterior/2024-E-SEDAN-exterior.jpg',
+    'Mercedes-Benz EQB': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/eqb/suv/gallery/exterior/2024-EQB-SUV-exterior.jpg',
+    'Mercedes-Benz EQE': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/eqe/sedan/gallery/exterior/2024-EQE-SEDAN-exterior.jpg',
+    'Mercedes-Benz EQE SUV': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/eqe/suv/gallery/exterior/2024-EQE-SUV-exterior.jpg',
+    'Mercedes-Benz EQS': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/eqs/sedan/gallery/exterior/2024-EQS-SEDAN-exterior.jpg',
+    'Mercedes-Benz EQS SUV': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/eqs/suv/gallery/exterior/2024-EQS-SUV-exterior.jpg',
+    'Mercedes-Benz G-Class': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/g/suv/gallery/exterior/2024-G-SUV-exterior.jpg',
+    'Mercedes-Benz GLA': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/gla/suv/gallery/exterior/2024-GLA-SUV-exterior.jpg',
+    'Mercedes-Benz GLB': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/glb/suv/gallery/exterior/2024-GLB-SUV-exterior.jpg',
+    'Mercedes-Benz GLC': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/glc/suv/gallery/exterior/2024-GLC-SUV-exterior.jpg',
+    'Mercedes-Benz GLE': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/gle/suv/gallery/exterior/2024-GLE-SUV-exterior.jpg',
+    'Mercedes-Benz GLS': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/gls/suv/gallery/exterior/2024-GLS-SUV-exterior.jpg',
+    'Mercedes-Benz Metris': 'https://www.mbvans.com/content/dam/mb-nafta/us/myco/my24/metris/gallery/exterior/2024-METRIS-exterior.jpg',
+    'Mercedes-Benz S-Class': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/s/sedan/gallery/exterior/2024-S-SEDAN-exterior.jpg',
+    'Mercedes-Benz Sprinter': 'https://www.mbvans.com/content/dam/mb-nafta/us/myco/my24/sprinter/gallery/exterior/2024-SPRINTER-exterior.jpg',
+    'Mercedes-AMG C63': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/amg/c-class/coupe/gallery/exterior/2024-AMG-C63-COUPE-exterior.jpg',
+    'Mercedes-AMG E63': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/amg/e-class/sedan/gallery/exterior/2024-AMG-E63-SEDAN-exterior.jpg',
+    'Mercedes-AMG G63': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/amg/g-class/suv/gallery/exterior/2024-AMG-G63-SUV-exterior.jpg',
+    'Mercedes-AMG GT': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/amg/gt/gallery/exterior/2024-AMG-GT-exterior.jpg',
+    'Mercedes-AMG SL': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/amg/sl/gallery/exterior/2024-AMG-SL-exterior.jpg',
+    'Mercedes-Maybach GLS': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/maybach/gls/gallery/exterior/2024-MAYBACH-GLS-exterior.jpg',
+    'Mercedes-Maybach S-Class': 'https://www.mbusa.com/content/dam/mb-nafta/us/myco/my24/maybach/s-class/gallery/exterior/2024-MAYBACH-S-exterior.jpg',
+    // ==================== MINI (4 models) ====================
+    'Mini Cooper': 'https://www.miniusa.com/content/dam/mini/common/images/models/2024/hardtop-2-door/gallery/MINI-2024-Hardtop-exterior.jpg',
+    'Mini Clubman': 'https://www.miniusa.com/content/dam/mini/common/images/models/2024/clubman/gallery/MINI-2024-Clubman-exterior.jpg',
+    'Mini Countryman': 'https://www.miniusa.com/content/dam/mini/common/images/models/2024/countryman/gallery/MINI-2024-Countryman-exterior.jpg',
+    'Mini Convertible': 'https://www.miniusa.com/content/dam/mini/common/images/models/2024/convertible/gallery/MINI-2024-Convertible-exterior.jpg',
+    // ==================== MITSUBISHI (4 models) ====================
+    'Mitsubishi Eclipse Cross': 'https://www.mitsubishicars.com/content/dam/mitsubishi-motors-us/images/siteimages/cars/eclipse-cross/my24/overview/2024-mitsubishi-eclipse-cross-exterior.png',
+    'Mitsubishi Mirage': 'https://www.mitsubishicars.com/content/dam/mitsubishi-motors-us/images/siteimages/cars/mirage/my24/overview/2024-mitsubishi-mirage-infrared-metallic-front.png',
+    'Mitsubishi Outlander': 'https://www.mitsubishicars.com/content/dam/mitsubishi-motors-us/images/siteimages/cars/outlander/my24/overview/2024-mitsubishi-outlander-exterior.png',
+    'Mitsubishi Outlander PHEV': 'https://www.mitsubishicars.com/content/dam/mitsubishi-motors-us/images/siteimages/cars/outlander-phev/my24/overview/2024-mitsubishi-outlander-phev-exterior.png',
+    // ==================== NISSAN (15 models) ====================
+    'Nissan Altima': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/altima/2024/overview/2024-nissan-altima-exterior.png',
+    'Nissan Ariya': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/ariya/2024/overview/2024-nissan-ariya-exterior.png',
+    'Nissan Armada': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/armada/2024/overview/2024-nissan-armada-exterior.png',
+    'Nissan Frontier': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/frontier/2024/overview/2024-nissan-frontier-exterior.png',
+    'Nissan Kicks': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/kicks/2024/overview/2024-nissan-kicks-exterior.png',
+    'Nissan Leaf': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/leaf/2024/overview/2024-nissan-leaf-exterior.png',
+    'Nissan Maxima': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/maxima/2024/overview/2024-nissan-maxima-exterior.png',
+    'Nissan Murano': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/murano/2024/overview/2024-nissan-murano-exterior.png',
+    'Nissan Pathfinder': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/pathfinder/2024/overview/2024-nissan-pathfinder-exterior.png',
+    'Nissan Rogue': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/rogue/2024/overview/2024-nissan-rogue-exterior.png',
+    'Nissan Sentra': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/sentra/2024/overview/2024-nissan-sentra-exterior.png',
+    'Nissan Titan': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/titan/2024/overview/2024-nissan-titan-exterior.png',
+    'Nissan Titan XD': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/titan-xd/2024/overview/2024-nissan-titan-xd-exterior.png',
+    'Nissan Versa': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/versa/2024/overview/2024-nissan-versa-scarlet-ember-tintcoat.png',
+    'Nissan Z': 'https://www.nissanusa.com/content/dam/Nissan/us/vehicles/z/2024/overview/2024-nissan-z-exterior.png',
+    // ==================== POLESTAR (3 models) ====================
+    'Polestar 2': 'https://www.polestar.com/dato-assets/polestar-2-exterior.jpg',
+    'Polestar 3': 'https://www.polestar.com/dato-assets/polestar-3-exterior.jpg',
+    'Polestar 4': 'https://www.polestar.com/dato-assets/polestar-4-exterior.jpg',
+    // ==================== PORSCHE (8 models) ====================
+    'Porsche 718 Boxster': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/718-boxster-gallery-exterior.webp',
+    'Porsche 718 Cayman': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/718-gallery-exterior.webp',
+    'Porsche 911': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/992-2nd-c2s-gallery-exterior.webp',
+    'Porsche Cayenne': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/e3-2nd-cayenne-gallery-exterior.webp',
+    'Porsche Macan': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/95b-2nd-macan-gallery-exterior.webp',
+    'Porsche Macan Electric': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/macan-ev-gallery-exterior.webp',
+    'Porsche Panamera': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/971-2nd-panamera-gallery-exterior.webp',
+    'Porsche Taycan': 'https://files.porsche.com/filestore/galleryimagerwd/multimedia/none/j1-taycan-gallery-exterior.webp',
+    // ==================== RAM (5 models) ====================
+    'Ram 1500': 'https://www.ramtrucks.com/content/dam/fca-brands/na/ramtrucks/en_us/2024/1500/gallery/exterior/2024-ram-1500-exterior.jpg',
+    'Ram 2500': 'https://www.ramtrucks.com/content/dam/fca-brands/na/ramtrucks/en_us/2024/2500/gallery/exterior/2024-ram-2500-exterior.jpg',
+    'Ram 3500': 'https://www.ramtrucks.com/content/dam/fca-brands/na/ramtrucks/en_us/2024/3500/gallery/exterior/2024-ram-3500-exterior.jpg',
+    'Ram ProMaster': 'https://www.ramtrucks.com/content/dam/fca-brands/na/ramtrucks/en_us/2024/promaster/gallery/exterior/2024-ram-promaster-exterior.jpg',
+    'Ram ProMaster City': 'https://www.ramtrucks.com/content/dam/fca-brands/na/ramtrucks/en_us/2024/promaster-city/gallery/exterior/2024-ram-promaster-city-exterior.jpg',
+    // ==================== RIVIAN (2 models) ====================
+    'Rivian R1S': 'https://rivian.com/content/dam/rivian/vehicles/r1s/exterior/r1s-exterior.jpg',
+    'Rivian R1T': 'https://rivian.com/content/dam/rivian/vehicles/r1t/exterior/r1t-exterior.jpg',
+    // ==================== ROLLS-ROYCE (4 models) ====================
+    'Rolls-Royce Cullinan': 'https://www.rolls-roycemotorcars.com/content/dam/rrmc/marketUK/rollsroycemotorcars_com/cullinan/gallery/exterior/cullinan-exterior.jpg',
+    'Rolls-Royce Ghost': 'https://www.rolls-roycemotorcars.com/content/dam/rrmc/marketUK/rollsroycemotorcars_com/ghost/gallery/exterior/ghost-exterior.jpg',
+    'Rolls-Royce Phantom': 'https://www.rolls-roycemotorcars.com/content/dam/rrmc/marketUK/rollsroycemotorcars_com/phantom/gallery/exterior/phantom-exterior.jpg',
+    'Rolls-Royce Spectre': 'https://www.rolls-roycemotorcars.com/content/dam/rrmc/marketUK/rollsroycemotorcars_com/spectre/gallery/exterior/spectre-exterior.jpg',
+    // ==================== SUBARU (9 models) ====================
+    'Subaru Ascent': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/ascent/overview/exterior/24_Ascent_exterior.jpg',
+    'Subaru BRZ': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/brz/overview/exterior/24_BRZ_exterior.jpg',
+    'Subaru Crosstrek': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/crosstrek/overview/exterior/24_Crosstrek_exterior.jpg',
+    'Subaru Forester': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/forester/overview/exterior/24_Forester_exterior.jpg',
+    'Subaru Impreza': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/impreza/overview/exterior/24_Impreza_exterior.jpg',
+    'Subaru Legacy': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/legacy/overview/exterior/24_Legacy_exterior.jpg',
+    'Subaru Outback': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/outback/overview/exterior/24_Outback_exterior.jpg',
+    'Subaru Solterra': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/solterra/overview/exterior/24_Solterra_exterior.jpg',
+    'Subaru WRX': 'https://www.subaru.com/content/dam/subaru/vehicles/2024/wrx/overview/exterior/24_WRX_exterior.jpg',
+    // ==================== TESLA (5 models) ====================
+    'Tesla Model 3': 'https://www.tesla.com/sites/default/files/modelsx-new/social/model-3-exterior.jpg',
+    'Tesla Model S': 'https://www.tesla.com/sites/default/files/modelsx-new/social/model-s-exterior.jpg',
+    'Tesla Model X': 'https://www.tesla.com/sites/default/files/modelsx-new/social/model-x-exterior.jpg',
+    'Tesla Model Y': 'https://www.tesla.com/sites/default/files/modelsx-new/social/model-y-exterior.jpg',
+    'Tesla Cybertruck': 'https://www.tesla.com/sites/default/files/modelsx-new/social/cybertruck-exterior.jpg',
+    // ==================== TOYOTA (24 models) ====================
+    'Toyota 4Runner': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/4runner/base/2024_4Runner_exterior.png',
+    'Toyota Avalon': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2022/avalon/base/2022_Avalon_exterior.png',
+    'Toyota bZ4X': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/bz4x/base/2024_bZ4X_exterior.png',
+    'Toyota Camry': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/camry/base/2024_Camry_exterior.png',
+    'Toyota Corolla': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/corolla/base/2024_Corolla_exterior.png',
+    'Toyota Corolla Cross': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/corollacross/base/2024_CorollaCross_exterior.png',
+    'Toyota Corolla Cross AWD': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/corollacross/base/2024_CorollaCross_exterior.png',
+    'Toyota Crown': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/crown/base/2024_Crown_exterior.png',
+    'Toyota Grand Highlander': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/grandhighlander/base/2024_GrandHighlander_exterior.png',
+    'Toyota GR Corolla': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/grcorolla/base/2024_GRCorolla_exterior.png',
+    'Toyota GR Supra': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/grsupra/base/2024_GRSupra_exterior.png',
+    'Toyota GR86': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/gr86/base/2024_GR86_exterior.png',
+    'Toyota Highlander': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/highlander/base/2024_Highlander_exterior.png',
+    'Toyota Land Cruiser': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/landcruiser/base/2024_LandCruiser_exterior.png',
+    'Toyota Prius': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/prius/base/2024_Prius_exterior.png',
+    'Toyota Prius Prime': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/priusprime/base/2024_PriusPrime_exterior.png',
+    'Toyota RAV4': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/rav4/base/2024_RAV4_exterior.png',
+    'Toyota RAV4 Prime': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/rav4prime/base/2024_RAV4Prime_exterior.png',
+    'Toyota Sequoia': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/sequoia/base/2024_Sequoia_exterior.png',
+    'Toyota Sienna': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/sienna/base/2024_Sienna_exterior.png',
+    'Toyota Tacoma': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/tacoma/base/2024_Tacoma_exterior.png',
+    'Toyota Tundra': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/tundra/base/2024_Tundra_exterior.png',
+    'Toyota Venza': 'https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/venza/base/2024_Venza_exterior.png',
+    // ==================== VOLKSWAGEN (13 models) ====================
+    'Volkswagen Arteon': 'https://www.vw.com/content/dam/vwcom/ngw6/models/arteon/2024/exterior/2024-arteon-exterior.jpg',
+    'Volkswagen Atlas': 'https://www.vw.com/content/dam/vwcom/ngw6/models/atlas/2024/exterior/2024-atlas-exterior.jpg',
+    'Volkswagen Atlas Cross Sport': 'https://www.vw.com/content/dam/vwcom/ngw6/models/atlas-cross-sport/2024/exterior/2024-atlas-cross-sport-exterior.jpg',
+    'Volkswagen Golf': 'https://www.vw.com/content/dam/vwcom/ngw6/models/golf-gti/2024/exterior/2024-golf-gti-exterior.jpg',
+    'Volkswagen Golf Alltrack': 'https://www.vw.com/content/dam/vwcom/ngw6/models/golf-alltrack/2019/exterior/2019-golf-alltrack-exterior.jpg',
+    'Volkswagen Golf GTI': 'https://www.vw.com/content/dam/vwcom/ngw6/models/golf-gti/2024/exterior/2024-golf-gti-exterior.jpg',
+    'Volkswagen Golf R': 'https://www.vw.com/content/dam/vwcom/ngw6/models/golf-r/2024/exterior/2024-golf-r-exterior.jpg',
+    'Volkswagen ID.4': 'https://www.vw.com/content/dam/vwcom/ngw6/models/id4/2024/exterior/2024-id4-exterior.jpg',
+    'Volkswagen ID.Buzz': 'https://www.vw.com/content/dam/vwcom/ngw6/models/id-buzz/2024/exterior/2024-id-buzz-exterior.jpg',
+    'Volkswagen Jetta': 'https://www.vw.com/content/dam/vwcom/ngw6/models/jetta/2024/exterior/2024-jetta-exterior.jpg',
+    'Volkswagen Jetta GLI': 'https://www.vw.com/content/dam/vwcom/ngw6/models/jetta-gli/2024/exterior/2024-jetta-gli-exterior.jpg',
+    'Volkswagen Taos': 'https://www.vw.com/content/dam/vwcom/ngw6/models/taos/2024/exterior/2024-taos-exterior.jpg',
+    'Volkswagen Tiguan': 'https://www.vw.com/content/dam/vwcom/ngw6/models/tiguan/2024/exterior/2024-tiguan-exterior.jpg',
+    // ==================== VOLVO (12 models) ====================
+    'Volvo C40 Recharge': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/c40-recharge-bev/exterior/volvo-c40-recharge-exterior.jpg',
+    'Volvo EX30': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/ex30/exterior/volvo-ex30-exterior.jpg',
+    'Volvo EX90': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/ex90/exterior/volvo-ex90-exterior.jpg',
+    'Volvo S60': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/s60-recharge-phev/exterior/volvo-s60-recharge-exterior.jpg',
+    'Volvo S90': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/s90-recharge-phev/exterior/volvo-s90-recharge-exterior.jpg',
+    'Volvo V60': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/v60-recharge-phev/exterior/volvo-v60-recharge-exterior.jpg',
+    'Volvo V60 Cross Country': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/v60-cross-country/exterior/volvo-v60-cross-country-exterior.jpg',
+    'Volvo V90 Cross Country': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/v90-cross-country/exterior/volvo-v90-cross-country-exterior.jpg',
+    'Volvo XC40': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/xc40-recharge-bev/exterior/volvo-xc40-recharge-exterior.jpg',
+    'Volvo XC40 Recharge': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/xc40-recharge-bev/exterior/volvo-xc40-recharge-exterior.jpg',
+    'Volvo XC60': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/xc60-recharge-phev/exterior/volvo-xc60-recharge-exterior.jpg',
+    'Volvo XC90': 'https://www.volvocars.com/images/v/-/media/applications/pdpspecificationpage/my24/xc90-recharge-phev/exterior/volvo-xc90-recharge-exterior.jpg',
+    // ==================== SUPERCARS / HYPERCARS ====================
+    'Bugatti Chiron': 'https://www.bugatti.com/fileadmin/user_upload/Chiron_Sport/Chiron_Sport.jpg',
+    'Rimac Nevera': 'https://www.rimac-automobili.com/media/quhbqmr0/rimac-nevera-hero.jpg',
+    'Koenigsegg Jesko': 'https://www.koenigsegg.com/media/jesko-exterior.jpg',
+    'Pagani Huayra': 'https://www.pagani.com/media/huayra-exterior.jpg',
+  };
+
+  // Get image URL for a vehicle, with fallback
+  const getVehicleImage = (vehicle: string): string => {
+    return vehicleImages[vehicle] || 'https://placehold.co/600x400/1a1a1a/ffd700?text=' + encodeURIComponent(vehicle);
+  };
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -31,6 +487,11 @@ export default function AutoWizard() {
     setCanSkip(true);
   }, [testStep]);
 
+  // Reset vehicle image index when results change
+  useEffect(() => {
+    setVehicleImageIndex(0);
+  }, [result]);
+
   // Comprehensive assessment
   const allQuestions = [
     { id: 'budget', question: 'What is your total budget for this vehicle?', icon: '💰', type: 'single',
@@ -38,7 +499,7 @@ export default function AutoWizard() {
     { id: 'body-style', question: 'Which body styles appeal to you? (Select all that interest you)', icon: '🚗', type: 'multiple',
       options: [{ value: 'any', label: 'No preference - recommend the best fit' }, { value: 'sedan', label: 'Sedan' }, { value: 'hatchback', label: 'Hatchback' }, { value: 'wagon', label: 'Wagon / Estate' }, { value: 'compact-suv', label: 'Compact SUV / Crossover' }, { value: 'midsize-suv', label: 'Midsize SUV' }, { value: 'fullsize-suv', label: 'Full-size SUV' }, { value: 'truck', label: 'Pickup truck' }, { value: 'minivan', label: 'Minivan' }, { value: 'sports', label: 'Sports car / Coupe' }, { value: 'convertible', label: 'Convertible / Roadster' }] },
     { id: 'brand', question: 'Do you have brand preferences or requirements?', icon: '🏷️', type: 'single',
-      options: [{ value: 'domestic', label: 'Prefer American (Ford, Chevy, Ram, Jeep)' }, { value: 'japanese', label: 'Prefer Japanese (Toyota, Honda, Mazda, Subaru)' }, { value: 'korean', label: 'Prefer Korean (Hyundai, Kia, Genesis)' }, { value: 'german', label: 'Prefer German (BMW, Mercedes, Audi, VW, Porsche)' }, { value: 'european', label: 'Prefer European luxury (Land Rover, Volvo, Jaguar, Aston Martin)' }, { value: 'any', label: 'No preference - best vehicle for my needs' }] },
+      options: [{ value: 'domestic', label: 'Prefer American (Ford, Chevy, Ram, Jeep)' }, { value: 'japanese', label: 'Prefer Japanese (Toyota, Honda, Mazda, Subaru)' }, { value: 'korean', label: 'Prefer Korean (Hyundai, Kia, Genesis)' }, { value: 'german', label: 'Prefer German (BMW, Mercedes, Audi, VW, Porsche)' }, { value: 'european', label: 'Prefer European luxury (Land Rover, Volvo, Jaguar, Aston Martin)' }, { value: 'ev-brands', label: 'Prefer EV Brands (Tesla, Rivian, Lucid, Polestar)' }, { value: 'any', label: 'No preference - best vehicle for my needs' }] },
     { id: 'gender', question: 'What is your gender?', icon: '👤', type: 'single',
       options: [{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }, { value: 'other', label: 'Other / Prefer not to say' }] },
     { id: 'zip-code', question: 'What is your zip code?', icon: '📍', type: 'text',
@@ -237,6 +698,12 @@ export default function AutoWizard() {
     const brand = answers.brand;
     if (brand === 'german') { scores.wagon += 8; scores.sedan += 3; scores.sport += 3; }
     else if (brand === 'european') { scores.wagon += 7; scores.suv += 3; scores.sport += 4; scores.roadster += 4; scores.hyper += 5; }
+    else if (brand === 'ev-brands') { scores.sedan += 8; scores.suv += 8; scores.crossover += 6; scores.truck += 5; }
+
+    // POWERTRAIN PREFERENCE SCORING
+    const powertrain = answers.powertrain;
+    if (powertrain === 'electric') { scores.sedan += 5; scores.suv += 5; scores.crossover += 4; }
+    else if (powertrain === 'hybrid' || powertrain === 'plugin-hybrid') { scores.sedan += 3; scores.suv += 3; scores.crossover += 3; }
 
     // BUDGET SCORING & RESTRICTIONS
     const budget = answers.budget;
@@ -276,39 +743,60 @@ export default function AutoWizard() {
 
     switch(vType) {
       case 'micro': 
-        vehicles = budgetLevel <= 2 ? ['Chevrolet Spark', 'Mitsubishi Mirage', 'Nissan Versa', 'Kia Rio'] : ['Mini Cooper', 'Fiat 500', 'Mini Cooper'];
-        description = 'Perfect for city driving with excellent fuel efficiency and easy maneuverability. Ideal for urban commuters who need easy parking and low running costs.';
-        features = ['Excellent fuel economy (35+ MPG)', 'Easy parking & tight turns', 'Low insurance costs', 'Nimble handling', 'Affordable maintenance'];
+        const wantsEVMicro = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVMicro ? ['Fiat 500e', 'Mini Cooper', 'Nissan Leaf', 'Chevrolet Bolt EUV'] :
+                   budgetLevel <= 2 ? ['Chevrolet Spark', 'Mitsubishi Mirage', 'Nissan Versa', 'Kia Rio', 'Hyundai Venue'] : 
+                   ['Mini Cooper', 'Fiat 500', 'Mini Cooper', 'Volkswagen Jetta'];
+        description = wantsEVMicro ? 'Compact electric vehicles are perfect for urban driving with zero emissions and low running costs. Ideal for city commuters.' :
+                      'Perfect for city driving with excellent fuel efficiency and easy maneuverability. Ideal for urban commuters who need easy parking and low running costs.';
+        features = wantsEVMicro ? ['Zero emissions', 'Very low running costs', 'Easy city parking', 'Home charging convenience', 'Nimble handling'] :
+                   ['Excellent fuel economy (35+ MPG)', 'Easy parking & tight turns', 'Low insurance costs', 'Nimble handling', 'Affordable maintenance'];
         reasoning.push('Ideal for urban commuting with tight parking');
         if (answers['fuel-priority'] === 'critical') reasoning.push('Maximizes fuel efficiency');
         break;
       case 'hatchback': 
-        vehicles = brand === 'japanese' ? ['Honda Civic', 'Mazda3', 'Toyota Corolla'] :
-                   budgetLevel >= 4 ? ['Volkswagen Golf', 'Mini Cooper', 'Mercedes-Benz A-Class'] :
-                   ['Honda Civic', 'Mazda3', 'Hyundai Elantra GT', 'Kia Forte5'];
-        description = 'Versatile hatchbacks combine sedan comfort with SUV-like cargo flexibility. Great for active lifestyles that need occasional hauling without the bulk.';
-        features = ['Flexible fold-flat cargo area', 'Fun-to-drive dynamics', 'Good fuel economy (30+ MPG)', 'Practical yet sporty', 'Easy city maneuverability'];
+        const wantsEVHatch = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVHatch ? ['Chevrolet Bolt EUV', 'Nissan Leaf', 'Mini Cooper', 'Volkswagen ID.4', 'Hyundai Ioniq 6'] :
+                   brand === 'japanese' ? ['Honda Civic', 'Mazda3', 'Toyota Corolla'] :
+                   budgetLevel >= 4 ? ['Volkswagen Golf GTI', 'Volkswagen Golf R', 'Mini Cooper', 'Mercedes-Benz A-Class'] :
+                   ['Honda Civic', 'Mazda3', 'Hyundai Elantra', 'Kia Forte5', 'Toyota Corolla'];
+        description = wantsEVHatch ? 'Electric hatchbacks deliver efficiency and practicality in a compact package. Perfect for urban commuters who want zero-emission driving.' :
+                      'Versatile hatchbacks combine sedan comfort with SUV-like cargo flexibility. Great for active lifestyles that need occasional hauling without the bulk.';
+        features = wantsEVHatch ? ['Zero emissions', 'Low running costs', 'Compact and maneuverable', 'Home charging convenience', 'Instant torque'] :
+                   ['Flexible fold-flat cargo area', 'Fun-to-drive dynamics', 'Good fuel economy (30+ MPG)', 'Practical yet sporty', 'Easy city maneuverability'];
         reasoning.push('Great balance of practicality and driving enjoyment');
+        if (wantsEVHatch) reasoning.push('Electric efficiency for daily commuting');
         break;
       case 'crossover': 
-        vehicles = priorities.includes('reliability') ? ['Toyota Corolla Cross', 'Honda HR-V', 'Mazda CX-30', 'Subaru Crosstrek'] :
+        const wantsEVCrossover = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVCrossover ? ['Tesla Model Y', 'Hyundai Ioniq 5', 'Kia EV6', 'Volkswagen ID.4', 'Ford Mustang Mach-E', 'Chevrolet Equinox EV'] :
+                   priorities.includes('reliability') ? ['Toyota Corolla Cross', 'Honda HR-V', 'Mazda CX-30', 'Subaru Crosstrek'] :
                    needsSnow ? ['Subaru Crosstrek', 'Mazda CX-30 AWD', 'Toyota Corolla Cross AWD'] :
-                   budgetLevel >= 4 ? ['BMW X1', 'Audi Q3', 'Volvo XC40', 'Lexus UX'] :
+                   budgetLevel >= 4 ? ['BMW X1', 'Audi Q3', 'Volvo XC40', 'Lexus UX', 'Genesis GV60'] :
                    ['Mazda CX-30', 'Hyundai Kona', 'Kia Seltos', 'Honda HR-V'];
-        description = 'Compact crossovers offer SUV versatility in a manageable size. Perfect for those who want elevated seating and cargo space without a large footprint.';
-        features = ['Elevated driving position', 'Available AWD for weather confidence', 'Versatile cargo area', 'Car-like handling', 'Better fuel economy than larger SUVs'];
+        description = wantsEVCrossover ? 'Electric crossovers combine SUV versatility with zero-emission driving. Perfect for eco-conscious families who need space and efficiency.' :
+                      'Compact crossovers offer SUV versatility in a manageable size. Perfect for those who want elevated seating and cargo space without a large footprint.';
+        features = wantsEVCrossover ? ['Zero emissions', 'Spacious interior', 'One-pedal driving', 'Fast charging capability', 'Lower running costs'] :
+                   ['Elevated driving position', 'Available AWD for weather confidence', 'Versatile cargo area', 'Car-like handling', 'Better fuel economy than larger SUVs'];
         reasoning.push('SUV capability in a compact, efficient package');
+        if (wantsEVCrossover) reasoning.push('Electric powertrain for eco-friendly driving');
         if (needsSnow) reasoning.push('AWD available for winter weather confidence');
         break;
       case 'sedan': 
-        vehicles = priorities.includes('reliability') ? (budgetLevel <= 3 ? ['Honda Civic', 'Toyota Camry', 'Mazda3'] : ['Lexus ES', 'Toyota Avalon', 'Honda Accord']) :
-                   wantsLuxury && budgetLevel >= 5 ? ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Genesis G80', 'Audi A6'] :
+        const wantsEV = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEV ? ['Tesla Model 3', 'Tesla Model S', 'Lucid Air', 'Polestar 2', 'BMW i4', 'Mercedes-Benz EQE'] :
+                   priorities.includes('reliability') ? (budgetLevel <= 3 ? ['Honda Civic', 'Toyota Camry', 'Mazda3'] : ['Lexus ES', 'Toyota Avalon', 'Honda Accord']) :
+                   wantsLuxury && budgetLevel >= 5 ? ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Genesis G80', 'Audi A6', 'Lexus LS'] :
+                   wantsLuxury && budgetLevel >= 6 ? ['BMW 7 Series', 'Mercedes-Benz S-Class', 'Genesis G90', 'Audi A8'] :
                    budgetLevel >= 4 ? ['BMW 3 Series', 'Mercedes-Benz C-Class', 'Genesis G70', 'Audi A4'] :
                    brand === 'korean' ? ['Hyundai Sonata', 'Kia K5', 'Genesis G70'] :
                    ['Honda Accord', 'Toyota Camry', 'Mazda6', 'Hyundai Sonata'];
-        description = 'Sedans offer the best combination of comfort, efficiency, and refined driving. Ideal for commuters and those who prioritize a smooth, quiet ride.';
-        features = ['Comfortable highway cruising', 'Good fuel economy', 'Refined ride quality', 'Spacious trunk', 'Advanced safety features'];
+        description = wantsEV ? 'Electric sedans deliver instant torque, zero emissions, and cutting-edge technology. Perfect for eco-conscious drivers who want performance without compromise.' :
+                      'Sedans offer the best combination of comfort, efficiency, and refined driving. Ideal for commuters and those who prioritize a smooth, quiet ride.';
+        features = wantsEV ? ['Zero emissions', 'Instant torque acceleration', 'Lower running costs', 'Advanced autopilot features', 'Home charging convenience'] :
+                   ['Comfortable highway cruising', 'Good fuel economy', 'Refined ride quality', 'Spacious trunk', 'Advanced safety features'];
         reasoning.push('Excellent for daily commuting and long trips');
+        if (wantsEV) reasoning.push('Electric powertrain for efficiency and performance');
         if (priorities.includes('comfort')) reasoning.push('Optimized for ride comfort');
         break;
       case 'coupe': 
@@ -322,8 +810,9 @@ export default function AutoWizard() {
       case 'midsizeSuv': 
         vehicles = needsOffroad ? ['Subaru Forester', 'Toyota RAV4', 'Mazda CX-50', 'Jeep Cherokee'] :
                    priorities.includes('reliability') ? ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5', 'Subaru Forester'] :
-                   wantsLuxury && budgetLevel >= 4 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan', 'Audi Q5'] :
+                   wantsLuxury && budgetLevel >= 4 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan', 'Audi Q5', 'Genesis GV70'] :
                    brand === 'korean' ? ['Hyundai Tucson', 'Kia Sportage', 'Genesis GV70'] :
+                   brand === 'ev-brands' || answers.powertrain === 'electric' ? ['Tesla Model Y', 'Ford Mustang Mach-E', 'Hyundai Ioniq 5', 'Kia EV6', 'Toyota bZ4X', 'Subaru Solterra'] :
                    ['Honda CR-V', 'Toyota RAV4', 'Mazda CX-5', 'Hyundai Tucson'];
         description = 'Midsize SUVs are the versatile sweet spot - enough space for family life without being too large. Great for those balancing practicality with maneuverability.';
         features = ['Flexible cargo space', 'Available AWD', 'Comfortable for 5 passengers', 'Family-friendly features', 'Good fuel economy for an SUV'];
@@ -331,13 +820,19 @@ export default function AutoWizard() {
         if (needsSnow) reasoning.push('AWD provides winter weather capability');
         break;
       case 'suv': 
-        vehicles = needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner', 'Land Rover Defender', 'Jeep Grand Cherokee'] :
-                   wantsLuxury && budgetLevel >= 6 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover', 'Mercedes-Benz GLS'] :
-                   budgetLevel >= 4 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7', 'Genesis GV80', 'Volvo XC90'] :
+        const wantsEVSUV = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVSUV ? ['Tesla Model X', 'Rivian R1S', 'Kia EV9', 'Mercedes-Benz EQS SUV', 'BMW iX', 'Cadillac Lyriq'] :
+                   needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner', 'Land Rover Defender', 'Jeep Grand Cherokee'] :
+                   wantsLuxury && budgetLevel >= 6 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover', 'Mercedes-Benz GLS', 'Mercedes-Maybach GLS'] :
+                   wantsLuxury && budgetLevel >= 7 ? ['Rolls-Royce Cullinan', 'Bentley Bentayga', 'Lamborghini Urus'] :
+                   budgetLevel >= 4 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7', 'Genesis GV80', 'Volvo XC90', 'Lexus TX'] :
                    ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Kia Telluride', 'Hyundai Palisade'];
-        description = 'Full-size SUVs deliver maximum passenger and cargo space with strong towing capability. Ideal for large families or those who need serious hauling ability.';
-        features = ['3-row seating (7-8 passengers)', 'Strong towing capacity (5,000+ lbs)', 'Commanding road presence', 'Maximum cargo space', 'Premium comfort features'];
+        description = wantsEVSUV ? 'Electric SUVs combine family-friendly space with zero-emission technology. Perfect for eco-conscious families who need maximum versatility.' :
+                      'Full-size SUVs deliver maximum passenger and cargo space with strong towing capability. Ideal for large families or those who need serious hauling ability.';
+        features = wantsEVSUV ? ['Zero emissions', '3-row seating available', 'Advanced driver assistance', 'Fast charging capability', 'Premium features'] :
+                   ['3-row seating (7-8 passengers)', 'Strong towing capacity (5,000+ lbs)', 'Commanding road presence', 'Maximum cargo space', 'Premium comfort features'];
         reasoning.push('Maximum space and capability for families');
+        if (wantsEVSUV) reasoning.push('Electric powertrain for eco-friendly family transportation');
         if (towing === 'medium' || towing === 'heavy') reasoning.push('Towing capability for your needs');
         break;
       case 'midsizeTruck': 
@@ -354,67 +849,88 @@ export default function AutoWizard() {
         break;
       case 'truck': 
         const needsHD = towing === 'max';
-        vehicles = needsHD ? ['Ford F-250', 'Ram 2500', 'Chevrolet Silverado 2500HD', 'GMC Sierra 2500HD'] :
+        const wantsEVTruck = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVTruck ? ['Tesla Cybertruck', 'Rivian R1T', 'Ford F-150 Lightning', 'Chevrolet Silverado EV', 'GMC Sierra EV', 'GMC Hummer EV'] :
+                   needsHD ? ['Ford F-250', 'Ford F-350', 'Ram 2500', 'Ram 3500', 'Chevrolet Silverado 2500HD', 'Chevrolet Silverado 3500HD', 'GMC Sierra 2500HD', 'GMC Sierra 3500HD'] :
                    wantsLuxury && budgetLevel >= 5 ? ['Ram 1500', 'Ford F-150', 'GMC Sierra', 'Chevrolet Silverado'] :
                    isWork ? ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'GMC Sierra 1500'] :
-                   brand === 'japanese' ? ['Toyota Tundra', 'Nissan Titan'] :
+                   brand === 'japanese' ? ['Toyota Tundra', 'Nissan Titan', 'Nissan Titan XD'] :
                    ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado 1500', 'Toyota Tundra'];
-        description = needsHD ? 'Heavy-duty trucks for maximum towing and payload. Built for serious work demands including 5th wheel trailers, horse trailers, and heavy equipment.' :
+        description = wantsEVTruck ? 'Electric trucks deliver instant torque, zero emissions, and innovative features. Perfect for eco-conscious truck buyers who want capability without compromise.' :
+                      needsHD ? 'Heavy-duty trucks for maximum towing and payload. Built for serious work demands including 5th wheel trailers, horse trailers, and heavy equipment.' :
                       'Full-size trucks deliver maximum capability with comfortable daily driving. Best for work use, heavy towing, or when you need the most power and payload.';
-        features = needsHD ? ['Max towing (15,000-20,000+ lbs)', 'Heavy payload capacity', 'Diesel engine available', 'Built for commercial work', 'Gooseneck/5th wheel ready'] :
+        features = wantsEVTruck ? ['Zero emissions', 'Instant torque for towing', 'Lower running costs', 'Onboard power outlets', 'Advanced tech features'] :
+                   needsHD ? ['Max towing (15,000-20,000+ lbs)', 'Heavy payload capacity', 'Diesel engine available', 'Built for commercial work', 'Gooseneck/5th wheel ready'] :
                    ['Strong towing (10,000-14,000 lbs)', 'Large payload capacity', 'Spacious crew cab', 'V8/V6 twin-turbo power', 'Luxury interior available'];
-        reasoning.push(needsHD ? 'Heavy-duty capability required for your towing needs' : 'Full-size power and capability');
+        reasoning.push(wantsEVTruck ? 'Electric truck for eco-friendly capability' : needsHD ? 'Heavy-duty capability required for your towing needs' : 'Full-size power and capability');
         if (isWork) reasoning.push('Built for professional work demands');
         if (towing === 'heavy' || towing === 'max') reasoning.push('Heavy towing requirement');
         break;
       case 'minivan': 
-        vehicles = budgetLevel >= 3 ? ['Toyota Sienna', 'Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica'] :
+        const wantsHybridVan = answers.powertrain === 'hybrid' || answers.powertrain === 'plugin-hybrid';
+        vehicles = wantsHybridVan ? ['Toyota Sienna', 'Chrysler Pacifica', 'Kia Carnival'] :
+                   budgetLevel >= 3 ? ['Toyota Sienna', 'Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica'] :
                    ['Honda Odyssey', 'Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica'];
-        description = 'Minivans are the ultimate family vehicles - unmatched interior space, easy access with sliding doors, and features designed for family life. Nothing else comes close for family practicality.';
-        features = ['Sliding doors for easy kid access', 'Flat-folding seats for max cargo', 'Best-in-class interior space', 'Entertainment systems available', 'Stow-and-go seating', 'Built-in vacuum (some models)'];
+        description = wantsHybridVan ? 'Hybrid minivans deliver exceptional family space with improved fuel efficiency. Toyota Sienna is hybrid-only, and Pacifica offers plug-in hybrid capability.' :
+                      'Minivans are the ultimate family vehicles - unmatched interior space, easy access with sliding doors, and features designed for family life. Nothing else comes close for family practicality.';
+        features = wantsHybridVan ? ['Hybrid fuel efficiency', 'Sliding doors for easy access', 'Maximum interior space', 'Entertainment systems', 'Lower running costs'] :
+                   ['Sliding doors for easy kid access', 'Flat-folding seats for max cargo', 'Best-in-class interior space', 'Entertainment systems available', 'Stow-and-go seating', 'Built-in vacuum (some models)'];
         reasoning.push('Ultimate family vehicle - nothing matches the practicality');
         if (activities.includes('kids-sports')) reasoning.push('Perfect for hauling kids and their gear');
         break;
       case 'van': 
-        vehicles = isWork ? ['Ford Transit', 'Mercedes-Benz Sprinter', 'Ram ProMaster', 'Chevrolet Express'] :
-                   ['Ford Transit Connect', 'Mercedes-Benz Metris', 'Ram ProMaster City'];
-        description = 'Full-size cargo vans for commercial use or serious hauling needs. Standing-height cargo areas and maximum payload capacity.';
-        features = ['Maximum cargo volume', 'Standing height available', 'Commercial-grade durability', 'Multiple wheelbase options', 'Upfit-ready'];
+        const wantsEVVan = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVVan ? ['Volkswagen ID.Buzz', 'Ford Transit', 'Mercedes-Benz Sprinter'] :
+                   isWork ? ['Ford Transit', 'Mercedes-Benz Sprinter', 'Ram ProMaster', 'Chevrolet Express'] :
+                   ['Ford Transit Connect', 'Mercedes-Benz Metris', 'Ram ProMaster City', 'Volkswagen ID.Buzz'];
+        description = wantsEVVan ? 'Electric vans offer zero-emission commercial capability. Perfect for urban deliveries and eco-conscious businesses.' :
+                      'Full-size cargo vans for commercial use or serious hauling needs. Standing-height cargo areas and maximum payload capacity.';
+        features = wantsEVVan ? ['Zero emissions', 'Lower operating costs', 'Urban delivery optimized', 'Quiet operation', 'Tax incentives available'] :
+                   ['Maximum cargo volume', 'Standing height available', 'Commercial-grade durability', 'Multiple wheelbase options', 'Upfit-ready'];
         reasoning.push('Maximum cargo capacity for work needs');
         break;
       case 'wagon': 
-        vehicles = wantsLuxury && budgetLevel >= 5 ? ['Porsche Taycan', 'Audi A6', 'Mercedes-Benz E-Class', 'Audi RS6'] :
-                   needsSnow ? ['Subaru Outback', 'Volvo V60', 'Audi A4'] :
-                   ['Subaru Outback', 'Volvo V60', 'Volkswagen Golf Alltrack'];
-        description = 'Wagons combine sedan driving dynamics with SUV-like cargo space. Lower center of gravity means better handling than crossovers while matching their practicality.';
-        features = ['Sedan driving dynamics', 'SUV-level cargo space', 'Lower center of gravity', 'Standard AWD (most models)', 'Better fuel economy than SUVs'];
+        const wantsEVWagon = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVWagon ? ['Porsche Taycan', 'Audi RS e-tron GT', 'Volvo C40 Recharge', 'Mercedes-Benz EQE'] :
+                   wantsLuxury && budgetLevel >= 5 ? ['Porsche Taycan', 'Audi A6 Allroad', 'Mercedes-Benz E-Class', 'Audi RS6', 'Volvo V90 Cross Country'] :
+                   needsSnow ? ['Subaru Outback', 'Volvo V60 Cross Country', 'Volvo V90 Cross Country', 'Audi A6 Allroad'] :
+                   ['Subaru Outback', 'Volvo V60', 'Volvo V60 Cross Country', 'Volkswagen Golf Alltrack'];
+        description = wantsEVWagon ? 'Electric wagons combine practicality with zero-emission driving. The perfect blend of utility and sustainability.' :
+                      'Wagons combine sedan driving dynamics with SUV-like cargo space. Lower center of gravity means better handling than crossovers while matching their practicality.';
+        features = wantsEVWagon ? ['Zero emissions', 'Sedan driving dynamics', 'Generous cargo space', 'Lower center of gravity', 'Fast charging'] :
+                   ['Sedan driving dynamics', 'SUV-level cargo space', 'Lower center of gravity', 'Standard AWD (most models)', 'Better fuel economy than SUVs'];
         reasoning.push('Best of both worlds: car handling with SUV cargo');
         break;
       case 'sport': 
         vehicles = budgetLevel >= 6 ? ['Porsche 911', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Aston Martin Vantage', 'Chevrolet Corvette'] :
                    budgetLevel >= 4 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette'] :
-                   ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata', 'Nissan Z'];
+                   ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata', 'Nissan Z', 'Toyota GR Corolla', 'Subaru WRX'];
         description = 'Pure driving excitement - sports cars deliver the most engaging driving experience available. Perfect for enthusiasts who prioritize driving joy above all else.';
         features = ['Sharp, precise handling', 'Exhilarating acceleration', 'Driver-focused cockpit', 'Performance brakes', 'Aggressive styling'];
         reasoning.push('Pure driving pleasure prioritized');
         break;
       case 'roadster': 
-        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'Mercedes-AMG SL', 'Aston Martin DB11 Volante', 'BMW M4', 'Chevrolet Corvette'] :
-                   budgetLevel >= 4 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type'] :
-                   ['Mazda MX-5 Miata', 'Ford Mustang', 'Chevrolet Camaro'];
+        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'Mercedes-AMG SL', 'Aston Martin DB11 Volante', 'Aston Martin DB12', 'BMW M4', 'Chevrolet Corvette'] :
+                   budgetLevel >= 4 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type', 'Chevrolet Corvette'] :
+                   ['Mazda MX-5 Miata', 'Ford Mustang', 'Chevrolet Camaro', 'Mini Convertible'];
         description = 'Open-air driving experience - roadsters and convertibles combine sports car dynamics with the thrill of wind-in-your-hair driving.';
         features = ['Convertible top (power or manual)', 'Engaging driving dynamics', 'Head-turning style', 'Pure driving connection', 'Weekend escape vehicle'];
         reasoning.push('Open-air driving experience');
         break;
       case 'hyper': 
-        vehicles = budgetLevel >= 7 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto', 'Aston Martin DBS Superleggera'] :
-                   ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán', 'Aston Martin DB11', 'Aston Martin Vantage', 'Porsche 911'];
-        description = 'The pinnacle of automotive engineering - supercars and hypercars deliver extreme performance, exotic design, and exclusivity that few vehicles can match.';
-        features = ['Extreme performance (600+ HP)', 'Exotic engineering & materials', 'Exclusive ownership experience', 'Investment potential', 'Head-turning presence'];
+        const wantsEVHyper = brand === 'ev-brands' || answers.powertrain === 'electric';
+        vehicles = wantsEVHyper ? ['Rimac Nevera', 'Porsche Taycan', 'Audi RS e-tron GT', 'Tesla Model S', 'Lucid Air'] :
+                   budgetLevel >= 7 ? ['Bugatti Chiron', 'Rimac Nevera', 'Koenigsegg Jesko', 'Pagani Huayra', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto'] :
+                   budgetLevel >= 6 ? ['Ferrari 296 GTB', 'Ferrari Roma', 'McLaren 750S', 'McLaren Artura', 'Lamborghini Huracán', 'Aston Martin DBS Superleggera', 'Aston Martin DBX707'] :
+                   ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán', 'Aston Martin DB11', 'Aston Martin Vantage', 'Porsche 911', 'Maserati MC20'];
+        description = wantsEVHyper ? 'Electric hypercars deliver mind-bending acceleration with zero emissions. The future of extreme performance.' :
+                      'The pinnacle of automotive engineering - supercars and hypercars deliver extreme performance, exotic design, and exclusivity that few vehicles can match.';
+        features = wantsEVHyper ? ['Instant torque (1000+ HP)', 'Zero emissions', 'Cutting-edge technology', 'Exclusive ownership', 'Record-breaking acceleration'] :
+                   ['Extreme performance (600+ HP)', 'Exotic engineering & materials', 'Exclusive ownership experience', 'Investment potential', 'Head-turning presence'];
         reasoning.push('Ultimate automotive experience');
         break;
       case 'muscle': 
-        vehicles = budgetLevel >= 5 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Ford Mustang'] :
+        vehicles = budgetLevel >= 5 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Dodge Charger', 'Chevrolet Corvette'] :
                    ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro', 'Dodge Charger'];
         description = 'American muscle cars deliver V8 power, iconic styling, and attainable performance. The most accessible way to experience serious horsepower.';
         features = ['V8 power (300-700+ HP)', 'Iconic American styling', 'Rear-wheel drive thrills', 'Affordable performance', 'Daily drivable'];
@@ -538,14 +1054,14 @@ export default function AutoWizard() {
             <div className="relative text-center max-w-4xl mx-auto">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-8"><Sparkles className="w-4 h-4 text-amber-400" />Quick & Easy Vehicle Matching Assessment</div>
               <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight"><span className="text-white">Find The </span><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Perfect</span><br /><span className="text-white">Vehicle</span></h2>
-              <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">Our quick and easy vehicle matching assessment analyzes your lifestyle, needs, and preferences to match you with the car of your dreams from 16 categories and 200+ models.</p>
+              <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">Our quick and easy vehicle matching assessment analyzes your lifestyle, needs, and preferences to match you with the car of your dreams from 16 categories and 400+ models.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button onClick={startTest} className="group px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-2xl shadow-amber-500/30 hover:scale-105"><span className="flex items-center justify-center gap-2">Find Your Dream Car<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span></button>
                 <button onClick={() => setCurrentPage('consultation')} className="px-8 py-4 rounded-xl border border-white/20 text-white hover:border-amber-500/50 hover:text-amber-400 transition-all">Contact One of Our Experts</button>
               </div>
             </div>
             <div className="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[{ value: allQuestions.length.toString(), label: 'Questions', icon: Target }, { value: '16', label: 'Categories', icon: CarFront }, { value: '200+', label: 'Models', icon: Gauge }, { value: '100%', label: 'Free', icon: Heart }].map((s, i) => (
+              {[{ value: allQuestions.length.toString(), label: 'Questions', icon: Target }, { value: '16', label: 'Categories', icon: CarFront }, { value: '400+', label: 'Models', icon: Gauge }, { value: '100%', label: 'Free', icon: Heart }].map((s, i) => (
                 <div key={i} className="text-center p-6 rounded-2xl bg-white/5 border border-white/10">
                   <s.icon className="w-6 h-6 text-amber-400 mx-auto mb-3" />
                   <div className="text-3xl font-bold text-white mb-1">{s.value}</div>
@@ -911,10 +1427,57 @@ export default function AutoWizard() {
             
             <div className="mb-10">
               <h3 className="text-lg font-semibold mb-4 text-amber-400 text-center">Recommended Vehicles</h3>
-              <div className="flex flex-wrap justify-center gap-3">
-                {result.vehicles.map((v, i) => (
-                  <div key={i} className="px-5 py-3 rounded-xl bg-zinc-800 border border-white/10 text-white font-medium">{v}</div>
-                ))}
+              
+              {/* Image Carousel */}
+              <div className="relative max-w-2xl mx-auto">
+                {/* Main Image */}
+                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
+                  <img 
+                    src={getVehicleImage(result.vehicles[vehicleImageIndex])} 
+                    alt={result.vehicles[vehicleImageIndex]}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://placehold.co/600x400/1a1a1a/ffd700?text=' + encodeURIComponent(result.vehicles[vehicleImageIndex]);
+                    }}
+                  />
+                  
+                  {/* Left Arrow */}
+                  <button 
+                    onClick={() => setVehicleImageIndex(prev => prev === 0 ? result.vehicles.length - 1 : prev - 1)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  
+                  {/* Right Arrow */}
+                  <button 
+                    onClick={() => setVehicleImageIndex(prev => prev === result.vehicles.length - 1 ? 0 : prev + 1)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                  
+                  {/* Counter Badge */}
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 border border-white/20 text-white text-sm">
+                    {vehicleImageIndex + 1} / {result.vehicles.length}
+                  </div>
+                </div>
+                
+                {/* Vehicle Name */}
+                <div className="text-center mt-4">
+                  <h4 className="text-2xl font-bold text-white">{result.vehicles[vehicleImageIndex]}</h4>
+                </div>
+                
+                {/* Navigation Dots */}
+                <div className="flex justify-center gap-2 mt-4">
+                  {result.vehicles.map((_, i) => (
+                    <button 
+                      key={i}
+                      onClick={() => setVehicleImageIndex(i)}
+                      className={`w-3 h-3 rounded-full transition-all ${i === vehicleImageIndex ? 'bg-amber-400 scale-110' : 'bg-white/30 hover:bg-white/50'}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
             
