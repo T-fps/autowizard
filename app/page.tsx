@@ -38,7 +38,7 @@ export default function AutoWizard() {
     { id: 'body-style', question: 'Which body styles appeal to you? (Select all that interest you)', icon: '🚗', type: 'multiple',
       options: [{ value: 'any', label: 'No preference - recommend the best fit' }, { value: 'sedan', label: 'Sedan' }, { value: 'hatchback', label: 'Hatchback' }, { value: 'wagon', label: 'Wagon / Estate' }, { value: 'compact-suv', label: 'Compact SUV / Crossover' }, { value: 'midsize-suv', label: 'Midsize SUV' }, { value: 'fullsize-suv', label: 'Full-size SUV' }, { value: 'truck', label: 'Pickup truck' }, { value: 'minivan', label: 'Minivan' }, { value: 'sports', label: 'Sports car / Coupe' }, { value: 'convertible', label: 'Convertible / Roadster' }] },
     { id: 'brand', question: 'Do you have brand preferences or requirements?', icon: '🏷️', type: 'single',
-      options: [{ value: 'domestic', label: 'Prefer American (Ford, Chevy, Ram, Jeep)' }, { value: 'japanese', label: 'Prefer Japanese (Toyota, Honda, Mazda, Subaru)' }, { value: 'korean', label: 'Prefer Korean (Hyundai, Kia, Genesis)' }, { value: 'german', label: 'Prefer German (BMW, Mercedes, Audi, VW, Porsche)' }, { value: 'european', label: 'Prefer European luxury (Land Rover, Volvo, Jaguar)' }, { value: 'any', label: 'No preference - best vehicle for my needs' }] },
+      options: [{ value: 'domestic', label: 'Prefer American (Ford, Chevy, Ram, Jeep)' }, { value: 'japanese', label: 'Prefer Japanese (Toyota, Honda, Mazda, Subaru)' }, { value: 'korean', label: 'Prefer Korean (Hyundai, Kia, Genesis)' }, { value: 'german', label: 'Prefer German (BMW, Mercedes, Audi, VW, Porsche)' }, { value: 'european', label: 'Prefer European luxury (Land Rover, Volvo, Jaguar, Aston Martin)' }, { value: 'any', label: 'No preference - best vehicle for my needs' }] },
     { id: 'gender', question: 'What is your gender?', icon: '👤', type: 'single',
       options: [{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }, { value: 'other', label: 'Other / Prefer not to say' }] },
     { id: 'zip-code', question: 'What is your zip code?', icon: '📍', type: 'text',
@@ -236,7 +236,7 @@ export default function AutoWizard() {
     // BRAND PREFERENCE SCORING - European brands are known for wagons
     const brand = answers.brand;
     if (brand === 'german') { scores.wagon += 8; scores.sedan += 3; scores.sport += 3; }
-    else if (brand === 'european') { scores.wagon += 7; scores.suv += 3; }
+    else if (brand === 'european') { scores.wagon += 7; scores.suv += 3; scores.sport += 4; scores.roadster += 4; scores.hyper += 5; }
 
     // BUDGET SCORING & RESTRICTIONS
     const budget = answers.budget;
@@ -391,7 +391,7 @@ export default function AutoWizard() {
         reasoning.push('Best of both worlds: car handling with SUV cargo');
         break;
       case 'sport': 
-        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Chevrolet Corvette'] :
+        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'BMW M3/M4', 'Mercedes-AMG GT', 'Audi R8', 'Aston Martin Vantage', 'Chevrolet Corvette'] :
                    budgetLevel >= 4 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette'] :
                    ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata', 'Nissan Z'];
         description = 'Pure driving excitement - sports cars deliver the most engaging driving experience available. Perfect for enthusiasts who prioritize driving joy above all else.';
@@ -399,7 +399,7 @@ export default function AutoWizard() {
         reasoning.push('Pure driving pleasure prioritized');
         break;
       case 'roadster': 
-        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'Mercedes-AMG SL', 'BMW M4', 'Chevrolet Corvette'] :
+        vehicles = budgetLevel >= 6 ? ['Porsche 911', 'Mercedes-AMG SL', 'Aston Martin DB11 Volante', 'BMW M4', 'Chevrolet Corvette'] :
                    budgetLevel >= 4 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type'] :
                    ['Mazda MX-5 Miata', 'Ford Mustang', 'Chevrolet Camaro'];
         description = 'Open-air driving experience - roadsters and convertibles combine sports car dynamics with the thrill of wind-in-your-hair driving.';
@@ -407,8 +407,8 @@ export default function AutoWizard() {
         reasoning.push('Open-air driving experience');
         break;
       case 'hyper': 
-        vehicles = budgetLevel >= 7 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto'] :
-                   ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán', 'Porsche 911', 'Aston Martin Vantage'];
+        vehicles = budgetLevel >= 7 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90 Stradale', 'McLaren 765LT', 'Lamborghini Revuelto', 'Aston Martin DBS Superleggera'] :
+                   ['McLaren 720S', 'Ferrari 296 GTB', 'Lamborghini Huracán', 'Aston Martin DB11', 'Aston Martin Vantage', 'Porsche 911'];
         description = 'The pinnacle of automotive engineering - supercars and hypercars deliver extreme performance, exotic design, and exclusivity that few vehicles can match.';
         features = ['Extreme performance (600+ HP)', 'Exotic engineering & materials', 'Exclusive ownership experience', 'Investment potential', 'Head-turning presence'];
         reasoning.push('Ultimate automotive experience');
@@ -424,6 +424,18 @@ export default function AutoWizard() {
         vehicles = ['Honda Accord', 'Toyota Camry', 'Honda CR-V', 'Toyota RAV4'];
         description = 'Reliable vehicles with great value.';
         features = ['Proven reliability', 'Good fuel economy', 'Versatile'];
+    }
+    
+    // Aston Martin boost: Prioritize for users seeking European luxury + style/exclusivity + high budget
+    const astonIdealCustomer = brand === 'european' && budgetLevel >= 5 && 
+      (priorities.includes('style') || priorities.includes('luxury') || use === 'luxury' || use === 'fun');
+    if (astonIdealCustomer && ['sport', 'roadster', 'hyper'].includes(vType)) {
+      const astonModels = vehicles.filter(v => v.includes('Aston Martin'));
+      const otherModels = vehicles.filter(v => !v.includes('Aston Martin'));
+      if (astonModels.length > 0) {
+        vehicles = [...astonModels, ...otherModels];
+        reasoning.push('Aston Martin prioritized: British elegance meets grand touring excellence');
+      }
     }
     
     // Add contextual reasoning
