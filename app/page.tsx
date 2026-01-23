@@ -20,68 +20,137 @@ export default function AutoWizard() {
   const [consultForm, setConsultForm] = useState<Record<string, any>>({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
   const [canSkip, setCanSkip] = useState(false);
 
-  // Vehicle images are now loaded dynamically from Unsplash based on brand
-  // The generateModels function below contains the full 400+ vehicle database
-
-  // Get image URL for a vehicle using Unsplash
+  // Vehicle images - using Imagin.studio API for accurate make/model images
+  // This generates the correct vehicle image for each specific model
   const getVehicleImage = (vehicle: string): string => {
-    // Extract brand for better image search
-    const brand = vehicle.split(' ')[0].toLowerCase();
-    const searchTerm = encodeURIComponent(vehicle.toLowerCase().replace(/[^a-z0-9 ]/g, ''));
+    // Parse vehicle name into make and model
+    const parts = vehicle.split(' ');
+    let make = parts[0];
+    let modelFamily = parts.slice(1).join('').toLowerCase().replace(/[^a-z0-9]/g, '');
     
-    // Brand-specific image mappings for better results
-    const brandImages: Record<string, string> = {
-      'tesla': 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=500&fit=crop',
-      'bmw': 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&h=500&fit=crop',
-      'mercedes': 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&h=500&fit=crop',
-      'audi': 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800&h=500&fit=crop',
-      'porsche': 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&h=500&fit=crop',
-      'ferrari': 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=800&h=500&fit=crop',
-      'lamborghini': 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&h=500&fit=crop',
-      'ford': 'https://images.unsplash.com/photo-1551830820-330a71b99659?w=800&h=500&fit=crop',
-      'chevrolet': 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=500&fit=crop',
-      'toyota': 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800&h=500&fit=crop',
-      'honda': 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&h=500&fit=crop',
-      'lexus': 'https://images.unsplash.com/photo-1614200179396-2bdb77ebf81b?w=800&h=500&fit=crop',
-      'mazda': 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&h=500&fit=crop',
-      'subaru': 'https://images.unsplash.com/photo-1626668893632-6f3a4466d22f?w=800&h=500&fit=crop',
-      'nissan': 'https://images.unsplash.com/photo-1609752747034-5a8a7a184e04?w=800&h=500&fit=crop',
-      'volkswagen': 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=800&h=500&fit=crop',
-      'volvo': 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=800&h=500&fit=crop',
-      'jaguar': 'https://images.unsplash.com/photo-1612825173281-9a193378527e?w=800&h=500&fit=crop',
-      'land': 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&h=500&fit=crop',
-      'jeep': 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&h=500&fit=crop',
-      'ram': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop',
-      'gmc': 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&h=500&fit=crop',
-      'cadillac': 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=800&h=500&fit=crop',
-      'lincoln': 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=500&fit=crop',
-      'genesis': 'https://images.unsplash.com/photo-1621993202323-f438eec934ff?w=800&h=500&fit=crop',
-      'hyundai': 'https://images.unsplash.com/photo-1629897048514-3dd7414fe72a?w=800&h=500&fit=crop',
-      'kia': 'https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=800&h=500&fit=crop',
-      'maserati': 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&h=500&fit=crop',
-      'aston': 'https://images.unsplash.com/photo-1600712242805-5f78671b24da?w=800&h=500&fit=crop',
-      'bentley': 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&h=500&fit=crop',
-      'rolls': 'https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=800&h=500&fit=crop',
-      'mclaren': 'https://images.unsplash.com/photo-1621135802920-133df287f89c?w=800&h=500&fit=crop',
-      'alfa': 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800&h=500&fit=crop',
-      'mini': 'https://images.unsplash.com/photo-1595787142842-a3cfd2947a8f?w=800&h=500&fit=crop',
-      'fiat': 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&h=500&fit=crop',
-      'dodge': 'https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?w=800&h=500&fit=crop',
-      'chrysler': 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=500&fit=crop',
-      'buick': 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=500&fit=crop',
-      'acura': 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800&h=500&fit=crop',
-      'infiniti': 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&h=500&fit=crop',
-      'lucid': 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=500&fit=crop',
-      'rivian': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop',
-      'polestar': 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=800&h=500&fit=crop',
-      'mitsubishi': 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&h=500&fit=crop',
-      'bugatti': 'https://images.unsplash.com/photo-1566023888648-e7f47bfa2c6e?w=800&h=500&fit=crop',
-      'koenigsegg': 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&h=500&fit=crop',
-      'pagani': 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&h=500&fit=crop',
-      'rimac': 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=500&fit=crop',
+    // Handle special brand names
+    const brandMappings: Record<string, string> = {
+      'Mercedes-Benz': 'mercedes-benz',
+      'Land': 'land-rover',
+      'Alfa': 'alfa-romeo',
+      'Aston': 'aston-martin',
+      'Rolls-Royce': 'rolls-royce',
     };
     
-    return brandImages[brand] || 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=500&fit=crop';
+    // Check if first word needs special handling
+    if (parts[0] === 'Land' && parts[1] === 'Rover') {
+      make = 'land-rover';
+      modelFamily = parts.slice(2).join('').toLowerCase().replace(/[^a-z0-9]/g, '');
+    } else if (parts[0] === 'Alfa' && parts[1] === 'Romeo') {
+      make = 'alfa-romeo';
+      modelFamily = parts.slice(2).join('').toLowerCase().replace(/[^a-z0-9]/g, '');
+    } else if (parts[0] === 'Aston' && parts[1] === 'Martin') {
+      make = 'aston-martin';
+      modelFamily = parts.slice(2).join('').toLowerCase().replace(/[^a-z0-9]/g, '');
+    } else if (parts[0] === 'Rolls-Royce') {
+      make = 'rolls-royce';
+      modelFamily = parts.slice(1).join('').toLowerCase().replace(/[^a-z0-9]/g, '');
+    } else if (parts[0] === 'Mercedes-Benz') {
+      make = 'mercedes-benz';
+      modelFamily = parts.slice(1).join('').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+    
+    // Model family mappings for better matches
+    const modelMappings: Record<string, string> = {
+      // Tesla
+      'model3': 'model-3',
+      'modely': 'model-y',
+      'models': 'model-s',
+      'modelx': 'model-x',
+      'cybertruck': 'cybertruck',
+      // BMW
+      '3series': '3-series',
+      '5series': '5-series',
+      '7series': '7-series',
+      'x3': 'x3',
+      'x5': 'x5',
+      'x7': 'x7',
+      'i4': 'i4',
+      'ix': 'ix',
+      'm3': 'm3',
+      'm5': 'm5',
+      // Mercedes
+      'cclass': 'c-class',
+      'eclass': 'e-class',
+      'sclass': 's-class',
+      'gle': 'gle',
+      'gls': 'gls',
+      'glc': 'glc',
+      'amggt': 'amg-gt',
+      'eqe': 'eqe',
+      'eqs': 'eqs',
+      // Porsche
+      '911': '911',
+      'cayenne': 'cayenne',
+      'macan': 'macan',
+      'taycan': 'taycan',
+      'panamera': 'panamera',
+      // Ford
+      'f150': 'f-150',
+      'f150lightning': 'f-150-lightning',
+      'mustang': 'mustang',
+      'mustangmache': 'mustang-mach-e',
+      'bronco': 'bronco',
+      'explorer': 'explorer',
+      // Chevrolet
+      'corvette': 'corvette',
+      'camaro': 'camaro',
+      'silverado': 'silverado',
+      'equinox': 'equinox',
+      'tahoe': 'tahoe',
+      'suburban': 'suburban',
+      // Toyota
+      'camry': 'camry',
+      'corolla': 'corolla',
+      'rav4': 'rav4',
+      'highlander': 'highlander',
+      '4runner': '4runner',
+      'tacoma': 'tacoma',
+      'tundra': 'tundra',
+      'supra': 'supra',
+      'prius': 'prius',
+      // Honda
+      'civic': 'civic',
+      'accord': 'accord',
+      'crv': 'cr-v',
+      'pilot': 'pilot',
+      'odyssey': 'odyssey',
+      'ridgeline': 'ridgeline',
+      // Audi
+      'a4': 'a4',
+      'a6': 'a6',
+      'a8': 'a8',
+      'q5': 'q5',
+      'q7': 'q7',
+      'q8': 'q8',
+      'etron': 'e-tron',
+      'etrongt': 'e-tron-gt',
+      'rs6': 'rs6',
+      'r8': 'r8',
+    };
+    
+    // Apply model mapping if available
+    const mappedModel = modelMappings[modelFamily] || modelFamily;
+    
+    // Build Imagin.studio URL - shows actual vehicle renders
+    // Using angle=23 for a nice 3/4 front view, white background
+    const baseUrl = 'https://cdn.imagin.studio/getimage';
+    const params = new URLSearchParams({
+      customer: 'hrjavascript-masede',
+      make: make.toLowerCase(),
+      modelFamily: mappedModel,
+      paintId: 'pspc0001',
+      angle: '23',
+      width: '800',
+      height: '500',
+    });
+    
+    return `${baseUrl}?${params.toString()}`;
   };
 
   // Scroll to top when page changes
