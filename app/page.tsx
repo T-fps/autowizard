@@ -27,6 +27,9 @@ export default function AutoWizard() {
 
   // Build Wikipedia article title from vehicle name
   const getWikipediaTitle = (vehicle: string): string => {
+    // Strip "Used " prefix if present
+    const cleanVehicle = vehicle.startsWith('Used ') ? vehicle.slice(5) : vehicle;
+    
     // Special mappings for vehicles whose Wikipedia titles differ
     const titleMappings: Record<string, string> = {
       'Tesla Model 3': 'Tesla_Model_3',
@@ -213,12 +216,12 @@ export default function AutoWizard() {
     };
 
     // Check for exact match first
-    if (titleMappings[vehicle]) {
-      return titleMappings[vehicle];
+    if (titleMappings[cleanVehicle]) {
+      return titleMappings[cleanVehicle];
     }
 
     // Default: replace spaces with underscores
-    return vehicle.replace(/ /g, '_');
+    return cleanVehicle.replace(/ /g, '_');
   };
 
   // Fetch image from Wikipedia API
@@ -308,6 +311,265 @@ export default function AutoWizard() {
   useEffect(() => {
     setVehicleImageIndex(0);
   }, [result]);
+
+  // Vehicle MSRP data (approximate new prices in thousands)
+  const vehiclePrices: Record<string, number> = {
+    // Acura
+    'Acura Integra': 32, 'Acura TLX': 40, 'Acura RDX': 42, 'Acura MDX': 52,
+    // Alfa Romeo
+    'Alfa Romeo Giulia': 45, 'Alfa Romeo Stelvio': 48, 'Alfa Romeo Tonale': 43,
+    // Aston Martin
+    'Aston Martin Vantage': 155, 'Aston Martin DB11': 210, 'Aston Martin DB11 Volante': 240,
+    'Aston Martin DB12': 250, 'Aston Martin DBS Superleggera': 330, 'Aston Martin DBX': 195,
+    'Aston Martin DBX707': 240,
+    // Audi
+    'Audi A4': 42, 'Audi A4 Allroad': 48, 'Audi A5': 48, 'Audi A6': 58, 'Audi A6 Allroad': 70,
+    'Audi A8': 90, 'Audi Q3': 40, 'Audi Q5': 48, 'Audi Q7': 62, 'Audi Q8': 72,
+    'Audi R8': 160, 'Audi RS5': 78, 'Audi RS6': 125, 'Audi RS e-tron GT': 150,
+    'Audi e-tron': 70, 'Audi e-tron GT': 105,
+    // Bentley
+    'Bentley Bentayga': 200, 'Bentley Continental GT': 225, 'Bentley Flying Spur': 220,
+    // BMW
+    'BMW 3 Series': 45, 'BMW 4 Series': 50, 'BMW 5 Series': 58, 'BMW 7 Series': 95,
+    'BMW M2': 65, 'BMW M3': 75, 'BMW M3/M4': 78, 'BMW M4': 78, 'BMW M5': 110,
+    'BMW X1': 40, 'BMW X3': 50, 'BMW X5': 65, 'BMW X7': 80, 'BMW Z4': 55,
+    'BMW i4': 55, 'BMW iX': 85,
+    // Bugatti
+    'Bugatti Chiron': 3500, 'Bugatti Veyron': 1900,
+    // Cadillac
+    'Cadillac CT5': 42, 'Cadillac Escalade': 85, 'Cadillac Lyriq': 60,
+    // Chevrolet
+    'Chevrolet Bolt EUV': 28, 'Chevrolet Camaro': 30, 'Chevrolet Colorado': 30,
+    'Chevrolet Corvette': 68, 'Chevrolet Equinox EV': 35, 'Chevrolet Express': 42,
+    'Chevrolet Silverado': 40, 'Chevrolet Silverado 1500': 40, 'Chevrolet Silverado 2500HD': 48,
+    'Chevrolet Silverado 3500HD': 52, 'Chevrolet Silverado EV': 75, 'Chevrolet Spark': 15,
+    'Chevrolet Suburban': 62, 'Chevrolet Tahoe': 58,
+    // Chrysler
+    'Chrysler Pacifica': 42, 'Chrysler Voyager': 35,
+    // Dodge
+    'Dodge Challenger': 35, 'Dodge Charger': 35, 'Dodge Durango': 42,
+    // Ferrari
+    'Ferrari 296': 350, 'Ferrari 296 GTB': 350, 'Ferrari 488': 280, 'Ferrari F8': 280,
+    'Ferrari Purosangue': 400, 'Ferrari Roma': 250, 'Ferrari SF90': 625, 'Ferrari SF90 Stradale': 625,
+    // Fiat
+    'Fiat 500': 22, 'Fiat 500e': 34,
+    // Ford
+    'Ford Bronco': 38, 'Ford Expedition': 58, 'Ford Explorer': 38, 'Ford F-150': 38,
+    'Ford F-150 Lightning': 55, 'Ford F-250': 48, 'Ford F-350': 52, 'Ford Maverick': 25,
+    'Ford Mustang': 32, 'Ford Mustang Mach-E': 45, 'Ford Ranger': 32, 'Ford Transit': 42,
+    'Ford Transit Connect': 32,
+    // Genesis
+    'Genesis G70': 42, 'Genesis G80': 55, 'Genesis G90': 90, 'Genesis GV60': 55,
+    'Genesis GV70': 45, 'Genesis GV80': 55,
+    // GMC
+    'GMC Acadia': 40, 'GMC Canyon': 32, 'GMC Hummer EV': 110, 'GMC Sierra': 42,
+    'GMC Sierra 1500': 42, 'GMC Sierra 2500HD': 48, 'GMC Sierra 3500HD': 52,
+    'GMC Sierra EV': 75, 'GMC Yukon': 62,
+    // Honda
+    'Honda Accord': 29, 'Honda CR-V': 32, 'Honda Civic': 26, 'Honda HR-V': 25,
+    'Honda Odyssey': 40, 'Honda Pilot': 42, 'Honda Ridgeline': 42,
+    // Hyundai
+    'Hyundai Elantra': 22, 'Hyundai Ioniq 5': 45, 'Hyundai Ioniq 6': 48, 'Hyundai Kona': 24,
+    'Hyundai Palisade': 38, 'Hyundai Santa Cruz': 28, 'Hyundai Santa Fe': 32,
+    'Hyundai Sonata': 28, 'Hyundai Tucson': 30, 'Hyundai Venue': 20,
+    // Infiniti
+    'Infiniti Q50': 45, 'Infiniti QX60': 52, 'Infiniti QX80': 75,
+    // Jaguar
+    'Jaguar F-Pace': 55, 'Jaguar F-Type': 75, 'Jaguar XF': 52,
+    // Jeep
+    'Jeep Cherokee': 35, 'Jeep Gladiator': 40, 'Jeep Grand Cherokee': 42, 'Jeep Wrangler': 32,
+    // Kia
+    'Kia Carnival': 35, 'Kia EV6': 45, 'Kia EV9': 58, 'Kia Forte5': 22, 'Kia K5': 27,
+    'Kia Rio': 18, 'Kia Seltos': 25, 'Kia Sorento': 35, 'Kia Sportage': 31, 'Kia Telluride': 38,
+    // Koenigsegg
+    'Koenigsegg Jesko': 3000,
+    // Lamborghini
+    'Lamborghini Aventador': 500, 'Lamborghini Huracán': 250, 'Lamborghini Revuelto': 600,
+    'Lamborghini Urus': 235,
+    // Land Rover
+    'Land Rover Defender': 58, 'Land Rover Discovery': 62, 'Land Rover Range Rover': 105,
+    'Range Rover': 105,
+    // Lexus
+    'Lexus ES': 45, 'Lexus GX': 62, 'Lexus IS': 42, 'Lexus LC': 95, 'Lexus LS': 80,
+    'Lexus LX': 95, 'Lexus NX': 42, 'Lexus RC': 48, 'Lexus RX': 52, 'Lexus TX': 58, 'Lexus UX': 37,
+    // Lincoln
+    'Lincoln Aviator': 58, 'Lincoln Navigator': 85,
+    // Lucid
+    'Lucid Air': 80,
+    // Maserati
+    'Maserati Ghibli': 80, 'Maserati GranTurismo': 180, 'Maserati Levante': 85,
+    'Maserati MC20': 220, 'Maserati Quattroporte': 125,
+    // Mazda
+    'Mazda CX-30': 24, 'Mazda CX-30 AWD': 26, 'Mazda CX-5': 30, 'Mazda CX-50': 32,
+    'Mazda CX-9': 40, 'Mazda MX-5': 30, 'Mazda MX-5 Miata': 30, 'Mazda3': 25, 'Mazda6': 27,
+    // McLaren
+    'McLaren 720S': 310, 'McLaren 750S': 330, 'McLaren 765LT': 400, 'McLaren Artura': 240,
+    'McLaren GT': 215,
+    // Mercedes-Benz
+    'Mercedes-AMG C63': 85, 'Mercedes-AMG GT': 140, 'Mercedes-AMG SL': 140,
+    'Mercedes-Benz A-Class': 36, 'Mercedes-Benz AMG GT': 140, 'Mercedes-Benz C-Class': 47,
+    'Mercedes-Benz E-Class': 60, 'Mercedes-Benz E-Class Wagon': 72, 'Mercedes-Benz EQE': 75,
+    'Mercedes-Benz EQS': 105, 'Mercedes-Benz EQS SUV': 110, 'Mercedes-Benz GLC': 50,
+    'Mercedes-Benz GLE': 62, 'Mercedes-Benz GLS': 85, 'Mercedes-Benz Metris': 38,
+    'Mercedes-Benz S-Class': 115, 'Mercedes-Benz Sprinter': 48, 'Mercedes-Maybach GLS': 175,
+    // Mini
+    'Mini Convertible': 35, 'Mini Cooper': 32, 'Mini Countryman': 35,
+    // Mitsubishi
+    'Mitsubishi Mirage': 17,
+    // Nissan
+    'Nissan 370Z': 35, 'Nissan Altima': 28, 'Nissan Frontier': 32, 'Nissan GT-R': 120,
+    'Nissan Leaf': 29, 'Nissan Maxima': 38, 'Nissan Pathfinder': 38, 'Nissan Rogue': 30,
+    'Nissan Titan': 42, 'Nissan Titan XD': 52, 'Nissan Versa': 18, 'Nissan Z': 42,
+    // Pagani
+    'Pagani Huayra': 2800,
+    // Polestar
+    'Polestar 2': 50, 'Polestar 3': 75,
+    // Porsche
+    'Porsche 718 Boxster': 70, 'Porsche 718 Cayman': 68, 'Porsche 911': 115,
+    'Porsche Cayenne': 75, 'Porsche Macan': 62, 'Porsche Taycan': 95,
+    // Ram
+    'Ram 1500': 42, 'Ram 2500': 48, 'Ram 3500': 52, 'Ram ProMaster': 42, 'Ram ProMaster City': 32,
+    // Rimac
+    'Rimac Nevera': 2400,
+    // Rivian
+    'Rivian R1S': 80, 'Rivian R1T': 75,
+    // Rolls-Royce
+    'Rolls-Royce Cullinan': 365, 'Rolls-Royce Ghost': 340, 'Rolls-Royce Phantom': 480,
+    'Rolls-Royce Spectre': 420,
+    // Subaru
+    'Subaru BRZ': 30, 'Subaru Crosstrek': 26, 'Subaru Forester': 32, 'Subaru Impreza': 24,
+    'Subaru Outback': 32, 'Subaru Solterra': 45, 'Subaru WRX': 32,
+    // Tesla
+    'Tesla Cybertruck': 80, 'Tesla Model 3': 42, 'Tesla Model S': 90, 'Tesla Model X': 95,
+    'Tesla Model Y': 45,
+    // Toyota
+    'Toyota 4Runner': 42, 'Toyota Avalon': 38, 'Toyota Camry': 28, 'Toyota Corolla': 23,
+    'Toyota Corolla Cross': 24, 'Toyota Corolla Cross AWD': 26, 'Toyota GR Corolla': 38,
+    'Toyota GR Supra': 45, 'Toyota GR86': 30, 'Toyota Highlander': 40, 'Toyota Prius': 28,
+    'Toyota RAV4': 31, 'Toyota Sienna': 38, 'Toyota Supra': 45, 'Toyota Tacoma': 32, 'Toyota Tundra': 42,
+    'Toyota bZ4X': 43,
+    // Volkswagen
+    'Volkswagen Atlas': 38, 'Volkswagen Golf': 28, 'Volkswagen Golf Alltrack': 32,
+    'Volkswagen Golf GTI': 32, 'Volkswagen Golf R': 45, 'Volkswagen ID.4': 40,
+    'Volkswagen ID.Buzz': 60, 'Volkswagen Jetta': 22, 'Volkswagen Passat': 30, 'Volkswagen Tiguan': 32,
+    'Volkswagen Arteon': 42, 'Volkswagen Taos': 24, 'Volkswagen ID.7': 55,
+    // Volvo
+    'Volvo C40 Recharge': 55, 'Volvo S60': 42, 'Volvo S90': 58, 'Volvo V60': 45,
+    'Volvo V60 Cross Country': 48, 'Volvo V90 Cross Country': 58, 'Volvo XC40': 40,
+    'Volvo XC60': 48, 'Volvo XC90': 58, 'Volvo EX30': 35, 'Volvo EX90': 80,
+    // Additional Acura
+    'Acura NSX': 170, 'Acura ZDX': 65,
+    // Additional Buick
+    'Buick Enclave': 48, 'Buick Envision': 40, 'Buick Encore GX': 28, 'Buick Envista': 25,
+    // Additional Cadillac
+    'Cadillac CT4': 35, 'Cadillac XT4': 38, 'Cadillac XT5': 48, 'Cadillac XT6': 55,
+    'Cadillac Celestiq': 340,
+    // Additional Chevrolet
+    'Chevrolet Trax': 22, 'Chevrolet Trailblazer': 25, 'Chevrolet Equinox': 32,
+    'Chevrolet Blazer': 38, 'Chevrolet Blazer EV': 50, 'Chevrolet Traverse': 38,
+    'Chevrolet Malibu': 26,
+    // Additional Chrysler
+    'Chrysler 300': 38,
+    // Additional Dodge
+    'Dodge Hornet': 32,
+    // Additional Ford
+    'Ford Escape': 30, 'Ford Edge': 38, 'Ford EcoSport': 25, 'Ford Bronco Sport': 30,
+    'Ford E-Transit': 52,
+    // Additional GMC
+    'GMC Terrain': 32, 'GMC Hummer EV SUV': 105,
+    // Additional Honda
+    'Honda Prologue': 50, 'Honda Passport': 42,
+    // Additional Hyundai
+    'Hyundai Accent': 18, 'Hyundai Ioniq': 28,
+    // Additional Infiniti
+    'Infiniti Q60': 48, 'Infiniti QX50': 45, 'Infiniti QX55': 50,
+    // Additional Jeep
+    'Jeep Compass': 32, 'Jeep Renegade': 28, 'Jeep Wagoneer': 62, 'Jeep Grand Wagoneer': 90,
+    'Jeep Avenger': 28,
+    // Additional Kia
+    'Kia Forte': 22, 'Kia Soul': 22, 'Kia Niro': 30, 'Kia Niro EV': 42,
+    'Kia Stinger': 55,
+    // Additional Lexus
+    'Lexus RC F': 68, 'Lexus RZ': 58,
+    // Additional Lincoln
+    'Lincoln Corsair': 42, 'Lincoln Nautilus': 48,
+    // Additional Mazda
+    'Mazda CX-70': 42, 'Mazda CX-90': 42,
+    // Additional Mini
+    'Mini Clubman': 32, 'Mini Cooper SE': 35,
+    // Additional Mitsubishi
+    'Mitsubishi Outlander': 32, 'Mitsubishi Eclipse Cross': 28, 'Mitsubishi Outlander PHEV': 42,
+    // Additional Nissan
+    'Nissan Kicks': 22, 'Nissan Murano': 38, 'Nissan Ariya': 45, 'Nissan Sentra': 22,
+    // Additional Porsche
+    'Porsche Panamera': 95, 'Porsche Cayenne Coupe': 82,
+    // Additional Subaru
+    'Subaru Ascent': 38, 'Subaru Legacy': 26,
+    // Additional Tesla
+    'Tesla Semi': 180,
+    // Additional Toyota
+    'Toyota Venza': 36, 'Toyota Crown': 42, 'Toyota Grand Highlander': 45, 'Toyota Sequoia': 62,
+    'Toyota Land Cruiser': 58,
+    // Additional Luxury/Exotic
+    'De Tomaso P72': 850, 'Gordon Murray T.50': 3100, 'Hennessey Venom F5': 2100,
+    'Lotus Emira': 82, 'Lotus Eletre': 110,
+    // Additional Genesis
+    'Genesis Electrified G80': 80, 'Genesis Electrified GV70': 68,
+    // Additional Alfa Romeo
+    'Alfa Romeo 4C': 70, 'Alfa Romeo Spider': 85,
+    // Additional Aston Martin
+    'Aston Martin Valkyrie': 3500, 'Aston Martin Valhalla': 1000,
+    // Additional McLaren
+    'McLaren P1': 1500, 'McLaren Senna': 1000, 'McLaren Speedtail': 2200,
+    'McLaren 570S': 200, 'McLaren 600LT': 250,
+    // Additional Ferrari
+    'Ferrari 812 Superfast': 340, 'Ferrari F8 Tributo': 280, 'Ferrari Portofino': 230,
+    'Ferrari Daytona SP3': 2300, 'Ferrari Monza SP1': 1800,
+    // Additional Lamborghini
+    'Lamborghini Aventador SVJ': 580, 'Lamborghini Sian': 3600,
+    // Additional Bentley
+    'Bentley Bacalar': 2000, 'Bentley Mulliner Batur': 2200,
+    // Additional Rolls-Royce
+    'Rolls-Royce Wraith': 340, 'Rolls-Royce Dawn': 360, 'Rolls-Royce Black Badge': 400,
+    // Additional Maserati
+    'Maserati Grecale': 65, 'Maserati GranCabrio': 195,
+    // Additional Porsche
+    'Porsche 918 Spyder': 1800, 'Porsche Carrera GT': 650, 'Porsche GT3': 175, 'Porsche GT3 RS': 230,
+  };
+
+  // Budget max values in thousands
+  const budgetMaxValues: Record<number, number> = {
+    1: 25, 2: 35, 3: 50, 4: 75, 5: 100, 6: 200, 7: 999999
+  };
+
+  // Filter vehicles by budget, marking used if needed
+  const filterVehiclesByBudget = (vehicles: string[], budgetLevel: number): string[] => {
+    const maxBudget = budgetMaxValues[budgetLevel] || 50;
+    const usedDiscountFactor = 0.6; // Used cars typically 40% less than new
+    
+    const result: string[] = [];
+    
+    for (const vehicle of vehicles) {
+      const price = vehiclePrices[vehicle];
+      
+      if (!price) {
+        // Unknown price, include as-is
+        result.push(vehicle);
+        continue;
+      }
+      
+      if (price <= maxBudget) {
+        // New vehicle fits budget
+        result.push(vehicle);
+      } else if (price * usedDiscountFactor <= maxBudget) {
+        // Used version would fit budget
+        result.push(`Used ${vehicle}`);
+      }
+      // Otherwise, vehicle doesn't fit budget at all - skip it
+    }
+    
+    return result;
+  };
 
   // Comprehensive assessment
   const allQuestions = [
@@ -780,7 +1042,10 @@ export default function AutoWizard() {
     const budgetLabels: Record<number, string> = { 1: 'Under $25K', 2: '$25K-$35K', 3: '$35K-$50K', 4: '$50K-$75K', 5: '$75K-$100K', 6: '$100K-$200K', 7: 'Over $200K' };
     reasoning.push('Budget: ' + (budgetLabels[budgetLevel] || 'Not specified'));
     
-    return { vehicleType: vType, vehicleSizeName: vehicleSizeNames[vType], vehicles: vehicles.slice(0, 5), description, features, reasoning, answers: { ...answers }, timestamp: new Date().toISOString() };
+    // Filter vehicles to fit within budget, marking used if needed
+    const filteredVehicles = filterVehiclesByBudget(vehicles, budgetLevel);
+    
+    return { vehicleType: vType, vehicleSizeName: vehicleSizeNames[vType], vehicles: filteredVehicles.slice(0, 5), description, features, reasoning, answers: { ...answers }, timestamp: new Date().toISOString() };
   };
 
   const saveResult = (r, email) => { const d = { ...r, id: Date.now().toString(), savedAt: new Date().toISOString(), email: email }; const e = JSON.parse(localStorage.getItem('autoWizardResults') || '[]'); e.push(d); localStorage.setItem('autoWizardResults', JSON.stringify(e)); };
