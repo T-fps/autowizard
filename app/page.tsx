@@ -1114,14 +1114,14 @@ export default function AutoWizard() {
               <img src={LOGO_SRC} alt="Auto Wizard" className="h-20 w-auto" />
             </div>
             <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2">
-              <button onClick={startTest} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Take Test</button>
+              <button onClick={startTest} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Free Assessment</button>
               <button onClick={() => setCurrentPage('services')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
               <button onClick={() => setCurrentPage('expertise')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
             </nav>
             <button onClick={() => setCurrentPage('consultation')} className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 text-sm md:text-base">Book Consultation</button>
           </div>
           <nav className="md:hidden flex items-center justify-center gap-2 mt-3 pt-3 border-t border-white/10">
-            <button onClick={startTest} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Take Test</button>
+            <button onClick={startTest} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Free Assessment</button>
             <button onClick={() => setCurrentPage('services')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
             <button onClick={() => setCurrentPage('expertise')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
           </nav>
@@ -1157,8 +1157,8 @@ export default function AutoWizard() {
             <div className="space-y-4">
               {[
                 { icon: Car, title: 'Advanced Matching', desc: 'Sophisticated algorithm analyzes 20+ factors for precise recommendations' },
-                { icon: Users, title: 'Expert Consultation', desc: 'Schedule one-on-one sessions with automotive specialists' },
-                { icon: Wrench, title: 'Aftermarket Support', desc: 'Connect with trusted customization and accessory providers' },
+                { icon: Users, title: 'Expert Consultation', desc: 'Dream, build, and price your car, we\'ve got you' },
+                { icon: Wrench, title: 'Aftermarket Support', desc: 'Custom interiors and exteriors, to make your car stand out' },
                 { icon: MapPin, title: 'Dealership Network', desc: 'Direct connections to dealerships, financing, and sales' }
               ].map((item, i) => (
                 <div key={i} className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
@@ -1216,12 +1216,12 @@ export default function AutoWizard() {
                 <div><h3 className="text-xl font-semibold text-amber-400 mb-2">Expert Consultation</h3><p className="text-white/60">One-on-one sessions with certified automotive specialists</p></div>
               </div>
               <ul className="space-y-3 mb-6">
-                {['In-depth lifestyle and needs analysis', 'Personalized vehicle recommendations', 'Budget optimization strategies', 'Feature comparison and prioritization', 'Customization with trim and options'].map((item, i) => (
+                {['In-depth lifestyle and needs analysis', 'Personalized vehicle recommendations', 'Dream, build, price and find my car', 'Feature comparison and prioritization', 'Customization with trim and options'].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-white/80"><Check className="w-5 h-5 text-amber-400 flex-shrink-0" />{item}</li>
                 ))}
               </ul>
               <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <span className="text-amber-400 font-semibold text-lg">$79 / session</span>
+                <span className="text-amber-400 font-semibold text-lg">$119 / session</span>
                 <button onClick={() => setCurrentPage('consultation')} className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all">Book Now</button>
               </div>
             </div>
@@ -1253,7 +1253,7 @@ export default function AutoWizard() {
                 ))}
               </ul>
               <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <span className="text-amber-400 font-semibold text-lg">$119 / package</span>
+                <span className="text-amber-400 font-semibold text-lg">$79 / vehicle</span>
                 <button onClick={() => setCurrentPage('consultation')} className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all">Learn More</button>
               </div>
             </div>
@@ -1604,9 +1604,9 @@ export default function AutoWizard() {
                 <label className="block text-sm font-medium mb-3 text-white/70">Services (Select all that apply)</label>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {[
-                    { value: 'consultation', label: 'Expert Consultation - $79', icon: Car },
+                    { value: 'consultation', label: 'Expert Consultation - $119', icon: Car },
                     { value: 'customization', label: 'Customization Support - $49', icon: Wrench },
-                    { value: 'purchase', label: 'Purchase Assistance - $119', icon: Briefcase },
+                    { value: 'purchase', label: 'Purchase Assistance - $79', icon: Briefcase },
                     { value: 'bundle', label: 'Full Bundle - $319', icon: Star }
                   ].map((s) => {
                     const selected = (consultForm.services || []).includes(s.value);
@@ -1693,9 +1693,9 @@ export default function AutoWizard() {
             <div>
               <h4 className="font-semibold mb-4 text-white">Services</h4>
               <ul className="space-y-2 text-sm text-white/50">
-                <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Expert Consultation - $79</li>
+                <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Expert Consultation - $119</li>
                 <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Customization Support - $49</li>
-                <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Purchase Assistance - $119</li>
+                <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Purchase Assistance - $79</li>
               </ul>
             </div>
             <div>
