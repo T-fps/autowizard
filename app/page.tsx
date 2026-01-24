@@ -1324,57 +1324,78 @@ export default function AutoWizard() {
               </div>
             </article>
 
-            {/* Post 2 - Coming Soon */}
-            <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden opacity-60">
-              <div className="aspect-video overflow-hidden bg-white/5 flex items-center justify-center">
-                <div className="text-center">
-                  <Car className="w-12 h-12 text-white/20 mx-auto mb-2" />
-                  <span className="text-white/30 text-sm">Coming Soon</span>
-                </div>
+            {/* Post 2 - Electric vs Hybrid */}
+            <article 
+              onClick={() => setCurrentPage('blog-electric-vs-hybrid')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop" 
+                  alt="Electric car charging" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="px-2 py-1 rounded-full bg-white/10 text-white/40 text-xs font-medium">Electric Vehicles</span>
-                  <span className="text-white/30 text-sm">Coming Soon</span>
+                  <span className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-medium">Electric Vehicles</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
                 </div>
-                <h2 className="text-xl font-semibold text-white/50 mb-2">Electric vs Hybrid: Which is Right for You?</h2>
-                <p className="text-white/40 text-sm">A complete breakdown of the pros and cons of going electric versus hybrid in 2026.</p>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">Electric vs Hybrid: Which is Right for You?</h2>
+                <p className="text-white/60 text-sm mb-4">A complete breakdown of the pros and cons of going electric versus hybrid in 2026. We cover range, charging, costs, and more.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
             </article>
 
-            {/* Post 3 - Coming Soon */}
-            <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden opacity-60">
-              <div className="aspect-video overflow-hidden bg-white/5 flex items-center justify-center">
-                <div className="text-center">
-                  <Car className="w-12 h-12 text-white/20 mx-auto mb-2" />
-                  <span className="text-white/30 text-sm">Coming Soon</span>
-                </div>
+            {/* Post 3 - Best Cars Under $30K */}
+            <article 
+              onClick={() => setCurrentPage('blog-best-cars-under-30k')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop" 
+                  alt="Affordable sedan on road" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="px-2 py-1 rounded-full bg-white/10 text-white/40 text-xs font-medium">Budget Tips</span>
-                  <span className="text-white/30 text-sm">Coming Soon</span>
+                  <span className="px-2 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-medium">Budget Tips</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
                 </div>
-                <h2 className="text-xl font-semibold text-white/50 mb-2">Best Cars Under $30,000 in 2026</h2>
-                <p className="text-white/40 text-sm">Our top picks for affordable vehicles that don't compromise on quality or features.</p>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">Best Cars Under $30,000 in 2026</h2>
+                <p className="text-white/60 text-sm mb-4">Our top picks for affordable vehicles that don't compromise on quality or features. Great value doesn't mean boring.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
             </article>
 
-            {/* Post 4 - Coming Soon */}
-            <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden opacity-60">
-              <div className="aspect-video overflow-hidden bg-white/5 flex items-center justify-center">
-                <div className="text-center">
-                  <Car className="w-12 h-12 text-white/20 mx-auto mb-2" />
-                  <span className="text-white/30 text-sm">Coming Soon</span>
-                </div>
+            {/* Post 4 - Best Family SUVs */}
+            <article 
+              onClick={() => setCurrentPage('blog-best-family-suvs')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&h=400&fit=crop" 
+                  alt="Family SUV" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="px-2 py-1 rounded-full bg-white/10 text-white/40 text-xs font-medium">Family Cars</span>
-                  <span className="text-white/30 text-sm">Coming Soon</span>
+                  <span className="px-2 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-medium">Family Cars</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
                 </div>
-                <h2 className="text-xl font-semibold text-white/50 mb-2">10 Best Family SUVs for 2026</h2>
-                <p className="text-white/40 text-sm">Space, safety, and sanity - our expert picks for the best family haulers this year.</p>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">10 Best Family SUVs for 2026</h2>
+                <p className="text-white/60 text-sm mb-4">Space, safety, and sanity - our expert picks for the best family haulers this year. From three-row giants to efficient crossovers.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
             </article>
           </div>
@@ -1637,6 +1658,681 @@ export default function AutoWizard() {
             </div>
 
             {/* Back to Blog */}
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Posts
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* Blog Post 2: Electric vs Hybrid */}
+      {currentPage === 'blog-electric-vs-hybrid' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Blog
+          </button>
+
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-sm font-medium mb-4">Electric Vehicles</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">Electric vs Hybrid: Which is Right for You?</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>7 min read</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200&h=600&fit=crop" 
+                alt="Electric car charging" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                So you've decided to go green(er) with your next car. Awesome! But now you're stuck on the big question: full electric or hybrid? It's like choosing between pizza and tacos - both are great, but they serve different needs.
+              </p>
+              <p>
+                Let's break this down in a way that actually helps you decide, without all the technical jargon that makes your eyes glaze over.
+              </p>
+              <p>
+                Or if you want the shortcut, <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">take our free quiz</button> and we'll factor in your driving habits, budget, and lifestyle to give you personalized recommendations.
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-lg font-bold">⚡</span>
+                The Case for Electric (EVs)
+              </h2>
+
+              <div className="rounded-2xl overflow-hidden mb-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=400&fit=crop" 
+                  alt="Tesla charging station" 
+                  className="w-full h-48 md:h-64 object-cover"
+                />
+              </div>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Electric vehicles have come a LONG way. We're not talking about golf carts with doors anymore. Modern EVs are fast, practical, and - here's the kicker - way cheaper to operate than gas cars.</p>
+
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-green-400 mb-4">✅ Why Go Full Electric</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• <strong className="text-white">Zero gas costs</strong> - Charge at home for pennies. Average savings: $1,000-2,000/year</li>
+                    <li>• <strong className="text-white">Minimal maintenance</strong> - No oil changes, fewer brake jobs (regenerative braking), less stuff to break</li>
+                    <li>• <strong className="text-white">Instant torque</strong> - EVs are FUN to drive. That immediate acceleration never gets old</li>
+                    <li>• <strong className="text-white">Tax credits</strong> - Up to $7,500 federal credit (if eligible) plus state incentives</li>
+                    <li>• <strong className="text-white">HOV lane access</strong> - Skip traffic in many states</li>
+                  </ul>
+                </div>
+
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-red-400 mb-4">⚠️ The Challenges</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• <strong className="text-white">Range anxiety is real</strong> - Most EVs get 250-350 miles, but long road trips need planning</li>
+                    <li>• <strong className="text-white">Charging infrastructure</strong> - Great in cities, spotty in rural areas</li>
+                    <li>• <strong className="text-white">Upfront cost</strong> - Generally $5-10K more than equivalent gas cars (but incentives help)</li>
+                    <li>• <strong className="text-white">Home charging is ideal</strong> - If you can't charge at home, it's less convenient</li>
+                  </ul>
+                </div>
+
+                <p><strong className="text-white">Best EVs in 2026:</strong> Tesla Model 3/Y, Hyundai Ioniq 6, Chevrolet Equinox EV, Ford Mustang Mach-E, Kia EV6</p>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-lg font-bold">🔋</span>
+                The Case for Hybrid
+              </h2>
+
+              <div className="rounded-2xl overflow-hidden mb-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=400&fit=crop" 
+                  alt="Hybrid vehicle" 
+                  className="w-full h-48 md:h-64 object-cover"
+                />
+              </div>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Hybrids are the "best of both worlds" option. You get improved fuel economy without worrying about charging stations or range. They just... work like normal cars, but more efficiently.</p>
+
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-blue-400 mb-4">✅ Why Go Hybrid</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• <strong className="text-white">No range anxiety</strong> - Fill up at any gas station, drive anywhere</li>
+                    <li>• <strong className="text-white">Great fuel economy</strong> - 40-60 MPG is common</li>
+                    <li>• <strong className="text-white">Lower upfront cost</strong> - Usually just $2-4K more than gas versions</li>
+                    <li>• <strong className="text-white">No charging needed</strong> - Perfect if you rent or can't install a charger</li>
+                    <li>• <strong className="text-white">Proven technology</strong> - Hybrids have been around for 25+ years</li>
+                  </ul>
+                </div>
+
+                <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-4">🔌 What About Plug-in Hybrids (PHEVs)?</h3>
+                  <p className="text-white/70">
+                    PHEVs give you 25-50 miles of pure electric range, then switch to hybrid mode. Perfect if your daily commute is short (charge at home, drive electric) but you occasionally need road trip flexibility. Best PHEVs: Toyota RAV4 Prime, Jeep Wrangler 4xe, BMW X5 xDrive50e
+                  </p>
+                </div>
+
+                <p><strong className="text-white">Best Hybrids in 2026:</strong> Toyota Prius, Honda Accord Hybrid, Hyundai Sonata Hybrid, Toyota Camry Hybrid, Kia Sportage Hybrid</p>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Quick Decision Guide</h2>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-green-400 mb-4">Go Electric If...</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• You can charge at home (garage/driveway)</li>
+                    <li>• Your daily driving is under 200 miles</li>
+                    <li>• You want the lowest operating costs</li>
+                    <li>• You're okay planning longer road trips</li>
+                    <li>• You want that instant EV acceleration</li>
+                  </ul>
+                </div>
+
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-blue-400 mb-4">Go Hybrid If...</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• You can't charge at home</li>
+                    <li>• You take frequent long road trips</li>
+                    <li>• You want flexibility and simplicity</li>
+                    <li>• You live in a rural area</li>
+                    <li>• Budget is tight but you want fuel savings</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Still Deciding?</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Our quiz factors in your driving habits, charging situation, and budget to recommend the perfect vehicle type for you.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  There's no wrong answer here. Both EVs and hybrids are great choices that'll save you money on gas and reduce your environmental impact.
+                </p>
+                <p>
+                  If you can charge at home and your driving fits within EV range, go electric - the experience is genuinely better. If charging is complicated or you need maximum flexibility, hybrids deliver solid fuel savings without lifestyle changes.
+                </p>
+                <p className="text-white font-medium">
+                  The best choice is the one that fits YOUR life. Happy (efficient) driving! 🌱
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Ready to Find Your Perfect Green Car?</h3>
+              <p className="text-white/60 mb-6">Our quiz includes EV and hybrid options matched to your lifestyle.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Posts
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* Blog Post 3: Best Cars Under $30K */}
+      {currentPage === 'blog-best-cars-under-30k' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Blog
+          </button>
+
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-sm font-medium mb-4">Budget Tips</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">Best Cars Under $30,000 in 2026</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200&h=600&fit=crop" 
+                alt="Affordable car" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                Good news: $30,000 goes a lot further than you might think. Gone are the days when "affordable" meant "boring econobox with crank windows." Today's budget-friendly cars come loaded with tech, safety features, and - dare I say - actual style.
+              </p>
+              <p>
+                We've rounded up the best cars you can buy for under $30K in 2026. These aren't just "good for the price" - they're legitimately great cars that happen to be affordable.
+              </p>
+              <p>
+                Want personalized picks based on your specific needs? <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">Take our free quiz</button> and we'll match you with the perfect budget-friendly ride.
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Our Top 10 Picks</h2>
+
+              <div className="space-y-6">
+                <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-amber-400">1. Honda Civic</h3>
+                    <span className="text-white/60 text-sm">From $24,950</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The gold standard for compact cars. The Civic delivers everything: reliability, fuel efficiency, a great interior, and genuinely fun handling. The Sport trim adds some visual flair without breaking the bank.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> Pretty much everyone. First-time buyers, commuters, anyone who wants a car that just works.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-blue-400">2. Mazda3</h3>
+                    <span className="text-white/60 text-sm">From $24,970</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Mazda punches way above its weight class. The Mazda3 has a premium interior that rivals cars costing twice as much, plus it's genuinely fun to drive. Available as sedan or hatchback.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> People who want a "nice" car without the luxury price tag.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-500/10 to-green-600/5 border border-green-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-green-400">3. Toyota Corolla Hybrid</h3>
+                    <span className="text-white/60 text-sm">From $24,050</span>
+                  </div>
+                  <p className="text-white/70 mb-3">50+ MPG, Toyota reliability, and a surprisingly nice interior. The Corolla Hybrid is the sensible choice that doesn't feel like a compromise. You'll barely remember what gas stations look like.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> Commuters, uber-practical buyers, anyone tired of spending money on gas.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-purple-400">4. Hyundai Elantra</h3>
+                    <span className="text-white/60 text-sm">From $22,625</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Bold styling, tons of tech, and one of the best warranties in the business (5-year/60,000-mile bumper-to-bumper). The Elantra proves that affordable doesn't mean boring.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> Tech lovers, people who want to stand out, first-time buyers.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-cyan-500/10 to-cyan-600/5 border border-cyan-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-cyan-400">5. Kia Seltos</h3>
+                    <span className="text-white/60 text-sm">From $24,990</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Want an SUV on a budget? The Seltos delivers crossover practicality with available AWD, a roomy interior, and that same great Kia warranty. Great for those who need the extra cargo space.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> SUV fans on a budget, outdoor enthusiasts, anyone who needs more space than a sedan.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-rose-500/10 to-rose-600/5 border border-rose-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-rose-400">6. Honda HR-V</h3>
+                    <span className="text-white/60 text-sm">From $25,650</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Honda's subcompact SUV got a major glow-up recently. It's now bigger, more refined, and has one of the most versatile interiors in its class (those Magic Seats!). Honda reliability included.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> City dwellers who need SUV flexibility, Honda loyalists, practical-minded buyers.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-orange-500/10 to-orange-600/5 border border-orange-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-orange-400">7. Subaru Crosstrek</h3>
+                    <span className="text-white/60 text-sm">From $26,290</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Standard AWD, impressive ground clearance, and that rugged Subaru vibe. The Crosstrek is perfect if your weekends involve trails, camping, or just living somewhere with actual weather.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> Adventure seekers, dog owners, anyone who deals with snow/dirt roads.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-indigo-500/10 to-indigo-600/5 border border-indigo-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-indigo-400">8. Volkswagen Jetta</h3>
+                    <span className="text-white/60 text-sm">From $23,545</span>
+                  </div>
+                  <p className="text-white/70 mb-3">European driving feel at an American price. The Jetta has a refined, grown-up vibe that makes it feel more expensive than it is. Great for highway cruising and long commutes.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> Highway commuters, buyers who appreciate European engineering, sedan lovers.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-teal-500/10 to-teal-600/5 border border-teal-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-teal-400">9. Nissan Kicks</h3>
+                    <span className="text-white/60 text-sm">From $22,400</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The most affordable way to get into a crossover. The Kicks isn't fancy, but it's honest - good fuel economy, easy to drive, and surprisingly spacious inside for its size.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> Budget-conscious buyers, city drivers, those who want crossover style without crossover prices.</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-lime-500/10 to-lime-600/5 border border-lime-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-lime-400">10. Toyota Corolla Cross</h3>
+                    <span className="text-white/60 text-sm">From $24,435</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Toyota took the reliable Corolla and made it an SUV. The result is exactly what you'd expect: dependable, efficient, and practical. Available as a hybrid for even better fuel economy.</p>
+                  <p className="text-white/90 text-sm"><strong>Best for:</strong> Toyota fans, practical buyers, anyone who wants reliability above all else.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Find Your Perfect Match</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Not sure which one fits your lifestyle? Our quiz analyzes your needs and budget to recommend the best options for you.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Pro Tips for Buying Under $30K</h2>
+
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                  <span className="text-white/80"><strong className="text-white">Consider last year's model</strong> - Dealers often discount outgoing models significantly</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                  <span className="text-white/80"><strong className="text-white">Look at certified pre-owned</strong> - A 1-2 year old CPO car can save you thousands with warranty coverage</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                  <span className="text-white/80"><strong className="text-white">Skip unnecessary packages</strong> - Do you really need the premium sound system?</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                  <span className="text-white/80"><strong className="text-white">Check total cost of ownership</strong> - Insurance, fuel, and maintenance matter as much as sticker price</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  $30,000 gets you a genuinely excellent car in 2026. Whether you want a fun-to-drive sedan, a practical crossover, or a fuel-sipping hybrid, there's something on this list for everyone.
+                </p>
+                <p>
+                  The key is knowing what YOU need. Don't get distracted by features you won't use - focus on what matters for your daily life.
+                </p>
+                <p className="text-white font-medium">
+                  Happy shopping! 💰🚗
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Need Help Narrowing It Down?</h3>
+              <p className="text-white/60 mb-6">Our quiz matches you with the best cars for your budget and lifestyle.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Posts
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* Blog Post 4: Best Family SUVs */}
+      {currentPage === 'blog-best-family-suvs' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Blog
+          </button>
+
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-sm font-medium mb-4">Family Cars</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">10 Best Family SUVs for 2026</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>9 min read</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200&h=600&fit=crop" 
+                alt="Family SUV" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                Shopping for a family SUV? Welcome to the "will my kids' soccer cleats fit with the groceries and also we need to pick up Grandma" lifestyle. You need space, safety, and probably a good entertainment system to keep everyone sane on road trips.
+              </p>
+              <p>
+                We've tested dozens of family haulers and narrowed it down to the 10 best. These aren't just spacious - they're the SUVs that make family life genuinely easier.
+              </p>
+              <p>
+                Not sure which size or style fits your crew? <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">Take our free quiz</button> and we'll recommend the perfect family vehicle based on your specific needs.
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Top 10 Family SUVs</h2>
+
+              <div className="space-y-6">
+                <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-amber-400">1. Kia Telluride</h3>
+                    <span className="text-white/60 text-sm">From $36,490</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The Telluride basically won every "Best Family SUV" award since it launched, and for good reason. It feels like a luxury vehicle at a mainstream price, with a cavernous interior and a look that'll make your neighbors jealous.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 8 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">21/26 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">IIHS Top Safety Pick+</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-blue-400">2. Hyundai Palisade</h3>
+                    <span className="text-white/60 text-sm">From $36,500</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The Telluride's corporate twin with its own personality. The Palisade has a slightly more refined look and an interior that genuinely rivals luxury SUVs. You won't believe this isn't a $60K vehicle.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 8 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">19/26 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">IIHS Top Safety Pick+</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-500/10 to-green-600/5 border border-green-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-green-400">3. Toyota Highlander Hybrid</h3>
+                    <span className="text-white/60 text-sm">From $42,350</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Toyota reliability meets hybrid efficiency. The Highlander Hybrid gets an incredible 36 MPG combined - for a three-row SUV! If you're doing a lot of driving (and with kids, you are), those fuel savings add up fast.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 8 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">36/35 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">Standard AWD</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-purple-400">4. Honda Pilot</h3>
+                    <span className="text-white/60 text-sm">From $40,600</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The newest Pilot is a massive improvement. Finally, a premium interior that matches the Pilot's excellent driving dynamics. Plus, Honda's reputation for reliability means this thing will last through multiple kids learning to drive.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 8 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">19/27 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">Available TrailSport</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-cyan-500/10 to-cyan-600/5 border border-cyan-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-cyan-400">5. Mazda CX-90</h3>
+                    <span className="text-white/60 text-sm">From $40,970</span>
+                  </div>
+                  <p className="text-white/70 mb-3">If you want a family SUV that doesn't drive like a family SUV, meet the CX-90. This thing handles like a sports sedan but carries the whole crew. Available as a plug-in hybrid for even better efficiency.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 7 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">24/28 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">PHEV Available</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-rose-500/10 to-rose-600/5 border border-rose-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-rose-400">6. Chevrolet Traverse</h3>
+                    <span className="text-white/60 text-sm">From $36,395</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Maximum space at a reasonable price. The Traverse has one of the biggest interiors in its class - the third row is actually usable by adults, not just small children. Great for bigger families or frequent carpoolers.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 8 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">18/27 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">98 cu ft cargo</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-orange-500/10 to-orange-600/5 border border-orange-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-orange-400">7. Toyota Grand Highlander</h3>
+                    <span className="text-white/60 text-sm">From $45,070</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Toyota heard people wanted more space, so they made a bigger Highlander. Simple as that. The Grand Highlander has a significantly larger third row and more cargo room. Perfect for families who've outgrown the regular Highlander.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 8 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">Hybrid Available</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">97.5 cu ft cargo</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-indigo-500/10 to-indigo-600/5 border border-indigo-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-indigo-400">8. Ford Explorer</h3>
+                    <span className="text-white/60 text-sm">From $38,995</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The Explorer is a classic for a reason. Rear-wheel drive based platform means it drives better than competitors, and there's an ST version if you want legitimate performance. American icon status included.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 7 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">20/27 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">ST trim: 400hp</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-teal-500/10 to-teal-600/5 border border-teal-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-teal-400">9. Subaru Ascent</h3>
+                    <span className="text-white/60 text-sm">From $36,995</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Standard AWD, stellar safety ratings, and that rugged Subaru reliability. The Ascent is perfect for families who like to get outdoors - ski trips, camping, hiking. It'll handle the adventure.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 8 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">Standard AWD</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">IIHS Top Safety Pick+</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-lime-500/10 to-lime-600/5 border border-lime-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-lime-400">10. Volkswagen Atlas</h3>
+                    <span className="text-white/60 text-sm">From $37,375</span>
+                  </div>
+                  <p className="text-white/70 mb-3">German engineering meets American sizing. The Atlas is built in Tennessee specifically for US families who need maximum space. It's got that European driving feel but room for everything your family throws at it.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">3 rows / 7 seats</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">19/24 MPG</span>
+                    <span className="px-2 py-1 rounded bg-white/10 text-white/60 text-xs">96.8 cu ft cargo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Find Your Family's Perfect SUV</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Our quiz considers family size, cargo needs, and budget to recommend the ideal SUV for your crew.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">What to Look for in a Family SUV</h2>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-amber-400 mb-3">🛡️ Safety First</h3>
+                  <p className="text-white/70 text-sm">Look for IIHS Top Safety Pick ratings, standard automatic emergency braking, and blind-spot monitoring. Your precious cargo deserves the best protection.</p>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-amber-400 mb-3">📱 Tech for Sanity</h3>
+                  <p className="text-white/70 text-sm">Rear-seat entertainment, wireless charging, multiple USB ports, and good phone integration. Happy kids = peaceful parents.</p>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-amber-400 mb-3">🧳 Cargo Space</h3>
+                  <p className="text-white/70 text-sm">Check cargo space with the third row UP, not just folded. You need to fit groceries AND have the kids in the back.</p>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-amber-400 mb-3">🚪 Easy Access</h3>
+                  <p className="text-white/70 text-sm">How easy is it to get kids into car seats? Can adults actually fit in the third row? Test this before buying!</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  Family SUVs in 2026 are genuinely impressive. You don't have to sacrifice style, driving enjoyment, or efficiency just because you need three rows. Every SUV on this list would serve your family well.
+                </p>
+                <p>
+                  The key is matching the SUV to YOUR family's needs. Think about how you actually use your car - not just what sounds good on paper.
+                </p>
+                <p className="text-white font-medium">
+                  Here's to many happy (and hopefully peaceful) family road trips! 👨‍👩‍👧‍👦🚙
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Ready to Find Your Family's SUV?</h3>
+              <p className="text-white/60 mb-6">Our quiz matches you with the perfect vehicle for your family's needs.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+
             <div className="mt-12 pt-8 border-t border-white/10">
               <button 
                 onClick={() => setCurrentPage('blog')}
