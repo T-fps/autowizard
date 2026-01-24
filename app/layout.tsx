@@ -89,6 +89,14 @@ export default function RootLayout({
     }
   };
 
+  const websiteData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Auto Wizard",
+    "alternateName": ["AutoWizard", "Auto Wizard Car Finder"],
+    "url": "https://autowizard.org"
+  };
+
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -150,6 +158,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#f59e0b" />
+        <meta name="application-name" content="Auto Wizard" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Google Analytics */}
@@ -167,6 +176,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
         />
         <script
           type="application/ld+json"
