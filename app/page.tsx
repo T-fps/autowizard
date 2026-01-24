@@ -1456,7 +1456,7 @@ export default function AutoWizard() {
             >
               <div className="aspect-video overflow-hidden">
                 <img 
-                  src="https://images.unsplash.com/photo-1449965408869-euj3c78f2cda?w=600&h=400&fit=crop" 
+                  src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=400&fit=crop" 
                   alt="Best commuter car 2026 - fuel efficient sedan on highway during rush hour commute" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -2998,7 +2998,7 @@ export default function AutoWizard() {
 
             <div className="rounded-2xl overflow-hidden mb-10">
               <img 
-                src="https://images.unsplash.com/photo-1449965408869-ecd3c78f2cda?w=1200&h=600&fit=crop" 
+                src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&h=600&fit=crop" 
                 alt="Best commuter car 2026 - fuel efficient hybrid sedan driving on highway during morning commute to work" 
                 className="w-full h-64 md:h-96 object-cover"
               />
