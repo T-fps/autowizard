@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Auto Wizard | Free Car Finder Quiz - Match Your Perfect Vehicle in Minutes',
-  description: 'Take our free 2-minute car finder quiz to discover your perfect vehicle match. Compare 400+ models across 16 categories. Expert recommendations based on your lifestyle, budget, and preferences.',
+  description: 'Take our free 3-5 minute car finder quiz to discover your perfect vehicle match. Compare 400+ models across 16 categories. Expert recommendations based on your lifestyle, budget, and preferences.',
   keywords: [
     'car finder quiz',
     'vehicle recommendation',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     url: 'https://autowizard.org',
     siteName: 'Auto Wizard',
     title: 'Auto Wizard | Free Car Finder Quiz - Match Your Perfect Vehicle',
-    description: 'Take our free 2-minute car finder quiz to discover your perfect vehicle match. Compare 400+ models across 16 categories.',
+    description: 'Take our free 3-5 minute car finder quiz to discover your perfect vehicle match. Compare 400+ models across 16 categories.',
     images: [
       {
         url: '/og-image.png',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Auto Wizard | Free Car Finder Quiz',
-    description: 'Take our free 2-minute quiz to find your perfect car match from 400+ models.',
+    description: 'Take our free 3-5 minute quiz to find your perfect car match from 400+ models.',
     images: ['/og-image.png'],
     creator: '@autowizard',
   },
@@ -133,7 +133,7 @@ export default function RootLayout({
         "name": "How long does the car finder assessment take?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The Auto Wizard assessment takes approximately 2-3 minutes to complete. You'll answer 12 quick questions and immediately receive your personalized vehicle matches."
+          "text": "The Auto Wizard assessment takes approximately 3-5 minutes to complete. You'll answer 12 quick questions and immediately receive your personalized vehicle matches."
         }
       }
     ]
