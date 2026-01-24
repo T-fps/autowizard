@@ -1321,7 +1321,7 @@ export default function AutoWizard() {
                 But here's the thing: the "perfect" car isn't about what's trending on TikTok or what your coworker drives. It's about finding the vehicle that fits YOUR life - your budget, your daily routine, and yeah, maybe a little bit of what makes you smile when you see it in your driveway.
               </p>
               <p>
-                By the time you finish reading this, you'll know exactly what to look for. Or, if you want the fast track, <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">take our free 2-minute quiz</button> and we'll match you with your perfect car instantly.
+                By the time you finish reading this, you'll know exactly what to look for. Or, if you want the fast track, <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">take our free 3-5 minute quiz</button> and we'll match you with your perfect car instantly.
               </p>
             </div>
 
@@ -1438,7 +1438,7 @@ export default function AutoWizard() {
             <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
               <h3 className="text-2xl font-bold text-white mb-3">Still Not Sure?</h3>
               <p className="text-white/70 mb-6 max-w-xl mx-auto">
-                Our free 2-minute quiz analyzes your lifestyle, budget, and preferences to match you with the perfect vehicle from 400+ models.
+                Our free 3-5 minute quiz analyzes your lifestyle, budget, and preferences to match you with the perfect vehicle from 400+ models.
               </p>
               <button 
                 onClick={startTest}
