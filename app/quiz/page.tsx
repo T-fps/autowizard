@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { ChevronRight, ChevronLeft, Check, ArrowLeft, ArrowRight, Shield, Clock, Mail, Target, Star, FileText, RefreshCw, X, Send } from 'lucide-react';
 import Navigation from '../components/shared/Navigation';
+import { scoreVehicles, getCategoryName, ScoredVehicle } from '../lib/vehicleScoring';
+import { vehicleDatabase } from '../lib/vehicleDatabase';
 
 export default function QuizPage() {
   const [testStep, setTestStep] = useState(0);
@@ -27,72 +29,639 @@ export default function QuizPage() {
     const cleanVehicle = vehicle.startsWith('Used ') ? vehicle.slice(5) : vehicle;
     
     const titleMappings: Record<string, string> = {
+      // Tesla
       'Tesla Model 3': 'Tesla_Model_3',
       'Tesla Model Y': 'Tesla_Model_Y',
       'Tesla Model S': 'Tesla_Model_S',
       'Tesla Model X': 'Tesla_Model_X',
       'Tesla Cybertruck': 'Tesla_Cybertruck',
+      
+      // Ford
       'Ford F-150': 'Ford_F-Series',
+      'Ford F-150 Hybrid': 'Ford_F-150',
       'Ford F-150 Lightning': 'Ford_F-150_Lightning',
+      'Ford F-150 Raptor': 'Ford_F-150_Raptor',
+      'Ford F-150 Raptor R': 'Ford_F-150_Raptor',
+      'Ford Super Duty F-250': 'Ford_Super_Duty',
+      'Ford F-250': 'Ford_Super_Duty',
+      'Ford Super Duty F-350': 'Ford_Super_Duty',
+      'Ford Mustang': 'Ford_Mustang',
+      'Ford Mustang GT': 'Ford_Mustang',
+      'Ford Mustang Dark Horse': 'Ford_Mustang',
+      'Ford Mustang Convertible': 'Ford_Mustang',
+      'Ford Mustang Shelby GT500': 'Ford_Mustang_Shelby_GT500',
       'Ford Mustang Mach-E': 'Ford_Mustang_Mach-E',
+      'Ford Bronco': 'Ford_Bronco_(sixth_generation)',
+      'Ford Bronco Sport': 'Ford_Bronco_Sport',
+      'Ford Bronco Raptor': 'Ford_Bronco_(sixth_generation)',
+      'Ford Explorer': 'Ford_Explorer',
+      'Ford Explorer Hybrid': 'Ford_Explorer',
+      'Ford Explorer ST': 'Ford_Explorer',
+      'Ford Expedition': 'Ford_Expedition',
+      'Ford Expedition MAX': 'Ford_Expedition',
+      'Ford Ranger': 'Ford_Ranger_(Americas)',
+      'Ford Maverick': 'Ford_Maverick_(2021)',
+      'Ford Escape': 'Ford_Escape',
+      'Ford Escape Hybrid': 'Ford_Escape',
+      'Ford Escape PHEV': 'Ford_Escape',
+      'Ford Edge': 'Ford_Edge',
+      'Ford Edge ST': 'Ford_Edge',
+      'Ford Transit': 'Ford_Transit',
+      'Ford Transit Connect': 'Ford_Transit_Connect',
+      
+      // Chevrolet
       'Chevrolet Corvette': 'Chevrolet_Corvette',
+      'Chevrolet Corvette E-Ray': 'Chevrolet_Corvette_(C8)',
+      'Chevrolet Corvette Z06': 'Chevrolet_Corvette_Z06',
+      'Chevrolet Corvette ZR1': 'Chevrolet_Corvette_ZR1',
       'Chevrolet Camaro': 'Chevrolet_Camaro',
-      'Chevrolet Silverado': 'Chevrolet_Silverado',
-      'Porsche 911': 'Porsche_911',
-      'Porsche Taycan': 'Porsche_Taycan',
-      'Porsche Cayenne': 'Porsche_Cayenne',
-      'Porsche Macan': 'Porsche_Macan',
-      'BMW 3 Series': 'BMW_3_Series',
-      'BMW 5 Series': 'BMW_5_Series',
-      'BMW 7 Series': 'BMW_7_Series',
-      'BMW X3': 'BMW_X3',
-      'BMW X5': 'BMW_X5',
-      'BMW X7': 'BMW_X7',
-      'BMW i4': 'BMW_i4',
-      'BMW iX': 'BMW_iX',
-      'BMW M3': 'BMW_M3',
-      'BMW M5': 'BMW_M5',
-      'Mercedes-Benz C-Class': 'Mercedes-Benz_C-Class',
-      'Mercedes-Benz E-Class': 'Mercedes-Benz_E-Class',
-      'Mercedes-Benz S-Class': 'Mercedes-Benz_S-Class',
-      'Mercedes-Benz GLE': 'Mercedes-Benz_GLE-Class',
-      'Mercedes-Benz GLS': 'Mercedes-Benz_GLS-Class',
-      'Mercedes-Benz GLC': 'Mercedes-Benz_GLC-Class',
-      'Mercedes-Benz EQS': 'Mercedes-Benz_EQS',
-      'Mercedes-Benz EQE': 'Mercedes-Benz_EQE',
-      'Mercedes-Benz AMG GT': 'Mercedes-AMG_GT',
-      'Audi A4': 'Audi_A4',
-      'Audi A6': 'Audi_A6',
-      'Audi A8': 'Audi_A8',
-      'Audi Q5': 'Audi_Q5',
-      'Audi Q7': 'Audi_Q7',
-      'Audi Q8': 'Audi_Q8',
-      'Audi e-tron': 'Audi_e-tron_(brand)',
-      'Audi e-tron GT': 'Audi_e-tron_GT',
-      'Audi R8': 'Audi_R8',
-      'Audi RS6': 'Audi_RS_6',
+      'Chevrolet Camaro ZL1': 'Chevrolet_Camaro',
+      'Chevrolet Silverado 1500': 'Chevrolet_Silverado',
+      'Chevrolet Silverado 2500HD': 'Chevrolet_Silverado',
+      'Chevrolet Silverado 3500HD': 'Chevrolet_Silverado',
+      'Chevrolet Silverado EV': 'Chevrolet_Silverado_EV',
+      'Chevrolet Silverado ZR2': 'Chevrolet_Silverado',
+      'Chevrolet Colorado': 'Chevrolet_Colorado',
+      'Chevrolet Colorado ZR2': 'Chevrolet_Colorado',
+      'Chevrolet Tahoe': 'Chevrolet_Tahoe',
+      'Chevrolet Tahoe Z71': 'Chevrolet_Tahoe',
+      'Chevrolet Suburban': 'Chevrolet_Suburban',
+      'Chevrolet Traverse': 'Chevrolet_Traverse',
+      'Chevrolet Equinox': 'Chevrolet_Equinox',
+      'Chevrolet Equinox EV': 'Chevrolet_Equinox_EV',
+      'Chevrolet Blazer': 'Chevrolet_Blazer_(crossover)',
+      'Chevrolet Blazer EV': 'Chevrolet_Blazer_EV',
+      'Chevrolet Trax': 'Chevrolet_Trax',
+      'Chevrolet Trailblazer': 'Chevrolet_Trailblazer_(crossover)',
+      'Chevrolet Bolt EUV': 'Chevrolet_Bolt',
+      'Chevrolet Spark': 'Chevrolet_Spark',
+      'Chevrolet Express': 'Chevrolet_Express',
+      
+      // GMC
+      'GMC Sierra 1500': 'GMC_Sierra',
+      'GMC Sierra 2500HD': 'GMC_Sierra',
+      'GMC Sierra 3500HD': 'GMC_Sierra',
+      'GMC Sierra EV': 'GMC_Sierra_EV',
+      'GMC Sierra AT4X': 'GMC_Sierra',
+      'GMC Canyon': 'GMC_Canyon',
+      'GMC Canyon AT4X': 'GMC_Canyon',
+      'GMC Yukon': 'GMC_Yukon',
+      'GMC Yukon XL': 'GMC_Yukon',
+      'GMC Yukon AT4': 'GMC_Yukon',
+      'GMC Yukon Denali Ultimate': 'GMC_Yukon',
+      'GMC Acadia': 'GMC_Acadia',
+      'GMC Terrain': 'GMC_Terrain',
+      'GMC Hummer EV Pickup': 'GMC_Hummer_EV',
+      'GMC Hummer EV SUV': 'GMC_Hummer_EV',
+      'GMC Hummer EV': 'GMC_Hummer_EV',
+      'GMC Savana': 'GMC_Savana',
+      
+      // Dodge/Ram
+      'Dodge Challenger': 'Dodge_Challenger',
+      'Dodge Challenger SRT Hellcat': 'Dodge_Challenger_SRT_Hellcat',
+      'Dodge Charger': 'Dodge_Charger_(seventh_generation)',
+      'Dodge Charger SRT Hellcat': 'Dodge_Charger_SRT_Hellcat',
+      'Dodge Charger Daytona': 'Dodge_Charger_Daytona_(2024)',
+      'Dodge Durango': 'Dodge_Durango',
+      'Dodge Durango SRT 392': 'Dodge_Durango',
+      'Dodge Durango SRT Hellcat': 'Dodge_Durango',
+      'Dodge Hornet': 'Dodge_Hornet_(2023)',
+      'Dodge Hornet R/T': 'Dodge_Hornet_(2023)',
+      'Ram 1500': 'Ram_1500',
+      'Ram 1500 TRX': 'Ram_1500_TRX',
+      'Ram 1500 Rebel': 'Ram_1500',
+      'Ram 1500 Limited': 'Ram_1500',
+      'Ram 1500 REV': 'Ram_1500',
+      'Ram 2500': 'Ram_2500',
+      'Ram 3500': 'Ram_3500',
+      'Ram ProMaster': 'Ram_ProMaster',
+      'Ram ProMaster City': 'Ram_ProMaster_City',
+      
+      // Jeep
+      'Jeep Wrangler': 'Jeep_Wrangler',
+      'Jeep Wrangler 4xe': 'Jeep_Wrangler_(JL)',
+      'Jeep Wrangler Rubicon 392': 'Jeep_Wrangler_(JL)',
+      'Jeep Gladiator': 'Jeep_Gladiator_(JT)',
+      'Jeep Grand Cherokee': 'Jeep_Grand_Cherokee',
+      'Jeep Grand Cherokee 4xe': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Grand Cherokee L': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Grand Cherokee Trailhawk': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Grand Cherokee Summit': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Cherokee': 'Jeep_Cherokee_(KL)',
+      'Jeep Compass': 'Jeep_Compass',
+      'Jeep Renegade': 'Jeep_Renegade_(BU)',
+      'Jeep Wagoneer': 'Jeep_Wagoneer_(WS)',
+      'Jeep Grand Wagoneer': 'Jeep_Wagoneer_(WS)',
+      
+      // Chrysler
+      'Chrysler Pacifica': 'Chrysler_Pacifica_(minivan)',
+      'Chrysler Pacifica Hybrid': 'Chrysler_Pacifica_(minivan)',
+      'Chrysler Voyager': 'Chrysler_Voyager_(minivan)',
+      'Chrysler 300': 'Chrysler_300_(third_generation)',
+      
+      // Toyota
       'Toyota Camry': 'Toyota_Camry',
       'Toyota Corolla': 'Toyota_Corolla',
+      'Toyota Corolla Hatchback': 'Toyota_Corolla_(E210)',
+      'Toyota Corolla Hybrid': 'Toyota_Corolla',
+      'Toyota Corolla Cross': 'Toyota_Corolla_Cross',
+      'Toyota Corolla Cross Hybrid': 'Toyota_Corolla_Cross',
+      'Toyota GR Corolla': 'Toyota_GR_Corolla',
       'Toyota RAV4': 'Toyota_RAV4',
+      'Toyota RAV4 Hybrid': 'Toyota_RAV4',
+      'Toyota RAV4 Prime': 'Toyota_RAV4_Prime',
+      'Toyota RAV4 TRD Off-Road': 'Toyota_RAV4',
       'Toyota Highlander': 'Toyota_Highlander',
+      'Toyota Grand Highlander': 'Toyota_Grand_Highlander',
       'Toyota 4Runner': 'Toyota_4Runner',
+      'Toyota 4Runner TRD Pro': 'Toyota_4Runner',
+      'Toyota Sequoia': 'Toyota_Sequoia',
+      'Toyota Land Cruiser': 'Toyota_Land_Cruiser',
+      'Toyota Land Cruiser 250': 'Toyota_Land_Cruiser',
       'Toyota Tacoma': 'Toyota_Tacoma',
+      'Toyota Tacoma Hybrid': 'Toyota_Tacoma',
+      'Toyota Tacoma TRD Pro': 'Toyota_Tacoma',
       'Toyota Tundra': 'Toyota_Tundra',
-      'Toyota Supra': 'Toyota_Supra',
+      'Toyota Tundra Hybrid': 'Toyota_Tundra',
+      'Toyota Tundra TRD Pro': 'Toyota_Tundra',
+      'Toyota Crown': 'Toyota_Crown_(S230)',
+      'Toyota Crown Signia': 'Toyota_Crown_Signia',
+      'Toyota Venza': 'Toyota_Venza',
+      'Toyota Sienna': 'Toyota_Sienna',
       'Toyota Prius': 'Toyota_Prius',
+      'Toyota Prius Prime': 'Toyota_Prius_Plug-in_Hybrid',
+      'Toyota GR Supra': 'Toyota_Supra',
+      'Toyota GR86': 'Toyota_GR86',
+      'Toyota bZ4X': 'Toyota_bZ4X',
+      'Toyota Mirai': 'Toyota_Mirai',
+      
+      // Honda
       'Honda Civic': 'Honda_Civic',
+      'Honda Civic Hatchback': 'Honda_Civic',
+      'Honda Civic Hybrid': 'Honda_Civic',
+      'Honda Civic Si': 'Honda_Civic_Si',
+      'Honda Civic Type R': 'Honda_Civic_Type_R',
       'Honda Accord': 'Honda_Accord',
+      'Honda Accord Hybrid': 'Honda_Accord',
+      'Honda Accord Sport': 'Honda_Accord',
       'Honda CR-V': 'Honda_CR-V',
+      'Honda CR-V Hybrid': 'Honda_CR-V',
+      'Honda CR-V Hybrid Sport Touring': 'Honda_CR-V',
+      'Honda CR-V Sport Touring': 'Honda_CR-V',
+      'Honda HR-V': 'Honda_HR-V',
       'Honda Pilot': 'Honda_Pilot',
-      'Honda Odyssey': 'Honda_Odyssey',
+      'Honda Pilot TrailSport': 'Honda_Pilot',
+      'Honda Passport': 'Honda_Passport',
+      'Honda Passport TrailSport': 'Honda_Passport',
+      'Honda Prologue': 'Honda_Prologue',
       'Honda Ridgeline': 'Honda_Ridgeline',
+      'Honda Odyssey': 'Honda_Odyssey',
+      
+      // Lexus
       'Lexus ES': 'Lexus_ES',
-      'Lexus RX': 'Lexus_RX',
+      'Lexus ES Hybrid': 'Lexus_ES',
+      'Lexus IS': 'Lexus_IS',
+      'Lexus IS 300': 'Lexus_IS',
+      'Lexus IS 500': 'Lexus_IS',
+      'Lexus LS': 'Lexus_LS',
+      'Lexus LC': 'Lexus_LC',
+      'Lexus LC 500': 'Lexus_LC',
+      'Lexus LC 500 Convertible': 'Lexus_LC',
+      'Lexus RC': 'Lexus_RC',
+      'Lexus RC F': 'Lexus_RC_F',
+      'Lexus UX': 'Lexus_UX',
       'Lexus NX': 'Lexus_NX',
+      'Lexus NX Hybrid': 'Lexus_NX',
+      'Lexus NX 350 F Sport': 'Lexus_NX',
+      'Lexus RX': 'Lexus_RX',
+      'Lexus RX Hybrid': 'Lexus_RX',
+      'Lexus RX 350 F Sport': 'Lexus_RX',
+      'Lexus RX 500h F Sport': 'Lexus_RX',
+      'Lexus RZ': 'Lexus_RZ',
+      'Lexus TX': 'Lexus_TX',
       'Lexus GX': 'Lexus_GX',
       'Lexus LX': 'Lexus_LX',
-      'Lexus LC': 'Lexus_LC',
-      'Lexus IS': 'Lexus_IS',
+      'Lexus LM': 'Lexus_LM',
+      
+      // Acura
+      'Acura Integra': 'Acura_Integra',
+      'Acura Integra Type S': 'Acura_Integra',
+      'Acura TLX': 'Acura_TLX',
+      'Acura TLX Type S': 'Acura_TLX',
+      'Acura RDX': 'Acura_RDX',
+      'Acura RDX A-Spec': 'Acura_RDX',
+      'Acura RDX A-Spec Advance': 'Acura_RDX',
+      'Acura ADX': 'Acura_ADX',
+      'Acura ADX A-Spec': 'Acura_ADX',
+      'Acura MDX': 'Acura_MDX',
+      'Acura MDX Type S': 'Acura_MDX',
+      'Acura ZDX': 'Acura_ZDX_(2024)',
+      'Acura ZDX Type S': 'Acura_ZDX_(2024)',
+      
+      // BMW
+      'BMW 2 Series Coupe': 'BMW_2_Series',
+      'BMW 2 Series Gran Coupe': 'BMW_2_Series',
+      'BMW 3 Series': 'BMW_3_Series',
+      'BMW 4 Series Coupe': 'BMW_4_Series',
+      'BMW 4 Series': 'BMW_4_Series',
+      'BMW 4 Series Gran Coupe': 'BMW_4_Series',
+      'BMW 4 Series Convertible': 'BMW_4_Series',
+      'BMW 5 Series': 'BMW_5_Series',
+      'BMW 7 Series': 'BMW_7_Series',
+      'BMW 8 Series Coupe': 'BMW_8_Series_(G15)',
+      'BMW 8 Series Gran Coupe': 'BMW_8_Series_(G15)',
+      'BMW 8 Series Convertible': 'BMW_8_Series_(G15)',
+      'BMW M2': 'BMW_M2',
+      'BMW M3': 'BMW_M3',
+      'BMW M4': 'BMW_M4',
+      'BMW M5': 'BMW_M5',
+      'BMW M8': 'BMW_8_Series_(G15)',
+      'BMW M240i': 'BMW_2_Series',
+      'BMW M340i': 'BMW_3_Series',
+      'BMW M440i': 'BMW_4_Series',
+      'BMW M550i': 'BMW_5_Series',
+      'BMW X1': 'BMW_X1',
+      'BMW X2': 'BMW_X2',
+      'BMW X3': 'BMW_X3',
+      'BMW X3 M40i': 'BMW_X3',
+      'BMW X4': 'BMW_X4',
+      'BMW X5': 'BMW_X5',
+      'BMW X5 M50i': 'BMW_X5',
+      'BMW X5M': 'BMW_X5',
+      'BMW X6': 'BMW_X6',
+      'BMW X6M': 'BMW_X6',
+      'BMW X7': 'BMW_X7',
+      'BMW X7 M60i': 'BMW_X7',
+      'BMW XM': 'BMW_XM',
+      'BMW Z4': 'BMW_Z4',
+      'BMW i4': 'BMW_i4',
+      'BMW i5': 'BMW_i5',
+      'BMW i7': 'BMW_i7',
+      'BMW iX': 'BMW_iX',
+      
+      // Mercedes-Benz
+      'Mercedes-Benz A-Class': 'Mercedes-Benz_A-Class',
+      'Mercedes-Benz C-Class': 'Mercedes-Benz_C-Class',
+      'Mercedes-Benz CLA': 'Mercedes-Benz_CLA-Class',
+      'Mercedes-Benz CLE Coupe': 'Mercedes-Benz_CLE-Class',
+      'Mercedes-Benz CLE Cabriolet': 'Mercedes-Benz_CLE-Class',
+      'Mercedes-Benz E-Class': 'Mercedes-Benz_E-Class',
+      'Mercedes-Benz S-Class': 'Mercedes-Benz_S-Class',
+      'Mercedes-Maybach S-Class': 'Mercedes-Maybach_S-Class',
+      'Mercedes-AMG GT Coupe': 'Mercedes-AMG_GT',
+      'Mercedes-AMG SL': 'Mercedes-Benz_SL-Class',
+      'Mercedes-AMG C43': 'Mercedes-Benz_C-Class',
+      'Mercedes-AMG C63': 'Mercedes-AMG_C63',
+      'Mercedes-AMG E53': 'Mercedes-Benz_E-Class',
+      'Mercedes-AMG E63 S': 'Mercedes-Benz_E-Class',
+      'Mercedes-AMG GLC43': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-AMG GLC63': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-AMG GLE53': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-AMG GLE63 S': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-AMG GLS63': 'Mercedes-Benz_GLS-Class',
+      'Mercedes-Benz GLA': 'Mercedes-Benz_GLA-Class',
+      'Mercedes-Benz GLB': 'Mercedes-Benz_GLB-Class',
+      'Mercedes-Benz GLC': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-Benz GLC Coupe': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-Benz GLE': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-Benz GLE Coupe': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-Benz GLS': 'Mercedes-Benz_GLS-Class',
+      'Mercedes-Maybach GLS': 'Mercedes-Maybach_GLS',
+      'Mercedes-Benz G-Class': 'Mercedes-Benz_G-Class',
+      'Mercedes-AMG G63': 'Mercedes-Benz_G-Class',
+      'Mercedes-Benz EQB': 'Mercedes-Benz_EQB',
+      'Mercedes-Benz EQE Sedan': 'Mercedes-Benz_EQE',
+      'Mercedes-Benz EQE SUV': 'Mercedes-Benz_EQE_SUV',
+      'Mercedes-Benz EQS': 'Mercedes-Benz_EQS',
+      'Mercedes-Benz EQS Sedan': 'Mercedes-Benz_EQS',
+      'Mercedes-Benz EQS SUV': 'Mercedes-Benz_EQS_SUV',
+      'Mercedes-Benz Sprinter': 'Mercedes-Benz_Sprinter',
+      
+      // Audi
+      'Audi A3': 'Audi_A3',
+      'Audi A4': 'Audi_A4',
+      'Audi A4 Allroad': 'Audi_A4_allroad',
+      'Audi A5': 'Audi_A5',
+      'Audi A5 Sportback': 'Audi_A5',
+      'Audi A6': 'Audi_A6',
+      'Audi A6 Allroad': 'Audi_A6_allroad',
+      'Audi A7': 'Audi_A7',
+      'Audi A8': 'Audi_A8',
+      'Audi Q3': 'Audi_Q3',
+      'Audi Q4 e-tron': 'Audi_Q4_e-tron',
+      'Audi Q5': 'Audi_Q5',
+      'Audi Q5 Sportback': 'Audi_Q5',
+      'Audi Q7': 'Audi_Q7',
+      'Audi Q8': 'Audi_Q8',
+      'Audi Q8 e-tron': 'Audi_Q8_e-tron',
+      'Audi S6': 'Audi_S6',
+      'Audi S7': 'Audi_S7',
+      'Audi e-tron': 'Audi_e-tron_(brand)',
+      'Audi e-tron GT': 'Audi_e-tron_GT',
+      'Audi RS e-tron GT': 'Audi_e-tron_GT',
+      'Audi RS3': 'Audi_RS_3',
+      'Audi RS5': 'Audi_RS_5',
+      'Audi RS6 Avant': 'Audi_RS_6',
+      'Audi RS7': 'Audi_RS_7',
+      'Audi RS Q8': 'Audi_RS_Q8',
+      'Audi S3': 'Audi_S3',
+      'Audi S4': 'Audi_S4',
+      'Audi S5': 'Audi_S5',
+      'Audi SQ5': 'Audi_SQ5',
+      'Audi SQ7': 'Audi_SQ7',
+      'Audi SQ8': 'Audi_SQ8',
+      'Audi TT': 'Audi_TT',
+      'Audi R8': 'Audi_R8',
+      
+      // Porsche
+      'Porsche 718 Cayman': 'Porsche_718',
+      'Porsche 718 Boxster': 'Porsche_718',
+      'Porsche 911': 'Porsche_911',
+      'Porsche 911 Turbo': 'Porsche_911_Turbo',
+      'Porsche 911 GT3': 'Porsche_911_GT3',
+      'Porsche Panamera': 'Porsche_Panamera',
+      'Porsche Cayenne': 'Porsche_Cayenne',
+      'Porsche Cayenne Coupe': 'Porsche_Cayenne',
+      'Porsche Macan': 'Porsche_Macan',
+      'Porsche Macan Electric': 'Porsche_Macan_Electric',
+      'Porsche Taycan': 'Porsche_Taycan',
+      'Porsche Taycan Cross Turismo': 'Porsche_Taycan',
+      
+      // Hyundai
+      'Hyundai Elantra': 'Hyundai_Elantra',
+      'Hyundai Elantra Hybrid': 'Hyundai_Elantra',
+      'Hyundai Elantra N': 'Hyundai_Elantra_N',
+      'Hyundai Sonata': 'Hyundai_Sonata',
+      'Hyundai Sonata Hybrid': 'Hyundai_Sonata',
+      'Hyundai Venue': 'Hyundai_Venue',
+      'Hyundai Kona': 'Hyundai_Kona',
+      'Hyundai Kona Electric': 'Hyundai_Kona_Electric',
+      'Hyundai Kona N': 'Hyundai_Kona_N',
+      'Hyundai Tucson': 'Hyundai_Tucson',
+      'Hyundai Tucson Hybrid': 'Hyundai_Tucson',
+      'Hyundai Santa Fe': 'Hyundai_Santa_Fe',
+      'Hyundai Santa Fe Hybrid': 'Hyundai_Santa_Fe',
+      'Hyundai Palisade': 'Hyundai_Palisade',
+      'Hyundai Santa Cruz': 'Hyundai_Santa_Cruz',
+      'Hyundai Ioniq 5': 'Hyundai_Ioniq_5',
+      'Hyundai Ioniq 5 N': 'Hyundai_Ioniq_5_N',
+      'Hyundai Ioniq 6': 'Hyundai_Ioniq_6',
+      'Hyundai Ioniq 9': 'Hyundai_Ioniq_7',
+      
+      // Kia
+      'Kia Rio': 'Kia_Rio',
+      'Kia K4': 'Kia_K4',
+      'Kia K5': 'Kia_K5',
+      'Kia Stinger': 'Kia_Stinger',
+      'Kia Soul': 'Kia_Soul',
+      'Kia Seltos': 'Kia_Seltos',
+      'Kia Sportage': 'Kia_Sportage',
+      'Kia Sportage Hybrid': 'Kia_Sportage',
+      'Kia Sorento': 'Kia_Sorento',
+      'Kia Sorento Hybrid': 'Kia_Sorento',
+      'Kia Sorento SX Prestige': 'Kia_Sorento',
+      'Kia Telluride': 'Kia_Telluride',
+      'Kia Carnival': 'Kia_Carnival',
+      'Kia Niro': 'Kia_Niro',
+      'Kia Niro EV': 'Kia_Niro',
+      'Kia EV5': 'Kia_EV5',
+      'Kia EV6': 'Kia_EV6',
+      'Kia EV6 GT': 'Kia_EV6',
+      'Kia EV9': 'Kia_EV9',
+      'Kia Forte': 'Kia_Forte',
+      
+      // Genesis
+      'Genesis G70': 'Genesis_G70',
+      'Genesis G70 Shooting Brake': 'Genesis_G70',
+      'Genesis G80': 'Genesis_G80',
+      'Genesis Electrified G80': 'Genesis_G80',
+      'Genesis G90': 'Genesis_G90',
+      'Genesis GV60': 'Genesis_GV60',
+      'Genesis GV60 Performance': 'Genesis_GV60',
+      'Genesis GV70': 'Genesis_GV70',
+      'Genesis Electrified GV70': 'Genesis_GV70',
+      'Genesis GV80': 'Genesis_GV80',
+      'Genesis GV80 Coupe': 'Genesis_GV80',
+      
+      // Subaru
+      'Subaru Impreza': 'Subaru_Impreza',
+      'Subaru Legacy': 'Subaru_Legacy',
+      'Subaru Crosstrek': 'Subaru_Crosstrek',
+      'Subaru Crosstrek Hybrid': 'Subaru_Crosstrek',
+      'Subaru Crosstrek Wilderness': 'Subaru_Crosstrek',
+      'Subaru Forester': 'Subaru_Forester',
+      'Subaru Forester Wilderness': 'Subaru_Forester',
+      'Subaru Outback': 'Subaru_Outback',
+      'Subaru Outback Wilderness': 'Subaru_Outback',
+      'Subaru Ascent': 'Subaru_Ascent',
+      'Subaru Solterra': 'Subaru_Solterra',
+      'Subaru BRZ': 'Subaru_BRZ',
+      'Subaru WRX': 'Subaru_WRX',
+      'Subaru WRX TR': 'Subaru_WRX',
+      
+      // Nissan
+      'Nissan Versa': 'Nissan_Versa',
+      'Nissan Sentra': 'Nissan_Sentra',
+      'Nissan Altima': 'Nissan_Altima',
+      'Nissan Z': 'Nissan_Z',
+      'Nissan Z Nismo': 'Nissan_Z',
+      'Nissan GT-R': 'Nissan_GT-R',
+      'Nissan Kicks': 'Nissan_Kicks',
+      'Nissan Rogue': 'Nissan_Rogue',
+      'Nissan Rogue SL': 'Nissan_Rogue',
+      'Nissan Murano': 'Nissan_Murano',
+      'Nissan Pathfinder': 'Nissan_Pathfinder',
+      'Nissan Pathfinder Rock Creek': 'Nissan_Pathfinder',
+      'Nissan Armada': 'Nissan_Armada',
+      'Nissan Frontier': 'Nissan_Frontier',
+      'Nissan Leaf': 'Nissan_Leaf',
+      'Nissan Ariya': 'Nissan_Ariya',
+      'Nissan Titan': 'Nissan_Titan',
+      
+      // Mazda
+      'Mazda3 Sedan': 'Mazda3',
+      'Mazda3 Hatchback': 'Mazda3',
+      'Mazda 3': 'Mazda3',
+      'Mazda 3 Hatchback': 'Mazda3',
+      'Mazda CX-30': 'Mazda_CX-30',
+      'Mazda CX-5': 'Mazda_CX-5',
+      'Mazda CX-5 Turbo': 'Mazda_CX-5',
+      'Mazda CX-50': 'Mazda_CX-50',
+      'Mazda CX-50 Meridian': 'Mazda_CX-50',
+      'Mazda CX-50 Meridian Edition': 'Mazda_CX-50',
+      'Mazda CX-70': 'Mazda_CX-70',
+      'Mazda CX-90': 'Mazda_CX-90',
+      'Mazda CX-90 PHEV': 'Mazda_CX-90',
+      'Mazda CX-90 PHEV Premium': 'Mazda_CX-90',
+      'Mazda MX-5 Miata': 'Mazda_MX-5',
+      'Mazda MX-5 Miata RF': 'Mazda_MX-5',
+      
+      // Volkswagen
+      'Volkswagen Jetta': 'Volkswagen_Jetta',
+      'Volkswagen Jetta GLI': 'Volkswagen_Jetta',
+      'Volkswagen Jetta Sport': 'Volkswagen_Jetta',
+      'Volkswagen Arteon': 'Volkswagen_Arteon',
+      'Volkswagen Golf GTI': 'Volkswagen_Golf',
+      'Volkswagen Golf R': 'Volkswagen_Golf_R',
+      'Volkswagen Taos': 'Volkswagen_Taos',
+      'Volkswagen Tiguan': 'Volkswagen_Tiguan',
+      'Volkswagen Atlas': 'Volkswagen_Atlas',
+      'Volkswagen Atlas Cross Sport': 'Volkswagen_Atlas_Cross_Sport',
+      'Volkswagen Atlas Peak Edition': 'Volkswagen_Atlas',
+      'Volkswagen ID.4': 'Volkswagen_ID.4',
+      'Volkswagen ID.4 Pro S': 'Volkswagen_ID.4',
+      'Volkswagen ID.Buzz': 'Volkswagen_ID._Buzz',
+      'Volkswagen ID.Buzz LWB': 'Volkswagen_ID._Buzz',
+      
+      // Volvo
+      'Volvo S60': 'Volvo_S60',
+      'Volvo S60 Recharge': 'Volvo_S60',
+      'Volvo S90': 'Volvo_S90',
+      'Volvo V60': 'Volvo_V60',
+      'Volvo V60 Cross Country': 'Volvo_V60',
+      'Volvo V90': 'Volvo_V90',
+      'Volvo V90 Cross Country': 'Volvo_V90',
+      'Volvo XC40': 'Volvo_XC40',
+      'Volvo XC40 Recharge': 'Volvo_XC40',
+      'Volvo C40 Recharge': 'Volvo_C40_Recharge',
+      'Volvo XC60': 'Volvo_XC60',
+      'Volvo XC60 Recharge': 'Volvo_XC60',
+      'Volvo XC90': 'Volvo_XC90',
+      'Volvo XC90 Recharge': 'Volvo_XC90',
+      'Volvo EX30': 'Volvo_EX30',
+      'Volvo EX90': 'Volvo_EX90',
+      
+      // Cadillac
+      'Cadillac CT4': 'Cadillac_CT4',
+      'Cadillac CT4-V': 'Cadillac_CT4',
+      'Cadillac CT4-V Blackwing': 'Cadillac_CT4-V_Blackwing',
+      'Cadillac CT5': 'Cadillac_CT5',
+      'Cadillac CT5-V': 'Cadillac_CT5',
+      'Cadillac CT5-V Blackwing': 'Cadillac_CT5-V_Blackwing',
+      'Cadillac XT4': 'Cadillac_XT4',
+      'Cadillac XT5': 'Cadillac_XT5',
+      'Cadillac XT6': 'Cadillac_XT6',
+      'Cadillac Escalade': 'Cadillac_Escalade',
+      'Cadillac Escalade ESV': 'Cadillac_Escalade',
+      'Cadillac Escalade-V': 'Cadillac_Escalade',
+      'Cadillac Escalade IQ': 'Cadillac_Escalade_IQ',
+      'Cadillac Lyriq': 'Cadillac_Lyriq',
+      'Cadillac Lyriq-V': 'Cadillac_Lyriq',
+      'Cadillac Optiq': 'Cadillac_Optiq',
+      'Cadillac Vistiq': 'Cadillac_Vistiq',
+      'Cadillac Celestiq': 'Cadillac_Celestiq',
+      
+      // Lincoln
+      'Lincoln Corsair': 'Lincoln_Corsair',
+      'Lincoln Corsair Grand Touring': 'Lincoln_Corsair',
+      'Lincoln Corsair Reserve': 'Lincoln_Corsair',
+      'Lincoln Nautilus': 'Lincoln_Nautilus',
+      'Lincoln Nautilus Reserve': 'Lincoln_Nautilus',
+      'Lincoln Aviator': 'Lincoln_Aviator',
+      'Lincoln Aviator Grand Touring': 'Lincoln_Aviator',
+      'Lincoln Aviator Black Label': 'Lincoln_Aviator',
+      'Lincoln Navigator': 'Lincoln_Navigator',
+      'Lincoln Navigator Black Label': 'Lincoln_Navigator',
+      
+      // Infiniti
+      'Infiniti Q50': 'Infiniti_Q50',
+      'Infiniti Q50 Red Sport 400': 'Infiniti_Q50',
+      'Infiniti Q60': 'Infiniti_Q60',
+      'Infiniti Q60 Red Sport 400': 'Infiniti_Q60',
+      'Infiniti QX50': 'Infiniti_QX50',
+      'Infiniti QX55': 'Infiniti_QX55',
+      'Infiniti QX60': 'Infiniti_QX60',
+      'Infiniti QX80': 'Infiniti_QX80',
+      
+      // Buick
+      'Buick Envista': 'Buick_Envista',
+      'Buick Encore GX': 'Buick_Encore_GX',
+      'Buick Envision': 'Buick_Envision',
+      'Buick Enclave': 'Buick_Enclave',
+      
+      // Jaguar
+      'Jaguar F-Type': 'Jaguar_F-Type',
+      'Jaguar E-Pace': 'Jaguar_E-Pace',
+      'Jaguar F-Pace': 'Jaguar_F-Pace',
+      'Jaguar F-PACE': 'Jaguar_F-Pace',
+      'Jaguar I-Pace': 'Jaguar_I-Pace',
+      'Jaguar I-PACE': 'Jaguar_I-Pace',
+      
+      // Land Rover
+      'Land Rover Defender 90': 'Land_Rover_Defender',
+      'Land Rover Defender 110': 'Land_Rover_Defender',
+      'Land Rover Defender 130': 'Land_Rover_Defender',
+      'Land Rover Discovery': 'Land_Rover_Discovery',
+      'Range Rover Velar': 'Range_Rover_Velar',
+      'Range Rover Sport': 'Range_Rover_Sport',
+      'Range Rover': 'Range_Rover',
+      
+      // Rivian
+      'Rivian R1T': 'Rivian_R1T',
+      'Rivian R1S': 'Rivian_R1S',
+      
+      // Lucid
+      'Lucid Air': 'Lucid_Air',
+      'Lucid Air Sapphire': 'Lucid_Air',
+      
+      // Polestar
+      'Polestar 2': 'Polestar_2',
+      'Polestar 3': 'Polestar_3',
+      'Polestar 4': 'Polestar_4',
+      
+      // Exotic brands
+      'Ferrari Roma': 'Ferrari_Roma',
+      'Ferrari Roma Spider': 'Ferrari_Roma',
+      'Ferrari 296 GTB': 'Ferrari_296_GTB',
+      'Ferrari 296 GTS': 'Ferrari_296_GTS',
+      'Ferrari SF90 Stradale': 'Ferrari_SF90_Stradale',
+      'Ferrari 812 Competizione': 'Ferrari_812_Competizione',
+      'Ferrari Purosangue': 'Ferrari_Purosangue',
+      'Lamborghini Huracán': 'Lamborghini_Huracán',
+      'Lamborghini Revuelto': 'Lamborghini_Revuelto',
+      'Lamborghini Urus': 'Lamborghini_Urus',
+      'McLaren Artura': 'McLaren_Artura',
+      'McLaren GT': 'McLaren_GT',
+      'McLaren 750S': 'McLaren_750S',
+      'McLaren 750S Spider': 'McLaren_750S',
+      'Aston Martin Vantage': 'Aston_Martin_Vantage_(2018)',
+      'Aston Martin DB12': 'Aston_Martin_DB12',
+      'Aston Martin DB12 Volante': 'Aston_Martin_DB12',
+      'Aston Martin DBS': 'Aston_Martin_DBS_Superleggera',
+      'Aston Martin DBX': 'Aston_Martin_DBX',
+      'Aston Martin DBX707': 'Aston_Martin_DBX',
+      'Aston Martin Vanquish': 'Aston_Martin_Vanquish',
+      'Bentley Continental GT': 'Bentley_Continental_GT',
+      'Bentley Continental GTC': 'Bentley_Continental_GT',
+      'Bentley Flying Spur': 'Bentley_Flying_Spur',
+      'Bentley Bentayga': 'Bentley_Bentayga',
+      'Rolls-Royce Ghost': 'Rolls-Royce_Ghost',
+      'Rolls-Royce Phantom': 'Rolls-Royce_Phantom_(eighth_generation)',
+      'Rolls-Royce Cullinan': 'Rolls-Royce_Cullinan',
+      'Rolls-Royce Spectre': 'Rolls-Royce_Spectre',
+      'Maserati Ghibli': 'Maserati_Ghibli_(M157)',
+      'Maserati Quattroporte': 'Maserati_Quattroporte',
+      'Maserati GranTurismo': 'Maserati_GranTurismo',
+      'Maserati MC20': 'Maserati_MC20',
+      'Maserati Grecale': 'Maserati_Grecale',
+      'Maserati Levante': 'Maserati_Levante',
+      
+      // Others
+      'Alfa Romeo Giulia': 'Alfa_Romeo_Giulia_(952)',
+      'Alfa Romeo Giulia Quadrifoglio': 'Alfa_Romeo_Giulia_(952)',
+      'Alfa Romeo Stelvio': 'Alfa_Romeo_Stelvio',
+      'Alfa Romeo Stelvio Quadrifoglio': 'Alfa_Romeo_Stelvio',
+      'Alfa Romeo Tonale': 'Alfa_Romeo_Tonale',
+      'Mini Cooper': 'Mini_Cooper',
+      'Mini Cooper Electric': 'Mini_Cooper',
+      'Mini Convertible': 'Mini_Cooper',
+      'Mini Countryman': 'Mini_Countryman',
+      'Mini Countryman Electric': 'Mini_Countryman',
+      'Mitsubishi Mirage': 'Mitsubishi_Mirage',
+      'Mitsubishi Eclipse Cross': 'Mitsubishi_Eclipse_Cross',
+      'Mitsubishi Outlander': 'Mitsubishi_Outlander',
+      'Mitsubishi Outlander PHEV': 'Mitsubishi_Outlander_PHEV',
+      'Fiat 500e': 'Fiat_500_electric',
     };
     
     return titleMappings[cleanVehicle] || cleanVehicle.replace(/ /g, '_');
@@ -179,160 +748,6 @@ export default function QuizPage() {
     setVehicleImageIndex(0);
   }, [result]);
 
-  // Vehicle MSRP data (approximate new prices in thousands)
-  const vehiclePrices: Record<string, number> = {
-    // Acura
-    'Acura Integra': 32, 'Acura TLX': 40, 'Acura RDX': 42, 'Acura MDX': 52,
-    // Alfa Romeo
-    'Alfa Romeo Giulia': 45, 'Alfa Romeo Stelvio': 48, 'Alfa Romeo Tonale': 43,
-    // Aston Martin
-    'Aston Martin Vantage': 155, 'Aston Martin DB11': 210, 'Aston Martin DB11 Volante': 240,
-    'Aston Martin DB12': 250, 'Aston Martin DBS Superleggera': 330, 'Aston Martin DBX': 195,
-    'Aston Martin DBX707': 240,
-    // Audi
-    'Audi A4': 42, 'Audi A4 Allroad': 48, 'Audi A5': 48, 'Audi A6': 58, 'Audi A6 Allroad': 70,
-    'Audi A8': 90, 'Audi Q3': 40, 'Audi Q5': 48, 'Audi Q7': 62, 'Audi Q8': 72,
-    'Audi R8': 160, 'Audi RS5': 78, 'Audi RS6': 125, 'Audi RS e-tron GT': 150,
-    'Audi e-tron': 70, 'Audi e-tron GT': 105,
-    // Bentley
-    'Bentley Bentayga': 200, 'Bentley Continental GT': 225, 'Bentley Flying Spur': 220,
-    // BMW
-    'BMW 3 Series': 45, 'BMW 4 Series': 50, 'BMW 5 Series': 58, 'BMW 7 Series': 95,
-    'BMW M2': 65, 'BMW M3': 75, 'BMW M3/M4': 78, 'BMW M4': 78, 'BMW M5': 110,
-    'BMW X1': 40, 'BMW X3': 50, 'BMW X5': 65, 'BMW X7': 80, 'BMW Z4': 55,
-    'BMW i4': 55, 'BMW iX': 85,
-    // Bugatti
-    'Bugatti Chiron': 3500, 'Bugatti Veyron': 1900,
-    // Cadillac
-    'Cadillac CT5': 42, 'Cadillac Escalade': 85, 'Cadillac Lyriq': 60,
-    // Chevrolet
-    'Chevrolet Bolt EUV': 28, 'Chevrolet Camaro': 30, 'Chevrolet Colorado': 30,
-    'Chevrolet Corvette': 68, 'Chevrolet Equinox EV': 35, 'Chevrolet Express': 42,
-    'Chevrolet Silverado': 40, 'Chevrolet Silverado 1500': 40, 'Chevrolet Silverado 2500HD': 48,
-    'Chevrolet Silverado 3500HD': 52, 'Chevrolet Silverado EV': 75, 'Chevrolet Spark': 15,
-    'Chevrolet Suburban': 62, 'Chevrolet Tahoe': 58,
-    // Chrysler
-    'Chrysler Pacifica': 42, 'Chrysler Voyager': 35,
-    // Dodge
-    'Dodge Challenger': 35, 'Dodge Charger': 35, 'Dodge Durango': 42,
-    // Ferrari
-    'Ferrari 296 GTB': 350, 'Ferrari 812 Superfast': 380, 'Ferrari F8 Tributo': 320,
-    'Ferrari Portofino': 240, 'Ferrari Purosangue': 410, 'Ferrari Roma': 245,
-    'Ferrari SF90 Stradale': 530,
-    // Fiat
-    'Fiat 500X': 28, 'Fiat 500e': 35,
-    // Ford
-    'Ford Bronco': 38, 'Ford EcoSport': 24, 'Ford Edge': 40, 'Ford Escape': 30,
-    'Ford Expedition': 60, 'Ford Explorer': 40, 'Ford F-150': 38, 'Ford F-150 Lightning': 60,
-    'Ford Maverick': 25, 'Ford Mustang': 32, 'Ford Mustang GT': 45, 'Ford Mustang Mach-E': 48,
-    'Ford Ranger': 32, 'Ford Transit': 45, 'Ford Transit Connect': 32,
-    // Genesis
-    'Genesis G70': 45, 'Genesis G80': 58, 'Genesis G90': 92, 'Genesis GV70': 48,
-    'Genesis GV80': 58,
-    // GMC
-    'GMC Canyon': 32, 'GMC Hummer EV': 115, 'GMC Savana': 45, 'GMC Sierra 1500': 42,
-    'GMC Sierra 2500HD': 52, 'GMC Sierra 3500HD': 55, 'GMC Yukon': 62, 'GMC Yukon XL': 68,
-    // Honda
-    'Honda Accord': 30, 'Honda Civic': 25, 'Honda CR-V': 32, 'Honda HR-V': 25,
-    'Honda Odyssey': 40, 'Honda Passport': 42, 'Honda Pilot': 42, 'Honda Ridgeline': 42,
-    // Hyundai
-    'Hyundai Elantra': 22, 'Hyundai Ioniq 5': 45, 'Hyundai Ioniq 6': 48, 'Hyundai Kona': 25,
-    'Hyundai Palisade': 42, 'Hyundai Santa Fe': 35, 'Hyundai Sonata': 28, 'Hyundai Tucson': 30,
-    'Hyundai Veloster N': 35,
-    // Jaguar
-    'Jaguar E-PACE': 48, 'Jaguar F-PACE': 55, 'Jaguar F-Type': 78, 'Jaguar I-PACE': 72,
-    'Jaguar XF': 52,
-    // Jeep
-    'Jeep Cherokee': 35, 'Jeep Compass': 30, 'Jeep Gladiator': 42, 'Jeep Grand Cherokee': 45,
-    'Jeep Grand Cherokee L': 48, 'Jeep Grand Wagoneer': 95, 'Jeep Wagoneer': 72,
-    'Jeep Wrangler': 35,
-    // Kia
-    'Kia Carnival': 38, 'Kia EV6': 48, 'Kia EV9': 58, 'Kia Forte': 22, 'Kia K5': 28,
-    'Kia Niro': 30, 'Kia Seltos': 25, 'Kia Sorento': 35, 'Kia Soul': 22, 'Kia Sportage': 32,
-    'Kia Stinger': 42, 'Kia Telluride': 40,
-    // Koenigsegg
-    'Koenigsegg Agera RS': 2100, 'Koenigsegg Jesko': 3000, 'Koenigsegg Regera': 2200,
-    // Lamborghini
-    'Lamborghini Aventador': 420, 'Lamborghini Huracán': 250, 'Lamborghini Urus': 235,
-    'Lamborghini Revuelto': 600,
-    // Land Rover
-    'Land Rover Defender': 58, 'Land Rover Discovery': 62, 'Land Rover Range Rover': 105,
-    'Land Rover Range Rover Sport': 85, 'Land Rover Range Rover Velar': 62,
-    // Lexus
-    'Lexus ES': 45, 'Lexus GX': 65, 'Lexus IS': 42, 'Lexus LC': 98, 'Lexus LM': 130,
-    'Lexus LS': 82, 'Lexus LX': 98, 'Lexus NX': 42, 'Lexus RC': 48, 'Lexus RX': 52,
-    'Lexus RZ': 62, 'Lexus TX': 58, 'Lexus UX': 38,
-    // Lincoln
-    'Lincoln Aviator': 58, 'Lincoln Corsair': 42, 'Lincoln Nautilus': 48,
-    'Lincoln Navigator': 85,
-    // Lucid
-    'Lucid Air': 88,
-    // Maserati
-    'Maserati Ghibli': 82, 'Maserati GranTurismo': 185, 'Maserati Grecale': 68,
-    'Maserati Levante': 88, 'Maserati MC20': 225, 'Maserati Quattroporte': 98,
-    // Mazda
-    'Mazda 3': 25, 'Mazda CX-30': 28, 'Mazda CX-5': 32, 'Mazda CX-50': 32,
-    'Mazda CX-70': 42, 'Mazda CX-90': 45, 'Mazda MX-5 Miata': 30,
-    // McLaren
-    'McLaren 720S': 315, 'McLaren 765LT': 420, 'McLaren Artura': 250, 'McLaren GT': 225,
-    // Mercedes-Benz
-    'Mercedes-Benz A-Class': 38, 'Mercedes-Benz AMG GT': 130, 'Mercedes-Benz C-Class': 48,
-    'Mercedes-Benz CLA': 42, 'Mercedes-Benz CLE': 62, 'Mercedes-Benz E-Class': 62,
-    'Mercedes-Benz EQB': 55, 'Mercedes-Benz EQE': 80, 'Mercedes-Benz EQS': 105,
-    'Mercedes-Benz G-Class': 145, 'Mercedes-Benz GLA': 42, 'Mercedes-Benz GLB': 45,
-    'Mercedes-Benz GLC': 52, 'Mercedes-Benz GLE': 62, 'Mercedes-Benz GLS': 85,
-    'Mercedes-Benz Maybach S-Class': 195, 'Mercedes-Benz S-Class': 115,
-    'Mercedes-Benz SL': 115, 'Mercedes-Benz Sprinter': 52,
-    // Mini
-    'Mini Clubman': 32, 'Mini Convertible': 35, 'Mini Cooper': 28, 'Mini Countryman': 35,
-    // Mitsubishi
-    'Mitsubishi Eclipse Cross': 30, 'Mitsubishi Mirage': 18, 'Mitsubishi Outlander': 32,
-    // Nissan
-    'Nissan Altima': 28, 'Nissan Ariya': 48, 'Nissan Frontier': 32, 'Nissan GT-R': 125,
-    'Nissan Kicks': 22, 'Nissan Leaf': 32, 'Nissan Maxima': 40, 'Nissan Murano': 40,
-    'Nissan NV Cargo': 45, 'Nissan Pathfinder': 40, 'Nissan Rogue': 32, 'Nissan Sentra': 22,
-    'Nissan Titan': 45, 'Nissan Versa': 18, 'Nissan Z': 45,
-    // Pagani
-    'Pagani Huayra': 2600, 'Pagani Utopia': 2200,
-    // Polestar
-    'Polestar 2': 52, 'Polestar 3': 78,
-    // Porsche
-    'Porsche 718 Boxster': 75, 'Porsche 718 Cayman': 72, 'Porsche 911': 115,
-    'Porsche 911 GT3': 185, 'Porsche 911 Turbo': 185, 'Porsche Cayenne': 78,
-    'Porsche Macan': 62, 'Porsche Panamera': 98, 'Porsche Taycan': 95,
-    // Ram
-    'Ram 1500': 42, 'Ram 2500': 48, 'Ram 3500': 52, 'Ram ProMaster': 45,
-    'Ram ProMaster City': 32,
-    // Rimac
-    'Rimac Nevera': 2400,
-    // Rivian
-    'Rivian R1S': 82, 'Rivian R1T': 78,
-    // Rolls-Royce
-    'Rolls-Royce Cullinan': 365, 'Rolls-Royce Ghost': 350, 'Rolls-Royce Phantom': 480,
-    'Rolls-Royce Spectre': 430,
-    // Subaru
-    'Subaru Ascent': 38, 'Subaru BRZ': 32, 'Subaru Crosstrek': 28, 'Subaru Forester': 32,
-    'Subaru Impreza': 25, 'Subaru Legacy': 28, 'Subaru Outback': 32, 'Subaru Solterra': 48,
-    'Subaru WRX': 35,
-    // Tesla
-    'Tesla Cybertruck': 78, 'Tesla Model 3': 42, 'Tesla Model S': 82, 'Tesla Model X': 92,
-    'Tesla Model Y': 48,
-    // Toyota
-    'Toyota 4Runner': 42, 'Toyota Camry': 28, 'Toyota Corolla': 22, 'Toyota Corolla Cross': 25,
-    'Toyota Crown': 45, 'Toyota GR Corolla': 38, 'Toyota GR Supra': 55,
-    'Toyota GR86': 32, 'Toyota Grand Highlander': 48, 'Toyota Highlander': 42,
-    'Toyota Land Cruiser': 62, 'Toyota Mirai': 52, 'Toyota Prius': 32,
-    'Toyota RAV4': 32, 'Toyota Sequoia': 62, 'Toyota Sienna': 42, 'Toyota Tacoma': 32,
-    'Toyota Tundra': 42, 'Toyota Venza': 38, 'Toyota bZ4X': 48,
-    // Volkswagen
-    'Volkswagen Arteon': 45, 'Volkswagen Atlas': 40, 'Volkswagen Golf GTI': 35,
-    'Volkswagen Golf R': 48, 'Volkswagen ID.4': 42, 'Volkswagen ID.Buzz': 62,
-    'Volkswagen Jetta': 22, 'Volkswagen Taos': 28, 'Volkswagen Tiguan': 32,
-    // Volvo
-    'Volvo C40 Recharge': 58, 'Volvo EX30': 38, 'Volvo EX90': 82, 'Volvo S60': 45,
-    'Volvo S90': 58, 'Volvo V60': 48, 'Volvo V90': 58, 'Volvo XC40': 42,
-    'Volvo XC60': 48, 'Volvo XC90': 62,
-  };
 
   // Budget level mapping
   const budgetLevels: Record<string, number> = {
@@ -358,11 +773,13 @@ export default function QuizPage() {
     }
   };
 
-  // Filter vehicles by budget
+  // Filter vehicles by budget - uses prices from vehicleDatabase
   const filterVehiclesByBudget = (vehicles: string[], budgetLevel: number): string[] => {
     const maxBudget = getBudgetMax(budgetLevel);
     return vehicles.map(v => {
-      const price = vehiclePrices[v] || 50;
+      // Find vehicle in database to get accurate MSRP
+      const dbVehicle = vehicleDatabase.find(dbv => dbv.name === v);
+      const price = dbVehicle?.price || 50; // fallback to $50k if not found
       if (price <= maxBudget) return v;
       return `Used ${v}`;
     });
@@ -505,246 +922,79 @@ export default function QuizPage() {
     muscle: { name: 'Muscle Car', vehicles: ['Dodge Challenger', 'Ford Mustang GT', 'Chevrolet Camaro SS', 'Dodge Charger', 'Ford Mustang Mach 1'], description: 'American power and heritage with modern capability', features: ['V8 power', 'Aggressive styling', 'American heritage', 'Straight-line speed', 'Bold presence'] }
   };
 
-  // Calculate recommendation
+  // Calculate recommendation using new scoring system
   const calculateRecommendation = () => {
-    const scores: Record<string, number> = {};
-    Object.keys(vehicleTypes).forEach(type => { scores[type] = 0; });
+    // Map answers to preferences format
+    const preferences = {
+      budget: answers['budget'],
+      bodyStyle: answers['body-style'] || [],
+      brand: answers['brand'] || [],
+      passengers: answers['passengers'],
+      primaryUse: answers['primary-use'],
+      terrain: answers['terrain'],
+      weather: answers['weather'],
+      commute: answers['commute-distance'],
+      drivingEnvironment: answers['driving-environment'],
+      towing: answers['towing'],
+      cargo: answers['cargo-needs'],
+      fuelEfficiency: answers['fuel-efficiency'],
+      powertrain: answers['powertrain'],
+      drivingStyle: answers['driving-style'],
+      image: answers['image'],
+      weekendActivities: answers['weekend-activities'] || [],
+      parkingSpace: answers['parking-space'],
+      reliability: answers['reliability'],
+    };
 
-    // Passengers scoring
-    const passengers = answers['passengers'];
-    if (passengers === '1') { scores.micro += 3; scores.coupe += 2; scores.roadster += 3; scores.sport += 2; }
-    else if (passengers === '2-3') { scores.sedan += 2; scores.coupe += 2; scores.hatchback += 2; scores.crossover += 2; }
-    else if (passengers === '4-5') { scores.sedan += 2; scores.midsizeSuv += 3; scores.wagon += 2; scores.minivan += 1; }
-    else if (passengers === '6+') { scores.suv += 3; scores.minivan += 4; scores.van += 2; }
-
-    // Primary use scoring
-    const primaryUse = answers['primary-use'];
-    if (primaryUse === 'commute') { scores.sedan += 2; scores.hatchback += 2; scores.crossover += 2; scores.micro += 2; }
-    else if (primaryUse === 'family') { scores.midsizeSuv += 3; scores.suv += 3; scores.minivan += 4; scores.wagon += 2; }
-    else if (primaryUse === 'work') { scores.truck += 3; scores.midsizeTruck += 2; scores.van += 3; }
-    else if (primaryUse === 'recreation') { scores.coupe += 2; scores.sport += 2; scores.roadster += 2; scores.muscle += 2; }
-    else if (primaryUse === 'adventure') { scores.suv += 2; scores.midsizeTruck += 3; scores.truck += 2; }
-
-    // Commute distance scoring
-    const commuteDistance = answers['commute-distance'];
-    if (commuteDistance === 'short') { scores.micro += 2; scores.hatchback += 1; }
-    else if (commuteDistance === 'medium' || commuteDistance === 'long') { scores.sedan += 2; scores.crossover += 2; }
-    else if (commuteDistance === 'very-long') { scores.sedan += 3; scores.wagon += 2; }
-
-    // Driving environment scoring
-    const drivingEnv = answers['driving-environment'];
-    if (drivingEnv === 'city') { scores.micro += 3; scores.hatchback += 2; scores.crossover += 1; }
-    else if (drivingEnv === 'suburban') { scores.sedan += 2; scores.crossover += 2; scores.midsizeSuv += 2; }
-    else if (drivingEnv === 'rural') { scores.truck += 2; scores.suv += 2; scores.midsizeTruck += 2; }
-    else if (drivingEnv === 'highway') { scores.sedan += 2; scores.wagon += 2; scores.suv += 1; }
-
-    // Weather scoring
-    const weather = answers['weather'];
-    if (weather === 'snow') { scores.suv += 2; scores.crossover += 2; scores.midsizeSuv += 2; scores.truck += 1; }
-
-    // Terrain scoring
-    const terrain = answers['terrain'];
-    if (terrain === 'offroad' || terrain === 'mountain') { scores.suv += 3; scores.truck += 2; scores.midsizeTruck += 2; }
-
-    // Cargo needs scoring
-    const cargoNeeds = answers['cargo-needs'];
-    if (cargoNeeds === 'minimal') { scores.micro += 2; scores.coupe += 2; scores.sedan += 1; }
-    else if (cargoNeeds === 'moderate') { scores.sedan += 2; scores.crossover += 2; scores.hatchback += 2; }
-    else if (cargoNeeds === 'large') { scores.suv += 2; scores.wagon += 3; scores.midsizeSuv += 2; }
-    else if (cargoNeeds === 'maximum') { scores.truck += 3; scores.van += 4; scores.suv += 2; }
-
-    // Activities scoring
-    const activities = answers['activities'] || [];
-    if (activities.includes('road-trips')) { scores.sedan += 1; scores.suv += 2; scores.wagon += 2; }
-    if (activities.includes('camping')) { scores.suv += 2; scores.truck += 2; scores.midsizeTruck += 2; }
-    if (activities.includes('sports')) { scores.midsizeSuv += 2; scores.wagon += 2; scores.suv += 1; }
-    if (activities.includes('home')) { scores.truck += 3; scores.midsizeTruck += 2; scores.van += 2; }
-    if (activities.includes('pets')) { scores.suv += 1; scores.crossover += 1; scores.wagon += 2; }
-
-    // Towing scoring
-    const towing = answers['towing'];
-    if (towing === 'light') { scores.midsizeSuv += 2; scores.crossover += 1; }
-    else if (towing === 'medium') { scores.suv += 3; scores.truck += 2; scores.midsizeTruck += 2; }
-    else if (towing === 'heavy') { scores.truck += 4; scores.suv += 2; }
-
-    // Parking scoring
-    const parking = answers['parking'];
-    if (parking === 'street') { scores.micro += 3; scores.hatchback += 2; scores.sedan += 1; }
-
-    // Fuel priority scoring
-    const fuelPriority = answers['fuel-priority'];
-    if (fuelPriority === 'high') { scores.micro += 2; scores.hatchback += 2; scores.sedan += 1; scores.hyper -= 3; scores.muscle -= 2; }
-    else if (fuelPriority === 'none') { scores.truck += 1; scores.muscle += 2; scores.sport += 1; }
-
-    // Driving style scoring
-    const drivingStyle = answers['driving-style'];
-    if (drivingStyle === 'relaxed') { scores.sedan += 2; scores.minivan += 2; scores.crossover += 2; }
-    else if (drivingStyle === 'spirited') { scores.hatchback += 2; scores.coupe += 2; scores.sport += 1; }
-    else if (drivingStyle === 'performance') { scores.sport += 4; scores.muscle += 3; scores.coupe += 2; scores.hyper += 2; scores.roadster += 2; }
-
-    // Comfort features scoring
-    const comfortFeatures = answers['comfort-features'] || [];
-    if (comfortFeatures.includes('quiet')) { scores.sedan += 2; scores.suv += 1; }
-    if (comfortFeatures.includes('suspension')) { scores.sport += 2; scores.suv += 1; }
-
-    // Priorities scoring
-    const priorities = answers['priorities'] || [];
-    if (priorities.includes('reliability')) { scores.sedan += 2; scores.crossover += 2; }
-    if (priorities.includes('performance')) { scores.sport += 3; scores.muscle += 2; scores.coupe += 2; }
-    if (priorities.includes('efficiency')) { scores.micro += 2; scores.hatchback += 2; }
-    if (priorities.includes('safety')) { scores.suv += 2; scores.midsizeSuv += 2; }
-    if (priorities.includes('comfort')) { scores.sedan += 2; scores.suv += 2; }
-    if (priorities.includes('style')) { scores.coupe += 2; scores.sport += 2; scores.roadster += 2; }
-
-    // Image scoring
-    const image = answers['image'];
-    if (image === 'practical') { scores.sedan += 2; scores.crossover += 2; scores.minivan += 2; }
-    else if (image === 'sporty') { scores.coupe += 3; scores.sport += 3; scores.muscle += 2; scores.hatchback += 1; }
-    else if (image === 'luxury') { scores.sedan += 1; scores.suv += 2; scores.sport += 2; scores.hyper += 2; }
-    else if (image === 'rugged') { scores.truck += 3; scores.suv += 2; scores.midsizeTruck += 2; }
-    else if (image === 'eco') { scores.hatchback += 2; scores.micro += 2; scores.crossover += 1; }
-    else if (image === 'unique') { scores.roadster += 2; scores.wagon += 2; scores.hyper += 1; }
-
-    // Body style preferences - HIGH WEIGHT (user explicitly stated preference)
-    const bodyStyle = answers['body-style'] || [];
-    if (bodyStyle.length > 0 && !bodyStyle.includes('none')) {
-      if (bodyStyle.includes('sedan')) scores.sedan += 15;
-      if (bodyStyle.includes('suv')) { scores.midsizeSuv += 12; scores.suv += 15; scores.crossover += 10; }
-      if (bodyStyle.includes('truck')) { scores.truck += 15; scores.midsizeTruck += 12; }
-      if (bodyStyle.includes('coupe')) { scores.coupe += 15; scores.sport += 10; scores.muscle += 10; }
-      if (bodyStyle.includes('hatchback')) scores.hatchback += 15;
-      if (bodyStyle.includes('wagon')) scores.wagon += 15;
-      if (bodyStyle.includes('minivan')) scores.minivan += 15;
-      if (bodyStyle.includes('convertible')) { scores.roadster += 15; scores.sport += 8; }
-    }
-
-    // Brand preferences
-    const brandPref = answers['brand'] || [];
-    if (brandPref.includes('porsche') || brandPref.includes('bmw') || brandPref.includes('mercedes') || brandPref.includes('audi')) {
-      scores.sport += 2; scores.coupe += 1;
-    }
-    if (brandPref.includes('tesla')) {
-      scores.sedan += 1; scores.crossover += 1; scores.suv += 1;
-    }
-
-    // Powertrain preferences
-    const powertrain = answers['powertrain'];
-    if (powertrain === 'electric') {
-      scores.sedan += 1; scores.crossover += 1; scores.suv += 1;
-    }
-
-    // Budget restrictions
-    const budgetLevel = budgetLevels[answers['budget']] || 4;
-    if (budgetLevel <= 2) { scores.hyper -= 10; scores.sport -= 3; }
-    if (budgetLevel <= 3) { scores.hyper -= 10; }
-    if (budgetLevel >= 6) { scores.micro -= 3; scores.hyper += 2; }
-    if (budgetLevel >= 7) { scores.hyper += 5; }
-
-    // Find winning type
-    let maxScore = -1;
-    let winningType = 'sedan';
-    Object.entries(scores).forEach(([type, score]) => {
-      if (score > maxScore) { maxScore = score; winningType = type; }
-    });
-
-    // Generate result
-    const typeInfo = vehicleTypes[winningType as keyof typeof vehicleTypes];
-    let filteredVehicles = filterVehiclesByBudget(typeInfo.vehicles, budgetLevel);
+    // Score all vehicles
+    const scoredVehicles = scoreVehicles(preferences);
     
-    // Filter by brand preference if specified (brandPref already defined above)
-    if (brandPref.length > 0 && !brandPref.includes('none')) {
-      const brandMap: Record<string, string[]> = {
-        'toyota': ['Toyota'],
-        'honda': ['Honda'],
-        'ford': ['Ford'],
-        'chevrolet': ['Chevrolet', 'Chevy'],
-        'bmw': ['BMW'],
-        'mercedes': ['Mercedes', 'Mercedes-Benz'],
-        'audi': ['Audi'],
-        'tesla': ['Tesla'],
-        'lexus': ['Lexus'],
-        'porsche': ['Porsche'],
-        'mazda': ['Mazda'],
-        'hyundai': ['Hyundai'],
-        'kia': ['Kia'],
-        'nissan': ['Nissan'],
-        'subaru': ['Subaru'],
-        'volkswagen': ['Volkswagen', 'VW'],
-        'dodge': ['Dodge'],
-        'ram': ['Ram'],
-        'jeep': ['Jeep'],
-        'gmc': ['GMC'],
-        'volvo': ['Volvo'],
-        'jaguar': ['Jaguar'],
-        'chrysler': ['Chrysler'],
-        'mitsubishi': ['Mitsubishi'],
-        'fiat': ['Fiat'],
-        'mini': ['Mini'],
-        'buick': ['Buick'],
-        'cadillac': ['Cadillac'],
-        'lincoln': ['Lincoln'],
-        'acura': ['Acura'],
-        'infiniti': ['Infiniti'],
-        'genesis': ['Genesis'],
-        'alfa': ['Alfa Romeo'],
-        'maserati': ['Maserati'],
-        'ferrari': ['Ferrari'],
-        'lamborghini': ['Lamborghini'],
-        'mclaren': ['McLaren'],
-        'bugatti': ['Bugatti'],
-        'koenigsegg': ['Koenigsegg'],
-        'rivian': ['Rivian'],
-        'lucid': ['Lucid']
-      };
-      
-      const preferredBrandNames: string[] = [];
-      brandPref.forEach((pref: string) => {
-        if (brandMap[pref]) {
-          preferredBrandNames.push(...brandMap[pref]);
+    // Get top 10 vehicles
+    const topVehicles = scoredVehicles.slice(0, 10);
+    
+    // Get category info
+    const categoryInfo = getCategoryName(topVehicles);
+    
+    // Extract vehicle names for display
+    const vehicleNames = topVehicles.map(sv => sv.vehicle.name);
+    
+    // Collect top reasons from best matches
+    const allReasons: string[] = [];
+    topVehicles.slice(0, 3).forEach(sv => {
+      sv.matchReasons.forEach(reason => {
+        if (!allReasons.includes(reason)) {
+          allReasons.push(reason);
         }
       });
-      
-      if (preferredBrandNames.length > 0) {
-        const brandFilteredVehicles = filteredVehicles.filter(v => 
-          preferredBrandNames.some(brand => v.toLowerCase().includes(brand.toLowerCase()))
-        );
-        // Only use filtered list if we found matches, otherwise keep original
-        if (brandFilteredVehicles.length > 0) {
-          filteredVehicles = brandFilteredVehicles;
-        }
-      }
-    }
+    });
 
-    // Generate reasoning
-    const reasoning: string[] = [];
-    if (brandPref.length > 0 && !brandPref.includes('none')) {
-      reasoning.push(`Filtered for your preferred brand${brandPref.length > 1 ? 's' : ''}`);
-    }
-    if (bodyStyle.length > 0 && !bodyStyle.includes('none')) {
-      reasoning.push(`Matches your ${bodyStyle.join('/')} body style preference`);
-    }
-    if (passengers === '6+') reasoning.push('You need maximum seating capacity for 6+ passengers');
-    if (primaryUse === 'family') reasoning.push('Optimized for family transportation needs');
-    if (primaryUse === 'work') reasoning.push('Built for work and commercial use');
-    if (towing === 'heavy') reasoning.push('Heavy-duty towing capability required');
-    if (drivingStyle === 'performance') reasoning.push('Matches your performance-focused driving style');
-    if (cargoNeeds === 'maximum') reasoning.push('Maximum cargo space for hauling');
-    if (weather === 'snow') reasoning.push('Handles well in snow and winter conditions');
-    if (image === 'sporty') reasoning.push('Projects the sporty image you want');
-    if (image === 'eco') reasoning.push('Environmentally conscious choice');
+    // Generate features based on top vehicle
+    const topVehicle = topVehicles[0]?.vehicle;
+    const features = topVehicle ? [
+      topVehicle.features.includes('awd') || topVehicle.features.includes('awd-available') ? 'Available AWD' : null,
+      topVehicle.powertrain === 'ev' ? 'Electric powertrain' : topVehicle.powertrain === 'hybrid' ? 'Hybrid efficiency' : null,
+      topVehicle.seats >= 7 ? 'Third row seating' : topVehicle.seats >= 5 ? 'Comfortable seating' : null,
+      topVehicle.features.includes('cargo') ? 'Good cargo space' : null,
+      topVehicle.features.includes('towing') ? 'Towing capability' : null,
+      topVehicle.features.includes('reliable') ? 'Known for reliability' : null,
+      topVehicle.segment === 'premium' || topVehicle.segment === 'luxury' ? 'Premium quality' : null,
+    ].filter(Boolean).slice(0, 5) : ['Matched to your preferences'];
 
     return {
-      vehicleType: winningType,
-      vehicleSizeName: typeInfo.name,
-      vehicles: filteredVehicles,
-      description: typeInfo.description,
-      features: typeInfo.features,
-      reasoning: reasoning.slice(0, 5),
+      vehicleType: topVehicle?.bodyType || 'sedan',
+      vehicleSizeName: categoryInfo.name,
+      vehicles: vehicleNames.length > 0 ? vehicleNames : ['Honda Accord', 'Toyota Camry', 'Mazda 3'],
+      description: categoryInfo.description,
+      features: features as string[],
+      reasoning: allReasons.slice(0, 5),
       answers: answers,
       timestamp: new Date().toISOString(),
-      email: emailAddress
+      email: emailAddress,
+      // Include scored vehicles for potential future use
+      scoredVehicles: topVehicles,
     };
   };
+
 
   const handleAnswer = (qId: string, val: string) => {
     setAnswers({ ...answers, [qId]: val });
