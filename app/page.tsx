@@ -1290,7 +1290,120 @@ export default function AutoWizard() {
       )}
 
       {currentPage === 'blog' && (
+        <div className="max-w-5xl mx-auto px-6 py-12">
+          {/* Blog Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Auto Wizard Blog</h1>
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">Expert advice, buying guides, and tips to help you find your perfect vehicle.</p>
+          </div>
+
+          {/* Blog Posts Grid */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Post 1 */}
+            <article 
+              onClick={() => setCurrentPage('blog-what-car-should-i-buy')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop" 
+                  alt="Sports car on open road" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-medium">Car Buying Guide</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">What Car Should I Buy? The Complete 2026 Guide</h2>
+                <p className="text-white/60 text-sm mb-4">Everything you need to know to find the perfect car for your lifestyle, budget, and preferences. Our comprehensive guide breaks down the key factors.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </article>
+
+            {/* Post 2 - Coming Soon */}
+            <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden opacity-60">
+              <div className="aspect-video overflow-hidden bg-white/5 flex items-center justify-center">
+                <div className="text-center">
+                  <Car className="w-12 h-12 text-white/20 mx-auto mb-2" />
+                  <span className="text-white/30 text-sm">Coming Soon</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-white/10 text-white/40 text-xs font-medium">Electric Vehicles</span>
+                  <span className="text-white/30 text-sm">Coming Soon</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white/50 mb-2">Electric vs Hybrid: Which is Right for You?</h2>
+                <p className="text-white/40 text-sm">A complete breakdown of the pros and cons of going electric versus hybrid in 2026.</p>
+              </div>
+            </article>
+
+            {/* Post 3 - Coming Soon */}
+            <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden opacity-60">
+              <div className="aspect-video overflow-hidden bg-white/5 flex items-center justify-center">
+                <div className="text-center">
+                  <Car className="w-12 h-12 text-white/20 mx-auto mb-2" />
+                  <span className="text-white/30 text-sm">Coming Soon</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-white/10 text-white/40 text-xs font-medium">Budget Tips</span>
+                  <span className="text-white/30 text-sm">Coming Soon</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white/50 mb-2">Best Cars Under $30,000 in 2026</h2>
+                <p className="text-white/40 text-sm">Our top picks for affordable vehicles that don't compromise on quality or features.</p>
+              </div>
+            </article>
+
+            {/* Post 4 - Coming Soon */}
+            <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden opacity-60">
+              <div className="aspect-video overflow-hidden bg-white/5 flex items-center justify-center">
+                <div className="text-center">
+                  <Car className="w-12 h-12 text-white/20 mx-auto mb-2" />
+                  <span className="text-white/30 text-sm">Coming Soon</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-white/10 text-white/40 text-xs font-medium">Family Cars</span>
+                  <span className="text-white/30 text-sm">Coming Soon</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white/50 mb-2">10 Best Family SUVs for 2026</h2>
+                <p className="text-white/40 text-sm">Space, safety, and sanity - our expert picks for the best family haulers this year.</p>
+              </div>
+            </article>
+          </div>
+
+          {/* Newsletter CTA */}
+          <div className="mt-16 bg-gradient-to-r from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-2xl p-8 text-center">
+            <h3 className="text-2xl font-bold text-white mb-2">Want More Car Buying Tips?</h3>
+            <p className="text-white/60 mb-6">Take our free quiz and get personalized vehicle recommendations.</p>
+            <button 
+              onClick={startTest}
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+            >
+              Take the Free Assessment
+            </button>
+          </div>
+        </div>
+      )}
+
+      {currentPage === 'blog-what-car-should-i-buy' && (
         <div className="max-w-4xl mx-auto px-6 py-12">
+          {/* Back to Blog */}
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Blog
+          </button>
+
           {/* Blog Post Header */}
           <article className="prose prose-invert max-w-none">
             <div className="mb-8">
@@ -1520,6 +1633,17 @@ export default function AutoWizard() {
                 className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
               >
                 Take the Free Assessment
+              </button>
+            </div>
+
+            {/* Back to Blog */}
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Posts
               </button>
             </div>
           </article>
