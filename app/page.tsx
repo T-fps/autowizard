@@ -1117,13 +1117,14 @@ export default function AutoWizard() {
               <button onClick={startTest} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Free Assessment</button>
               <button onClick={() => setCurrentPage('services')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
               <button onClick={() => setCurrentPage('expertise')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
+              <button onClick={() => setCurrentPage('blog')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Blog</button>
             </nav>
             <button onClick={() => setCurrentPage('consultation')} className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 text-sm md:text-base">Book Consultation</button>
           </div>
           <nav className="md:hidden flex items-center justify-center gap-2 mt-3 pt-3 border-t border-white/10">
             <button onClick={startTest} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Free Assessment</button>
             <button onClick={() => setCurrentPage('services')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
-            <button onClick={() => setCurrentPage('expertise')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
+            <button onClick={() => setCurrentPage('blog')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Blog</button>
           </nav>
         </div>
       </header>
@@ -1285,6 +1286,243 @@ export default function AutoWizard() {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {currentPage === 'blog' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          {/* Blog Post Header */}
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-sm font-medium mb-4">Car Buying Guide</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">What Car Should I Buy? The Complete 2026 Guide</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+
+            {/* Hero Image */}
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200&h=600&fit=crop" 
+                alt="Sports car on open road" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            {/* Introduction */}
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                Let's be real - buying a car can feel overwhelming. There are hundreds of models, endless configurations, and everyone from your neighbor to your uncle has an opinion on what you should get.
+              </p>
+              <p>
+                But here's the thing: the "perfect" car isn't about what's trending on TikTok or what your coworker drives. It's about finding the vehicle that fits YOUR life - your budget, your daily routine, and yeah, maybe a little bit of what makes you smile when you see it in your driveway.
+              </p>
+              <p>
+                By the time you finish reading this, you'll know exactly what to look for. Or, if you want the fast track, <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">take our free 2-minute quiz</button> and we'll match you with your perfect car instantly.
+              </p>
+            </div>
+
+            {/* Section 1 */}
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-lg font-bold">1</span>
+                The Big Questions You Need to Answer First
+              </h2>
+              
+              <div className="rounded-2xl overflow-hidden mb-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop" 
+                  alt="Person thinking about car choices" 
+                  className="w-full h-48 md:h-64 object-cover"
+                />
+              </div>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  Before you even look at a single car, grab a coffee and think about these four things:
+                </p>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-4">💰 What's Your Real Budget?</h3>
+                  <p className="text-white/70">
+                    And I mean REAL budget - not just the sticker price. Factor in insurance (which can vary wildly depending on the car), gas or charging costs, maintenance, and that inevitable first scratch in the parking lot. A good rule of thumb: your total car expenses shouldn't exceed 15-20% of your monthly income.
+                  </p>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-4">🚗 How Do You Actually Use Your Car?</h3>
+                  <p className="text-white/70">
+                    Be honest here. Are you commuting 60 miles a day on the highway? Dropping kids at soccer practice? Weekend road trips? Or mostly just driving to the grocery store and back? Your daily reality should drive this decision (pun intended).
+                  </p>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-4">⛽ Gas, Hybrid, or Electric?</h3>
+                  <p className="text-white/70">
+                    In 2026, you've got more options than ever. EVs have gotten way more affordable and the charging network is actually usable now. Hybrids give you the best of both worlds. And gas cars? Still totally valid, especially if you're on a budget or live somewhere rural.
+                  </p>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-4">🆕 New vs Used?</h3>
+                  <p className="text-white/70">
+                    New cars come with warranties and that new car smell. Used cars save you money and skip the brutal first-year depreciation. A 2-3 year old certified pre-owned vehicle is often the sweet spot - still relatively new, but thousands cheaper.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Section 2 */}
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-lg font-bold">2</span>
+                Best Cars by Category (Our 2026 Picks)
+              </h2>
+
+              <div className="rounded-2xl overflow-hidden mb-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=400&fit=crop" 
+                  alt="Line of different car types" 
+                  className="w-full h-48 md:h-64 object-cover"
+                />
+              </div>
+
+              <p className="text-white/80 mb-6">
+                Alright, let's get specific. Here are our top picks for different types of buyers:
+              </p>
+
+              {/* Category Cards */}
+              <div className="grid gap-6 mb-8">
+                <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-blue-400 mb-2">👨‍👩‍👧‍👦 Best for Families</h3>
+                  <p className="text-white/70 mb-3">You need space, safety, and sanity (aka entertainment systems for the kids).</p>
+                  <p className="text-white/90 font-medium">Top Picks: Toyota Highlander, Honda Pilot, Kia Telluride, Mazda CX-90</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-500/10 to-green-600/5 border border-green-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-green-400 mb-2">💼 Best for Commuters</h3>
+                  <p className="text-white/70 mb-3">Fuel efficiency and comfort are your best friends when you're spending hours in traffic.</p>
+                  <p className="text-white/90 font-medium">Top Picks: Toyota Camry Hybrid, Honda Accord, Tesla Model 3, Hyundai Sonata</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-purple-400 mb-2">🎓 Best for First-Time Buyers</h3>
+                  <p className="text-white/70 mb-3">Reliable, affordable, and forgiving of the occasional parking mishap.</p>
+                  <p className="text-white/90 font-medium">Top Picks: Honda Civic, Toyota Corolla, Mazda3, Hyundai Elantra</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-amber-400 mb-2">💵 Best on a Budget (Under $25K)</h3>
+                  <p className="text-white/70 mb-3">Great cars don't have to break the bank. These deliver serious value.</p>
+                  <p className="text-white/90 font-medium">Top Picks: Kia Forte, Nissan Sentra, Subaru Impreza, Honda HR-V</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-cyan-500/10 to-cyan-600/5 border border-cyan-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-2">🏔️ Best for Adventure</h3>
+                  <p className="text-white/70 mb-3">AWD, ground clearance, and enough room for all your gear.</p>
+                  <p className="text-white/90 font-medium">Top Picks: Subaru Outback, Jeep Grand Cherokee, Ford Bronco, Toyota 4Runner</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-rose-500/10 to-rose-600/5 border border-rose-500/20 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold text-rose-400 mb-2">⚡ Best Electric Vehicles</h3>
+                  <p className="text-white/70 mb-3">Ready to go electric? These EVs have the range and charging speed to make it practical.</p>
+                  <p className="text-white/90 font-medium">Top Picks: Tesla Model Y, Hyundai Ioniq 6, Chevrolet Equinox EV, Ford Mustang Mach-E</p>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Still Not Sure?</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Our free 2-minute quiz analyzes your lifestyle, budget, and preferences to match you with the perfect vehicle from 400+ models.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Section 3 */}
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-lg font-bold">3</span>
+                Pro Tips Before You Buy
+              </h2>
+
+              <div className="rounded-2xl overflow-hidden mb-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=400&fit=crop" 
+                  alt="Car dealership" 
+                  className="w-full h-48 md:h-64 object-cover"
+                />
+              </div>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  Once you've narrowed down your choices, here are some tips that'll save you money and headaches:
+                </p>
+
+                <ul className="space-y-3 my-6">
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Test drive at least 3 cars</strong> - even if you think you've found "the one." You'd be surprised how different cars feel in person.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Check insurance costs first</strong> - a sporty car might seem affordable until you see the insurance premium.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Never buy on the first visit</strong> - sleep on it. The car will still be there tomorrow (and if it's not, there are thousands more).</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Get pre-approved for financing</strong> - this gives you negotiating power and helps you avoid dealer markups on loans.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Time your purchase right</strong> - end of month, end of quarter, and end of year are when dealers are most motivated to make deals.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Conclusion */}
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  Finding the right car isn't about getting the "best" car - it's about getting the best car for YOU. Take your time, do your research, and don't let anyone pressure you into a decision.
+                </p>
+                <p>
+                  And hey, if you want to skip the hours of research and get personalized recommendations in minutes, that's literally why we built Auto Wizard. Our quiz has helped thousands of people find their perfect match.
+                </p>
+                <p className="text-white font-medium">
+                  Happy car hunting! 🚗
+                </p>
+              </div>
+            </div>
+
+            {/* Final CTA */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Ready to Find Your Perfect Car?</h3>
+              <p className="text-white/60 mb-6">Join 10,000+ people who've found their dream vehicle with Auto Wizard.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+          </article>
         </div>
       )}
 
@@ -1703,7 +1941,7 @@ export default function AutoWizard() {
               <ul className="space-y-2 text-sm text-white/50">
                 <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Buying Guide</li>
                 <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Financing Options</li>
-                <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Trade-In Values</li>
+                <li onClick={() => setCurrentPage('blog')} className="hover:text-amber-400 cursor-pointer">Blog</li>
               </ul>
             </div>
             <div>
