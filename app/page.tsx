@@ -300,7 +300,7 @@ export default function AutoWizard() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
 
-  useEffect(() => { setIsAnimating(true); const t = setTimeout(() => setIsAnimating(false), 150); return () => clearTimeout(t); }, [testStep]);
+  useEffect(() => { setIsAnimating(true); window.scrollTo(0, 0); const t = setTimeout(() => setIsAnimating(false), 150); return () => clearTimeout(t); }, [testStep]);
 
   // Always allow Next button since all options are visible
   useEffect(() => {
@@ -1108,7 +1108,7 @@ export default function AutoWizard() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden"><div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[120px]" /><div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[100px]" /></div>
 
       <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-6 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setCurrentPage('home')}>
               <img src={LOGO_SRC} alt="Auto Wizard" className="h-20 w-auto" />
