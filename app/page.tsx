@@ -1117,14 +1117,14 @@ export default function AutoWizard() {
               <button onClick={startTest} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Free Assessment</button>
               <button onClick={() => setCurrentPage('services')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
               <button onClick={() => setCurrentPage('expertise')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
-              <button onClick={() => setCurrentPage('blog')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Blog</button>
+              <button onClick={() => setCurrentPage('blog')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Wizard's Guide</button>
             </nav>
             <button onClick={() => setCurrentPage('consultation')} className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 text-sm md:text-base">Book Consultation</button>
           </div>
           <nav className="md:hidden flex items-center justify-center gap-2 mt-3 pt-3 border-t border-white/10">
             <button onClick={startTest} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Free Assessment</button>
             <button onClick={() => setCurrentPage('services')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
-            <button onClick={() => setCurrentPage('blog')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Blog</button>
+            <button onClick={() => setCurrentPage('blog')} className="px-3 py-1.5 rounded-lg text-sm text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Wizard's Guide</button>
           </nav>
         </div>
       </header>
@@ -1293,7 +1293,7 @@ export default function AutoWizard() {
         <div className="max-w-5xl mx-auto px-6 py-12">
           {/* Blog Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Auto Wizard Blog</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">The Wizard's Guide</h1>
             <p className="text-xl text-white/60 max-w-2xl mx-auto">Expert advice, buying guides, and tips to help you find your perfect vehicle.</p>
           </div>
 
@@ -1416,13 +1416,13 @@ export default function AutoWizard() {
 
       {currentPage === 'blog-what-car-should-i-buy' && (
         <div className="max-w-4xl mx-auto px-6 py-12">
-          {/* Back to Blog */}
+          {/* Back to Guide */}
           <button 
             onClick={() => setCurrentPage('blog')}
             className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Blog
+            Back to Guide
           </button>
 
           {/* Blog Post Header */}
@@ -1657,14 +1657,14 @@ export default function AutoWizard() {
               </button>
             </div>
 
-            {/* Back to Blog */}
+            {/* Back to Guide */}
             <div className="mt-12 pt-8 border-t border-white/10">
               <button 
                 onClick={() => setCurrentPage('blog')}
                 className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to All Posts
+                Back to All Articles
               </button>
             </div>
           </article>
@@ -1679,7 +1679,7 @@ export default function AutoWizard() {
             className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Blog
+            Back to Guide
           </button>
 
           <article className="prose prose-invert max-w-none">
@@ -1868,7 +1868,7 @@ export default function AutoWizard() {
                 className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to All Posts
+                Back to All Articles
               </button>
             </div>
           </article>
@@ -1883,7 +1883,7 @@ export default function AutoWizard() {
             className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Blog
+            Back to Guide
           </button>
 
           <article className="prose prose-invert max-w-none">
@@ -2082,7 +2082,7 @@ export default function AutoWizard() {
                 className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to All Posts
+                Back to All Articles
               </button>
             </div>
           </article>
@@ -2097,7 +2097,7 @@ export default function AutoWizard() {
             className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Blog
+            Back to Guide
           </button>
 
           <article className="prose prose-invert max-w-none">
@@ -2339,7 +2339,7 @@ export default function AutoWizard() {
                 className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to All Posts
+                Back to All Articles
               </button>
             </div>
           </article>
@@ -2761,7 +2761,7 @@ export default function AutoWizard() {
               <ul className="space-y-2 text-sm text-white/50">
                 <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Buying Guide</li>
                 <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Financing Options</li>
-                <li onClick={() => setCurrentPage('blog')} className="hover:text-amber-400 cursor-pointer">Blog</li>
+                <li onClick={() => setCurrentPage('blog')} className="hover:text-amber-400 cursor-pointer">Wizard's Guide</li>
               </ul>
             </div>
             <div>
