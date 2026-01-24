@@ -19,7 +19,21 @@ export const metadata: Metadata = {
     'car finder',
     'vehicle finder',
     'car quiz',
-    'which car should I buy'
+    'which car should I buy',
+    'car consultant',
+    'car choosing guide',
+    'help me choose a car',
+    'car selection tool',
+    'best car for commuting',
+    'best first car',
+    'car buying tips',
+    'how to choose a car',
+    'electric vs hybrid',
+    'best family SUV',
+    'best cars under 30k',
+    'car buying checklist',
+    'vehicle matching quiz',
+    'personalized car recommendations'
   ],
   authors: [{ name: 'Auto Wizard' }],
   creator: 'Auto Wizard',
@@ -142,6 +156,46 @@ export default function RootLayout({
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "The Auto Wizard assessment takes approximately 3-5 minutes to complete. You'll answer 12 quick questions and immediately receive your personalized vehicle matches."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What car should I buy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The best car for you depends on your budget, lifestyle, daily driving needs, and preferences. Auto Wizard's free quiz analyzes these factors to recommend vehicles that match your specific requirements from over 400 models."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I choose the right car for my needs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Consider your budget (including insurance and fuel costs), how you'll use the car (commuting, family, adventure), fuel preference (gas, hybrid, electric), and must-have features. Our car finder quiz helps you weigh all these factors systematically."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I buy an electric car or hybrid?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choose electric if you can charge at home and drive under 250 miles daily. Choose hybrid if you need unlimited range, can't install a charger, or take frequent long trips. Both offer fuel savings over traditional gas vehicles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the best car for first-time buyers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "First-time buyers should prioritize reliability, low insurance costs, and good resale value. Top picks include Honda Civic, Toyota Corolla, Mazda3, and Hyundai Elantra. Our quiz can help match you with the best option for your budget."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many cars does Auto Wizard recommend from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Auto Wizard's database includes over 400 vehicles across 16 categories including sedans, SUVs, trucks, electric vehicles, luxury cars, sports cars, and more. We match you with options that fit your specific criteria."
         }
       }
     ]
