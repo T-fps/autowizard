@@ -1307,7 +1307,7 @@ export default function AutoWizard() {
               <div className="aspect-video overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop" 
-                  alt="Sports car on open road" 
+                  alt="What car should I buy 2026 - sports car representing the car buying decision process and vehicle selection" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -1332,7 +1332,7 @@ export default function AutoWizard() {
               <div className="aspect-video overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop" 
-                  alt="Electric car charging" 
+                  alt="Electric vs hybrid car comparison - electric vehicle charging at home charging station" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -1357,7 +1357,7 @@ export default function AutoWizard() {
               <div className="aspect-video overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop" 
-                  alt="Affordable sedan on road" 
+                  alt="Best cars under 30000 dollars 2026 - affordable reliable sedan perfect for budget conscious buyers" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -1382,7 +1382,7 @@ export default function AutoWizard() {
               <div className="aspect-video overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&h=400&fit=crop" 
-                  alt="Family SUV" 
+                  alt="Best family SUV 2026 - three row SUV for families with car seats and cargo space" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -1393,6 +1393,106 @@ export default function AutoWizard() {
                 </div>
                 <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">10 Best Family SUVs for 2026</h2>
                 <p className="text-white/60 text-sm mb-4">Space, safety, and sanity - our expert picks for the best family haulers this year. From three-row giants to efficient crossovers.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </article>
+
+            {/* Post 5 - How to Choose a Car */}
+            <article 
+              onClick={() => setCurrentPage('blog-how-to-choose-a-car')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&h=400&fit=crop" 
+                  alt="How to choose a car - person comparing vehicles at dealership lot" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-400 text-xs font-medium">Buyer's Guide</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">How to Choose a Car: Complete Decision Framework</h2>
+                <p className="text-white/60 text-sm mb-4">A step-by-step guide to choosing the right car. Learn the exact process car consultants use to match buyers with their perfect vehicle.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </article>
+
+            {/* Post 6 - First Car Buying Guide */}
+            <article 
+              onClick={() => setCurrentPage('blog-first-car-buying-guide')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=600&h=400&fit=crop" 
+                  alt="First car for new drivers - young person with car keys excited about first vehicle" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-rose-500/20 text-rose-400 text-xs font-medium">First-Time Buyers</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">First Car Buying Guide: Tips for New Drivers</h2>
+                <p className="text-white/60 text-sm mb-4">Everything first-time car buyers need to know. From insurance to financing to picking the right reliable starter car.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </article>
+
+            {/* Post 7 - Best Commuter Cars */}
+            <article 
+              onClick={() => setCurrentPage('blog-best-commuter-cars')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1449965408869-euj3c78f2cda?w=600&h=400&fit=crop" 
+                  alt="Best commuter car 2026 - fuel efficient sedan on highway during rush hour commute" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-medium">Commuter Cars</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">Best Commuter Cars 2026: Fuel-Efficient Daily Drivers</h2>
+                <p className="text-white/60 text-sm mb-4">Top picks for daily commuters who want comfort, fuel efficiency, and reliability for the daily grind.</p>
+                <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
+                  Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </article>
+
+            {/* Post 8 - Used vs New Car */}
+            <article 
+              onClick={() => setCurrentPage('blog-used-vs-new-car')}
+              className="group cursor-pointer bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
+            >
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&h=400&fit=crop" 
+                  alt="Used vs new car comparison - certified pre-owned vehicles at dealership" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="px-2 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium">Buying Tips</span>
+                  <span className="text-white/40 text-sm">January 24, 2026</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">Used vs New Car: Which Should You Buy?</h2>
+                <p className="text-white/60 text-sm mb-4">The complete pros and cons breakdown of buying new versus used. Plus the CPO sweet spot most buyers miss.</p>
                 <div className="flex items-center gap-2 text-amber-400 text-sm font-medium">
                   Read More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -2325,6 +2425,1017 @@ export default function AutoWizard() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
               <h3 className="text-xl font-semibold text-white mb-2">Ready to Find Your Family's SUV?</h3>
               <p className="text-white/60 mb-6">Our quiz matches you with the perfect vehicle for your family's needs.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Articles
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* Blog Post 5: How to Choose a Car */}
+      {currentPage === 'blog-how-to-choose-a-car' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Guide
+          </button>
+
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 text-sm font-medium mb-4">Buyer's Guide</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">How to Choose a Car: Complete Decision Framework</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>10 min read</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1200&h=600&fit=crop" 
+                alt="How to choose a car - multiple vehicles at dealership showing different car types and styles to compare" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                Choosing a car is one of the biggest financial decisions you'll make. Get it right, and you'll have years of reliable transportation. Get it wrong, and you're stuck with payments on something that doesn't fit your life.
+              </p>
+              <p>
+                This guide gives you the exact framework that car consultants and auto advisors use to match buyers with their perfect vehicle. No sales pressure, no bias - just a systematic approach to finding YOUR ideal car.
+              </p>
+              <p>
+                Want the fast track? <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">Take our free car finder quiz</button> and we'll do this analysis for you in 3-5 minutes.
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-bold">1</span>
+                Define Your Non-Negotiables
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Before looking at a single car, write down your absolute requirements. These are deal-breakers, not nice-to-haves.</p>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-4">Questions to Answer:</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• <strong className="text-white">Budget ceiling:</strong> What's the absolute maximum you can spend (including taxes and fees)?</li>
+                    <li>• <strong className="text-white">Seating:</strong> How many people MUST fit comfortably?</li>
+                    <li>• <strong className="text-white">Cargo:</strong> What's the largest thing you regularly transport?</li>
+                    <li>• <strong className="text-white">Drivetrain:</strong> Do you NEED AWD for safety (snow, rural roads)?</li>
+                    <li>• <strong className="text-white">Fuel type:</strong> Can you charge at home? Do you take long road trips?</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-bold">2</span>
+                Analyze Your Actual Driving Patterns
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Most people overestimate their needs. Be honest about how you ACTUALLY drive, not how you imagine you might drive.</p>
+
+                <div className="grid md:grid-cols-2 gap-4 my-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <h4 className="font-semibold text-white mb-2">Daily Commuter</h4>
+                    <p className="text-white/60 text-sm">30+ miles/day → Prioritize fuel efficiency, comfort, reliability</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <h4 className="font-semibold text-white mb-2">Weekend Warrior</h4>
+                    <p className="text-white/60 text-sm">Low daily miles, weekend trips → Focus on versatility, cargo</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <h4 className="font-semibold text-white mb-2">Family Hauler</h4>
+                    <p className="text-white/60 text-sm">Kids, gear, activities → Need space, safety, entertainment</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <h4 className="font-semibold text-white mb-2">City Driver</h4>
+                    <p className="text-white/60 text-sm">Urban parking, traffic → Smaller is better, good visibility</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-bold">3</span>
+                Calculate TRUE Cost of Ownership
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>The sticker price is just the beginning. Here's what actually determines affordability:</p>
+
+                <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-4">Monthly Cost Formula:</h3>
+                  <div className="space-y-2 text-white/70 font-mono text-sm">
+                    <p>Car Payment: $____</p>
+                    <p>+ Insurance: $____ (get quotes BEFORE buying!)</p>
+                    <p>+ Fuel: $____ (calculate based on your commute)</p>
+                    <p>+ Maintenance: $____ (~$100/month average)</p>
+                    <p className="border-t border-white/20 pt-2 mt-2 text-white font-semibold">= Total Monthly Cost: $____</p>
+                  </div>
+                  <p className="text-white/60 text-sm mt-4">Rule of thumb: Total should be under 15-20% of monthly income</p>
+                </div>
+
+                <p><strong className="text-white">Pro tip:</strong> Insurance varies wildly by vehicle. A "cheap" sports car can cost $200+/month more to insure than a "boring" sedan. Always get insurance quotes before committing.</p>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-bold">4</span>
+                Narrow to 3-5 Candidates
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Based on your requirements, you should be able to narrow down to a short list. Resources to help:</p>
+
+                <ul className="space-y-3 my-6">
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Auto Wizard Quiz</strong> - Our <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">free assessment</button> matches you with specific models based on your answers</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Consumer Reports</strong> - Reliability ratings and owner satisfaction</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">IIHS/NHTSA</strong> - Safety ratings (non-negotiable for families)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                    <span><strong className="text-white">Edmunds TCO</strong> - 5-year cost of ownership estimates</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-bold">5</span>
+                Test Drive Strategically
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Test drives aren't just about whether you like the car - they're about whether it fits YOUR life.</p>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-4">Test Drive Checklist:</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>☐ Drive your actual commute route (not just around the block)</li>
+                    <li>☐ Park in your garage/spot - does it fit?</li>
+                    <li>☐ Load your typical cargo (stroller, golf clubs, etc.)</li>
+                    <li>☐ Install car seats if applicable</li>
+                    <li>☐ Have all regular passengers sit in their spots</li>
+                    <li>☐ Test the infotainment - is it intuitive for YOU?</li>
+                    <li>☐ Check visibility (blind spots, backup camera)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Skip the Research - Get Matched Instantly</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Our car finder quiz uses this exact framework to analyze your needs and match you with ideal vehicles in minutes.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Common Car Choosing Mistakes</h2>
+              
+              <div className="space-y-4">
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-5">
+                  <h4 className="font-semibold text-red-400 mb-2">❌ Buying too much car</h4>
+                  <p className="text-white/60 text-sm">You don't need a truck because you "might" haul something twice a year. Rent when needed.</p>
+                </div>
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-5">
+                  <h4 className="font-semibold text-red-400 mb-2">❌ Ignoring insurance costs</h4>
+                  <p className="text-white/60 text-sm">That sports car is "affordable" until you see the $300/month insurance premium.</p>
+                </div>
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-5">
+                  <h4 className="font-semibold text-red-400 mb-2">❌ Falling for features you won't use</h4>
+                  <p className="text-white/60 text-sm">Heated steering wheel sounds nice until you realize you live in San Diego.</p>
+                </div>
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-5">
+                  <h4 className="font-semibold text-red-400 mb-2">❌ Deciding based on looks alone</h4>
+                  <p className="text-white/60 text-sm">You'll look at your car for 10 seconds. You'll sit in it for hours. Prioritize accordingly.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  Choosing the right car comes down to being honest about your needs, doing the math on true costs, and testing thoroughly before committing.
+                </p>
+                <p>
+                  Don't let salespeople, friends, or internet strangers tell you what car to buy. Use this framework to find what works for YOUR life.
+                </p>
+                <p className="text-white font-medium">
+                  Now go find your perfect match! 🚗
+                </p>
+              </div>
+            </div>
+
+            {/* Related Articles */}
+            <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-xl">
+              <h3 className="text-lg font-semibold text-white mb-4">Related Articles</h3>
+              <div className="space-y-3">
+                <button onClick={() => setCurrentPage('blog-what-car-should-i-buy')} className="block text-amber-400 hover:text-amber-300 text-sm">→ What Car Should I Buy? Complete 2026 Guide</button>
+                <button onClick={() => setCurrentPage('blog-first-car-buying-guide')} className="block text-amber-400 hover:text-amber-300 text-sm">→ First Car Buying Guide for New Drivers</button>
+                <button onClick={() => setCurrentPage('blog-used-vs-new-car')} className="block text-amber-400 hover:text-amber-300 text-sm">→ Used vs New Car: Which Should You Buy?</button>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Ready to Find Your Car?</h3>
+              <p className="text-white/60 mb-6">Our quiz applies this framework automatically based on your answers.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Articles
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* Blog Post 6: First Car Buying Guide */}
+      {currentPage === 'blog-first-car-buying-guide' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Guide
+          </button>
+
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 text-sm font-medium mb-4">First-Time Buyers</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">First Car Buying Guide: Tips for New Drivers</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>9 min read</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1200&h=600&fit=crop" 
+                alt="First time car buyer - excited young driver getting keys to their first car at dealership" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                Buying your first car is a huge milestone. It's also terrifying if you've never done it before. Dealerships can smell first-time buyers from a mile away, and without preparation, you might end up overpaying or buying the wrong car.
+              </p>
+              <p>
+                This guide covers everything you need to know as a first-time car buyer - from setting a realistic budget to negotiating like a pro.
+              </p>
+              <p>
+                Not sure what car fits your needs? <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">Take our free quiz</button> to get personalized recommendations for first-time buyers.
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 text-lg font-bold">1</span>
+                Set a Realistic Budget
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>The #1 mistake first-time buyers make is spending too much. Here's how to figure out what you can actually afford:</p>
+
+                <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-rose-400 mb-4">The 20/4/10 Rule</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• <strong className="text-white">20%</strong> minimum down payment</li>
+                    <li>• <strong className="text-white">4 years</strong> maximum loan term</li>
+                    <li>• <strong className="text-white">10%</strong> of monthly income max (including insurance)</li>
+                  </ul>
+                  <p className="text-white/60 text-sm mt-4">Example: $4,000/month income = $400/month max for car payment + insurance</p>
+                </div>
+
+                <p><strong className="text-white">For most first-time buyers:</strong> A reliable used car in the $10,000-$20,000 range is the sweet spot. You get something dependable without crushing debt.</p>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 text-lg font-bold">2</span>
+                Best First Cars for New Drivers
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Your first car should be reliable, affordable to insure, and forgiving of mistakes. Here are our top picks:</p>
+
+                <div className="grid gap-4 my-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-semibold text-white">Honda Civic</h4>
+                      <span className="text-white/50 text-sm">$24,950 new / $18K used</span>
+                    </div>
+                    <p className="text-white/60 text-sm mt-2">The gold standard. Reliable, fuel-efficient, holds value, cheap to insure.</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-semibold text-white">Toyota Corolla</h4>
+                      <span className="text-white/50 text-sm">$22,050 new / $16K used</span>
+                    </div>
+                    <p className="text-white/60 text-sm mt-2">Bulletproof reliability. Will run forever with basic maintenance.</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-semibold text-white">Mazda3</h4>
+                      <span className="text-white/50 text-sm">$24,970 new / $19K used</span>
+                    </div>
+                    <p className="text-white/60 text-sm mt-2">More fun to drive than competitors. Premium feel at mainstream price.</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-semibold text-white">Hyundai Elantra</h4>
+                      <span className="text-white/50 text-sm">$22,625 new / $15K used</span>
+                    </div>
+                    <p className="text-white/60 text-sm mt-2">Best warranty in the business. Great value, lots of tech.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 text-lg font-bold">3</span>
+                Understanding Insurance (It's More Than You Think)
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Insurance for young/new drivers is EXPENSIVE. Like, shockingly expensive. Plan for this.</p>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-rose-400 mb-4">Average Insurance Costs (Under 25)</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>• Honda Civic: ~$180/month</li>
+                    <li>• Toyota Corolla: ~$170/month</li>
+                    <li>• Ford Mustang: ~$320/month</li>
+                    <li>• BMW 3-Series: ~$350/month</li>
+                  </ul>
+                  <p className="text-white/60 text-sm mt-4">That "affordable" sports car suddenly isn't so affordable...</p>
+                </div>
+
+                <p><strong className="text-white">Tips to lower insurance:</strong></p>
+                <ul className="space-y-2 mt-3">
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-rose-400 mt-1 flex-shrink-0" />
+                    <span>Stay on parents' policy if possible (much cheaper)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-rose-400 mt-1 flex-shrink-0" />
+                    <span>Ask about good student discounts</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-rose-400 mt-1 flex-shrink-0" />
+                    <span>Choose a "boring" car (sedans cost less than sports cars)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-rose-400 mt-1 flex-shrink-0" />
+                    <span>Take a defensive driving course</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 text-lg font-bold">4</span>
+                New vs Used for First-Time Buyers
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>Hot take: most first-time buyers should buy used. Here's why:</p>
+
+                <div className="grid md:grid-cols-2 gap-4 my-6">
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-5">
+                    <h4 className="font-semibold text-green-400 mb-3">✅ Buy Used If...</h4>
+                    <ul className="space-y-1 text-white/70 text-sm">
+                      <li>• Budget is under $25K</li>
+                      <li>• You want to minimize financial risk</li>
+                      <li>• You're okay without the latest tech</li>
+                      <li>• You might ding it while learning</li>
+                    </ul>
+                  </div>
+                  <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-5">
+                    <h4 className="font-semibold text-blue-400 mb-3">✅ Buy New If...</h4>
+                    <ul className="space-y-1 text-white/70 text-sm">
+                      <li>• You can truly afford it (20/4/10 rule)</li>
+                      <li>• Warranty peace of mind matters</li>
+                      <li>• You want specific safety features</li>
+                      <li>• You'll keep it 7+ years</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <p><strong className="text-white">The CPO sweet spot:</strong> A 2-3 year old certified pre-owned car gives you near-new condition with significant savings. Still has warranty, already took the depreciation hit.</p>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 text-lg font-bold">5</span>
+                Financing Tips for First-Time Buyers
+              </h2>
+
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
+                  <h3 className="text-xl font-semibold text-rose-400 mb-4">First-Timer Financing Checklist</h3>
+                  <ul className="space-y-2 text-white/70">
+                    <li>☐ Check your credit score before shopping (free at Credit Karma)</li>
+                    <li>☐ Get pre-approved from your bank/credit union FIRST</li>
+                    <li>☐ Compare dealer financing vs your pre-approval</li>
+                    <li>☐ Avoid loans longer than 48-60 months</li>
+                    <li>☐ Put down as much as possible (20%+ ideal)</li>
+                    <li>☐ Don't focus on monthly payment - focus on total cost</li>
+                  </ul>
+                </div>
+
+                <p><strong className="text-white">Watch out for:</strong> Dealers love to ask "what monthly payment works for you?" This lets them stretch the loan to make bad deals look affordable. Always negotiate the OUT THE DOOR price first.</p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Find Your Perfect First Car</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Our quiz recommends reliable, affordable options perfect for first-time buyers based on your budget and needs.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  Your first car doesn't need to be flashy. It needs to be reliable, affordable, and safe. The boring choice is usually the smart choice.
+                </p>
+                <p>
+                  Save the dream car for later when you have more income and driving experience. Right now, focus on building good financial habits and not getting stranded on the side of the road.
+                </p>
+                <p className="text-white font-medium">
+                  Welcome to car ownership! 🎉🚗
+                </p>
+              </div>
+            </div>
+
+            {/* Related Articles */}
+            <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-xl">
+              <h3 className="text-lg font-semibold text-white mb-4">Related Articles</h3>
+              <div className="space-y-3">
+                <button onClick={() => setCurrentPage('blog-best-cars-under-30k')} className="block text-amber-400 hover:text-amber-300 text-sm">→ Best Cars Under $30,000 in 2026</button>
+                <button onClick={() => setCurrentPage('blog-used-vs-new-car')} className="block text-amber-400 hover:text-amber-300 text-sm">→ Used vs New Car: Which Should You Buy?</button>
+                <button onClick={() => setCurrentPage('blog-how-to-choose-a-car')} className="block text-amber-400 hover:text-amber-300 text-sm">→ How to Choose a Car: Complete Decision Framework</button>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Need Help Choosing?</h3>
+              <p className="text-white/60 mb-6">Get personalized first car recommendations in minutes.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Articles
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* Blog Post 7: Best Commuter Cars */}
+      {currentPage === 'blog-best-commuter-cars' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Guide
+          </button>
+
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-sm font-medium mb-4">Commuter Cars</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">Best Commuter Cars 2026: Fuel-Efficient Daily Drivers</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1449965408869-ecd3c78f2cda?w=1200&h=600&fit=crop" 
+                alt="Best commuter car 2026 - fuel efficient hybrid sedan driving on highway during morning commute to work" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                If you're spending hours in traffic every week, your car choice matters more than you think. The right commuter car saves you thousands in fuel, keeps you comfortable in gridlock, and doesn't fall apart at 100,000 miles.
+              </p>
+              <p>
+                We've analyzed the best cars for daily commuters in 2026, focusing on fuel efficiency, comfort, reliability, and total cost of ownership.
+              </p>
+              <p>
+                <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">Take our free quiz</button> to get personalized commuter car recommendations based on your specific commute and budget.
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Top 10 Commuter Cars for 2026</h2>
+
+              <div className="space-y-6">
+                <div className="bg-gradient-to-r from-indigo-500/10 to-indigo-600/5 border border-indigo-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-indigo-400">1. Toyota Prius</h3>
+                    <span className="text-white/60 text-sm">57 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The king of commuter cars. The newest Prius actually looks good AND gets insane fuel economy. AWD available for snow states.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $28,545 | <strong>Best for:</strong> Maximum fuel savings</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-500/10 to-green-600/5 border border-green-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-green-400">2. Honda Accord Hybrid</h3>
+                    <span className="text-white/60 text-sm">48 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Midsize comfort with hybrid efficiency. Spacious interior, smooth ride, and Honda reliability. Perfect for longer commutes.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $32,990 | <strong>Best for:</strong> Comfort + efficiency balance</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-blue-400">3. Tesla Model 3</h3>
+                    <span className="text-white/60 text-sm">132 MPGe</span>
+                  </div>
+                  <p className="text-white/70 mb-3">If you can charge at home, electric makes SO much sense for commuting. Autopilot reduces fatigue, Supercharger network for road trips.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $38,990 | <strong>Best for:</strong> Tech lovers with home charging</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-purple-400">4. Toyota Camry Hybrid</h3>
+                    <span className="text-white/60 text-sm">52 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">America's best-selling sedan in hybrid form. Incredibly reliable, comfortable, and efficient. A solid no-brainer choice.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $29,495 | <strong>Best for:</strong> Reliability-focused buyers</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-cyan-500/10 to-cyan-600/5 border border-cyan-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-cyan-400">5. Hyundai Ioniq 6</h3>
+                    <span className="text-white/60 text-sm">140 MPGe</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Ultra-aerodynamic EV with 360+ mile range. Stunning design, ultra-fast charging, and excellent highway efficiency.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $38,650 | <strong>Best for:</strong> Long-distance EV commuters</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-amber-400">6. Mazda3</h3>
+                    <span className="text-white/60 text-sm">32 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">For commuters who want driving enjoyment. Best handling in class, premium interior, available AWD. Makes traffic almost bearable.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $24,970 | <strong>Best for:</strong> Driving enthusiasts</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-rose-500/10 to-rose-600/5 border border-rose-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-rose-400">7. Honda Civic</h3>
+                    <span className="text-white/60 text-sm">36 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">The practical choice that's actually fun. Fuel efficient, reliable, great resale value. Can't go wrong with a Civic.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $24,950 | <strong>Best for:</strong> Value-conscious commuters</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-teal-500/10 to-teal-600/5 border border-teal-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-teal-400">8. Kia Niro Hybrid</h3>
+                    <span className="text-white/60 text-sm">53 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Crossover practicality with hybrid efficiency. More cargo room than sedans, available as hybrid, PHEV, or full EV.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $29,490 | <strong>Best for:</strong> Need more space than a sedan</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-orange-500/10 to-orange-600/5 border border-orange-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-orange-400">9. Hyundai Elantra Hybrid</h3>
+                    <span className="text-white/60 text-sm">54 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">Affordable hybrid with bold styling. Great fuel economy, lots of tech, excellent warranty. Underrated choice.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $26,100 | <strong>Best for:</strong> Budget-friendly hybrid</p>
+                </div>
+
+                <div className="bg-gradient-to-r from-lime-500/10 to-lime-600/5 border border-lime-500/20 rounded-xl p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-lime-400">10. Subaru Crosstrek</h3>
+                    <span className="text-white/60 text-sm">30 MPG combined</span>
+                  </div>
+                  <p className="text-white/70 mb-3">For commuters who face real weather. Standard AWD, rugged reliability, good ground clearance. Hybrid version available.</p>
+                  <p className="text-white/90 text-sm"><strong>Starting at:</strong> $26,290 | <strong>Best for:</strong> All-weather commuters</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Find Your Perfect Commuter Car</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Tell us about your commute and we'll match you with the ideal fuel-efficient daily driver.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">What Makes a Great Commuter Car?</h2>
+              
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                  <h4 className="font-semibold text-indigo-400 mb-2">⛽ Fuel Efficiency</h4>
+                  <p className="text-white/60 text-sm">At 15,000 miles/year, the difference between 25 MPG and 50 MPG is $1,200+ annually.</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                  <h4 className="font-semibold text-indigo-400 mb-2">🪑 Comfort</h4>
+                  <p className="text-white/60 text-sm">Good seats, smooth ride, and low noise make the difference between arriving fresh vs. exhausted.</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                  <h4 className="font-semibold text-indigo-400 mb-2">🔧 Reliability</h4>
+                  <p className="text-white/60 text-sm">High-mileage cars need to be dependable. Breakdowns = missed work = lost income.</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                  <h4 className="font-semibold text-indigo-400 mb-2">🤖 Driver Assists</h4>
+                  <p className="text-white/60 text-sm">Adaptive cruise and lane-keeping reduce fatigue dramatically on highway commutes.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  For most commuters, a hybrid sedan or efficient compact is the smart play. You'll save thousands on fuel while staying comfortable in traffic.
+                </p>
+                <p>
+                  If you can charge at home and your commute is under 80 miles round-trip, an EV makes even more sense - cheaper "fuel" and less maintenance.
+                </p>
+                <p className="text-white font-medium">
+                  Happy commuting! 🚗💨
+                </p>
+              </div>
+            </div>
+
+            {/* Related Articles */}
+            <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-xl">
+              <h3 className="text-lg font-semibold text-white mb-4">Related Articles</h3>
+              <div className="space-y-3">
+                <button onClick={() => setCurrentPage('blog-electric-vs-hybrid')} className="block text-amber-400 hover:text-amber-300 text-sm">→ Electric vs Hybrid: Which is Right for You?</button>
+                <button onClick={() => setCurrentPage('blog-best-cars-under-30k')} className="block text-amber-400 hover:text-amber-300 text-sm">→ Best Cars Under $30,000 in 2026</button>
+                <button onClick={() => setCurrentPage('blog-how-to-choose-a-car')} className="block text-amber-400 hover:text-amber-300 text-sm">→ How to Choose a Car: Complete Decision Framework</button>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Ready to Upgrade Your Commute?</h3>
+              <p className="text-white/60 mb-6">Get matched with fuel-efficient cars perfect for your daily drive.</p>
+              <button 
+                onClick={startTest}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
+              >
+                Take the Free Assessment
+              </button>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <button 
+                onClick={() => setCurrentPage('blog')}
+                className="flex items-center gap-2 text-white/50 hover:text-amber-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Articles
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* Blog Post 8: Used vs New Car */}
+      {currentPage === 'blog-used-vs-new-car' && (
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <button 
+            onClick={() => setCurrentPage('blog')}
+            className="flex items-center gap-2 text-white/50 hover:text-amber-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Guide
+          </button>
+
+          <article className="prose prose-invert max-w-none">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-sm font-medium mb-4">Buying Tips</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">Used vs New Car: Which Should You Buy?</h1>
+              <div className="flex items-center gap-4 text-white/50 text-sm">
+                <span>January 24, 2026</span>
+                <span>•</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden mb-10">
+              <img 
+                src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1200&h=600&fit=crop" 
+                alt="Used vs new car comparison - certified pre-owned and new vehicles side by side at car dealership" 
+                className="w-full h-64 md:h-96 object-cover"
+              />
+            </div>
+
+            <div className="text-lg text-white/80 leading-relaxed space-y-4 mb-10">
+              <p>
+                "Should I buy new or used?" is the first question every car buyer faces. There's no universally right answer - it depends on your budget, priorities, and how long you plan to keep the car.
+              </p>
+              <p>
+                Let's break down the real pros and cons so you can make the right choice for YOUR situation.
+              </p>
+              <p>
+                Our <button onClick={startTest} className="text-amber-400 hover:text-amber-300 underline">free car finder quiz</button> factors in whether new or used makes more sense based on your specific needs and budget.
+              </p>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Case for New Cars</h2>
+
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-6 mb-6">
+                <h3 className="text-xl font-semibold text-blue-400 mb-4">✅ Advantages of Buying New</h3>
+                <ul className="space-y-3 text-white/70">
+                  <li>• <strong className="text-white">Full warranty coverage</strong> - 3-5 years of "not your problem" for repairs</li>
+                  <li>• <strong className="text-white">Latest safety tech</strong> - Newest cars have the best crash protection and driver assists</li>
+                  <li>• <strong className="text-white">No hidden history</strong> - You know exactly how it's been treated (by you)</li>
+                  <li>• <strong className="text-white">Better financing rates</strong> - New car loans typically have lower APR</li>
+                  <li>• <strong className="text-white">Choose exactly what you want</strong> - Color, features, packages - your call</li>
+                  <li>• <strong className="text-white">That new car feeling</strong> - Yes, it matters to some people, and that's okay</li>
+                </ul>
+              </div>
+
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6">
+                <h3 className="text-xl font-semibold text-red-400 mb-4">❌ Disadvantages of Buying New</h3>
+                <ul className="space-y-3 text-white/70">
+                  <li>• <strong className="text-white">Brutal depreciation</strong> - Loses 20-30% of value in year one alone</li>
+                  <li>• <strong className="text-white">Higher insurance costs</strong> - Comprehensive coverage required, costs more</li>
+                  <li>• <strong className="text-white">More expensive overall</strong> - Even with good financing, you're paying more</li>
+                  <li>• <strong className="text-white">First-year problems</strong> - New models sometimes have undiscovered issues</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Case for Used Cars</h2>
+
+              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 mb-6">
+                <h3 className="text-xl font-semibold text-green-400 mb-4">✅ Advantages of Buying Used</h3>
+                <ul className="space-y-3 text-white/70">
+                  <li>• <strong className="text-white">Significant savings</strong> - Often 30-50% less than equivalent new car</li>
+                  <li>• <strong className="text-white">Depreciation already happened</strong> - Someone else took the biggest hit</li>
+                  <li>• <strong className="text-white">Lower insurance costs</strong> - Older car = cheaper to insure</li>
+                  <li>• <strong className="text-white">More car for your money</strong> - Get a nicer car than you could afford new</li>
+                  <li>• <strong className="text-white">Known reliability data</strong> - Years of owner reports reveal real issues</li>
+                  <li>• <strong className="text-white">Lower registration fees</strong> - Many states charge less for older vehicles</li>
+                </ul>
+              </div>
+
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6">
+                <h3 className="text-xl font-semibold text-red-400 mb-4">❌ Disadvantages of Buying Used</h3>
+                <ul className="space-y-3 text-white/70">
+                  <li>• <strong className="text-white">Unknown history risk</strong> - Previous owner might have beat on it</li>
+                  <li>• <strong className="text-white">Limited/no warranty</strong> - Unless you buy CPO</li>
+                  <li>• <strong className="text-white">Older technology</strong> - May lack latest safety features</li>
+                  <li>• <strong className="text-white">Higher financing rates</strong> - Used car loans typically cost more</li>
+                  <li>• <strong className="text-white">Less choice</strong> - Have to find what's available, not what you want</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The CPO Sweet Spot</h2>
+
+              <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-6">
+                <p className="text-white/80 mb-4">
+                  <strong className="text-amber-400">Certified Pre-Owned (CPO)</strong> vehicles give you the best of both worlds: used car pricing with new car peace of mind.
+                </p>
+                <h4 className="text-white font-semibold mb-3">What you get with CPO:</h4>
+                <ul className="space-y-2 text-white/70">
+                  <li>• Manufacturer-backed extended warranty (often 6-7 years total coverage)</li>
+                  <li>• Multi-point inspection (100-200 checkpoints)</li>
+                  <li>• Clean vehicle history verified</li>
+                  <li>• Roadside assistance included</li>
+                  <li>• Special financing rates (sometimes matching new car rates)</li>
+                </ul>
+                <p className="text-white/60 text-sm mt-4">
+                  <strong>Best CPO strategy:</strong> Find a 2-3 year old model that just came off a lease. Low miles, well-maintained, significant savings.
+                </p>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Real Cost Comparison</h2>
+
+              <div className="bg-white/5 border border-white/10 rounded-xl p-6 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-white/20">
+                      <th className="text-left py-3 text-white">Factor</th>
+                      <th className="text-center py-3 text-blue-400">New ($35K)</th>
+                      <th className="text-center py-3 text-green-400">Used 3yr ($22K)</th>
+                      <th className="text-center py-3 text-amber-400">CPO ($25K)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-white/70">
+                    <tr className="border-b border-white/10">
+                      <td className="py-3">Purchase Price</td>
+                      <td className="text-center">$35,000</td>
+                      <td className="text-center">$22,000</td>
+                      <td className="text-center">$25,000</td>
+                    </tr>
+                    <tr className="border-b border-white/10">
+                      <td className="py-3">Depreciation (5yr)</td>
+                      <td className="text-center text-red-400">-$15,000</td>
+                      <td className="text-center text-green-400">-$7,000</td>
+                      <td className="text-center text-amber-400">-$9,000</td>
+                    </tr>
+                    <tr className="border-b border-white/10">
+                      <td className="py-3">Insurance (5yr)</td>
+                      <td className="text-center">$9,000</td>
+                      <td className="text-center">$6,500</td>
+                      <td className="text-center">$7,000</td>
+                    </tr>
+                    <tr className="border-b border-white/10">
+                      <td className="py-3">Repairs (5yr)</td>
+                      <td className="text-center">$1,000</td>
+                      <td className="text-center">$4,000</td>
+                      <td className="text-center">$2,000</td>
+                    </tr>
+                    <tr className="font-semibold text-white">
+                      <td className="py-3">Total 5yr Cost</td>
+                      <td className="text-center text-blue-400">~$25,000</td>
+                      <td className="text-center text-green-400">~$17,500</td>
+                      <td className="text-center text-amber-400">~$18,000</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p className="text-white/50 text-xs mt-4">*Simplified example - actual costs vary by vehicle, location, and driving habits</p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-2xl p-8 mb-12 text-center">
+              <h3 className="text-2xl font-bold text-white mb-3">Not Sure Which Route to Take?</h3>
+              <p className="text-white/70 mb-6 max-w-xl mx-auto">
+                Our quiz factors in your budget and priorities to recommend whether new, used, or CPO makes the most sense for you.
+              </p>
+              <button 
+                onClick={startTest}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 inline-flex items-center gap-2"
+              >
+                Take the Free Quiz
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Quick Decision Guide</h2>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-5">
+                  <h4 className="font-semibold text-blue-400 mb-3">Buy NEW if...</h4>
+                  <ul className="space-y-2 text-white/70 text-sm">
+                    <li>• You want the latest safety tech</li>
+                    <li>• You can truly afford it (20/4/10 rule)</li>
+                    <li>• You'll keep it 7+ years</li>
+                    <li>• Peace of mind matters more than savings</li>
+                    <li>• You want a specific configuration</li>
+                  </ul>
+                </div>
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-5">
+                  <h4 className="font-semibold text-green-400 mb-3">Buy USED if...</h4>
+                  <ul className="space-y-2 text-white/70 text-sm">
+                    <li>• Budget is your primary concern</li>
+                    <li>• You're mechanically savvy or have a trusted mechanic</li>
+                    <li>• You're okay with older tech</li>
+                    <li>• You want more car for less money</li>
+                    <li>• You don't mind compromise on color/features</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">The Bottom Line</h2>
+              <div className="space-y-4 text-white/80 leading-relaxed">
+                <p>
+                  For most buyers, a <strong className="text-white">2-3 year old CPO vehicle</strong> offers the best balance of savings and peace of mind. You skip the worst depreciation while still getting warranty coverage and modern features.
+                </p>
+                <p>
+                  If budget is tight, don't stretch into a new car just for the warranty. A well-researched used car will serve you fine and save you thousands.
+                </p>
+                <p>
+                  And if you can truly afford new and plan to keep the car long-term? Buy new and enjoy it without guilt.
+                </p>
+                <p className="text-white font-medium">
+                  There's no wrong answer - just the right answer for YOU. 🚗
+                </p>
+              </div>
+            </div>
+
+            {/* Related Articles */}
+            <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded-xl">
+              <h3 className="text-lg font-semibold text-white mb-4">Related Articles</h3>
+              <div className="space-y-3">
+                <button onClick={() => setCurrentPage('blog-best-cars-under-30k')} className="block text-amber-400 hover:text-amber-300 text-sm">→ Best Cars Under $30,000 in 2026</button>
+                <button onClick={() => setCurrentPage('blog-first-car-buying-guide')} className="block text-amber-400 hover:text-amber-300 text-sm">→ First Car Buying Guide for New Drivers</button>
+                <button onClick={() => setCurrentPage('blog-how-to-choose-a-car')} className="block text-amber-400 hover:text-amber-300 text-sm">→ How to Choose a Car: Complete Decision Framework</button>
+              </div>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+              <h3 className="text-xl font-semibold text-white mb-2">Ready to Find Your Car?</h3>
+              <p className="text-white/60 mb-6">Get personalized recommendations for new and used vehicles alike.</p>
               <button 
                 onClick={startTest}
                 className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all"
