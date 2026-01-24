@@ -1260,7 +1260,7 @@ export default function AutoWizard() {
                   <img 
                     src={getVehicleImage(result.vehicles[vehicleImageIndex])} 
                     alt={result.vehicles[vehicleImageIndex]}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain bg-zinc-900"
                     onError={(e) => {
                       e.currentTarget.src = 'https://placehold.co/600x400/1a1a1a/ffd700?text=' + encodeURIComponent(result.vehicles[vehicleImageIndex]);
                     }}
