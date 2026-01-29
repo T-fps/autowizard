@@ -6,7 +6,7 @@ import PageWrapper from './components/shared/PageWrapper';
 
 const quickLinks = [
   {
-    title: 'Take the Quiz',
+    title: 'CarMatch™',
     description: 'Get personalized recommendations in 2 minutes',
     href: '/quiz',
     icon: Target,
@@ -259,7 +259,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Quiz CTA */}
+        {/* CarMatch CTA */}
         <div className="bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-2xl p-8 text-center">
           <h3 className="text-2xl font-bold text-slate-900 mb-2">Not Sure Where to Start?</h3>
           <p className="text-slate-600 mb-6 max-w-xl mx-auto">
@@ -269,7 +269,7 @@ export default function HomePage() {
             href="/quiz"
             className="inline-block px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold hover:from-amber-400 hover:to-amber-500 transition-all text-lg shadow-lg shadow-amber-500/25"
           >
-            Take the Free Quiz →
+            Try CarMatch™ Free →
           </Link>
         </div>
       </div>

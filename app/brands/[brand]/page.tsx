@@ -331,9 +331,9 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
           {/* Vehicles by Type */}
           {sortedTypes.map(type => (
             <div key={type} className="mb-12">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+              <h2 className="text-2xl font-bold text-amber-500 mb-6 flex items-center gap-3">
                 <span>{getBodyTypeDisplay(type)}s</span>
-                <span className="text-sm font-normal text-slate-500">({vehiclesByType[type].length} models)</span>
+                <span className="text-sm font-normal text-slate-400">({vehiclesByType[type].length} models)</span>
               </h2>
               
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
