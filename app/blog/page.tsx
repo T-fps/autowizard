@@ -80,14 +80,14 @@ const blogPosts = [
 ];
 
 const categoryColors: Record<string, string> = {
-  amber: 'bg-amber-500/20 text-amber-600',
-  green: 'bg-green-500/20 text-green-400',
-  blue: 'bg-blue-500/20 text-blue-400',
-  purple: 'bg-purple-500/20 text-purple-400',
-  cyan: 'bg-cyan-500/20 text-cyan-600',
-  rose: 'bg-rose-500/20 text-rose-400',
-  indigo: 'bg-indigo-500/20 text-indigo-400',
-  orange: 'bg-orange-500/20 text-orange-400'
+  amber: 'bg-amber-100 text-amber-700',
+  green: 'bg-green-100 text-green-700',
+  blue: 'bg-blue-100 text-blue-700',
+  purple: 'bg-purple-100 text-purple-700',
+  cyan: 'bg-cyan-100 text-cyan-700',
+  rose: 'bg-rose-100 text-rose-700',
+  indigo: 'bg-indigo-100 text-indigo-700',
+  orange: 'bg-orange-100 text-orange-700'
 };
 
 const categories = [
@@ -111,12 +111,12 @@ export default function BlogPage() {
 
         {/* Header */}
         <div className="mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full mb-6">
-            <BookOpen className="w-4 h-4 text-cyan-600" />
-            <span className="text-cyan-600 text-sm font-medium">Expert Articles</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-100 border border-cyan-200 rounded-full mb-6">
+            <BookOpen className="w-4 h-4 text-cyan-700" />
+            <span className="text-cyan-700 text-sm font-medium">Expert Articles</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Articles & Guides</h1>
-          <p className="text-xl text-slate-500 max-w-2xl">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Articles & Guides</h1>
+          <p className="text-xl text-slate-600 max-w-2xl">
             In-depth guides and articles to help you make the best car buying decision.
           </p>
         </div>
@@ -128,8 +128,8 @@ export default function BlogPage() {
               key={cat.name}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 i === 0
-                  ? 'bg-amber-500/20 text-amber-600 border border-amber-500/30'
-                  : 'bg-slate-50 text-slate-500 border border-slate-200 hover:border-slate-300'
+                  ? 'bg-amber-100 text-amber-700 border border-amber-200'
+                  : 'bg-slate-50 text-slate-600 border border-slate-200 hover:border-slate-300'
               }`}
             >
               {cat.name} ({cat.count})
@@ -143,7 +143,7 @@ export default function BlogPage() {
             <Link 
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group block bg-slate-50 border border-slate-200 rounded-xl p-6 hover:border-amber-500/30 hover:bg-white/10 transition-all"
+              className="group block bg-slate-50 border border-slate-200 rounded-xl p-6 hover:border-amber-300 hover:bg-amber-50 transition-all"
             >
               <div className="flex flex-col md:flex-row md:items-center gap-4">
                 <div className="flex-1">
@@ -155,13 +155,13 @@ export default function BlogPage() {
                     <span className="text-slate-400 text-sm">•</span>
                     <span className="text-slate-400 text-sm">{post.readTime}</span>
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-2 group-hover:text-amber-600 transition-colors">
+                  <h2 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors">
                     {post.title}
                   </h2>
-                  <p className="text-slate-500">{post.description}</p>
+                  <p className="text-slate-600">{post.description}</p>
                 </div>
                 <div className="flex-shrink-0">
-                  <span className="inline-flex items-center gap-1 text-cyan-600 group-hover:text-amber-600 transition-colors">
+                  <span className="inline-flex items-center gap-1 text-amber-600 group-hover:text-amber-500 transition-colors">
                     Read More <ChevronRight className="w-4 h-4" />
                   </span>
                 </div>
@@ -171,9 +171,9 @@ export default function BlogPage() {
         </div>
 
         {/* CTA */}
-        <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-2xl p-8 text-center">
-          <h3 className="text-2xl font-bold text-white mb-2">Skip the Reading?</h3>
-          <p className="text-slate-500 mb-6 max-w-xl mx-auto">
+        <div className="bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-2xl p-8 text-center">
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">Skip the Reading?</h3>
+          <p className="text-slate-600 mb-6 max-w-xl mx-auto">
             Take our 2-minute quiz and get personalized car recommendations instantly.
           </p>
           <Link 
