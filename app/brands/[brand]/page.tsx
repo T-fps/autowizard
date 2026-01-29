@@ -33,54 +33,55 @@ function getBrandInfo(slug: string): { name: string, vehicles: Vehicle[] } | nul
 }
 
 // Brand logo URLs (using Wikipedia Commons)
+// Brand logo URLs using Clearbit (more reliable) with fallback domains
 const brandLogos: Record<string, string> = {
-  'Toyota': 'https://www.carlogos.org/car-logos/toyota-logo-2019-3700x1200.png',
-  'Honda': 'https://www.carlogos.org/car-logos/honda-logo-1700x1150.png',
-  'Ford': 'https://www.carlogos.org/car-logos/ford-logo-2017-640.png',
-  'Chevrolet': 'https://www.carlogos.org/car-logos/chevrolet-logo-2013-2560x1440.png',
-  'BMW': 'https://www.carlogos.org/car-logos/bmw-logo-2020-gray.png',
-  'Mercedes-Benz': 'https://www.carlogos.org/car-logos/mercedes-benz-logo-2011-1920x1080.png',
-  'Audi': 'https://www.carlogos.org/car-logos/audi-logo-2016-640.png',
-  'Tesla': 'https://www.carlogos.org/car-logos/tesla-logo-2200x2800.png',
-  'Lexus': 'https://www.carlogos.org/car-logos/lexus-logo-1988-1920x1080.png',
-  'Porsche': 'https://www.carlogos.org/car-logos/porsche-logo-2100x1100.png',
-  'Ferrari': 'https://www.carlogos.org/car-logos/ferrari-logo-750x1100.png',
-  'Lamborghini': 'https://www.carlogos.org/car-logos/lamborghini-logo-1000x1100.png',
-  'McLaren': 'https://www.carlogos.org/car-logos/mclaren-logo-2002-2560x1440.png',
-  'Aston Martin': 'https://www.carlogos.org/car-logos/aston-martin-logo-2021-640.png',
-  'Bentley': 'https://www.carlogos.org/car-logos/bentley-logo-1400x800.png',
-  'Rolls-Royce': 'https://www.carlogos.org/car-logos/rolls-royce-logo-2048x2048.png',
-  'Bugatti': 'https://www.carlogos.org/car-logos/bugatti-logo-1024x768.png',
-  'Maserati': 'https://www.carlogos.org/car-logos/maserati-logo-5000x3000.png',
-  'Lotus': 'https://www.carlogos.org/car-logos/lotus-logo-1986-1920x1080.png',
-  'Pagani': 'https://www.carlogos.org/car-logos/pagani-logo-1992-640.png',
-  'Koenigsegg': 'https://www.carlogos.org/car-logos/koenigsegg-logo-1994-640.png',
-  'Mazda': 'https://www.carlogos.org/car-logos/mazda-logo-2018-vertical-640.png',
-  'Hyundai': 'https://www.carlogos.org/car-logos/hyundai-logo-2011-640.png',
-  'Kia': 'https://www.carlogos.org/car-logos/kia-logo-2021-2560x1440.png',
-  'Nissan': 'https://www.carlogos.org/car-logos/nissan-logo-2020-black.png',
-  'Subaru': 'https://www.carlogos.org/car-logos/subaru-logo-2019-640.png',
-  'Jeep': 'https://www.carlogos.org/car-logos/jeep-logo-1993-640.png',
-  'Ram': 'https://www.carlogos.org/car-logos/ram-logo-2009-640.png',
-  'GMC': 'https://www.carlogos.org/car-logos/gmc-logo-2200x700.png',
-  'Volvo': 'https://www.carlogos.org/car-logos/volvo-logo-2014-640.png',
-  'Genesis': 'https://www.carlogos.org/car-logos/genesis-logo-2015-640.png',
-  'Cadillac': 'https://www.carlogos.org/car-logos/cadillac-logo-2021-640.png',
-  'Lincoln': 'https://www.carlogos.org/car-logos/lincoln-logo-2019-640.png',
-  'Acura': 'https://www.carlogos.org/car-logos/acura-logo-1990-640.png',
-  'Infiniti': 'https://www.carlogos.org/car-logos/infiniti-logo-1989-640.png',
-  'Rivian': 'https://www.carlogos.org/car-logos/rivian-logo-2018-640.png',
-  'Lucid': 'https://www.carlogos.org/car-logos/lucid-motors-logo-2020-640.png',
-  'Volkswagen': 'https://www.carlogos.org/car-logos/volkswagen-logo-2019-640.png',
-  'Dodge': 'https://www.carlogos.org/car-logos/dodge-logo-2011-640.png',
-  'Chrysler': 'https://www.carlogos.org/car-logos/chrysler-logo-2010-640.png',
-  'Jaguar': 'https://www.carlogos.org/car-logos/jaguar-logo-2012-640.png',
-  'Alfa Romeo': 'https://www.carlogos.org/car-logos/alfa-romeo-logo-2015-640.png',
-  'Land Rover': 'https://www.carlogos.org/car-logos/land-rover-logo-2020-640.png',
-  'Polestar': 'https://www.carlogos.org/car-logos/polestar-logo-2020-640.png',
-  'Buick': 'https://www.carlogos.org/car-logos/buick-logo-2022-640.png',
-  'Mitsubishi': 'https://www.carlogos.org/car-logos/mitsubishi-logo-2000x2500.png',
-  'Mini': 'https://www.carlogos.org/car-logos/mini-logo-2018-640.png',
+  'Toyota': 'https://logo.clearbit.com/toyota.com',
+  'Honda': 'https://logo.clearbit.com/honda.com',
+  'Ford': 'https://logo.clearbit.com/ford.com',
+  'Chevrolet': 'https://logo.clearbit.com/chevrolet.com',
+  'BMW': 'https://logo.clearbit.com/bmw.com',
+  'Mercedes-Benz': 'https://logo.clearbit.com/mercedes-benz.com',
+  'Audi': 'https://logo.clearbit.com/audi.com',
+  'Tesla': 'https://logo.clearbit.com/tesla.com',
+  'Lexus': 'https://logo.clearbit.com/lexus.com',
+  'Porsche': 'https://logo.clearbit.com/porsche.com',
+  'Ferrari': 'https://logo.clearbit.com/ferrari.com',
+  'Lamborghini': 'https://logo.clearbit.com/lamborghini.com',
+  'McLaren': 'https://logo.clearbit.com/mclaren.com',
+  'Aston Martin': 'https://logo.clearbit.com/astonmartin.com',
+  'Bentley': 'https://logo.clearbit.com/bentleymotors.com',
+  'Rolls-Royce': 'https://logo.clearbit.com/rolls-roycemotorcars.com',
+  'Bugatti': 'https://logo.clearbit.com/bugatti.com',
+  'Maserati': 'https://logo.clearbit.com/maserati.com',
+  'Lotus': 'https://logo.clearbit.com/lotuscars.com',
+  'Pagani': 'https://logo.clearbit.com/pagani.com',
+  'Koenigsegg': 'https://logo.clearbit.com/koenigsegg.com',
+  'Mazda': 'https://logo.clearbit.com/mazda.com',
+  'Hyundai': 'https://logo.clearbit.com/hyundai.com',
+  'Kia': 'https://logo.clearbit.com/kia.com',
+  'Nissan': 'https://logo.clearbit.com/nissan.com',
+  'Subaru': 'https://logo.clearbit.com/subaru.com',
+  'Jeep': 'https://logo.clearbit.com/jeep.com',
+  'Ram': 'https://logo.clearbit.com/ramtrucks.com',
+  'GMC': 'https://logo.clearbit.com/gmc.com',
+  'Volvo': 'https://logo.clearbit.com/volvocars.com',
+  'Genesis': 'https://logo.clearbit.com/genesis.com',
+  'Cadillac': 'https://logo.clearbit.com/cadillac.com',
+  'Lincoln': 'https://logo.clearbit.com/lincoln.com',
+  'Acura': 'https://logo.clearbit.com/acura.com',
+  'Infiniti': 'https://logo.clearbit.com/infinitiusa.com',
+  'Rivian': 'https://logo.clearbit.com/rivian.com',
+  'Lucid': 'https://logo.clearbit.com/lucidmotors.com',
+  'Volkswagen': 'https://logo.clearbit.com/volkswagen.com',
+  'Dodge': 'https://logo.clearbit.com/dodge.com',
+  'Chrysler': 'https://logo.clearbit.com/chrysler.com',
+  'Jaguar': 'https://logo.clearbit.com/jaguar.com',
+  'Alfa Romeo': 'https://logo.clearbit.com/alfaromeo.com',
+  'Land Rover': 'https://logo.clearbit.com/landrover.com',
+  'Polestar': 'https://logo.clearbit.com/polestar.com',
+  'Buick': 'https://logo.clearbit.com/buick.com',
+  'Mitsubishi': 'https://logo.clearbit.com/mitsubishi-motors.com',
+  'Mini': 'https://logo.clearbit.com/mini.com',
 };
 
 // Brand colors for gradients
@@ -266,15 +267,13 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
             </nav>
             
             <div className="flex items-center gap-6 mb-6">
-              {logoUrl && (
-                <div className="w-20 h-20 md:w-28 md:h-28 bg-white rounded-2xl p-3 flex items-center justify-center shadow-lg">
-                  <img 
-                    src={logoUrl} 
-                    alt={`${name} logo`}
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-              )}
+              <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
+                <BrandLogo 
+                  src={logoUrl || ''} 
+                  alt={`${name} logo`}
+                  brandName={name}
+                />
+              </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
                   {year} {name}

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { vehicleDatabase, Vehicle } from '../../lib/vehicleDatabase';
 import { getVehicleTrims } from '../../lib/vehicleTrims';
+import { getVehicleHeritage } from '../../lib/vehicleHeritage';
 import { notFound } from 'next/navigation';
 import CarImage from '../../components/CarImage';
 import TrimSelector from '../../components/TrimSelector';
@@ -320,9 +321,15 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                   {year} {vehicle.name}
                 </h1>
                 
-                <p className="text-2xl text-cyan-600 font-semibold mb-6">
+                <p className="text-2xl text-cyan-600 font-semibold mb-2">
                   Starting at {formatPrice(vehicle.price)}
                 </p>
+                
+                {getVehicleHeritage(vehicle.name) && (
+                  <p className="text-amber-400 text-lg mb-6 italic">
+                    {getVehicleHeritage(vehicle.name)}
+                  </p>
+                )}
                 
                 <p className="text-slate-300 text-lg mb-8">
                   The {vehicle.name} is a {vehicle.segment} {getBodyTypeDisplay(vehicle.bodyType).toLowerCase()} 
