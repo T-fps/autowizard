@@ -5,14 +5,24 @@ import { ChevronRight, BookOpen, ChevronLeft } from 'lucide-react';
 import PageWrapper from '../components/shared/PageWrapper';
 
 const blogPosts = [
-  // High-Volume SEO Articles
+  // NEW - Best Used Cars Article
+  {
+    slug: 'best-used-cars-2026',
+    title: 'Best Used Cars to Buy in 2026: Top Picks by Generation',
+    description: 'The smartest used car buys right now—specific model years, generations to target, and exactly why they\'re worth your money.',
+    category: 'Used Cars',
+    categoryColor: 'emerald',
+    date: 'January 29, 2026',
+    readTime: '12 min read'
+  },
+  // SEO Articles - Spaced every 2-3 days
   {
     slug: 'how-much-car-can-i-afford',
     title: 'How Much Car Can I Afford? Complete 2026 Guide',
     description: 'Use proven formulas, budgeting rules, and real calculations to determine exactly how much you should spend.',
     category: 'Car Finance',
     categoryColor: 'green',
-    date: 'January 29, 2026',
+    date: 'January 26, 2026',
     readTime: '8 min read'
   },
   {
@@ -21,17 +31,8 @@ const blogPosts = [
     description: 'A comprehensive comparison to help you decide whether leasing or buying makes more financial sense.',
     category: 'Car Finance',
     categoryColor: 'blue',
-    date: 'January 29, 2026',
+    date: 'January 23, 2026',
     readTime: '9 min read'
-  },
-  {
-    slug: 'what-credit-score-to-buy-car',
-    title: 'What Credit Score Do You Need to Buy a Car?',
-    description: 'Understanding how your credit score affects car loan rates, and what you can do to get the best deal.',
-    category: 'Car Finance',
-    categoryColor: 'purple',
-    date: 'January 29, 2026',
-    readTime: '7 min read'
   },
   {
     slug: 'most-reliable-cars-2026',
@@ -39,8 +40,17 @@ const blogPosts = [
     description: 'Based on Consumer Reports data, J.D. Power studies, and owner surveys—these are the cars that last.',
     category: 'Best Cars',
     categoryColor: 'amber',
-    date: 'January 29, 2026',
+    date: 'January 20, 2026',
     readTime: '10 min read'
+  },
+  {
+    slug: 'what-credit-score-to-buy-car',
+    title: 'What Credit Score Do You Need to Buy a Car?',
+    description: 'Understanding how your credit score affects car loan rates, and what you can do to get the best deal.',
+    category: 'Car Finance',
+    categoryColor: 'purple',
+    date: 'January 17, 2026',
+    readTime: '7 min read'
   },
   {
     slug: 'best-cars-for-gas-mileage',
@@ -48,7 +58,7 @@ const blogPosts = [
     description: 'From hybrids to efficient gas engines—these vehicles will save you thousands at the pump.',
     category: 'Fuel Economy',
     categoryColor: 'green',
-    date: 'January 29, 2026',
+    date: 'January 14, 2026',
     readTime: '8 min read'
   },
   {
@@ -57,7 +67,7 @@ const blogPosts = [
     description: 'A comprehensive comparison to help you decide between these two popular vehicle types.',
     category: 'Comparison',
     categoryColor: 'cyan',
-    date: 'January 29, 2026',
+    date: 'January 11, 2026',
     readTime: '8 min read'
   },
   {
@@ -66,7 +76,7 @@ const blogPosts = [
     description: 'Safe, reliable, and affordable vehicles perfect for young drivers just starting out.',
     category: 'First-Time Buyers',
     categoryColor: 'rose',
-    date: 'January 29, 2026',
+    date: 'January 8, 2026',
     readTime: '9 min read'
   },
   {
@@ -75,7 +85,7 @@ const blogPosts = [
     description: 'Understanding loan terms, interest costs, and why shorter is usually better.',
     category: 'Car Finance',
     categoryColor: 'indigo',
-    date: 'January 29, 2026',
+    date: 'January 5, 2026',
     readTime: '7 min read'
   },
   {
@@ -84,7 +94,7 @@ const blogPosts = [
     description: 'Timing your purchase right can save you thousands. Here\'s when dealers are most motivated.',
     category: 'Buying Tips',
     categoryColor: 'emerald',
-    date: 'January 29, 2026',
+    date: 'January 2, 2026',
     readTime: '6 min read'
   },
   {
@@ -93,17 +103,17 @@ const blogPosts = [
     description: 'Understanding these drivetrain types helps you choose the right vehicle for your driving conditions.',
     category: 'Technical',
     categoryColor: 'orange',
-    date: 'January 29, 2026',
+    date: 'December 30, 2025',
     readTime: '7 min read'
   },
-  // Previous Articles
+  // Previous Articles - Earlier December dates
   {
     slug: 'most-improved-cars-2026',
     title: 'Most Improved Cars of 2026: Major Upgrades Worth Knowing',
     description: 'From record-breaking Corvettes to completely redesigned SUVs, these are the cars that made the biggest leaps this year.',
     category: 'New for 2026',
     categoryColor: 'amber',
-    date: 'January 28, 2026',
+    date: 'December 27, 2025',
     readTime: '10 min read'
   },
   {
@@ -112,7 +122,7 @@ const blogPosts = [
     description: 'How Chevy created the fastest production Corvette ever by combining V8 muscle with electric precision.',
     category: 'Performance',
     categoryColor: 'rose',
-    date: 'January 28, 2026',
+    date: 'December 24, 2025',
     readTime: '8 min read'
   },
   {
@@ -121,7 +131,7 @@ const blogPosts = [
     description: 'These completely redesigned models offer fresh styling, new technology, and improved performance.',
     category: 'New for 2026',
     categoryColor: 'cyan',
-    date: 'January 28, 2026',
+    date: 'December 21, 2025',
     readTime: '9 min read'
   },
   {
@@ -130,7 +140,7 @@ const blogPosts = [
     description: 'Everything you need to know to find the perfect car for your lifestyle, budget, and preferences.',
     category: 'Car Buying Guide',
     categoryColor: 'amber',
-    date: 'January 22, 2026',
+    date: 'December 18, 2025',
     readTime: '8 min read'
   },
   {
@@ -139,7 +149,7 @@ const blogPosts = [
     description: 'A complete breakdown of the pros and cons of going electric versus hybrid in 2026.',
     category: 'Electric Vehicles',
     categoryColor: 'green',
-    date: 'January 15, 2026',
+    date: 'December 15, 2025',
     readTime: '6 min read'
   },
   {
@@ -148,7 +158,7 @@ const blogPosts = [
     description: "Our top picks for affordable vehicles that don't compromise on quality or features.",
     category: 'Budget Tips',
     categoryColor: 'blue',
-    date: 'January 8, 2026',
+    date: 'December 12, 2025',
     readTime: '5 min read'
   },
   {
@@ -157,7 +167,7 @@ const blogPosts = [
     description: 'Space, safety, and sanity - our expert picks for the best family haulers this year.',
     category: 'Family Cars',
     categoryColor: 'purple',
-    date: 'January 1, 2026',
+    date: 'December 9, 2025',
     readTime: '7 min read'
   },
   {
@@ -166,7 +176,7 @@ const blogPosts = [
     description: 'A step-by-step guide to choosing the right car using the process experts use.',
     category: "Buyer's Guide",
     categoryColor: 'cyan',
-    date: 'December 25, 2025',
+    date: 'December 6, 2025',
     readTime: '10 min read'
   },
   {
@@ -175,7 +185,7 @@ const blogPosts = [
     description: 'Everything first-time car buyers need to know about insurance, financing, and more.',
     category: 'First-Time Buyers',
     categoryColor: 'rose',
-    date: 'December 18, 2025',
+    date: 'December 3, 2025',
     readTime: '9 min read'
   },
   {
@@ -184,7 +194,7 @@ const blogPosts = [
     description: 'Top picks for daily commuters who want comfort, fuel efficiency, and reliability.',
     category: 'Commuter Cars',
     categoryColor: 'indigo',
-    date: 'December 11, 2025',
+    date: 'November 30, 2025',
     readTime: '6 min read'
   },
   {
@@ -193,7 +203,7 @@ const blogPosts = [
     description: 'The complete pros and cons breakdown of buying new versus used.',
     category: 'Buying Tips',
     categoryColor: 'orange',
-    date: 'December 4, 2025',
+    date: 'November 27, 2025',
     readTime: '7 min read'
   }
 ];
@@ -215,8 +225,8 @@ const categories = [
   { name: 'Car Finance', count: 4 },
   { name: 'Best Cars', count: 4 },
   { name: 'Buying Tips', count: 3 },
+  { name: 'Used Cars', count: 2 },
   { name: 'New for 2026', count: 3 },
-  { name: 'First-Time Buyers', count: 2 },
 ];
 
 export default function BlogPage() {
