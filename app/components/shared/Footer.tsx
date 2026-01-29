@@ -30,6 +30,7 @@ export default function Footer() {
               <li><Link href="/" className="hover:text-amber-600 transition-colors">Wizard&apos;s Guide</Link></li>
               <li><Link href="/compare" className="hover:text-amber-600 transition-colors">Compare Cars</Link></li>
               <li><Link href="/quiz" className="hover:text-amber-600 transition-colors">The Car Quiz</Link></li>
+              <li><Link href="/brands" className="hover:text-amber-600 transition-colors">Vehicle Search</Link></li>
             </ul>
           </div>
           <div className="text-center md:text-left">
