@@ -466,10 +466,10 @@ export default function FindMyCarPage() {
           </div>
         </div>
 
-        <div className="flex gap-8">
+        <div className="flex gap-8" style={{ height: 'calc(100vh - 220px)' }}>
           {/* Desktop Filters Sidebar */}
           <div className="hidden lg:block w-72 flex-shrink-0">
-            <div className="sticky top-24 bg-white border border-slate-200 rounded-xl p-6">
+            <div className="h-full bg-white border border-slate-200 rounded-xl p-6 overflow-y-auto">
               <div className="flex items-center gap-2 mb-6">
                 <SlidersHorizontal className="w-5 h-5 text-slate-700" />
                 <h2 className="font-bold text-slate-900">Filters</h2>
@@ -479,9 +479,9 @@ export default function FindMyCarPage() {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1">
+          <div className="flex-1 overflow-y-auto">
             {/* Mobile Filter Button & Sort */}
-            <div className="flex items-center justify-between gap-4 mb-6">
+            <div className="flex items-center justify-between gap-4 mb-6 sticky top-0 bg-white py-2 z-10">
               <button
                 onClick={() => setShowMobileFilters(true)}
                 className="lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-slate-700 font-medium"
@@ -557,7 +557,7 @@ export default function FindMyCarPage() {
 
             {/* Vehicle Grid */}
             {filteredVehicles.length > 0 ? (
-              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 pb-8">
                 {filteredVehicles.map(vehicle => (
                   <Link
                     key={vehicle.name}
