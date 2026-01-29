@@ -63,6 +63,13 @@ const guideArticles = [
     color: 'rose'
   },
   {
+    slug: 'car-financing-guide',
+    title: 'Financing, Loans & Leasing',
+    description: 'Master budgeting, loans, and lease decisions.',
+    icon: DollarSign,
+    color: 'green'
+  },
+  {
     slug: 'used-vs-new-car',
     title: 'Used vs New Car',
     description: 'Complete pros and cons breakdown.',
@@ -74,7 +81,7 @@ const guideArticles = [
     title: 'Electric vs Hybrid',
     description: 'Which powertrain is right for you?',
     icon: Zap,
-    color: 'green'
+    color: 'cyan'
   },
 ];
 
