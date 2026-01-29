@@ -2,9 +2,12 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Auto Wizard | Free Car Finder Quiz - Match Your Perfect Vehicle in Minutes',
-  description: 'Take our free 3-5 minute car finder quiz to discover your perfect vehicle match. Compare 300+ models across 16 categories. Expert recommendations based on your lifestyle, budget, and preferences.',
+  title: 'Auto Wizard | Car Matchmaking & Research',
+  description: 'Your complete car research destination. Compare 400+ vehicles, get personalized recommendations, read expert buying guides, and find your perfect match. Everything you need to make the right car decision.',
   keywords: [
+    'car research',
+    'car matchmaking',
+    'vehicle comparison',
     'car finder quiz',
     'vehicle recommendation',
     'what car should I buy',
@@ -33,7 +36,10 @@ export const metadata: Metadata = {
     'best cars under 30k',
     'car buying checklist',
     'vehicle matching quiz',
-    'personalized car recommendations'
+    'personalized car recommendations',
+    'car reviews',
+    'new car research',
+    'used car guide'
   ],
   authors: [{ name: 'Auto Wizard' }],
   creator: 'Auto Wizard',
@@ -54,21 +60,21 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://autowizard.org',
     siteName: 'Auto Wizard',
-    title: 'Auto Wizard | Free Car Finder Quiz - Match Your Perfect Vehicle',
-    description: 'Take our free 3-5 minute car finder quiz to discover your perfect vehicle match. Compare 300+ models across 16 categories.',
+    title: 'Auto Wizard | Car Matchmaking & Research',
+    description: 'Your complete car research destination. Compare 400+ vehicles, get personalized recommendations, read expert buying guides, and find your perfect match.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Auto Wizard - Find Your Perfect Vehicle',
+        alt: 'Auto Wizard - Car Matchmaking & Research',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Auto Wizard | Free Car Finder Quiz',
-    description: 'Take our free 3-5 minute quiz to find your perfect car match from 300+ models.',
+    title: 'Auto Wizard | Car Matchmaking & Research',
+    description: 'Your complete car research destination. Compare 400+ vehicles, get personalized recommendations, and find your perfect match.',
     images: ['/og-image.png'],
     creator: '@autowizard',
   },
@@ -87,7 +93,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Auto Wizard",
-    "description": "Free car finder quiz to match your perfect vehicle from 300+ models across 16 categories",
+    "description": "Your complete car research destination. Compare 400+ vehicles, get personalized recommendations, and find your perfect match.",
     "url": "https://autowizard.org",
     "applicationCategory": "LifestyleApplication",
     "operatingSystem": "Web",
@@ -107,7 +113,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Auto Wizard",
-    "alternateName": ["AutoWizard", "Auto Wizard Car Finder"],
+    "alternateName": ["AutoWizard", "Auto Wizard Car Research", "Auto Wizard Car Matchmaking"],
     "url": "https://autowizard.org"
   };
 
@@ -136,26 +142,26 @@ export default function RootLayout({
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How does the Auto Wizard car finder quiz work?",
+        "name": "What is Auto Wizard?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Our quiz asks 12 questions about your lifestyle, budget, preferences, and needs. Our algorithm then analyzes your responses to match you with the perfect vehicles from our database of 300+ models across 16 categories."
+          "text": "Auto Wizard is your complete car research destination. We help you compare 400+ vehicles, get personalized recommendations through our car matchmaking quiz, read expert buying guides, and find your perfect vehicle match."
         }
       },
       {
         "@type": "Question",
-        "name": "Is the Auto Wizard car quiz free?",
+        "name": "How does the Auto Wizard car matchmaking quiz work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, our car finder quiz is 100% free. You can take the assessment and receive personalized vehicle recommendations at no cost."
+          "text": "Our quiz asks questions about your lifestyle, budget, preferences, and needs. Our algorithm then analyzes your responses to match you with the perfect vehicles from our database of 400+ models across 16 categories."
         }
       },
       {
         "@type": "Question",
-        "name": "How long does the car finder assessment take?",
+        "name": "Is Auto Wizard free to use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The Auto Wizard assessment takes approximately 3-5 minutes to complete. You'll answer 12 quick questions and immediately receive your personalized vehicle matches."
+          "text": "Yes, Auto Wizard is completely free. You can browse vehicles, compare specs, read buying guides, and take our car matchmaking quiz at no cost."
         }
       },
       {
@@ -163,7 +169,7 @@ export default function RootLayout({
         "name": "What car should I buy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The best car for you depends on your budget, lifestyle, daily driving needs, and preferences. Auto Wizard's free quiz analyzes these factors to recommend vehicles that match your specific requirements from over 400 models."
+          "text": "The best car for you depends on your budget, lifestyle, daily driving needs, and preferences. Auto Wizard helps you research vehicles, compare options, and our free quiz analyzes these factors to recommend vehicles that match your specific requirements."
         }
       },
       {
@@ -171,7 +177,7 @@ export default function RootLayout({
         "name": "How do I choose the right car for my needs?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Consider your budget (including insurance and fuel costs), how you'll use the car (commuting, family, adventure), fuel preference (gas, hybrid, electric), and must-have features. Our car finder quiz helps you weigh all these factors systematically."
+          "text": "Consider your budget (including insurance and fuel costs), how you'll use the car (commuting, family, adventure), fuel preference (gas, hybrid, electric), and must-have features. Auto Wizard's research tools and car matchmaking quiz help you weigh all these factors systematically."
         }
       },
       {
@@ -192,10 +198,10 @@ export default function RootLayout({
       },
       {
         "@type": "Question",
-        "name": "How many cars does Auto Wizard recommend from?",
+        "name": "How many vehicles can I research on Auto Wizard?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Auto Wizard's database includes over 400 vehicles across 16 categories including sedans, SUVs, trucks, electric vehicles, luxury cars, sports cars, and more. We match you with options that fit your specific criteria."
+          "text": "Auto Wizard's database includes over 400 vehicles across 16 categories including sedans, SUVs, trucks, electric vehicles, luxury cars, sports cars, and more. You can compare specs, read reviews, and find the perfect match for your needs."
         }
       }
     ]
