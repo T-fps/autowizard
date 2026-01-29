@@ -116,11 +116,11 @@ const popularVehicles = [
 ];
 
 const categoryColors: Record<string, string> = {
-  amber: 'bg-amber-500/20 text-amber-600 border-amber-500/30',
-  green: 'bg-green-500/20 text-green-400 border-green-500/30',
-  cyan: 'bg-cyan-500/20 text-cyan-600 border-cyan-500/30',
-  rose: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
-  orange: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+  amber: 'bg-amber-500/20 text-amber-700 border-amber-500/30',
+  green: 'bg-green-500/20 text-green-700 border-green-500/30',
+  cyan: 'bg-cyan-500/20 text-cyan-700 border-cyan-500/30',
+  rose: 'bg-rose-500/20 text-rose-700 border-rose-500/30',
+  orange: 'bg-orange-500/20 text-orange-700 border-orange-500/30',
 };
 
 export default function GuidePage() {
@@ -133,7 +133,7 @@ export default function GuidePage() {
             <BookOpen className="w-4 h-4 text-amber-600" />
             <span className="text-amber-600 text-sm font-medium">Your Car Research Hub</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">The Wizard&apos;s Guide</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">The Wizard&apos;s Guide</h1>
           <p className="text-xl text-slate-500 max-w-2xl mx-auto">
             Everything you need to find your perfect car. Browse 300+ vehicles, compare specs, or read our expert guides.
           </p>
@@ -182,7 +182,7 @@ export default function GuidePage() {
                 className={`group border rounded-xl p-5 transition-all duration-300 hover:scale-[1.02] ${categoryColors[guide.color]}`}
               >
                 <guide.icon className="w-8 h-8 mb-3" />
-                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-amber-600 transition-colors">
+                <h3 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors">
                   {guide.title}
                 </h3>
                 <p className="text-slate-500 text-sm">{guide.description}</p>
@@ -210,8 +210,8 @@ export default function GuidePage() {
                 <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center mb-3`}>
                   <category.icon className="w-5 h-5 text-slate-900" />
                 </div>
-                <h3 className="text-white font-semibold group-hover:text-amber-600 transition-colors">{category.name}</h3>
-                <p className="text-slate-400 text-sm">{category.count} vehicles</p>
+                <h3 className="text-slate-900 font-semibold group-hover:text-amber-600 transition-colors">{category.name}</h3>
+                <p className="text-slate-500 text-sm">{category.count} vehicles</p>
               </Link>
             ))}
           </div>
@@ -231,7 +231,7 @@ export default function GuidePage() {
               <Link
                 key={brand.href}
                 href={brand.href}
-                className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-white hover:bg-amber-500/20 hover:border-amber-500/30 hover:text-amber-600 transition-all duration-300"
+                className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 hover:bg-amber-500/20 hover:border-amber-500/30 hover:text-amber-600 transition-all duration-300"
               >
                 {brand.name}
               </Link>
@@ -241,15 +241,15 @@ export default function GuidePage() {
 
         {/* Popular Vehicles */}
         <section className="mb-16">
-          <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-200 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-white mb-2">🚗 Popular Vehicles</h2>
+          <div className="bg-slate-100 border border-slate-200 rounded-2xl p-6">
+            <h2 className="text-xl font-bold text-slate-900 mb-2">🚗 Popular Vehicles</h2>
             <p className="text-slate-500 mb-4">Quick access to the most searched vehicles.</p>
             <div className="flex flex-wrap gap-3">
               {popularVehicles.map((vehicle) => (
                 <Link 
                   key={vehicle.href}
                   href={vehicle.href} 
-                  className="text-cyan-600 hover:text-cyan-300 text-sm"
+                  className="text-cyan-600 hover:text-cyan-500 text-sm"
                 >
                   {vehicle.name} →
                 </Link>
@@ -261,7 +261,7 @@ export default function GuidePage() {
 
         {/* Quiz CTA */}
         <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/5 border border-amber-200 rounded-2xl p-8 text-center">
-          <h3 className="text-2xl font-bold text-white mb-2">Not Sure Where to Start?</h3>
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">Not Sure Where to Start?</h3>
           <p className="text-slate-500 mb-6 max-w-xl mx-auto">
             Answer a few questions about your lifestyle and needs, and we&apos;ll recommend the perfect vehicles for you.
           </p>
