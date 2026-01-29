@@ -8,7 +8,7 @@ export default function BlogPost() {
   return (
     <PageWrapper>
       <article className="max-w-4xl mx-auto px-6 py-16">
-        <Link href="/blog" className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-500 mb-8">
+        <Link href="/" className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-500 mb-8">
           <ArrowLeft className="w-4 h-4" />
           Back to Wizard's Guide
         </Link>
