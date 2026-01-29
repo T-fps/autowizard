@@ -291,47 +291,47 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      <div className="min-h-screen bg-slate-950">
+      <div className="min-h-screen bg-white">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700">
+        <div className="relative bg-gradient-to-br from-slate-100 via-slate-50 to-white border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Breadcrumb */}
             <nav className="mb-6">
-              <ol className="flex items-center space-x-2 text-sm text-slate-400">
-                <li><Link href="/" className="hover:text-cyan-600 transition-colors">Home</Link></li>
+              <ol className="flex items-center space-x-2 text-sm text-slate-500">
+                <li><Link href="/" className="hover:text-amber-600 transition-colors">Home</Link></li>
                 <li>/</li>
-                <li><Link href={`/brands/${vehicle.brand.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-cyan-600 transition-colors">{vehicle.brand}</Link></li>
+                <li><Link href={`/brands/${vehicle.brand.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-amber-600 transition-colors">{vehicle.brand}</Link></li>
                 <li>/</li>
-                <li className="text-slate-200">{vehicle.name}</li>
+                <li className="text-slate-900">{vehicle.name}</li>
               </ol>
             </nav>
             
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="px-3 py-1 bg-cyan-500/20 text-cyan-600 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">
                     {getBodyTypeDisplay(vehicle.bodyType)}
                   </span>
-                  <span className="px-3 py-1 bg-slate-700 text-slate-300 rounded-full text-sm">
+                  <span className="px-3 py-1 bg-slate-200 text-slate-700 rounded-full text-sm">
                     {getPowertrainDisplay(vehicle.powertrain)}
                   </span>
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
                   {year} {vehicle.name}
                 </h1>
                 
-                <p className="text-2xl text-cyan-600 font-semibold mb-2">
+                <p className="text-2xl text-amber-600 font-semibold mb-2">
                   Starting at {formatPrice(vehicle.price)}
                 </p>
                 
                 {getVehicleHeritage(vehicle.name) && (
-                  <p className="text-amber-400 text-lg mb-6 italic">
+                  <p className="text-slate-600 text-lg mb-6 italic">
                     {getVehicleHeritage(vehicle.name)}
                   </p>
                 )}
                 
-                <p className="text-slate-300 text-lg mb-8">
+                <p className="text-slate-600 text-lg mb-8">
                   The {vehicle.name} is a {vehicle.segment} {getBodyTypeDisplay(vehicle.bodyType).toLowerCase()} 
                   {vehicle.seats >= 7 ? ` with seating for up to ${vehicle.seats}` : ''} from {vehicle.brand}.
                   {vehicle.powertrain === 'ev' ? ' This all-electric model offers zero-emission driving.' : ''}
@@ -341,7 +341,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                 <div className="flex flex-wrap gap-4">
                   <Link
                     href="/quiz"
-                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 shadow-lg shadow-cyan-500/25"
+                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-lg shadow-amber-500/25"
                   >
                     🎯 Is This Car Right For You?
                   </Link>
@@ -349,7 +349,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                     href={getWikipediaImageUrl(vehicle)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-6 py-3 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all duration-300"
+                    className="inline-flex items-center px-6 py-3 bg-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-300 transition-all duration-300"
                   >
                     📷 View Photos
                   </a>
@@ -357,7 +357,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
               </div>
               
               <div className="relative">
-                <div className={`aspect-video bg-gradient-to-br ${getBrandGradient(vehicle.brand)} rounded-2xl flex items-center justify-center border border-slate-600 overflow-hidden relative`}>
+                <div className={`aspect-video bg-gradient-to-br ${getBrandGradient(vehicle.brand)} rounded-2xl flex items-center justify-center border border-slate-200 overflow-hidden relative`}>
                   <CarImage 
                     vehicleName={vehicle.name}
                     brandColor={getBrandGradient(vehicle.brand)}
@@ -381,38 +381,58 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
             {/* Main Column */}
             <div className="lg:col-span-2 space-y-8">
               {/* Key Specs */}
-              <div className="bg-slate-900/50 rounded-2xl p-6 border border-slate-700">
-                <h2 className="text-2xl font-bold text-white mb-6">Key Specifications</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  <div className="text-center p-4 bg-slate-800/50 rounded-xl">
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                <h2 className="text-2xl font-bold text-slate-900 mb-6">Key Specifications</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
                     <div className="text-3xl mb-2">💰</div>
-                    <div className="text-slate-400 text-sm">Starting MSRP</div>
-                    <div className="text-white font-semibold">{formatPrice(vehicle.price)}</div>
+                    <div className="text-slate-500 text-sm">Starting MSRP</div>
+                    <div className="text-slate-900 font-semibold">{formatPrice(vehicle.price)}</div>
                   </div>
-                  <div className="text-center p-4 bg-slate-800/50 rounded-xl">
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
+                    <div className="text-3xl mb-2">🏎️</div>
+                    <div className="text-slate-500 text-sm">Horsepower</div>
+                    <div className="text-slate-900 font-semibold">{vehicle.hp.toLocaleString()} hp</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
+                    <div className="text-3xl mb-2">⛽</div>
+                    <div className="text-slate-500 text-sm">MPG City / Hwy</div>
+                    <div className="text-slate-900 font-semibold">{vehicle.powertrain === 'ev' ? `${vehicle.mpgCity}/${vehicle.mpgHighway} MPGe` : `${vehicle.mpgCity}/${vehicle.mpgHighway}`}</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
+                    <div className="text-3xl mb-2">⭐</div>
+                    <div className="text-slate-500 text-sm">Reliability</div>
+                    <div className="text-amber-500 font-semibold">{'★'.repeat(vehicle.reliability)}{'☆'.repeat(5 - vehicle.reliability)}</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
                     <div className="text-3xl mb-2">👥</div>
-                    <div className="text-slate-400 text-sm">Seating</div>
-                    <div className="text-white font-semibold">{vehicle.seats} passengers</div>
+                    <div className="text-slate-500 text-sm">Seating</div>
+                    <div className="text-slate-900 font-semibold">{vehicle.seats} passengers</div>
                   </div>
-                  <div className="text-center p-4 bg-slate-800/50 rounded-xl">
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
                     <div className="text-3xl mb-2">⚡</div>
-                    <div className="text-slate-400 text-sm">Powertrain</div>
-                    <div className="text-white font-semibold">{getPowertrainDisplay(vehicle.powertrain)}</div>
+                    <div className="text-slate-500 text-sm">Powertrain</div>
+                    <div className="text-slate-900 font-semibold">{getPowertrainDisplay(vehicle.powertrain)}</div>
                   </div>
-                  <div className="text-center p-4 bg-slate-800/50 rounded-xl">
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
                     <div className="text-3xl mb-2">📐</div>
-                    <div className="text-slate-400 text-sm">Size</div>
-                    <div className="text-white font-semibold capitalize">{vehicle.size}</div>
+                    <div className="text-slate-500 text-sm">Size Class</div>
+                    <div className="text-slate-900 font-semibold capitalize">{vehicle.size}</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-xl border border-slate-200">
+                    <div className="text-3xl mb-2">🚗</div>
+                    <div className="text-slate-500 text-sm">Body Type</div>
+                    <div className="text-slate-900 font-semibold">{getBodyTypeDisplay(vehicle.bodyType)}</div>
                   </div>
                 </div>
                 
                 {/* Available Options Tags */}
-                <div className="mt-6 pt-6 border-t border-slate-700">
-                  <h3 className="text-sm font-semibold text-slate-400 mb-3">Available Options</h3>
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <h3 className="text-sm font-semibold text-slate-500 mb-3">Available Options</h3>
                   <div className="flex flex-wrap gap-2">
                     {/* Powertrain Tags */}
                     {vehicle.powertrain === 'gas' && (
-                      <span className="px-3 py-1.5 bg-orange-500/20 text-orange-400 rounded-full text-sm font-medium">⛽ Gas</span>
+                      <span className="px-3 py-1.5 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">⛽ Gas</span>
                     )}
                     {vehicle.powertrain === 'hybrid' && (
                       <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium">🔋 Hybrid</span>
@@ -420,25 +440,25 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                     {vehicle.powertrain === 'phev' && (
                       <>
                         <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium">🔌 Plug-in Hybrid</span>
-                        <span className="px-3 py-1.5 bg-orange-500/20 text-orange-400 rounded-full text-sm font-medium">⛽ Gas</span>
+                        <span className="px-3 py-1.5 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">⛽ Gas</span>
                       </>
                     )}
                     {vehicle.powertrain === 'ev' && (
-                      <span className="px-3 py-1.5 bg-cyan-500/20 text-cyan-600 rounded-full text-sm font-medium">⚡ Electric</span>
+                      <span className="px-3 py-1.5 bg-cyan-100 text-cyan-700 rounded-full text-sm font-medium">⚡ Electric</span>
                     )}
                     
                     {/* Drivetrain Tags */}
                     {vehicle.features.includes('fwd') && (
-                      <span className="px-3 py-1.5 bg-slate-600/50 text-slate-300 rounded-full text-sm font-medium">FWD</span>
+                      <span className="px-3 py-1.5 bg-slate-200 text-slate-700 rounded-full text-sm font-medium">FWD</span>
                     )}
                     {vehicle.features.includes('rwd') && (
-                      <span className="px-3 py-1.5 bg-purple-500/20 text-purple-400 rounded-full text-sm font-medium">RWD</span>
+                      <span className="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">RWD</span>
                     )}
                     {(vehicle.features.includes('awd') || vehicle.features.includes('awd-available')) && (
                       <span className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">AWD</span>
                     )}
                     {(vehicle.features.includes('4wd') || vehicle.features.includes('offroad') || vehicle.bodyType === 'truck') && (
-                      <span className="px-3 py-1.5 bg-amber-500/20 text-amber-600 rounded-full text-sm font-medium">4WD</span>
+                      <span className="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">4WD</span>
                     )}
                     
                     {/* Default FWD for cars without explicit drivetrain */}
@@ -449,7 +469,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                      !vehicle.features.includes('4wd') &&
                      !vehicle.features.includes('offroad') &&
                      vehicle.bodyType !== 'truck' && (
-                      <span className="px-3 py-1.5 bg-slate-600/50 text-slate-300 rounded-full text-sm font-medium">FWD</span>
+                      <span className="px-3 py-1.5 bg-slate-200 text-slate-700 rounded-full text-sm font-medium">FWD</span>
                     )}
                   </div>
                 </div>
@@ -472,27 +492,27 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
               
               {/* Pros and Cons */}
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-slate-900/50 rounded-2xl p-6 border border-slate-700">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <span className="text-green-700">✓</span> What We Like
+                <div className="bg-green-50 rounded-2xl p-6 border border-green-200">
+                  <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span className="text-green-600">✓</span> What We Like
                   </h3>
                   <ul className="space-y-3">
                     {pros.map((pro, i) => (
-                      <li key={i} className="flex items-start gap-3 text-slate-300">
-                        <span className="text-green-700 mt-1">•</span>
+                      <li key={i} className="flex items-start gap-3 text-slate-700">
+                        <span className="text-green-600 mt-1">•</span>
                         {pro}
                       </li>
                     ))}
                   </ul>
                 </div>
                 
-                <div className="bg-slate-900/50 rounded-2xl p-6 border border-slate-700">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div className="bg-amber-50 rounded-2xl p-6 border border-amber-200">
+                  <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                     <span className="text-amber-600">△</span> Consider This
                   </h3>
                   <ul className="space-y-3">
                     {cons.map((con, i) => (
-                      <li key={i} className="flex items-start gap-3 text-slate-300">
+                      <li key={i} className="flex items-start gap-3 text-slate-700">
                         <span className="text-amber-600 mt-1">•</span>
                         {con}
                       </li>
@@ -502,13 +522,13 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
               </div>
               
               {/* Features */}
-              <div className="bg-slate-900/50 rounded-2xl p-6 border border-slate-700">
-                <h2 className="text-2xl font-bold text-white mb-6">Notable Features</h2>
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                <h2 className="text-2xl font-bold text-slate-900 mb-6">Notable Features</h2>
                 <div className="flex flex-wrap gap-3">
                   {vehicle.features.map((feature, i) => (
                     <span
                       key={i}
-                      className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg text-sm capitalize"
+                      className="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm capitalize"
                     >
                       {feature.replace(/-/g, ' ')}
                     </span>
@@ -517,24 +537,24 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
               </div>
               
               {/* Best For Section */}
-              <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl p-6 border border-cyan-500/20">
-                <h2 className="text-2xl font-bold text-white mb-4">Who Is This Car Best For?</h2>
+              <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-6 border border-amber-200">
+                <h2 className="text-2xl font-bold text-slate-900 mb-4">Who Is This Car Best For?</h2>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {vehicle.useCases.map((useCase, i) => (
                     <span
                       key={i}
-                      className="px-4 py-2 bg-cyan-500/20 text-cyan-600 rounded-lg text-sm capitalize"
+                      className="px-4 py-2 bg-white/70 text-amber-800 rounded-lg text-sm capitalize border border-amber-200"
                     >
                       {useCase}
                     </span>
                   ))}
                 </div>
-                <p className="text-slate-300 mb-6">
+                <p className="text-slate-700 mb-6">
                   Not sure if the {vehicle.name} matches your specific needs? Take our quick quiz to see personalized recommendations based on your lifestyle, budget, and preferences.
                 </p>
                 <Link
                   href="/quiz"
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all duration-300"
                 >
                   Take the Quiz →
                 </Link>
@@ -544,36 +564,36 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Quick Stats Card */}
-              <div className="bg-slate-900/50 rounded-2xl p-6 border border-slate-700 sticky top-6">
-                <h3 className="text-lg font-bold text-white mb-4">Quick Facts</h3>
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 sticky top-6">
+                <h3 className="text-lg font-bold text-slate-900 mb-4">Quick Facts</h3>
                 <dl className="space-y-4">
                   <div className="flex justify-between">
-                    <dt className="text-slate-400">Brand</dt>
-                    <dd className="text-white font-medium">{vehicle.brand}</dd>
+                    <dt className="text-slate-500">Brand</dt>
+                    <dd className="text-slate-900 font-medium">{vehicle.brand}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-400">Body Style</dt>
-                    <dd className="text-white font-medium">{getBodyTypeDisplay(vehicle.bodyType)}</dd>
+                    <dt className="text-slate-500">Body Style</dt>
+                    <dd className="text-slate-900 font-medium">{getBodyTypeDisplay(vehicle.bodyType)}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-400">Segment</dt>
-                    <dd className="text-white font-medium capitalize">{vehicle.segment}</dd>
+                    <dt className="text-slate-500">Segment</dt>
+                    <dd className="text-slate-900 font-medium capitalize">{vehicle.segment}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-400">Seats</dt>
-                    <dd className="text-white font-medium">{vehicle.seats}</dd>
+                    <dt className="text-slate-500">Seats</dt>
+                    <dd className="text-slate-900 font-medium">{vehicle.seats}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-400">Powertrain</dt>
-                    <dd className="text-white font-medium">{getPowertrainDisplay(vehicle.powertrain)}</dd>
+                    <dt className="text-slate-500">Powertrain</dt>
+                    <dd className="text-slate-900 font-medium">{getPowertrainDisplay(vehicle.powertrain)}</dd>
                   </div>
                 </dl>
                 
-                <hr className="my-6 border-slate-700" />
+                <hr className="my-6 border-slate-200" />
                 
                 <Link
                   href="/quiz"
-                  className="block w-full text-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300"
+                  className="block w-full text-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all duration-300"
                 >
                   Find Your Perfect Car
                 </Link>
@@ -584,20 +604,26 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
           {/* Similar Vehicles */}
           {similarVehicles.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-2xl font-bold text-white mb-6">Similar Vehicles to Consider</h2>
+              <h2 className="text-2xl font-bold text-slate-900 mb-6">Similar Vehicles to Consider</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {similarVehicles.map((v) => (
                   <Link
                     key={v.name}
                     href={`/cars/${v.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                    className="bg-slate-900/50 rounded-xl p-4 border border-slate-700 hover:border-cyan-500/50 transition-all duration-300 group"
+                    className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300 group"
                   >
-                    <div className="aspect-video bg-slate-800 rounded-lg mb-4 flex items-center justify-center">
-                      <span className="text-4xl">🚗</span>
+                    <div className="aspect-video">
+                      <CarImage 
+                        vehicleName={v.name}
+                        brandColor={getBrandGradient(v.brand)}
+                        bodyType={v.bodyType}
+                      />
                     </div>
-                    <h3 className="text-white font-semibold group-hover:text-cyan-600 transition-colors">{v.name}</h3>
-                    <p className="text-cyan-600 font-medium">{formatPrice(v.price)}</p>
-                    <p className="text-slate-400 text-sm">{getBodyTypeDisplay(v.bodyType)}</p>
+                    <div className="p-4 bg-white">
+                      <h3 className="text-slate-900 font-semibold group-hover:text-amber-600 transition-colors">{v.name}</h3>
+                      <p className="text-amber-600 font-medium">{formatPrice(v.price)}</p>
+                      <p className="text-slate-500 text-sm">{getBodyTypeDisplay(v.bodyType)}</p>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -611,7 +637,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                 <h2 className="text-2xl font-bold text-slate-900">More from {vehicle.brand}</h2>
                 <Link
                   href={`/brands/${vehicle.brand.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="text-cyan-600 hover:text-cyan-300 transition-colors"
+                  className="text-amber-600 hover:text-amber-500 transition-colors"
                 >
                   View all →
                 </Link>
@@ -621,14 +647,20 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                   <Link
                     key={v.name}
                     href={`/cars/${v.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                    className="bg-slate-900/50 rounded-xl p-4 border border-slate-700 hover:border-cyan-500/50 transition-all duration-300 group"
+                    className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300 group"
                   >
-                    <div className="aspect-video bg-slate-800 rounded-lg mb-4 flex items-center justify-center">
-                      <span className="text-4xl">🚗</span>
+                    <div className="aspect-video">
+                      <CarImage 
+                        vehicleName={v.name}
+                        brandColor={getBrandGradient(v.brand)}
+                        bodyType={v.bodyType}
+                      />
                     </div>
-                    <h3 className="text-white font-semibold group-hover:text-cyan-600 transition-colors">{v.name}</h3>
-                    <p className="text-cyan-600 font-medium">{formatPrice(v.price)}</p>
-                    <p className="text-slate-400 text-sm">{getBodyTypeDisplay(v.bodyType)}</p>
+                    <div className="p-4 bg-white">
+                      <h3 className="text-slate-900 font-semibold group-hover:text-amber-600 transition-colors">{v.name}</h3>
+                      <p className="text-amber-600 font-medium">{formatPrice(v.price)}</p>
+                      <p className="text-slate-500 text-sm">{getBodyTypeDisplay(v.bodyType)}</p>
+                    </div>
                   </Link>
                 ))}
               </div>
