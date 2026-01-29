@@ -77,7 +77,7 @@ export default function ConsultationPage() {
                   { value: 'consultation', label: 'Expert Consultation - $119', icon: Car },
                   { value: 'customization', label: 'Customization Support - $49', icon: Wrench },
                   { value: 'purchase', label: 'Purchase Assistance - $79', icon: Briefcase },
-                  { value: 'bundle', label: 'Full Bundle - $319', icon: Star }
+                  { value: 'bundle', label: 'Full Bundle - $219', icon: Star }
                 ].map((s) => {
                   const selected = (consultForm.services || []).includes(s.value);
                   return (

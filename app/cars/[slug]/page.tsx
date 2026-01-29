@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import CarImage from '../../components/CarImage';
 import TrimSelector from '../../components/TrimSelector';
 import UsedPriceEstimator from '../../components/UsedPriceEstimator';
+import PageWrapper from '../../components/shared/PageWrapper';
 
 // Generate static params for all vehicles
 export async function generateStaticParams() {
@@ -286,13 +287,13 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
   };
   
   return (
-    <>
+    <PageWrapper>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      <div className="min-h-screen bg-white">
+      <div>
         {/* Hero Section */}
         <div className="relative bg-gradient-to-br from-slate-100 via-slate-50 to-white border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -300,6 +301,8 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
             <nav className="mb-6">
               <ol className="flex items-center space-x-2 text-sm text-slate-500">
                 <li><Link href="/" className="hover:text-amber-600 transition-colors">Home</Link></li>
+                <li>/</li>
+                <li><Link href="/brands" className="hover:text-amber-600 transition-colors">Brands</Link></li>
                 <li>/</li>
                 <li><Link href={`/brands/${vehicle.brand.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-amber-600 transition-colors">{vehicle.brand}</Link></li>
                 <li>/</li>
@@ -676,6 +679,6 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
           )}
         </div>
       </div>
-    </>
+    </PageWrapper>
   );
 }

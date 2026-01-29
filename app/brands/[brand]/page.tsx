@@ -4,6 +4,7 @@ import { vehicleDatabase, Vehicle } from '../../lib/vehicleDatabase';
 import { notFound } from 'next/navigation';
 import CarImage from '../../components/CarImage';
 import BrandLogo from '../../components/BrandLogo';
+import PageWrapper from '../../components/shared/PageWrapper';
 
 // Get all unique brands
 function getAllBrands(): string[] {
@@ -245,24 +246,24 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
   };
   
   return (
-    <>
+    <PageWrapper>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      <div className="min-h-screen bg-slate-950">
+      <div>
         {/* Hero */}
-        <div className={`relative bg-gradient-to-br ${brandColor.gradient} border-b border-slate-700`}>
+        <div className={`relative bg-gradient-to-br ${brandColor.gradient} border-b border-slate-200`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Breadcrumb */}
             <nav className="mb-6">
-              <ol className="flex items-center space-x-2 text-sm text-slate-400">
-                <li><Link href="/" className="hover:text-cyan-600 transition-colors">Home</Link></li>
+              <ol className="flex items-center space-x-2 text-sm text-white/70">
+                <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
                 <li>/</li>
-                <li><Link href="/brands" className="hover:text-cyan-600 transition-colors">Brands</Link></li>
+                <li><Link href="/brands" className="hover:text-white transition-colors">Brands</Link></li>
                 <li>/</li>
-                <li className="text-slate-200">{name}</li>
+                <li className="text-white">{name}</li>
               </ol>
             </nav>
             
@@ -331,9 +332,9 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
           {/* Vehicles by Type */}
           {sortedTypes.map(type => (
             <div key={type} className="mb-12">
-              <h2 className="text-2xl font-bold text-amber-500 mb-6 flex items-center gap-3">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
                 <span>{getBodyTypeDisplay(type)}s</span>
-                <span className="text-sm font-normal text-slate-400">({vehiclesByType[type].length} models)</span>
+                <span className="text-sm font-normal text-slate-500">({vehiclesByType[type].length} models)</span>
               </h2>
               
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -384,6 +385,6 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
           ))}
         </div>
       </div>
-    </>
+    </PageWrapper>
   );
 }
