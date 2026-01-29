@@ -32,6 +32,7 @@ export default function Navigation() {
             </Link>
             <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-2">
               <Link href="/" className="px-4 py-2 rounded-lg text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Wizard&apos;s Guide</Link>
+              <Link href="/value" className="px-4 py-2 rounded-lg text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">My Car&apos;s Value</Link>
               <Link href="/services" className="px-4 py-2 rounded-lg text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Services</Link>
               <Link href="/quiz" className="px-4 py-2 rounded-lg text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Find My Car</Link>
               <Link href="/about" className="px-4 py-2 rounded-lg text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">About Us</Link>
@@ -39,7 +40,8 @@ export default function Navigation() {
             <Link href="/consultation" className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 text-sm md:text-base">Book Consultation</Link>
           </div>
           <nav className="md:hidden flex items-center justify-center gap-2 mt-3 pt-3 border-t border-slate-200">
-            <Link href="/" className="px-3 py-1.5 rounded-lg text-sm text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Wizard&apos;s Guide</Link>
+            <Link href="/" className="px-3 py-1.5 rounded-lg text-sm text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Guide</Link>
+            <Link href="/value" className="px-3 py-1.5 rounded-lg text-sm text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Value</Link>
             <Link href="/services" className="px-3 py-1.5 rounded-lg text-sm text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Services</Link>
             <Link href="/quiz" className="px-3 py-1.5 rounded-lg text-sm text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">Find My Car</Link>
             <Link href="/about" className="px-3 py-1.5 rounded-lg text-sm text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all">About</Link>
