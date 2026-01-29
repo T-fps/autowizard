@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ChevronRight, Car, Zap, Users, DollarSign, Truck, Sparkles, BookOpen, Target, Scale, Tag, HelpCircle } from 'lucide-react';
+import { ChevronRight, Zap, DollarSign, Sparkles, BookOpen, Target, Scale, Tag, HelpCircle } from 'lucide-react';
 import PageWrapper from './components/shared/PageWrapper';
 
 const quickLinks = [
@@ -83,17 +83,6 @@ const guideArticles = [
     icon: Zap,
     color: 'cyan'
   },
-];
-
-const browseCategories = [
-  { name: 'Best SUVs', href: '/best/suvs', icon: Car, count: '170+', color: 'from-blue-500 to-cyan-500' },
-  { name: 'Best Trucks', href: '/best/trucks', icon: Truck, count: '35+', color: 'from-orange-500 to-amber-500' },
-  { name: 'Best Sedans', href: '/best/sedans', icon: Car, count: '60+', color: 'from-purple-500 to-pink-500' },
-  { name: 'Electric Cars', href: '/best/electric', icon: Zap, count: '40+', color: 'from-green-500 to-emerald-500' },
-  { name: 'Luxury Cars', href: '/best/luxury', icon: Sparkles, count: '80+', color: 'from-amber-500 to-yellow-500' },
-  { name: 'Family Cars', href: '/best/family', icon: Users, count: '50+', color: 'from-rose-500 to-pink-500' },
-  { name: 'Under $30K', href: '/best/under-30k', icon: DollarSign, count: '60+', color: 'from-cyan-500 to-blue-500' },
-  { name: 'Under $40K', href: '/best/under-40k', icon: DollarSign, count: '100+', color: 'from-indigo-500 to-purple-500' },
 ];
 
 const popularBrands = [
@@ -193,32 +182,6 @@ export default function HomePage() {
                   {guide.title}
                 </h3>
                 <p className="text-slate-600 text-sm">{guide.description}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* Browse by Category */}
-        <section className="mb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-900">🏆 Browse by Category</h2>
-            <Link href="/best" className="text-amber-600 hover:text-amber-500 text-sm font-medium flex items-center gap-1">
-              View All <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {browseCategories.map((category) => (
-              <Link
-                key={category.href}
-                href={category.href}
-                className="group bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-amber-300 hover:bg-amber-50 transition-all duration-300"
-              >
-                <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center mb-3`}>
-                  <category.icon className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-slate-900 font-semibold group-hover:text-amber-600 transition-colors">{category.name}</h3>
-                <p className="text-slate-500 text-sm">{category.count} vehicles</p>
               </Link>
             ))}
           </div>
