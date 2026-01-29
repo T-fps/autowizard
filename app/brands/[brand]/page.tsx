@@ -34,53 +34,53 @@ function getBrandInfo(slug: string): { name: string, vehicles: Vehicle[] } | nul
 
 // Brand logo URLs (using Wikipedia Commons)
 const brandLogos: Record<string, string> = {
-  'Toyota': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Toyota_carance_logo.svg/200px-Toyota_carancy_logo.svg.png',
-  'Honda': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Honda.svg/200px-Honda.svg.png',
-  'Ford': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Ford_logo_flat.svg/200px-Ford_logo_flat.svg.png',
-  'Chevrolet': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Chevrolet-logo-2013.png/200px-Chevrolet-logo-2013.png',
-  'BMW': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/200px-BMW.svg.png',
-  'Mercedes-Benz': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/200px-Mercedes-Logo.svg.png',
-  'Audi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/200px-Audi-Logo_2016.svg.png',
-  'Tesla': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Tesla_Motors.svg/200px-Tesla_Motors.svg.png',
-  'Lexus': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Lexus_division_emblem.svg/200px-Lexus_division_emblem.svg.png',
-  'Porsche': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Porsche_logo.svg/200px-Porsche_logo.svg.png',
-  'Ferrari': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Scuderia_Ferrari_Logo.svg/200px-Scuderia_Ferrari_Logo.svg.png',
-  'Lamborghini': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Lamborghini_Logo.svg/200px-Lamborghini_Logo.svg.png',
-  'McLaren': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/McLaren_logo.svg/200px-McLaren_logo.svg.png',
-  'Aston Martin': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Aston_Martin_Logo_2021.svg/200px-Aston_Martin_Logo_2021.svg.png',
-  'Bentley': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Bentley_logo_2.svg/200px-Bentley_logo_2.svg.png',
-  'Rolls-Royce': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Rolls_Royce_Phantom_Drophead_Coup%C3%A9_%286322641115%29_%28cropped%29.png/200px-Rolls_Royce_Phantom_Drophead_Coup%C3%A9_%286322641115%29_%28cropped%29.png',
-  'Bugatti': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Bugatti_logo.svg/200px-Bugatti_logo.svg.png',
-  'Maserati': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Maserati_logo.svg/200px-Maserati_logo.svg.png',
-  'Lotus': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Lotus_Cars.svg/200px-Lotus_Cars.svg.png',
-  'Pagani': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Pagani_logo.svg/200px-Pagani_logo.svg.png',
-  'Koenigsegg': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Koenigsegg_logo.svg/200px-Koenigsegg_logo.svg.png',
-  'Mazda': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Mazda_logo_with_emblem.svg/200px-Mazda_logo_with_emblem.svg.png',
-  'Hyundai': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Hyundai_Motor_Company_logo.svg/200px-Hyundai_Motor_Company_logo.svg.png',
-  'Kia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/KIA_logo2.svg/200px-KIA_logo2.svg.png',
-  'Nissan': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Nissan_2020_logo.svg/200px-Nissan_2020_logo.svg.png',
-  'Subaru': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Subaru_Logo.svg/200px-Subaru_Logo.svg.png',
-  'Jeep': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Jeep_logo.svg/200px-Jeep_logo.svg.png',
-  'Ram': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Ram_Trucks_logo.svg/200px-Ram_Trucks_logo.svg.png',
-  'GMC': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/GMC_logo.svg/200px-GMC_logo.svg.png',
-  'Volvo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Volvo_Cars_logo.svg/200px-Volvo_Cars_logo.svg.png',
-  'Genesis': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Genesis_motors_logo.svg/200px-Genesis_motors_logo.svg.png',
-  'Cadillac': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Cadillac_logo.svg/200px-Cadillac_logo.svg.png',
-  'Lincoln': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Lincoln_Motor_Company_Logo.svg/200px-Lincoln_Motor_Company_Logo.svg.png',
-  'Acura': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Acura_logo.svg/200px-Acura_logo.svg.png',
-  'Infiniti': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Infiniti_logo.svg/200px-Infiniti_logo.svg.png',
-  'Rivian': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Rivian-wordmark.svg/200px-Rivian-wordmark.svg.png',
-  'Lucid': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Lucid_Motors_Logo.svg/200px-Lucid_Motors_Logo.svg.png',
-  'Volkswagen': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Volkswagen_Logo_till_1995.svg/200px-Volkswagen_Logo_till_1995.svg.png',
-  'Dodge': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Dodge_logo.svg/200px-Dodge_logo.svg.png',
-  'Chrysler': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Chrysler_logo.svg/200px-Chrysler_logo.svg.png',
-  'Jaguar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Jaguar_logo.svg/200px-Jaguar_logo.svg.png',
-  'Alfa Romeo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Alfa_Romeo_2015.svg/200px-Alfa_Romeo_2015.svg.png',
-  'Land Rover': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Land_Rover_logo.svg/200px-Land_Rover_logo.svg.png',
-  'Polestar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Polestar_logo.svg/200px-Polestar_logo.svg.png',
-  'Buick': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Buick_logo.svg/200px-Buick_logo.svg.png',
-  'Mitsubishi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Mitsubishi_logo.svg/200px-Mitsubishi_logo.svg.png',
-  'Mini': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Mini_logo.svg/200px-Mini_logo.svg.png',
+  'Toyota': 'https://www.carlogos.org/car-logos/toyota-logo-2019-3700x1200.png',
+  'Honda': 'https://www.carlogos.org/car-logos/honda-logo-1700x1150.png',
+  'Ford': 'https://www.carlogos.org/car-logos/ford-logo-2017-640.png',
+  'Chevrolet': 'https://www.carlogos.org/car-logos/chevrolet-logo-2013-2560x1440.png',
+  'BMW': 'https://www.carlogos.org/car-logos/bmw-logo-2020-gray.png',
+  'Mercedes-Benz': 'https://www.carlogos.org/car-logos/mercedes-benz-logo-2011-1920x1080.png',
+  'Audi': 'https://www.carlogos.org/car-logos/audi-logo-2016-640.png',
+  'Tesla': 'https://www.carlogos.org/car-logos/tesla-logo-2200x2800.png',
+  'Lexus': 'https://www.carlogos.org/car-logos/lexus-logo-1988-1920x1080.png',
+  'Porsche': 'https://www.carlogos.org/car-logos/porsche-logo-2100x1100.png',
+  'Ferrari': 'https://www.carlogos.org/car-logos/ferrari-logo-750x1100.png',
+  'Lamborghini': 'https://www.carlogos.org/car-logos/lamborghini-logo-1000x1100.png',
+  'McLaren': 'https://www.carlogos.org/car-logos/mclaren-logo-2002-2560x1440.png',
+  'Aston Martin': 'https://www.carlogos.org/car-logos/aston-martin-logo-2021-640.png',
+  'Bentley': 'https://www.carlogos.org/car-logos/bentley-logo-1400x800.png',
+  'Rolls-Royce': 'https://www.carlogos.org/car-logos/rolls-royce-logo-2048x2048.png',
+  'Bugatti': 'https://www.carlogos.org/car-logos/bugatti-logo-1024x768.png',
+  'Maserati': 'https://www.carlogos.org/car-logos/maserati-logo-5000x3000.png',
+  'Lotus': 'https://www.carlogos.org/car-logos/lotus-logo-1986-1920x1080.png',
+  'Pagani': 'https://www.carlogos.org/car-logos/pagani-logo-1992-640.png',
+  'Koenigsegg': 'https://www.carlogos.org/car-logos/koenigsegg-logo-1994-640.png',
+  'Mazda': 'https://www.carlogos.org/car-logos/mazda-logo-2018-vertical-640.png',
+  'Hyundai': 'https://www.carlogos.org/car-logos/hyundai-logo-2011-640.png',
+  'Kia': 'https://www.carlogos.org/car-logos/kia-logo-2021-2560x1440.png',
+  'Nissan': 'https://www.carlogos.org/car-logos/nissan-logo-2020-black.png',
+  'Subaru': 'https://www.carlogos.org/car-logos/subaru-logo-2019-640.png',
+  'Jeep': 'https://www.carlogos.org/car-logos/jeep-logo-1993-640.png',
+  'Ram': 'https://www.carlogos.org/car-logos/ram-logo-2009-640.png',
+  'GMC': 'https://www.carlogos.org/car-logos/gmc-logo-2200x700.png',
+  'Volvo': 'https://www.carlogos.org/car-logos/volvo-logo-2014-640.png',
+  'Genesis': 'https://www.carlogos.org/car-logos/genesis-logo-2015-640.png',
+  'Cadillac': 'https://www.carlogos.org/car-logos/cadillac-logo-2021-640.png',
+  'Lincoln': 'https://www.carlogos.org/car-logos/lincoln-logo-2019-640.png',
+  'Acura': 'https://www.carlogos.org/car-logos/acura-logo-1990-640.png',
+  'Infiniti': 'https://www.carlogos.org/car-logos/infiniti-logo-1989-640.png',
+  'Rivian': 'https://www.carlogos.org/car-logos/rivian-logo-2018-640.png',
+  'Lucid': 'https://www.carlogos.org/car-logos/lucid-motors-logo-2020-640.png',
+  'Volkswagen': 'https://www.carlogos.org/car-logos/volkswagen-logo-2019-640.png',
+  'Dodge': 'https://www.carlogos.org/car-logos/dodge-logo-2011-640.png',
+  'Chrysler': 'https://www.carlogos.org/car-logos/chrysler-logo-2010-640.png',
+  'Jaguar': 'https://www.carlogos.org/car-logos/jaguar-logo-2012-640.png',
+  'Alfa Romeo': 'https://www.carlogos.org/car-logos/alfa-romeo-logo-2015-640.png',
+  'Land Rover': 'https://www.carlogos.org/car-logos/land-rover-logo-2020-640.png',
+  'Polestar': 'https://www.carlogos.org/car-logos/polestar-logo-2020-640.png',
+  'Buick': 'https://www.carlogos.org/car-logos/buick-logo-2022-640.png',
+  'Mitsubishi': 'https://www.carlogos.org/car-logos/mitsubishi-logo-2000x2500.png',
+  'Mini': 'https://www.carlogos.org/car-logos/mini-logo-2018-640.png',
 };
 
 // Brand colors for gradients
@@ -291,21 +291,21 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
             
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 text-center border border-slate-200">
-                <div className="text-3xl font-bold text-slate-900">{vehicles.length}</div>
-                <div className="text-slate-600 text-sm">Models</div>
+              <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                <div className="text-3xl font-bold text-white">{vehicles.length}</div>
+                <div className="text-white/70 text-sm">Models</div>
               </div>
-              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 text-center border border-slate-200">
-                <div className="text-3xl font-bold text-slate-900">{formatPrice(minPrice)}</div>
-                <div className="text-slate-600 text-sm">Starting From</div>
+              <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                <div className="text-3xl font-bold text-white">{formatPrice(minPrice)}</div>
+                <div className="text-white/70 text-sm">Starting From</div>
               </div>
-              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 text-center border border-slate-200">
-                <div className="text-3xl font-bold text-slate-900">{evCount}</div>
-                <div className="text-slate-600 text-sm">Electric Models</div>
+              <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                <div className="text-3xl font-bold text-white">{evCount}</div>
+                <div className="text-white/70 text-sm">Electric Models</div>
               </div>
-              <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 text-center border border-slate-200">
-                <div className="text-3xl font-bold text-slate-900">{hybridCount}</div>
-                <div className="text-slate-600 text-sm">Hybrid Models</div>
+              <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                <div className="text-3xl font-bold text-white">{hybridCount}</div>
+                <div className="text-white/70 text-sm">Hybrid Models</div>
               </div>
             </div>
           </div>
@@ -314,15 +314,15 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
         {/* Vehicle Listings */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Quick Quiz CTA */}
-          <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl p-6 border border-cyan-500/20 mb-12">
+          <div className="bg-gradient-to-r from-amber-100 to-amber-50 rounded-2xl p-6 border border-amber-200 mb-12">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div>
-                <h2 className="text-xl font-bold text-white mb-2">Not sure which {name} is right for you?</h2>
-                <p className="text-slate-300">Take our quiz to get personalized recommendations based on your needs.</p>
+                <h2 className="text-xl font-bold text-slate-900 mb-2">Not sure which {name} is right for you?</h2>
+                <p className="text-slate-600">Take our quiz to get personalized recommendations based on your needs.</p>
               </div>
               <Link
                 href="/quiz"
-                className="shrink-0 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300"
+                className="shrink-0 px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all duration-300"
               >
                 Take the Quiz →
               </Link>
@@ -332,9 +332,9 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
           {/* Vehicles by Type */}
           {sortedTypes.map(type => (
             <div key={type} className="mb-12">
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
                 <span>{getBodyTypeDisplay(type)}s</span>
-                <span className="text-sm font-normal text-slate-400">({vehiclesByType[type].length} models)</span>
+                <span className="text-sm font-normal text-slate-500">({vehiclesByType[type].length} models)</span>
               </h2>
               
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -342,7 +342,7 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
                   <Link
                     key={vehicle.name}
                     href={`/cars/${vehicle.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                    className="bg-slate-900/50 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500/50 transition-all duration-300 group"
+                    className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300 group"
                   >
                     <div className={`aspect-video bg-gradient-to-br ${brandColor.gradient} relative overflow-hidden`}>
                       <CarImage 
@@ -358,21 +358,21 @@ export default async function BrandPage({ params }: { params: Promise<{ brand: s
                       )}
                     </div>
                     <div className="p-4">
-                      <h3 className="text-white font-semibold group-hover:text-cyan-600 transition-colors mb-1">
+                      <h3 className="text-slate-900 font-semibold group-hover:text-amber-600 transition-colors mb-1">
                         {vehicle.name}
                       </h3>
-                      <p className="text-cyan-600 font-medium mb-2">{formatPrice(vehicle.price)}</p>
+                      <p className="text-amber-600 font-medium mb-2">{formatPrice(vehicle.price)}</p>
                       <div className="flex flex-wrap gap-2">
-                        <span className="px-2 py-1 bg-slate-800 text-slate-400 rounded text-xs">
+                        <span className="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">
                           {vehicle.seats} seats
                         </span>
                         {vehicle.powertrain !== 'gas' && (
-                          <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs capitalize">
+                          <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs capitalize">
                             {vehicle.powertrain === 'ev' ? 'Electric' : vehicle.powertrain}
                           </span>
                         )}
                         {vehicle.features.includes('awd') && (
-                          <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
+                          <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
                             AWD
                           </span>
                         )}

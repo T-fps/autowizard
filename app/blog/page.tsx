@@ -6,6 +6,33 @@ import PageWrapper from '../components/shared/PageWrapper';
 
 const blogPosts = [
   {
+    slug: 'most-improved-cars-2026',
+    title: 'Most Improved Cars of 2026: Major Upgrades Worth Knowing',
+    description: 'From record-breaking Corvettes to completely redesigned SUVs, these are the cars that made the biggest leaps this year.',
+    category: 'New for 2026',
+    categoryColor: 'amber',
+    date: 'January 28, 2026',
+    readTime: '10 min read'
+  },
+  {
+    slug: '2026-corvette-e-ray-record-breaker',
+    title: '2026 Chevrolet Corvette E-Ray: The Record Breaker',
+    description: 'How Chevy created the fastest production Corvette ever by combining V8 muscle with electric precision.',
+    category: 'Performance',
+    categoryColor: 'rose',
+    date: 'January 28, 2026',
+    readTime: '8 min read'
+  },
+  {
+    slug: 'best-car-redesigns-2026',
+    title: 'Best New Car Redesigns for 2026',
+    description: 'These completely redesigned models offer fresh styling, new technology, and improved performance.',
+    category: 'New for 2026',
+    categoryColor: 'cyan',
+    date: 'January 28, 2026',
+    readTime: '9 min read'
+  },
+  {
     slug: 'what-car-should-i-buy',
     title: 'What Car Should I Buy? The Complete 2026 Guide',
     description: 'Everything you need to know to find the perfect car for your lifestyle, budget, and preferences.',
@@ -92,6 +119,7 @@ const categoryColors: Record<string, string> = {
 
 const categories = [
   { name: 'All', count: blogPosts.length },
+  { name: 'New for 2026', count: 3 },
   { name: 'Buying Guides', count: 4 },
   { name: 'Best Cars', count: 3 },
   { name: 'Electric', count: 1 },

@@ -1298,19 +1298,19 @@ export default function QuizPage() {
                   
                   <button 
                     onClick={() => setVehicleImageIndex(prev => prev === 0 ? result.vehicles.length - 1 : prev - 1)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-900 border border-slate-300 flex items-center justify-center text-slate-900 transition-all hover:scale-110"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 flex items-center justify-center text-white transition-all hover:scale-110"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
                   
                   <button 
                     onClick={() => setVehicleImageIndex(prev => prev === result.vehicles.length - 1 ? 0 : prev + 1)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-900 border border-slate-300 flex items-center justify-center text-slate-900 transition-all hover:scale-110"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 flex items-center justify-center text-white transition-all hover:scale-110"
                   >
                     <ChevronRight className="w-6 h-6" />
                   </button>
                   
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-800 border border-slate-300 text-slate-900 text-sm">
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-white text-sm">
                     {vehicleImageIndex + 1} / {result.vehicles.length}
                   </div>
                 </div>
@@ -1324,7 +1324,7 @@ export default function QuizPage() {
                     <button 
                       key={i}
                       onClick={() => setVehicleImageIndex(i)}
-                      className={`w-3 h-3 rounded-full transition-all ${i === vehicleImageIndex ? 'bg-amber-400 scale-110' : 'bg-white/30 hover:bg-slate-500'}`}
+                      className={`w-3 h-3 rounded-full transition-all ${i === vehicleImageIndex ? 'bg-amber-500 scale-110' : 'bg-slate-500 hover:bg-slate-600'}`}
                     />
                   ))}
                 </div>
