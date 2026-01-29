@@ -160,57 +160,6 @@ export default function ValuePage() {
           </p>
         </div>
 
-        {/* Valuation Tools */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">📊 Get Your Car&apos;s Value</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {valuationTools.map((tool) => (
-              <a
-                key={tool.name}
-                href={tool.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-300 hover:shadow-lg transition-all duration-300"
-              >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center mb-4`}>
-                  <span className="text-white font-bold text-sm">{tool.logo}</span>
-                </div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors flex items-center gap-2">
-                  {tool.name}
-                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </h3>
-                <p className="text-slate-500 text-sm">{tool.description}</p>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        {/* Instant Cash Offers */}
-        <section className="mb-16">
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">💰 Get Instant Cash Offers</h2>
-            <p className="text-slate-600 mb-6">Skip the estimates—get real offers from companies that will buy your car today.</p>
-            
-            <div className="grid md:grid-cols-3 gap-4">
-              {instantOffers.map((offer) => (
-                <a
-                  key={offer.name}
-                  href={offer.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group bg-white border border-green-200 rounded-xl p-4 hover:border-green-400 hover:shadow-md transition-all"
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-slate-900 group-hover:text-green-600 transition-colors">{offer.name}</h3>
-                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">{offer.note}</span>
-                  </div>
-                  <p className="text-slate-500 text-sm">{offer.description}</p>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Understanding Value Types */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">📈 Understanding Car Values</h2>
@@ -292,6 +241,57 @@ export default function ValuePage() {
                 </ul>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Valuation Tools */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">📊 Get Your Car&apos;s Value</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {valuationTools.map((tool) => (
+              <a
+                key={tool.name}
+                href={tool.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-300 hover:shadow-lg transition-all duration-300"
+              >
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center mb-4`}>
+                  <span className="text-white font-bold text-sm">{tool.logo}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors flex items-center gap-2">
+                  {tool.name}
+                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </h3>
+                <p className="text-slate-500 text-sm">{tool.description}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Instant Cash Offers */}
+        <section className="mb-16">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">💰 Get Instant Cash Offers</h2>
+            <p className="text-slate-600 mb-6">Skip the estimates—get real offers from companies that will buy your car today.</p>
+            
+            <div className="grid md:grid-cols-3 gap-4">
+              {instantOffers.map((offer) => (
+                <a
+                  key={offer.name}
+                  href={offer.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-white border border-green-200 rounded-xl p-4 hover:border-green-400 hover:shadow-md transition-all"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-slate-900 group-hover:text-green-600 transition-colors">{offer.name}</h3>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">{offer.note}</span>
+                  </div>
+                  <p className="text-slate-500 text-sm">{offer.description}</p>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
 
