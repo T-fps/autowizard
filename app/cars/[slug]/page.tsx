@@ -6,6 +6,7 @@ import { getVehicleHeritage } from '../../lib/vehicleHeritage';
 import { notFound } from 'next/navigation';
 import CarImage from '../../components/CarImage';
 import TrimSelector from '../../components/TrimSelector';
+import UsedPriceEstimator from '../../components/UsedPriceEstimator';
 
 // Generate static params for all vehicles
 export async function generateStaticParams() {
@@ -564,7 +565,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Quick Stats Card */}
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 sticky top-6">
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
                 <h3 className="text-lg font-bold text-slate-900 mb-4">Quick Facts</h3>
                 <dl className="space-y-4">
                   <div className="flex justify-between">
@@ -598,6 +599,13 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                   Find Your Perfect Car
                 </Link>
               </div>
+              
+              {/* Used Price Estimator */}
+              <UsedPriceEstimator 
+                vehicleName={vehicle.name}
+                basePrice={vehicle.price}
+                brand={vehicle.brand}
+              />
             </div>
           </div>
           

@@ -84,13 +84,13 @@ export default function ConsultationPage() {
                     <button
                       key={s.value}
                       onClick={() => toggleService(s.value)}
-                      className={`p-4 rounded-xl border transition-all text-left flex items-center gap-3 ${selected ? 'bg-amber-500/15 border-amber-500/60' : 'bg-black/30 border-slate-200 hover:border-amber-500/40'}`}
+                      className={`p-4 rounded-xl border transition-all text-left flex items-center gap-3 ${selected ? 'bg-amber-100 border-amber-500' : 'bg-white border-slate-200 hover:border-amber-400'}`}
                     >
-                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-white/30'}`}>
-                        {selected && <Check className="w-3 h-3 text-black" />}
+                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-slate-300'}`}>
+                        {selected && <Check className="w-3 h-3 text-white" />}
                       </div>
-                      <s.icon className={`w-5 h-5 ${selected ? 'text-amber-600' : 'text-slate-400'}`} />
-                      <span className={selected ? 'text-amber-600' : 'text-slate-600'}>{s.label}</span>
+                      <s.icon className={`w-5 h-5 ${selected ? 'text-amber-600' : 'text-slate-500'}`} />
+                      <span className={`font-medium ${selected ? 'text-amber-700' : 'text-slate-700'}`}>{s.label}</span>
                     </button>
                   );
                 })}
@@ -178,15 +178,15 @@ export default function ConsultationPage() {
                     <button
                       key={t.value}
                       onClick={() => toggleTime(t.value)}
-                      className={`p-4 rounded-xl border transition-all text-center ${selected ? 'bg-amber-500/15 border-amber-500/60' : 'bg-black/30 border-slate-200 hover:border-amber-500/40'}`}
+                      className={`p-4 rounded-xl border transition-all text-center ${selected ? 'bg-amber-100 border-amber-500' : 'bg-white border-slate-200 hover:border-amber-400'}`}
                     >
                       <div className="flex items-center justify-center gap-2 mb-1">
-                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-white/30'}`}>
-                          {selected && <Check className="w-2.5 h-2.5 text-black" />}
+                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-slate-300'}`}>
+                          {selected && <Check className="w-2.5 h-2.5 text-white" />}
                         </div>
-                        <span className={`font-medium ${selected ? 'text-amber-600' : 'text-slate-600'}`}>{t.label}</span>
+                        <span className={`font-medium ${selected ? 'text-amber-700' : 'text-slate-700'}`}>{t.label}</span>
                       </div>
-                      <span className="text-xs text-slate-400">{t.desc}</span>
+                      <span className="text-xs text-slate-500">{t.desc}</span>
                     </button>
                   );
                 })}
