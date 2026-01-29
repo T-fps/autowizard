@@ -5,6 +5,98 @@ import { ChevronRight, BookOpen, ChevronLeft } from 'lucide-react';
 import PageWrapper from '../components/shared/PageWrapper';
 
 const blogPosts = [
+  // High-Volume SEO Articles
+  {
+    slug: 'how-much-car-can-i-afford',
+    title: 'How Much Car Can I Afford? Complete 2026 Guide',
+    description: 'Use proven formulas, budgeting rules, and real calculations to determine exactly how much you should spend.',
+    category: 'Car Finance',
+    categoryColor: 'green',
+    date: 'January 29, 2026',
+    readTime: '8 min read'
+  },
+  {
+    slug: 'lease-vs-buy-car',
+    title: 'Lease vs. Buy a Car: Which Is Better in 2026?',
+    description: 'A comprehensive comparison to help you decide whether leasing or buying makes more financial sense.',
+    category: 'Car Finance',
+    categoryColor: 'blue',
+    date: 'January 29, 2026',
+    readTime: '9 min read'
+  },
+  {
+    slug: 'what-credit-score-to-buy-car',
+    title: 'What Credit Score Do You Need to Buy a Car?',
+    description: 'Understanding how your credit score affects car loan rates, and what you can do to get the best deal.',
+    category: 'Car Finance',
+    categoryColor: 'purple',
+    date: 'January 29, 2026',
+    readTime: '7 min read'
+  },
+  {
+    slug: 'most-reliable-cars-2026',
+    title: 'Most Reliable Cars of 2026: Complete Rankings',
+    description: 'Based on Consumer Reports data, J.D. Power studies, and owner surveys—these are the cars that last.',
+    category: 'Best Cars',
+    categoryColor: 'amber',
+    date: 'January 29, 2026',
+    readTime: '10 min read'
+  },
+  {
+    slug: 'best-cars-for-gas-mileage',
+    title: 'Best Cars for Gas Mileage in 2026',
+    description: 'From hybrids to efficient gas engines—these vehicles will save you thousands at the pump.',
+    category: 'Fuel Economy',
+    categoryColor: 'green',
+    date: 'January 29, 2026',
+    readTime: '8 min read'
+  },
+  {
+    slug: 'suv-vs-sedan',
+    title: 'SUV vs. Sedan: Which Should You Buy in 2026?',
+    description: 'A comprehensive comparison to help you decide between these two popular vehicle types.',
+    category: 'Comparison',
+    categoryColor: 'cyan',
+    date: 'January 29, 2026',
+    readTime: '8 min read'
+  },
+  {
+    slug: 'best-first-car-for-teens',
+    title: 'Best First Cars for Teens & New Drivers (2026)',
+    description: 'Safe, reliable, and affordable vehicles perfect for young drivers just starting out.',
+    category: 'First-Time Buyers',
+    categoryColor: 'rose',
+    date: 'January 29, 2026',
+    readTime: '9 min read'
+  },
+  {
+    slug: 'how-long-should-car-loan-be',
+    title: 'How Long Should Your Car Loan Be?',
+    description: 'Understanding loan terms, interest costs, and why shorter is usually better.',
+    category: 'Car Finance',
+    categoryColor: 'indigo',
+    date: 'January 29, 2026',
+    readTime: '7 min read'
+  },
+  {
+    slug: 'best-time-to-buy-car',
+    title: 'Best Time to Buy a Car: When to Get the Best Deals',
+    description: 'Timing your purchase right can save you thousands. Here\'s when dealers are most motivated.',
+    category: 'Buying Tips',
+    categoryColor: 'emerald',
+    date: 'January 29, 2026',
+    readTime: '6 min read'
+  },
+  {
+    slug: 'awd-vs-4wd',
+    title: 'AWD vs. 4WD: What\'s the Difference?',
+    description: 'Understanding these drivetrain types helps you choose the right vehicle for your driving conditions.',
+    category: 'Technical',
+    categoryColor: 'orange',
+    date: 'January 29, 2026',
+    readTime: '7 min read'
+  },
+  // Previous Articles
   {
     slug: 'most-improved-cars-2026',
     title: 'Most Improved Cars of 2026: Major Upgrades Worth Knowing',
@@ -114,15 +206,17 @@ const categoryColors: Record<string, string> = {
   cyan: 'bg-cyan-100 text-cyan-700',
   rose: 'bg-rose-100 text-rose-700',
   indigo: 'bg-indigo-100 text-indigo-700',
-  orange: 'bg-orange-100 text-orange-700'
+  orange: 'bg-orange-100 text-orange-700',
+  emerald: 'bg-emerald-100 text-emerald-700'
 };
 
 const categories = [
   { name: 'All', count: blogPosts.length },
+  { name: 'Car Finance', count: 4 },
+  { name: 'Best Cars', count: 4 },
+  { name: 'Buying Tips', count: 3 },
   { name: 'New for 2026', count: 3 },
-  { name: 'Buying Guides', count: 4 },
-  { name: 'Best Cars', count: 3 },
-  { name: 'Electric', count: 1 },
+  { name: 'First-Time Buyers', count: 2 },
 ];
 
 export default function BlogPage() {
