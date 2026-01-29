@@ -66,7 +66,7 @@ export default function ConsultationPage() {
             <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mx-auto mb-6">
               <Calendar className="w-8 h-8 text-amber-600" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-3">Schedule Consultation</h1>
+            <h1 className="text-3xl font-bold text-slate-900 mb-3">Schedule Consultation</h1>
           </div>
           
           <div className="space-y-6">
@@ -89,7 +89,7 @@ export default function ConsultationPage() {
                       <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-white/30'}`}>
                         {selected && <Check className="w-3 h-3 text-black" />}
                       </div>
-                      <s.icon className={`w-5 h-5 ${selected ? 'text-amber-600' : 'text-white/50'}`} />
+                      <s.icon className={`w-5 h-5 ${selected ? 'text-amber-600' : 'text-slate-400'}`} />
                       <span className={selected ? 'text-amber-600' : 'text-slate-600'}>{s.label}</span>
                     </button>
                   );
@@ -104,7 +104,7 @@ export default function ConsultationPage() {
                   type="text"
                   value={consultForm.name}
                   onChange={(e) => setConsultForm({ ...consultForm, name: e.target.value })}
-                  className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500"
+                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500"
                 />
               </div>
               <div>
@@ -113,7 +113,7 @@ export default function ConsultationPage() {
                   type="email"
                   value={consultForm.email}
                   onChange={(e) => setConsultForm({ ...consultForm, email: e.target.value })}
-                  className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500"
+                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500"
                 />
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function ConsultationPage() {
                 type="tel"
                 value={consultForm.phone}
                 onChange={(e) => setConsultForm({ ...consultForm, phone: e.target.value })}
-                className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500"
+                className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500"
               />
             </div>
             
@@ -134,7 +134,7 @@ export default function ConsultationPage() {
                 <input
                   type="date"
                   id="date-picker"
-                  className="flex-1 bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500"
+                  className="flex-1 bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500"
                 />
                 <button
                   onClick={() => {
@@ -186,7 +186,7 @@ export default function ConsultationPage() {
                         </div>
                         <span className={`font-medium ${selected ? 'text-amber-600' : 'text-slate-600'}`}>{t.label}</span>
                       </div>
-                      <span className="text-xs text-white/50">{t.desc}</span>
+                      <span className="text-xs text-slate-400">{t.desc}</span>
                     </button>
                   );
                 })}
@@ -198,7 +198,7 @@ export default function ConsultationPage() {
               <textarea
                 value={consultForm.notes}
                 onChange={(e) => setConsultForm({ ...consultForm, notes: e.target.value })}
-                className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 h-24 resize-none"
+                className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500 h-24 resize-none"
               />
             </div>
             

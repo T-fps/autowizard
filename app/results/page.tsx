@@ -225,7 +225,7 @@ function ResultsContent() {
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="text-center p-8">
           <div className="text-6xl mb-4">🚗</div>
-          <h1 className="text-2xl font-bold text-white mb-4">No Results Found</h1>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">No Results Found</h1>
           <p className="text-slate-400 mb-6">Take our quiz to get personalized vehicle recommendations.</p>
           <Link
             href="/quiz"
@@ -245,7 +245,7 @@ function ResultsContent() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
                 Your Perfect Matches 🎯
               </h1>
               <p className="text-lg text-slate-300">
@@ -257,14 +257,14 @@ function ResultsContent() {
             <div className="flex items-center gap-3">
               <button
                 onClick={handleCopyLink}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors"
               >
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 {copied ? 'Copied!' : 'Copy Link'}
               </button>
               <button
                 onClick={handleShare}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors"
               >
                 <Share2 className="w-4 h-4" />
                 Share
@@ -331,7 +331,7 @@ function ResultsContent() {
                         index === 0 ? 'bg-amber-500 text-black' :
                         index === 1 ? 'bg-slate-400 text-black' :
                         index === 2 ? 'bg-amber-700 text-slate-900' :
-                        'bg-slate-700 text-slate-900'
+                        'bg-slate-200 text-slate-900'
                       }`}>
                         #{index + 1}
                       </div>
@@ -388,7 +388,7 @@ function ResultsContent() {
                         </button>
                         <button
                           onClick={() => setExpandedVehicle(isExpanded ? null : vehicle.name)}
-                          className="flex items-center gap-1 px-4 py-2 text-slate-400 hover:text-white transition-colors text-sm"
+                          className="flex items-center gap-1 px-4 py-2 text-slate-400 hover:text-slate-700 transition-colors text-sm"
                         >
                           {isExpanded ? 'Less Details' : 'More Details'}
                           {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -404,7 +404,7 @@ function ResultsContent() {
                     <div className="grid md:grid-cols-2 gap-6">
                       {/* All Match Reasons */}
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-3">Complete Match Analysis</h3>
+                        <h3 className="text-lg font-semibold text-slate-900 mb-3">Complete Match Analysis</h3>
                         <ul className="space-y-2">
                           {reasons.map((reason, i) => (
                             <li key={i} className="flex items-start gap-2 text-slate-300">
@@ -417,19 +417,19 @@ function ResultsContent() {
                       
                       {/* Key Features */}
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-3">Key Features</h3>
+                        <h3 className="text-lg font-semibold text-slate-900 mb-3">Key Features</h3>
                         <div className="flex flex-wrap gap-2">
                           {vehicle.features.slice(0, 8).map(feature => (
                             <span 
                               key={feature}
-                              className="px-3 py-1 bg-slate-700 text-slate-300 rounded-full text-sm capitalize"
+                              className="px-3 py-1 bg-slate-200 text-slate-300 rounded-full text-sm capitalize"
                             >
                               {feature.replace(/-/g, ' ')}
                             </span>
                           ))}
                         </div>
                         
-                        <h3 className="text-lg font-semibold text-white mt-4 mb-3">Best For</h3>
+                        <h3 className="text-lg font-semibold text-slate-900 mt-4 mb-3">Best For</h3>
                         <div className="flex flex-wrap gap-2">
                           {vehicle.useCases.map(useCase => (
                             <span 
@@ -454,11 +454,11 @@ function ResultsContent() {
           {/* Retake Quiz */}
           <div className="bg-slate-900/50 rounded-xl border border-slate-700 p-6 text-center">
             <RefreshCw className="w-8 h-8 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-white mb-2">Want Different Results?</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">Want Different Results?</h3>
             <p className="text-slate-400 text-sm mb-4">Adjust your preferences and see new recommendations.</p>
             <Link
               href="/quiz"
-              className="inline-flex items-center px-6 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-600 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-slate-200 text-slate-900 font-medium rounded-lg hover:bg-slate-300 transition-colors"
             >
               Retake Quiz
             </Link>
@@ -467,7 +467,7 @@ function ResultsContent() {
           {/* Save Results */}
           <div className="bg-gradient-to-br from-amber-500/10 to-amber-600/5 rounded-xl border border-amber-500/20 p-6 text-center">
             <Mail className="w-8 h-8 text-amber-600 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-white mb-2">Save Your Results</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">Save Your Results</h3>
             <p className="text-slate-400 text-sm mb-4">Email yourself these recommendations to review later.</p>
             <button
               onClick={handleEmailResults}
@@ -480,21 +480,21 @@ function ResultsContent() {
 
         {/* Explore More */}
         <div className="mt-12 bg-slate-900/50 rounded-xl border border-slate-700 p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Explore More Options</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Explore More Options</h3>
           <div className="flex flex-wrap gap-3">
-            <Link href="/best/suvs" className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors">
+            <Link href="/best/suvs" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
               Browse All SUVs
             </Link>
-            <Link href="/best/trucks" className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors">
+            <Link href="/best/trucks" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
               Browse All Trucks
             </Link>
-            <Link href="/best/sedans" className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors">
+            <Link href="/best/sedans" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
               Browse All Sedans
             </Link>
-            <Link href="/best/electric" className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors">
+            <Link href="/best/electric" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
               Electric Vehicles
             </Link>
-            <Link href="/brands" className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors">
+            <Link href="/brands" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
               Browse by Brand
             </Link>
           </div>

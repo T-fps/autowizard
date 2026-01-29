@@ -1139,7 +1139,7 @@ export default function QuizPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 mb-6">
                 <FileText className="w-8 h-8 text-amber-600" />
               </div>
-              <h2 className="text-3xl font-bold text-white mb-3">Before You Start</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-3">Before You Start</h2>
               <p className="text-slate-500">Follow these tips for the most accurate results</p>
             </div>
             
@@ -1207,7 +1207,7 @@ export default function QuizPage() {
                         onChange={(e) => setAnswers({ ...answers, [currentQ.id]: e.target.value })}
                         placeholder="Enter your 5-digit zip code"
                         maxLength={5}
-                        className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-4 text-white text-center text-2xl tracking-widest focus:outline-none focus:border-amber-500"
+                        className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-4 text-slate-900 text-center text-2xl tracking-widest focus:outline-none focus:border-amber-500"
                         onKeyDown={(e) => { if (e.key === 'Enter' && answers[currentQ.id]?.length === 5) { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else showResults(); }}}
                       />
                       <button 
@@ -1266,7 +1266,7 @@ export default function QuizPage() {
         <div className="max-w-4xl mx-auto px-6 py-12">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-600 text-sm mb-4"><Check className="w-4 h-4" />Complete</div>
-            <h2 className="text-4xl font-bold text-white mb-2">Your Perfect Match</h2>
+            <h2 className="text-4xl font-bold text-slate-900 mb-2">Your Perfect Match</h2>
             <p className="text-2xl font-semibold bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">{result.vehicleSizeName}</p>
           </div>
           
@@ -1298,19 +1298,19 @@ export default function QuizPage() {
                   
                   <button 
                     onClick={() => setVehicleImageIndex(prev => prev === 0 ? result.vehicles.length - 1 : prev - 1)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-900 border border-slate-300 flex items-center justify-center text-white transition-all hover:scale-110"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-900 border border-slate-300 flex items-center justify-center text-slate-900 transition-all hover:scale-110"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
                   
                   <button 
                     onClick={() => setVehicleImageIndex(prev => prev === result.vehicles.length - 1 ? 0 : prev + 1)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-900 border border-slate-300 flex items-center justify-center text-white transition-all hover:scale-110"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-900 border border-slate-300 flex items-center justify-center text-slate-900 transition-all hover:scale-110"
                   >
                     <ChevronRight className="w-6 h-6" />
                   </button>
                   
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-800 border border-slate-300 text-white text-sm">
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-800 border border-slate-300 text-slate-900 text-sm">
                     {vehicleImageIndex + 1} / {result.vehicles.length}
                   </div>
                 </div>
@@ -1403,7 +1403,7 @@ export default function QuizPage() {
                   value={emailAddress}
                   onChange={(e) => setEmailAddress(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 mb-4 focus:outline-none focus:border-amber-500"
                 />
                 <button
                   onClick={sendEmail}

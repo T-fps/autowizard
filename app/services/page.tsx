@@ -9,7 +9,7 @@ export default function ServicesPage() {
     <PageWrapper>
       <div className="max-w-5xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4">Our Services</h1>
+          <h1 className="text-4xl font-bold text-slate-900 mb-4">Our Services</h1>
           <p className="text-slate-500 max-w-2xl mx-auto">Comprehensive automotive guidance from selection to ownership</p>
         </div>
         
@@ -26,7 +26,7 @@ export default function ServicesPage() {
             </div>
             <ul className="space-y-3 mb-6">
               {['In-depth lifestyle and needs analysis', 'Personalized vehicle recommendations', 'Dream, build, price and find my car', 'Feature comparison and prioritization', 'Customization with trim and options'].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-white/80">
+                <li key={i} className="flex items-center gap-3 text-slate-700">
                   <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />{item}
                 </li>
               ))}
@@ -49,7 +49,7 @@ export default function ServicesPage() {
             </div>
             <ul className="space-y-3 mb-6">
               {['Aftermarket product recommendations', 'Trusted installer network access', 'Performance upgrade planning', 'Aesthetic customization guidance', 'Warranty-safe modification advice'].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-white/80">
+                <li key={i} className="flex items-center gap-3 text-slate-700">
                   <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />{item}
                 </li>
               ))}
@@ -72,7 +72,7 @@ export default function ServicesPage() {
             </div>
             <ul className="space-y-3 mb-6">
               {['Dealership introductions and connections', 'Financing and loan office referrals', 'Price negotiation strategies', 'Certified pre-owned verification', 'Paperwork and documentation guidance'].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-white/80">
+                <li key={i} className="flex items-center gap-3 text-slate-700">
                   <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />{item}
                 </li>
               ))}
