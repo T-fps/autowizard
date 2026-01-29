@@ -31,8 +31,8 @@ const quickLinks = [
     textColor: 'text-white',
   },
   {
-    title: 'Browse by Brand',
-    description: 'Explore all 40+ manufacturers',
+    title: 'Browse All Cars',
+    description: 'Search 400+ vehicles with filters',
     href: '/brands',
     icon: Tag,
     color: 'from-green-500 to-emerald-600',
