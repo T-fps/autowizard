@@ -112,6 +112,7 @@ export const vehicleHeritage: Record<string, string> = {
   'Ferrari Roma': 'Elegant grand tourer capturing la dolce vita spirit.',
   'Ferrari Purosangue': 'Ferrari\'s first four-door, breaking tradition with stunning results.',
   'Lamborghini Huracán': 'Naturally aspirated V10 supercar, possibly the last of its kind.',
+  'Lamborghini Aventador': 'The last naturally aspirated V12 Lamborghini — iconic scissor doors, 769 hp, and a legacy that defined a generation of supercars.',
   'Lamborghini Urus': 'Super SUV that dominates its segment in performance.',
   'Lamborghini Revuelto': 'The first Lamborghini V12 hybrid, 1,001 horsepower of the future.',
   'McLaren 720S': 'Engineering excellence with performance that challenges cars twice its price.',

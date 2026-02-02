@@ -271,6 +271,7 @@ export const vehicleTrims: Record<string, VehicleTrims> = {
   'Lamborghini Huracán STO': { basePrice: 330, trims: [{ name: 'Base', price: 330, features: ['640 hp'] }] },
   'Lamborghini Huracán Sterrato': { basePrice: 275, trims: [{ name: 'Base', price: 275, features: ['602 hp', 'Off-road'] }] },
   'Lamborghini Huracán Tecnica': { basePrice: 275, trims: [{ name: 'Base', price: 275, features: ['631 hp', 'RWD'] }] },
+  'Lamborghini Aventador': { basePrice: 498, trims: [{ name: 'LP 780-4 Ultimae Coupe', price: 498, features: ['769 hp', 'V12', 'AWD', 'Scissor doors'] }, { name: 'LP 780-4 Ultimae Roadster', price: 547, features: ['769 hp', 'V12', 'Removable roof panels'] }, { name: 'SVJ Coupe', price: 515, features: ['770 hp', 'Active aero', 'Nürburgring record'] }, { name: 'SVJ Roadster', price: 577, features: ['770 hp', 'Active aero', 'Open-top'] }] },
   'Lamborghini Revuelto': { basePrice: 600, trims: [{ name: 'Base', price: 600, features: ['1001 hp hybrid V12'] }] },
   'Lamborghini Urus': { basePrice: 240, trims: [{ name: 'Base', price: 240 }, { name: 'S', price: 260 }, { name: 'Performante', price: 280, features: ['666 hp'] }] },
   'Lamborghini Urus SE': { basePrice: 275, trims: [{ name: 'Base', price: 275, features: ['789 hp plug-in hybrid'] }] },

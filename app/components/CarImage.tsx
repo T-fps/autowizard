@@ -334,6 +334,7 @@ const wikiTitleMappings: Record<string, string> = {
 
   // ==================== LAMBORGHINI ====================
   'Lamborghini Huracán': 'Lamborghini_Huracán',
+  'Lamborghini Aventador': 'Lamborghini_Aventador',
   'Lamborghini Huracán STO': 'Lamborghini_Huracán_STO',
   'Lamborghini Huracán Sterrato': 'Lamborghini_Huracán_Sterrato',
   'Lamborghini Huracán Tecnica': 'Lamborghini_Huracán_Tecnica',  // FIXED: has own article
@@ -708,6 +709,7 @@ const commonsSearchOverrides: Record<string, string> = {
   // Lamborghini variants
   'Lamborghini Huracán STO': '"Lamborghini Huracán STO"',
   'Lamborghini Huracán Tecnica': '"Lamborghini Huracán Tecnica"',
+  'Lamborghini Aventador': '"Lamborghini Aventador SVJ"',
   'Lamborghini Urus SE': '"Lamborghini Urus SE" hybrid',
 
   // Lexus variants
@@ -858,6 +860,7 @@ const directCommonsFiles: Record<string, string> = {
   // Lamborghini variants
   'Lamborghini Huracán STO': 'Lamborghini_Huracán_STO.jpg',
   'Lamborghini Huracán Tecnica': 'Lamborghini_Huracán_Tecnica_IMG_5186.jpg',
+  'Lamborghini Aventador': '2019_Lamborghini_Aventador_SVJ_LP770-4.jpg',
 
   // Lincoln Black Label variants
   'Lincoln Navigator Black Label': 'Lincoln_Navigator_Black_Label.jpg',
