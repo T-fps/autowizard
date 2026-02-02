@@ -814,19 +814,21 @@ class WikiImageFetcher:
     def get_page_image_url(self, wiki_title: str) -> dict | None:
         """
         Get the main image URL from a Wikipedia article.
-        Returns dict with 'thumbnail' and 'original' URLs, or None.
+        Uses the exact same API call as CarImage.tsx (which works at runtime).
+        Returns dict with 'thumbnail' URL, or None.
         """
         if wiki_title in self._cache:
             return self._cache[wiki_title]
         
-        # First try: Get both thumbnail and original
+        # Match the exact API call from CarImage.tsx that works in production
+        # Key: NO piprop parameter, include origin=*
         params = {
             "action": "query",
             "titles": wiki_title,
             "prop": "pageimages",
             "format": "json",
             "pithumbsize": self.resolution,
-            "piprop": "thumbnail|original",
+            "origin": "*",
         }
         
         try:
@@ -845,19 +847,12 @@ class WikiImageFetcher:
                 
                 result = {}
                 
-                # Get thumbnail
+                # Get thumbnail (same path as CarImage.tsx: pages[pageId]?.thumbnail?.source)
                 thumb = page_data.get("thumbnail", {})
                 if thumb.get("source"):
                     result["thumbnail"] = thumb["source"]
                     result["thumb_width"] = thumb.get("width", 0)
                     result["thumb_height"] = thumb.get("height", 0)
-                
-                # Get original
-                original = page_data.get("original", {})
-                if original.get("source"):
-                    result["original"] = original["source"]
-                    result["orig_width"] = original.get("width", 0)
-                    result["orig_height"] = original.get("height", 0)
                 
                 if result:
                     self._cache[wiki_title] = result
@@ -868,6 +863,25 @@ class WikiImageFetcher:
         except Exception as e:
             print(f"    ⚠️  API error for {wiki_title}: {e}")
             return None
+    
+    def get_high_res_from_thumbnail(self, thumb_url: str) -> str | None:
+        """
+        Given a Wikipedia thumbnail URL, try to get the original full-res image.
+        Wikipedia thumbnail URLs follow a predictable pattern:
+        .../thumb/a/ab/Filename.jpg/800px-Filename.jpg
+        The original is at: .../a/ab/Filename.jpg
+        """
+        try:
+            # Pattern: /thumb/[hash1]/[hash2]/[filename]/[size]px-[filename]
+            if "/thumb/" in thumb_url:
+                # Remove the /thumb/ part and the size suffix
+                original = thumb_url.replace("/thumb/", "/")
+                # Remove the last path segment (e.g., /800px-Filename.jpg)
+                original = "/".join(original.split("/")[:-1])
+                return original
+        except Exception:
+            pass
+        return None
     
     def get_all_images(self, wiki_title: str, limit: int = 10) -> list:
         """
@@ -880,6 +894,7 @@ class WikiImageFetcher:
             "prop": "images",
             "format": "json",
             "imlimit": limit,
+            "origin": "*",
         }
         
         try:
@@ -919,6 +934,7 @@ class WikiImageFetcher:
             "iiprop": "url|size",
             "format": "json",
             "iiurlwidth": self.resolution,
+            "origin": "*",
         }
         
         try:
@@ -935,6 +951,52 @@ class WikiImageFetcher:
                 imageinfo = page_data.get("imageinfo", [{}])[0]
                 # Prefer thumburl (resized) over url (original, could be huge)
                 return imageinfo.get("thumburl") or imageinfo.get("url")
+            
+            return None
+            
+        except Exception:
+            return None
+    
+    def search_commons(self, vehicle_name: str) -> str | None:
+        """
+        Search Wikimedia Commons directly for a vehicle image.
+        Useful when the Wikipedia article doesn't have a pageimage.
+        """
+        # Clean up the search term
+        search_term = vehicle_name.replace("-", " ")
+        
+        params = {
+            "action": "query",
+            "generator": "search",
+            "gsrsearch": f"{search_term} car",
+            "gsrnamespace": "6",  # File namespace
+            "gsrlimit": "5",
+            "prop": "imageinfo",
+            "iiprop": "url|size|mime",
+            "iiurlwidth": self.resolution,
+            "format": "json",
+            "origin": "*",
+        }
+        
+        try:
+            resp = self.session.get(
+                "https://commons.wikimedia.org/w/api.php",
+                params=params,
+                timeout=REQUEST_TIMEOUT
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            
+            pages = data.get("query", {}).get("pages", {})
+            for page_data in sorted(pages.values(), key=lambda p: p.get("index", 999)):
+                imageinfo = page_data.get("imageinfo", [{}])[0]
+                mime = imageinfo.get("mime", "")
+                
+                # Only accept actual photos (not SVGs, etc.)
+                if "image/jpeg" in mime or "image/png" in mime:
+                    width = imageinfo.get("width", 0)
+                    if width >= 400:  # Skip tiny images
+                        return imageinfo.get("thumburl") or imageinfo.get("url")
             
             return None
             
@@ -973,7 +1035,7 @@ class ImageDownloader:
                 
                 # Check minimum size (skip tiny images/icons)
                 content_length = int(resp.headers.get("Content-Length", 0))
-                if content_length > 0 and content_length < 5000:  # < 5KB probably not a real photo
+                if content_length > 0 and content_length < 2000:  # < 2KB probably not a real photo
                     return False
                 
                 filepath.parent.mkdir(parents=True, exist_ok=True)
@@ -982,7 +1044,7 @@ class ImageDownloader:
                         f.write(chunk)
                 
                 # Verify the downloaded file
-                if filepath.stat().st_size < 5000:
+                if filepath.stat().st_size < 2000:
                     filepath.unlink()
                     return False
                 
@@ -1016,7 +1078,7 @@ class ImageDownloader:
         }
         
         # Skip if already downloaded
-        if missing_only and filepath.exists() and filepath.stat().st_size > 5000:
+        if missing_only and filepath.exists() and filepath.stat().st_size > 2000:
             result["status"] = "skipped"
             result["source"] = "already_downloaded"
             return result
@@ -1024,17 +1086,33 @@ class ImageDownloader:
         wiki_title = get_wiki_title(vehicle_name)
         result["wiki_title"] = wiki_title
         
-        # Strategy 1: Get main page image
+        # Strategy 1: Get main page image (same method as CarImage.tsx)
         image_info = self.wiki.get_page_image_url(wiki_title)
         if image_info:
-            # Prefer thumbnail at our resolution (properly sized)
-            url = image_info.get("thumbnail") or image_info.get("original")
+            url = image_info.get("thumbnail")
             if url:
-                result["url"] = url
-                if self.download_image(url, filepath):
+                # Try to get higher res by manipulating the thumbnail URL
+                # Wikipedia thumbnails: .../thumb/.../800px-File.jpg
+                # We can request a bigger size by changing the px value
+                high_res_url = url
+                if f"/{self.wiki.resolution}px-" in url or "px-" in url:
+                    # Replace any NNNpx- with our desired resolution
+                    import re as _re
+                    high_res_url = _re.sub(r'/\d+px-', f'/{self.wiki.resolution}px-', url)
+                
+                result["url"] = high_res_url
+                if self.download_image(high_res_url, filepath):
                     result["status"] = "success"
                     result["source"] = "wikipedia_main"
                     return result
+                
+                # Fallback to original thumbnail URL if resize failed
+                if high_res_url != url:
+                    result["url"] = url
+                    if self.download_image(url, filepath):
+                        result["status"] = "success"
+                        result["source"] = "wikipedia_main"
+                        return result
         
         # Strategy 2: Try all images on the page, pick the first real photo
         all_images = self.wiki.get_all_images(wiki_title)
@@ -1053,7 +1131,7 @@ class ImageDownloader:
         for alt_title in alt_titles:
             image_info = self.wiki.get_page_image_url(alt_title)
             if image_info:
-                url = image_info.get("thumbnail") or image_info.get("original")
+                url = image_info.get("thumbnail")
                 if url:
                     result["url"] = url
                     if self.download_image(url, filepath):
@@ -1062,25 +1140,61 @@ class ImageDownloader:
                         return result
             time.sleep(RATE_LIMIT_DELAY)
         
+        # Strategy 4: Search Wikimedia Commons directly
+        commons_url = self.wiki.search_commons(vehicle_name)
+        if commons_url:
+            result["url"] = commons_url
+            if self.download_image(commons_url, filepath):
+                result["status"] = "success"
+                result["source"] = "wikimedia_commons_search"
+                return result
+        
         return result
     
     def _generate_alt_titles(self, vehicle_name: str, primary_title: str) -> list:
         """Generate alternative Wikipedia titles to try."""
         alts = []
         base = vehicle_name.replace(" ", "_")
+        brand = get_brand(vehicle_name)
+        model_part = vehicle_name.replace(brand, "").strip()
         
         # Try without generation/trim suffixes
         parts = vehicle_name.split()
         if len(parts) > 2:
-            # Just brand + model
+            # Just brand + model (e.g., "BMW X5" from "BMW X5 M50i")
             alts.append(f"{parts[0]}_{parts[1]}")
+            # Brand + first two model words (e.g., "Ford F-150" from "Ford F-150 Raptor R")
+            if len(parts) > 3:
+                alts.append(f"{parts[0]}_{parts[1]}_{parts[2]}")
         
-        # Try with "2025" prefix
+        # Multi-word brands (e.g., "Aston Martin Vantage" from "Aston Martin Vantage Roadster")
+        multi_word_brands = ["Alfa_Romeo", "Aston_Martin", "Mercedes-Benz", "Mercedes-AMG", "Rolls-Royce"]
+        for mb in multi_word_brands:
+            if base.startswith(mb) and base != mb:
+                model_words = base.replace(mb + "_", "").split("_")
+                if len(model_words) > 1:
+                    alts.append(f"{mb}_{model_words[0]}")
+        
+        # Try with year prefixes
         alts.append(f"2025_{base}")
         alts.append(f"2024_{base}")
         
+        # Try common Wikipedia disambiguation patterns
+        alts.append(f"{base}_(automobile)")
+        alts.append(f"{base}_(car)")
+        
+        # For specific patterns: "BMW X5 M50i" → try "BMW_X5_(G05)" style
+        # These are already in WIKI_TITLE_MAPPINGS but just in case
+        
         # Remove duplicates and primary
-        return [a for a in dict.fromkeys(alts) if a != primary_title]
+        seen = set()
+        unique_alts = []
+        for a in alts:
+            if a != primary_title and a not in seen:
+                seen.add(a)
+                unique_alts.append(a)
+        
+        return unique_alts
     
     def run(self, vehicles: list = None, missing_only: bool = False,
             brand_filter: str = None, max_workers: int = MAX_WORKERS):
@@ -1367,7 +1481,7 @@ Examples:
             brand = get_brand(vehicle)
             filename = sanitize_filename(vehicle) + ".jpg"
             filepath = output_dir / brand / filename
-            if filepath.exists() and filepath.stat().st_size > 5000:
+            if filepath.exists() and filepath.stat().st_size > 2000:
                 found += 1
             else:
                 missing.append(vehicle)
