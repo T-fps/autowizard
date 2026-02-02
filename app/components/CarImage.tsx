@@ -606,7 +606,7 @@ const commonsSearchOverrides: Record<string, string> = {
   'Audi S4': '"Audi S4" B9 Avant sedan',
   'Audi S5': '"Audi S5" Sportback',
   'Audi S7': '"Audi S7" Sportback C8',
-  'Audi SQ5': '"Audi SQ5" front',
+  'Audi SQ5': '"Audi SQ5" TDI facelift front',
   'Audi SQ7': '"Audi SQ7" TDI',
   'Audi SQ8': '"Audi SQ8" front',
   'Audi RS Q8': '"Audi RS Q8" front',
@@ -679,7 +679,7 @@ const commonsSearchOverrides: Record<string, string> = {
   'Honda Civic Type R': '"Honda Civic Type R" FL5',
   'Honda CR-V Hybrid Sport Touring': '"Honda CR-V" 2024 hybrid',
   'Honda Pilot TrailSport': '"Honda Pilot" TrailSport',
-  'Honda Ridgeline': '"Honda Ridgeline" 2024',
+  'Honda Ridgeline': '"Honda Ridgeline" 2022 Touring front',
 
   // Hyundai
   'Hyundai Ioniq 9': '"Hyundai Ioniq 9" electric SUV',
@@ -697,7 +697,7 @@ const commonsSearchOverrides: Record<string, string> = {
 
   // Kia
   'Kia K5': '"Kia K5" 2024 sedan',
-  'Kia Soul': '"Kia Soul" 2024 third generation',
+  'Kia Soul': '"Kia Soul" 2020 2023 SK3 front',
   'Kia EV5': '"Kia EV5" electric',
   'Kia EV9': '"Kia EV9" electric SUV',
 
@@ -751,26 +751,27 @@ const commonsSearchOverrides: Record<string, string> = {
   'Mercedes-Benz GLB': '"Mercedes-Benz GLB" 2024',
   'Mercedes-Benz GLS': '"Mercedes-Benz GLS" X167',
   'Mercedes-AMG C43': '"Mercedes-AMG C43" W206',
-  'Mercedes-AMG C63': '"Mercedes-AMG C63" W206 hybrid',
+  'Mercedes-AMG C63': '"Mercedes-AMG C 63" W206 front',
   'Mercedes-AMG E53': '"Mercedes-AMG E53" W214',
   'Mercedes-AMG E63 S': '"Mercedes-AMG E63 S" sedan',
   'Mercedes-AMG GLC43': '"Mercedes-AMG GLC 43" X254',
   'Mercedes-AMG GLC63': '"Mercedes-AMG GLC63" coupe',
   'Mercedes-AMG GLE53': '"Mercedes-AMG GLE 53" coupe',
   'Mercedes-AMG GLE63 S': '"Mercedes-AMG GLE63" S',
-  'Mercedes-AMG GLS63': '"Mercedes-AMG GLS63" Maybach',
+  'Mercedes-AMG GLS63': '"Mercedes-AMG GLS 63" X167 front',
 
   // Porsche (718 Boxster vs Cayman need different images)
-  'Porsche 718 Boxster': '"Porsche 718 Boxster" convertible',
-  'Porsche 718 Cayman': '"Porsche 718 Cayman" coupe',
+  'Porsche 718 Boxster': '"Porsche 718 Boxster" front 2023',
+  'Porsche 718 Cayman': '"Porsche 718 Cayman" GT4 coupe',
 
   // Ram variants
   'Ram 1500 Rebel': '"Ram 1500" Rebel off-road',
   'Ram 1500 Limited': '"Ram 1500" Limited luxury',
-  'Ram 2500': '"Ram 2500" Heavy Duty 2024',
+  'Ram 2500': '"Ram 2500" 2024 Heavy Duty Laramie front',
   'Ram 3500': '"Ram 3500" dually Heavy Duty',
 
   // Rolls-Royce
+  'Rolls-Royce Phantom': '"Rolls-Royce Phantom VIII" front',
   'Rolls-Royce Phantom Extended': '"Rolls-Royce Phantom" Extended Wheelbase',
 
   // Subaru
@@ -799,6 +800,7 @@ const commonsSearchOverrides: Record<string, string> = {
 // ============================================================================
 const directCommonsFiles: Record<string, string> = {
   // Audi variants that share Q7/Q8 Wikipedia articles
+  'Audi SQ5': 'Audi_SQ5_TDI_(Facelift)_–_Frontansicht,_27._April_2014,_Düsseldorf.jpg',
   'Audi SQ7': 'Audi_SQ7_TDI_Facelift_IAA_2019_JM_0468.jpg',
   'Audi SQ8': 'Audi_SQ8.jpg',
   'Audi RS Q8': '2020_Audi_RS_Q8_Front_(1).jpg',
@@ -807,43 +809,48 @@ const directCommonsFiles: Record<string, string> = {
   'BMW X5M': 'BMW_X5_M_Competition_(F95)_1X7A5950.jpg',
   'BMW X6M': 'BMW_X6_M_Competition_(F96)_IMG_3316.jpg',
 
+  // Chevrolet trucks and performance variants
+  'Chevrolet Silverado 1500': 'Chevrolet_Silverado_High_Country_2025.jpg',
+  'Chevrolet Corvette Z06': '2023_Chevrolet_Corvette_Z06_in_Rapid_Blue,_Front_Left,_02-05-2023.jpg',
+  'Chevrolet Corvette ZR1': '2025_Chevrolet_Corvette_ZR1.jpg',
+  'Chevrolet Camaro ZL1': '2020_Chevrolet_Camaro_ZL1_in_Red_Hot,_Front_Left,_02-26-2023.jpg',
+
   // Dodge SRT / Hellcat
   'Dodge Challenger SRT Hellcat': 'White_Dodge_Challenger_SRT_three-quarter_front_view.jpg',
   'Dodge Charger SRT Hellcat': '2021_Dodge_Charger_SRT_Hellcat_Redeye_Widebody_in_Sinamon_Stick,_Front_Left,_09-02-2023.jpg',
   'Dodge Durango SRT Hellcat': '2021_Dodge_Durango_SRT_Hellcat_in_Octane_Red,_Front_Left,_11-21-2022.jpg',
   'Dodge Durango SRT 392': '2021_Dodge_Durango_R-T_in_DB_Black_Clear_Coat,_Front_Left,_05-30-2022.jpg',
 
-  // Lucid variants (all share the Lucid_Air article)
-  'Lucid Air Pure': '2022_Lucid_Air_(65592).jpg',
-  'Lucid Air Touring': '2022_Lucid_Air_(66341).jpg',
-  'Lucid Air Grand Touring': 'Lucid_Air_Dream_Edition_front.jpg',
-
-  // Chevrolet performance variants
-  'Chevrolet Corvette Z06': '2023_Chevrolet_Corvette_Z06_in_Rapid_Blue,_Front_Left,_02-05-2023.jpg',
-  'Chevrolet Corvette ZR1': '2025_Chevrolet_Corvette_ZR1.jpg',
-  'Chevrolet Camaro ZL1': '2020_Chevrolet_Camaro_ZL1_in_Red_Hot,_Front_Left,_02-26-2023.jpg',
+  // Ferrari spider/convertible variants
+  'Ferrari 296 GTS': 'Ferrari_296_GTS_1X7A5896.jpg',
+  'Ferrari SF90 Spider': '2022_Ferrari_SF90_Spider.jpg',
 
   // Ford performance variants
   'Ford Mustang Shelby GT500': '2020_Ford_Mustang_Shelby_GT500_in_Iconic_Silver,_Front_Right,_09-10-2023.jpg',
+  'Ford F-150 Raptor': '2021_Ford_F-150_Raptor_37_in_Antimatter_Blue,_Front_Left,_12-25-2021.jpg',
   'Ford F-150 Raptor R': '2024_Ford_F-150_Raptor_R_in_Area_51,_Front_Left,_04-06-2024.jpg',
-
-  // Ferrari spider/convertible variants
-  'Ferrari 296 GTS': 'Ferrari_296_GTS_1X7A5896.jpg',
-  'Ferrari SF90 Spider': '2022_Ferrari_SF90_Spider_in_Rosso_Corsa.jpg',
 
   // Genesis
   'Genesis G70 Shooting Brake': 'Genesis_G70_Shooting_Brake.jpg',
 
   // GMC variants
+  'GMC Sierra 1500': '2019_GMC_Sierra_1500_Denali_au_SIAM_2019.jpg',
+  'GMC Canyon': '2023_GMC_Canyon_Elevation_in_Sterling_Metallic,_Front_Left,_08-26-2023.jpg',
+  'GMC Canyon AT4X': '2023_GMC_Canyon_AT4X_in_Summit_White,_Front_Left,_02-04-2024.jpg',
+  'GMC Yukon': '2021_GMC_Yukon_SLT_in_Dark_Sky_Metallic,_Front_Left,_12-31-2021.jpg',
   'GMC Yukon XL': '2021_GMC_Yukon_XL_SLT_in_Onyx_Black,_Front_Left,_09-04-2021.jpg',
   'GMC Yukon Denali Ultimate': '2023_GMC_Yukon_Denali_in_White_Frost_Tricoat,_Front_Left,_04-23-2023.jpg',
 
-  // Honda performance variants
+  // Honda variants
   'Honda Civic Type R': '2023_Honda_Civic_Type_R_in_Championship_White,_front_7.11.22.jpg',
+  'Honda Ridgeline': '2022_Honda_Ridgeline_Touring_in_Sonic_Gray_Pearl,_front_left,_2024-05-11.jpg',
 
   // Jeep wagon variants
   'Jeep Grand Wagoneer': '2023_Jeep_Grand_Wagoneer_Series_III_in_Bright_White_Clear_Coat,_Front_Left,_08-05-2023.jpg',
   'Jeep Wagoneer': '2022_Jeep_Wagoneer_Series_III_in_Bright_White,_Front_Left,_01-15-2023.jpg',
+
+  // Kia
+  'Kia Soul': '2020_Kia_Soul_EX_in_Cherry_Black,_Front_Left,_09-13-2020.jpg',
 
   // Koenigsegg variants
   'Koenigsegg Jesko Absolut': 'Koenigsegg_Jesko_Absolut_at_Monterey_Car_Week_2021.jpg',
@@ -858,14 +865,30 @@ const directCommonsFiles: Record<string, string> = {
   // Lotus - V6 First Edition vs standard
   'Lotus Emira V6 First Edition': '2024_Lotus_Emira_First_Edition_in_Seneca_Blue,_front_right.jpg',
 
-  // Rolls-Royce Extended
-  'Rolls-Royce Phantom Extended': 'Rolls-Royce_Phantom_VIII_Extended.jpg',
+  // Lucid variants (all share the Lucid_Air article)
+  'Lucid Air Pure': '2022_Lucid_Air_(65592).jpg',
+  'Lucid Air Touring': '2022_Lucid_Air_(66341).jpg',
+  'Lucid Air Grand Touring': 'Lucid_Air_Dream_Edition_front.jpg',
+
+  // Mercedes-AMG variants
+  'Mercedes-AMG C63': 'Mercedes-AMG_C_63_(W206)_IMG_0305.jpg',
+  'Mercedes-AMG GLS63': '2021_Mercedes-AMG_GLS_63_in_Obsidian_Black_Metallic,_Front_Left,_12-04-2021.jpg',
+
+  // Porsche 718 variants
+  'Porsche 718 Boxster': 'Porsche_718_Boxster_1X7A1677.jpg',
+  'Porsche 718 Cayman': '2024_Porsche_718_Cayman_GT4.jpg',
 
   // Ram variants
   'Ram 1500 Rebel': '2024_Ram_1500_Rebel_in_Hydro_Blue_Pearl_Coat,_Front_Left,_04-20-2024.jpg',
   'Ram 1500 Limited': '2024_Ram_1500_Limited_in_Ivory_White_Tri-Coat_Pearl,_Front_Left,_07-03-2024.jpg',
+  'Ram 2500': '2024_Ram_2500_Laramie_in_Diamond_Black_Crystal_Pearl_Coat,_Front_Left,_09-28-2024.jpg',
+
+  // Rolls-Royce
+  'Rolls-Royce Phantom': 'Rolls-Royce_Phantom_VIII_Series_II_(front),_2024.jpg',
+  'Rolls-Royce Phantom Extended': 'Rolls-Royce_Phantom_VIII_Extended.jpg',
 
   // Toyota performance variants
+  'Toyota 4Runner TRD Pro': '2025_Toyota_4Runner_TRD_Pro_in_Mudbath,_Front_Left,_01-11-2025.jpg',
   'Toyota Tacoma TRD Pro': '2024_Toyota_Tacoma_TRD_Pro_in_Ice_Cap,_Front_Left,_07-06-2024.jpg',
   'Toyota Tundra TRD Pro': '2022_Toyota_Tundra_TRD_Pro_in_Lunar_Rock,_Front_Left,_01-22-2023.jpg',
   'Toyota GR Supra': 'Toyota_GR_Supra_at_Goodwood_Festival_of_Speed_2019.jpg',
@@ -1170,7 +1193,7 @@ export default function CarImage({
         <img 
           src={imageUrl}
           alt={vehicleName}
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-contain object-center"
           onError={() => setHasError(true)}
         />
       )}
