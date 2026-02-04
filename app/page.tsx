@@ -6,8 +6,8 @@ import { Car, Calendar, Users, Wrench, MapPin, ChevronRight, Check, ArrowLeft } 
 export default function AutoWizard() {
   const [currentPage, setCurrentPage] = useState('home');
   const [testStep, setTestStep] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [result, setResult] = useState(null);
+  const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [result, setResult] = useState<any>(null);
   const [consultForm, setConsultForm] = useState({
     name: '', email: '', phone: '', date: '', time: '', notes: ''
   });
