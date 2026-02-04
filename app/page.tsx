@@ -1,327 +1,1072 @@
+'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Car, Calendar, Users, Wrench, MapPin, ChevronRight, ChevronLeft, Check, ArrowLeft, Sparkles, Shield, CreditCard, Star, Phone, Mail, Clock, Zap, Heart, Target, Building2, CarFront, Gauge, Send, X, Eye, FileText, DollarSign, Award, TrendingUp, BookOpen, Calculator, RefreshCw, Briefcase, SkipForward } from 'lucide-react';
+import React, { useState } from 'react';
+import { Car, Calendar, Users, Wrench, MapPin, ChevronRight, Check, ArrowLeft } from 'lucide-react';
 
 export default function AutoWizard() {
   const [currentPage, setCurrentPage] = useState('home');
   const [testStep, setTestStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, any>>({});
-  const [result, setResult] = useState<any>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [emailAddress, setEmailAddress] = useState('');
-  const [emailSent, setEmailSent] = useState(false);
-  const [consultForm, setConsultForm] = useState<Record<string, any>>({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
+  const [answers, setAnswers] = useState({});
+  const [result, setResult] = useState(null);
+  const [consultForm, setConsultForm] = useState({
+    name: '', email: '', phone: '', date: '', time: '', notes: ''
+  });
 
-  // Scroll to top when page changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage]);
-
-  useEffect(() => { setIsAnimating(true); const t = setTimeout(() => setIsAnimating(false), 300); return () => clearTimeout(t); }, [testStep]);
-
-  // 13-question test
-  const allQuestions = [
-    { id: 'passengers', question: 'How many passengers do you need to accommodate?', icon: '👥', type: 'single',
-      options: [{ value: '1-2', label: '1-2 people' }, { value: '3-4', label: '3-4 people' }, { value: '5', label: '5 people' }, { value: '6+', label: '6 or more' }] },
-    { id: 'primary-use', question: 'What is the PRIMARY purpose of this vehicle?', icon: '🎯', type: 'single',
-      options: [{ value: 'commute', label: 'Daily commuting' }, { value: 'family', label: 'Family transportation' }, { value: 'work', label: 'Work vehicle (trades/construction/farm)' }, { value: 'adventure', label: 'Adventure & outdoor activities' }, { value: 'towing', label: 'Towing boats/campers/trailers' }, { value: 'fun', label: 'Weekend fun / performance' }] },
-    { id: 'cargo-needs', question: 'What are your cargo/hauling needs?', icon: '📦', type: 'single',
-      options: [{ value: 'minimal', label: 'Minimal - groceries, bags' }, { value: 'moderate', label: 'Moderate - sports gear, luggage' }, { value: 'large', label: 'Large items - furniture, equipment' }, { value: 'truck-bed', label: 'Need open truck bed for materials' }, { value: 'commercial', label: 'Commercial cargo/deliveries' }] },
-    { id: 'towing', question: 'Do you need towing capability?', icon: '🚤', type: 'single',
-      options: [{ value: 'none', label: 'No towing needed' }, { value: 'light', label: 'Light (under 5,000 lbs)' }, { value: 'heavy', label: 'Heavy (5,000-12,000 lbs)' }, { value: 'max', label: 'Maximum (12,000+ lbs)' }] },
-    { id: 'terrain', question: 'What conditions do you drive in? (Select all)', icon: '🛣️', type: 'multiple',
-      options: [{ value: 'city', label: 'City/urban' }, { value: 'highway', label: 'Highway' }, { value: 'snow', label: 'Snow/ice' }, { value: 'offroad', label: 'Off-road/trails' }, { value: 'worksite', label: 'Construction/farm sites' }] },
-    { id: 'parking', question: 'What is your parking situation?', icon: '🅿️', type: 'single',
-      options: [{ value: 'tight', label: 'Tight city spaces' }, { value: 'normal', label: 'Normal suburban' }, { value: 'spacious', label: 'Spacious/rural' }] },
-    { id: 'powertrain', question: 'Powertrain preference?', icon: '⚡', type: 'single',
-      options: [{ value: 'gas', label: 'Gasoline' }, { value: 'hybrid', label: 'Hybrid' }, { value: 'electric', label: 'Electric' }, { value: 'diesel', label: 'Diesel' }, { value: 'any', label: 'No preference' }] },
-    { id: 'budget', question: 'What is your budget?', icon: '💰', type: 'single',
-      options: [{ value: 'under-10k', label: 'Under $10,000' }, { value: '10k-20k', label: '$10,000 - $20,000' }, { value: '20k-30k', label: '$20,000 - $30,000' }, { value: '30k-40k', label: '$30,000 - $40,000' }, { value: '40k-50k', label: '$40,000 - $50,000' }, { value: '50k-75k', label: '$50,000 - $75,000' }, { value: '75k-100k', label: '$75,000 - $100,000' }, { value: '100k-200k', label: '$100,000 - $200,000' }, { value: '200k-400k', label: '$200,000 - $400,000' }, { value: '400k-plus', label: '$400,000+' }] },
-    { id: 'driving-style', question: 'How would you describe your driving style?', icon: '🏎️', type: 'single',
-      options: [{ value: 'relaxed', label: 'Relaxed & comfortable' }, { value: 'practical', label: 'Practical & efficient' }, { value: 'spirited', label: 'Spirited & fun' }, { value: 'performance', label: 'Performance-focused' }, { value: 'rugged', label: 'Rugged & tough' }] },
-    { id: 'important-features', question: 'What features matter most to you? (Select up to 3)', icon: '✨', type: 'multiple', maxSelect: 3,
-      options: [{ value: 'luxury', label: 'Luxury & premium materials' }, { value: 'all-terrain', label: 'All-terrain capability' }, { value: 'comfort', label: 'Comfort & smooth ride' }, { value: 'power', label: 'Power & engine sound' }, { value: 'technology', label: 'Technology & infotainment' }, { value: 'fuel-efficiency', label: 'Fuel efficiency' }, { value: 'safety', label: 'Advanced safety features' }, { value: 'cargo', label: 'Cargo space & versatility' }, { value: 'towing-capability', label: 'Towing & hauling capability' }, { value: 'off-road', label: 'Off-road performance' }] },
-    { id: 'priorities', question: 'Top priorities? (Select up to 3)', icon: '⭐', type: 'multiple', maxSelect: 3,
-      options: [{ value: 'reliability', label: 'Reliability' }, { value: 'fuel-economy', label: 'Fuel economy' }, { value: 'safety', label: 'Safety' }, { value: 'comfort', label: 'Comfort' }, { value: 'performance', label: 'Performance' }, { value: 'capability', label: 'Capability (tow/haul)' }, { value: 'luxury', label: 'Luxury' }, { value: 'value', label: 'Value for money' }, { value: 'style', label: 'Style/looks' }] },
-    { id: 'brand', question: 'Brand preference?', icon: '🏷️', type: 'single',
-      options: [{ value: 'domestic', label: 'American (Ford, Chevy, Ram)' }, { value: 'japanese', label: 'Japanese (Toyota, Honda)' }, { value: 'european', label: 'European (BMW, Mercedes)' }, { value: 'luxury', label: 'Luxury brands' }, { value: 'any', label: 'No preference' }] },
-    { id: 'body-style', question: 'Body style preferences? (Select all that interest you)', icon: '🚗', type: 'multiple',
-      options: [{ value: 'any', label: 'No preference - recommend best fit' }, { value: 'small', label: 'Small car / hatchback' }, { value: 'sedan', label: 'Sedan' }, { value: 'suv', label: 'SUV / Crossover' }, { value: 'truck', label: 'Pickup truck' }, { value: 'van', label: 'Van / Minivan' }, { value: 'sports', label: 'Sports car / Coupe' }, { value: 'convertible', label: 'Convertible' }] }
+  const questions = [
+    {
+      id: 'gender',
+      question: 'How do you identify?',
+      singleChoice: true,
+      options: [
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' },
+        { value: 'non-binary', label: 'Non-binary' },
+        { value: 'prefer-not', label: 'Prefer not to say' }
+      ]
+    },
+    {
+      id: 'zipcode',
+      question: 'What is your zip code?',
+      type: 'input',
+      placeholder: '12345',
+      inputType: 'text'
+    },
+    {
+      id: 'age',
+      question: 'What is your age range?',
+      singleChoice: true,
+      options: [
+        { value: '18-25', label: '18-25 years old' },
+        { value: '26-35', label: '26-35 years old' },
+        { value: '36-50', label: '36-50 years old' },
+        { value: '51-65', label: '51-65 years old' },
+        { value: '65+', label: '65+ years old' }
+      ]
+    },
+    {
+      id: 'household',
+      question: 'What best describes your household?',
+      singleChoice: true,
+      options: [
+        { value: 'single', label: 'Single, living alone' },
+        { value: 'couple', label: 'Couple, no children' },
+        { value: 'young-family', label: 'Family with young children (under 12)' },
+        { value: 'teen-family', label: 'Family with teenagers' },
+        { value: 'empty-nester', label: 'Empty nester / Adult children' },
+        { value: 'multi-gen', label: 'Multi-generational household' }
+      ]
+    },
+    {
+      id: 'occupation',
+      question: 'What is your primary occupation type?',
+      singleChoice: true,
+      options: [
+        { value: 'office-professional', label: 'Office professional / Remote worker' },
+        { value: 'trades', label: 'Trades / Construction' },
+        { value: 'healthcare', label: 'Healthcare / Emergency services' },
+        { value: 'sales', label: 'Sales / Business travel' },
+        { value: 'creative', label: 'Creative / Arts' },
+        { value: 'retired', label: 'Retired' },
+        { value: 'student', label: 'Student' }
+      ]
+    },
+    {
+      id: 'daily-commute',
+      question: 'What is your typical daily commute?',
+      singleChoice: true,
+      options: [
+        { value: 'none', label: 'No commute / Work from home' },
+        { value: 'short', label: 'Short (under 10 miles)' },
+        { value: 'moderate', label: 'Moderate (10-30 miles)' },
+        { value: 'long', label: 'Long (30-60 miles)' },
+        { value: 'very-long', label: 'Very long (60+ miles)' }
+      ]
+    },
+    {
+      id: 'weekend-activities',
+      question: 'How do you typically spend weekends? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'city-culture', label: 'City activities - restaurants, shopping, culture' },
+        { value: 'outdoor-adventure', label: 'Outdoor adventures - hiking, camping, sports' },
+        { value: 'family-activities', label: 'Family activities - parks, events, sports' },
+        { value: 'home-relaxation', label: 'Relaxing at home' },
+        { value: 'road-trips', label: 'Road trips and exploration' }
+      ]
+    },
+    {
+      id: 'cargo-needs',
+      question: 'What cargo do you typically transport? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'minimal', label: 'Minimal - Just personal items' },
+        { value: 'groceries', label: 'Groceries and everyday shopping' },
+        { value: 'sports-equipment', label: 'Sports or outdoor equipment' },
+        { value: 'work-tools', label: 'Work tools and equipment' },
+        { value: 'kids-gear', label: 'Kids gear, strollers, car seats' },
+        { value: 'pets', label: 'Pet transportation' },
+        { value: 'towing', label: 'Towing trailers or boats' }
+      ]
+    },
+    {
+      id: 'passengers',
+      question: 'How many passengers do you typically carry?',
+      singleChoice: true,
+      options: [
+        { value: '1-2', label: 'Usually just 1-2 people' },
+        { value: '3-4', label: '3-4 people regularly' },
+        { value: '5-6', label: '5-6 people regularly' },
+        { value: '7+', label: '7 or more people' }
+      ]
+    },
+    {
+      id: 'parking',
+      question: 'What are your typical parking situations? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'tight-urban', label: 'Tight urban parking, parallel parking' },
+        { value: 'garage', label: 'Home garage, covered parking' },
+        { value: 'driveway', label: 'Driveway or open parking' },
+        { value: 'street', label: 'Street parking' },
+        { value: 'lot', label: 'Parking lots' }
+      ]
+    },
+    {
+      id: 'weather',
+      question: 'What weather conditions do you face regularly? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'mild', label: 'Mild weather year-round' },
+        { value: 'hot-dry', label: 'Hot and dry conditions' },
+        { value: 'rain', label: 'Frequent rain' },
+        { value: 'snow-moderate', label: 'Moderate snow (a few inches)' },
+        { value: 'snow-heavy', label: 'Heavy snow and ice' },
+        { value: 'all-seasons', label: 'All four seasons with variety' }
+      ]
+    },
+    {
+      id: 'terrain',
+      question: 'What terrain do you navigate most often? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'city-streets', label: 'City streets and highways' },
+        { value: 'suburban-roads', label: 'Suburban paved roads' },
+        { value: 'rural-paved', label: 'Rural paved roads' },
+        { value: 'gravel-dirt', label: 'Gravel and dirt roads' },
+        { value: 'off-road', label: 'Off-road trails' },
+        { value: 'mountain', label: 'Mountain roads' }
+      ]
+    },
+    {
+      id: 'style-preference',
+      question: 'What vehicle styles appeal to you? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'luxury-elegant', label: 'Luxury and elegant' },
+        { value: 'sporty-aggressive', label: 'Sporty and aggressive' },
+        { value: 'rugged-capable', label: 'Rugged and capable' },
+        { value: 'modern-sleek', label: 'Modern and sleek' },
+        { value: 'classic-timeless', label: 'Classic and timeless' },
+        { value: 'practical-understated', label: 'Practical and understated' }
+      ]
+    },
+    {
+      id: 'tech-priority',
+      question: 'How important is technology to you?',
+      singleChoice: true,
+      options: [
+        { value: 'essential', label: 'Essential - Want the latest tech and features' },
+        { value: 'important', label: 'Important - Appreciate good tech integration' },
+        { value: 'moderate', label: 'Moderate - Basic connectivity is enough' },
+        { value: 'minimal', label: 'Minimal - Prefer simplicity' }
+      ]
+    },
+    {
+      id: 'performance',
+      question: 'What performance characteristics matter to you? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'fuel-efficiency', label: 'Fuel efficiency and low running costs' },
+        { value: 'acceleration', label: 'Acceleration and power' },
+        { value: 'handling', label: 'Handling and driving dynamics' },
+        { value: 'comfort', label: 'Ride comfort and quietness' },
+        { value: 'capability', label: 'Off-road or towing capability' }
+      ]
+    },
+    {
+      id: 'safety-priority',
+      question: 'What safety features are most important? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'crash-ratings', label: 'Top crash test ratings' },
+        { value: 'driver-assist', label: 'Advanced driver assistance systems' },
+        { value: 'visibility', label: 'Good visibility and awareness' },
+        { value: 'all-safety', label: 'All safety features equally important' }
+      ]
+    },
+    {
+      id: 'interior-priority',
+      question: 'What interior features matter most? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'space', label: 'Maximum space and cargo room' },
+        { value: 'luxury-materials', label: 'Luxury materials and finishes' },
+        { value: 'versatility', label: 'Versatile seating configurations' },
+        { value: 'storage', label: 'Clever storage solutions' },
+        { value: 'comfort', label: 'Seat comfort and adjustability' }
+      ]
+    },
+    {
+      id: 'budget',
+      question: 'What is your approximate budget range?',
+      singleChoice: true,
+      options: [
+        { value: 'under-25k', label: 'Under $25,000' },
+        { value: '25k-35k', label: '$25,000 - $35,000' },
+        { value: '35k-50k', label: '$35,000 - $50,000' },
+        { value: '50k-75k', label: '$50,000 - $75,000' },
+        { value: 'over-75k', label: 'Over $75,000' }
+      ]
+    },
+    {
+      id: 'ownership',
+      question: 'Are you considering new or used?',
+      singleChoice: true,
+      options: [
+        { value: 'new-only', label: 'New only - Want latest features and warranty' },
+        { value: 'certified-used', label: 'Certified pre-owned - Balance of value and warranty' },
+        { value: 'used-recent', label: 'Used (1-3 years old) - Best value' },
+        { value: 'used-older', label: 'Used (3+ years old) - Maximum savings' },
+        { value: 'open', label: 'Open to either new or used' }
+      ]
+    },
+    {
+      id: 'environmental',
+      question: 'How important is environmental impact?',
+      singleChoice: true,
+      options: [
+        { value: 'very-important', label: 'Very important - Prefer EV or hybrid' },
+        { value: 'somewhat-important', label: 'Somewhat important - Consider fuel efficiency' },
+        { value: 'not-priority', label: 'Not a priority - Performance matters more' }
+      ]
+    },
+    {
+      id: 'speed-importance',
+      question: 'How important is speed and acceleration to you?',
+      singleChoice: true,
+      options: [
+        { value: 'essential', label: 'Essential - I love fast, powerful vehicles' },
+        { value: 'important', label: 'Important - Quick acceleration is nice to have' },
+        { value: 'moderate', label: 'Moderate - Adequate power is fine' },
+        { value: 'not-important', label: 'Not important - Efficiency over speed' }
+      ]
+    },
+    {
+      id: 'engine-sound',
+      question: 'How do you feel about engine sound?',
+      singleChoice: true,
+      options: [
+        { value: 'love-it', label: 'Love it - A great exhaust note matters to me' },
+        { value: 'appreciate', label: 'Appreciate it - Nice but not essential' },
+        { value: 'neutral', label: 'Neutral - Don\'t really notice' },
+        { value: 'prefer-quiet', label: 'Prefer quiet - Want minimal noise' }
+      ]
+    },
+    {
+      id: 'priority-interior-exterior',
+      question: 'What matters more to you?',
+      singleChoice: true,
+      options: [
+        { value: 'interior-much-more', label: 'Interior quality - I spend all my time inside' },
+        { value: 'interior-somewhat', label: 'Interior slightly more - But appearance matters too' },
+        { value: 'equal', label: 'Both equally important' },
+        { value: 'exterior-somewhat', label: 'Exterior slightly more - First impressions count' },
+        { value: 'exterior-much-more', label: 'Exterior design - I want heads to turn' }
+      ]
+    },
+    {
+      id: 'color-preference',
+      question: 'What colors appeal to you for your vehicle? (Select all that apply)',
+      multipleChoice: true,
+      options: [
+        { value: 'black', label: 'Black - Classic and sophisticated' },
+        { value: 'white', label: 'White - Clean and modern' },
+        { value: 'silver-gray', label: 'Silver/Gray - Timeless and practical' },
+        { value: 'red', label: 'Red - Bold and energetic' },
+        { value: 'blue', label: 'Blue - Refined and distinctive' },
+        { value: 'green', label: 'Green - Unique and natural' },
+        { value: 'bright-colors', label: 'Bright colors (Yellow, Orange) - Stand out' },
+        { value: 'earth-tones', label: 'Earth tones (Brown, Tan, Bronze) - Rugged' },
+        { value: 'any', label: 'No preference - Color doesn\'t matter to me' }
+      ]
+    }
   ];
 
-  const vehicleSizeNames = { micro: 'Micro / City Car', hatchback: 'Hatchback', crossover: 'Compact Crossover', sedan: 'Sedan', coupe: 'Coupe', midsizeSuv: 'Midsize SUV', suv: 'Full-Size SUV', midsizeTruck: 'Midsize Truck', truck: 'Full-Size Truck', minivan: 'Minivan', van: 'Full-Size Van', wagon: 'Wagon', sport: 'Sports Car', roadster: 'Roadster', hyper: 'Supercar / Hypercar', muscle: 'Muscle Car' };
-  const getArr = (val: any): any[] => Array.isArray(val) ? val : (val ? [val] : []);
-
-  const calculateRecommendation = () => {
-    const scores = { micro: 0, hatchback: 0, crossover: 0, sedan: 0, coupe: 0, midsizeSuv: 0, suv: 0, midsizeTruck: 0, truck: 0, minivan: 0, van: 0, wagon: 0, sport: 0, roadster: 0, hyper: 0, muscle: 0 };
+  const getTerrainFromZip = (zip) => {
+    if (!zip || zip.length < 5) return 'suburban';
+    const firstDigit = parseInt(zip.charAt(0));
+    const firstTwo = parseInt(zip.substring(0, 2));
     
-    const p = answers.passengers;
-    if (p === '1-2') { scores.micro += 8; scores.hatchback += 7; scores.coupe += 8; scores.sport += 9; scores.roadster += 10; scores.muscle += 8; scores.sedan += 5; scores.midsizeTruck += 5; }
-    else if (p === '3-4') { scores.sedan += 8; scores.hatchback += 6; scores.crossover += 7; scores.midsizeSuv += 7; scores.wagon += 7; scores.midsizeTruck += 6; scores.truck += 5; scores.muscle += 5; }
-    else if (p === '5') { scores.midsizeSuv += 8; scores.suv += 7; scores.wagon += 6; scores.minivan += 7; scores.truck += 5; }
-    else if (p === '6+') { scores.suv += 10; scores.minivan += 10; scores.van += 8; }
-
-    const use = answers['primary-use'];
-    if (use === 'commute') { scores.micro += 8; scores.hatchback += 8; scores.sedan += 9; scores.crossover += 7; scores.wagon += 6; }
-    else if (use === 'family') { scores.midsizeSuv += 9; scores.suv += 8; scores.minivan += 10; scores.crossover += 6; scores.wagon += 6; }
-    else if (use === 'work') { scores.truck += 15; scores.van += 10; scores.midsizeTruck += 6; scores.suv += 4; }
-    else if (use === 'adventure') { scores.midsizeTruck += 12; scores.suv += 9; scores.midsizeSuv += 7; scores.truck += 5; scores.wagon += 5; }
-    else if (use === 'towing') { scores.truck += 14; scores.suv += 8; scores.midsizeTruck += 4; }
-    else if (use === 'fun') { scores.sport += 10; scores.roadster += 10; scores.muscle += 9; scores.coupe += 8; scores.hyper += 7; }
-
-    const cargo = answers['cargo-needs'];
-    if (cargo === 'minimal') { scores.micro += 5; scores.coupe += 5; scores.sport += 5; scores.roadster += 5; scores.sedan += 4; }
-    else if (cargo === 'moderate') { scores.midsizeSuv += 5; scores.wagon += 6; scores.crossover += 5; scores.hatchback += 5; scores.midsizeTruck += 4; }
-    else if (cargo === 'large') { scores.suv += 6; scores.minivan += 7; scores.midsizeTruck += 6; scores.truck += 5; scores.van += 6; }
-    else if (cargo === 'truck-bed') { scores.truck += 8; scores.midsizeTruck += 10; scores.micro = 0; scores.sedan = 0; scores.coupe = 0; scores.sport = 0; scores.roadster = 0; scores.hyper = 0; }
-    else if (cargo === 'commercial') { scores.van += 12; scores.truck += 10; scores.midsizeTruck += 3; }
-
-    const tow = answers.towing;
-    if (tow === 'light') { scores.midsizeTruck += 6; scores.suv += 5; scores.midsizeSuv += 4; scores.truck += 3; }
-    else if (tow === 'heavy') { scores.truck += 12; scores.suv += 6; scores.midsizeTruck += 2; scores.micro = 0; scores.hatchback = 0; scores.sedan = 0; scores.coupe = 0; scores.sport = 0; scores.roadster = 0; }
-    else if (tow === 'max') { scores.truck += 18; scores.micro = 0; scores.hatchback = 0; scores.sedan = 0; scores.coupe = 0; scores.crossover = 0; scores.midsizeSuv = 0; scores.sport = 0; scores.roadster = 0; scores.hyper = 0; scores.muscle = 0; scores.minivan = 0; scores.wagon = 0; scores.midsizeTruck = 0; }
-
-    const terrain = getArr(answers.terrain);
-    if (terrain.includes('city')) { scores.micro += 4; scores.hatchback += 4; scores.sedan += 3; }
-    if (terrain.includes('offroad')) { scores.midsizeTruck += 10; scores.suv += 8; scores.midsizeSuv += 5; scores.truck += 4; scores.micro = 0; scores.sedan -= 3; scores.sport -= 3; }
-    if (terrain.includes('worksite')) { scores.truck += 10; scores.midsizeTruck += 5; scores.van += 5; }
-    if (terrain.includes('snow')) { scores.suv += 4; scores.midsizeSuv += 4; scores.crossover += 4; scores.wagon += 4; scores.midsizeTruck += 3; scores.roadster -= 2; }
-
-    const park = answers.parking;
-    if (park === 'tight') { scores.micro += 10; scores.hatchback += 6; scores.sedan += 4; scores.coupe += 5; scores.truck -= 5; scores.suv -= 3; scores.van -= 5; scores.midsizeTruck += 2; }
-    else if (park === 'spacious') { scores.truck += 3; scores.suv += 3; scores.van += 3; }
-
-    const style = answers['driving-style'];
-    if (style === 'performance') { scores.sport += 10; scores.hyper += 10; scores.muscle += 8; scores.roadster += 7; scores.coupe += 5; }
-    else if (style === 'spirited') { scores.sport += 6; scores.muscle += 6; scores.coupe += 5; scores.hatchback += 4; scores.roadster += 5; }
-    else if (style === 'rugged') { scores.midsizeTruck += 8; scores.truck += 7; scores.suv += 8; }
-    else if (style === 'relaxed') { scores.sedan += 5; scores.midsizeSuv += 4; scores.suv += 4; scores.minivan += 5; scores.wagon += 4; }
-    else if (style === 'practical') { scores.hatchback += 5; scores.crossover += 5; scores.sedan += 4; scores.wagon += 5; scores.midsizeTruck += 4; }
-
-    // Important features scoring
-    const importantFeatures = getArr(answers['important-features']);
-    if (importantFeatures.includes('luxury')) { scores.sedan += 5; scores.suv += 5; scores.coupe += 4; scores.hyper += 6; scores.roadster += 3; }
-    if (importantFeatures.includes('all-terrain')) { scores.midsizeTruck += 8; scores.suv += 8; scores.truck += 6; scores.midsizeSuv += 5; scores.crossover += 3; scores.micro -= 3; scores.sedan -= 2; scores.sport -= 3; }
-    if (importantFeatures.includes('comfort')) { scores.sedan += 6; scores.suv += 5; scores.midsizeSuv += 5; scores.minivan += 5; scores.wagon += 4; scores.crossover += 3; }
-    if (importantFeatures.includes('power')) { scores.muscle += 10; scores.sport += 9; scores.hyper += 10; scores.truck += 6; scores.coupe += 5; scores.roadster += 5; scores.micro -= 3; scores.hatchback -= 2; }
-    if (importantFeatures.includes('technology')) { scores.sedan += 4; scores.crossover += 4; scores.midsizeSuv += 4; scores.suv += 4; scores.hyper += 3; }
-    if (importantFeatures.includes('fuel-efficiency')) { scores.micro += 8; scores.hatchback += 7; scores.sedan += 5; scores.crossover += 4; scores.truck -= 4; scores.suv -= 3; scores.muscle -= 3; }
-    if (importantFeatures.includes('safety')) { scores.midsizeSuv += 5; scores.suv += 5; scores.sedan += 4; scores.crossover += 4; scores.minivan += 4; }
-    if (importantFeatures.includes('cargo')) { scores.suv += 6; scores.minivan += 7; scores.wagon += 6; scores.midsizeSuv += 5; scores.midsizeTruck += 5; scores.van += 6; scores.coupe -= 3; scores.sport -= 3; scores.roadster -= 3; }
-    if (importantFeatures.includes('towing-capability')) { scores.truck += 10; scores.suv += 7; scores.midsizeTruck += 5; scores.micro = 0; scores.hatchback -= 2; scores.sedan -= 2; scores.coupe -= 2; scores.sport -= 3; }
-    if (importantFeatures.includes('off-road')) { scores.midsizeTruck += 10; scores.suv += 9; scores.truck += 7; scores.midsizeSuv += 4; scores.micro = 0; scores.sedan -= 3; scores.coupe -= 3; scores.sport -= 3; scores.roadster -= 3; }
-
-    const priorities = getArr(answers.priorities);
-    if (priorities.includes('capability')) { if (use === 'work' || tow === 'heavy' || tow === 'max') { scores.truck += 8; scores.suv += 5; } else { scores.midsizeTruck += 7; scores.suv += 6; scores.truck += 4; } }
-    if (priorities.includes('performance')) { scores.sport += 7; scores.muscle += 6; scores.hyper += 7; scores.coupe += 4; }
-    if (priorities.includes('fuel-economy')) { scores.micro += 6; scores.hatchback += 5; scores.sedan += 4; scores.crossover += 3; scores.truck -= 3; scores.suv -= 2; scores.midsizeTruck += 2; }
-    if (priorities.includes('comfort')) { scores.sedan += 4; scores.suv += 4; scores.minivan += 4; scores.wagon += 3; scores.truck += 2; }
-    if (priorities.includes('luxury')) { scores.sedan += 3; scores.suv += 3; scores.coupe += 3; scores.hyper += 4; }
-    if (priorities.includes('style')) { scores.coupe += 4; scores.sport += 4; scores.muscle += 4; scores.roadster += 4; scores.hyper += 4; }
-
-    const bodyPref = getArr(answers['body-style']);
-    if (!bodyPref.includes('any') && bodyPref.length > 0) {
-      if (bodyPref.includes('small')) { scores.micro += 8; scores.hatchback += 8; }
-      if (bodyPref.includes('sedan')) { scores.sedan += 8; }
-      if (bodyPref.includes('suv')) { scores.crossover += 6; scores.midsizeSuv += 7; scores.suv += 8; }
-      if (bodyPref.includes('truck')) { if (use === 'work' || tow === 'heavy' || tow === 'max' || cargo === 'commercial') { scores.truck += 10; scores.midsizeTruck += 4; } else { scores.midsizeTruck += 10; scores.truck += 5; } }
-      if (bodyPref.includes('van')) { scores.minivan += 7; scores.van += 8; }
-      if (bodyPref.includes('sports')) { scores.sport += 8; scores.coupe += 7; scores.muscle += 6; scores.hyper += 6; }
-      if (bodyPref.includes('convertible')) { scores.roadster += 10; scores.muscle += 3; }
+    // Mountain states
+    if ([80, 81, 82, 83, 84].includes(firstTwo) || [59, 56, 57].includes(firstTwo)) {
+      return 'mountain';
     }
-
-    const budget = answers.budget;
-    const bLvl = { 'under-10k': 1, '10k-20k': 2, '20k-30k': 3, '30k-40k': 4, '40k-50k': 5, '50k-75k': 6, '75k-100k': 7, '100k-200k': 8, '200k-400k': 9, '400k-plus': 10 }[budget] || 4;
-    if (bLvl < 8) { scores.hyper = 0; }
-    if (bLvl < 5) { scores.sport = Math.min(scores.sport, 5); }
-
-    const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-    return generateModels(sorted[0][0]);
+    // Northern snow belt
+    if (firstDigit >= 0 && firstDigit <= 5 && ![2, 3].includes(firstDigit)) {
+      return 'snow';
+    }
+    // Southern/Southwest
+    if ([7, 8, 9].includes(firstDigit)) {
+      return 'hot-dry';
+    }
+    // Coastal regions
+    if ([90, 91, 92, 93, 94, 95, 96, 97, 98, 99].includes(firstTwo) || 
+        [30, 31, 32, 33, 34].includes(firstTwo)) {
+      return 'coastal';
+    }
+    return 'moderate';
   };
 
-  const generateModels = (vType) => {
-    const budget = answers.budget;
-    const priorities = getArr(answers.priorities);
-    const terrain = getArr(answers.terrain);
-    const towing = answers.towing;
-    const use = answers['primary-use'];
-    const cargo = answers['cargo-needs'];
-    const brand = answers.brand;
-    const importantFeatures = getArr(answers['important-features']);
-    
-    let vehicles = [], description = '', features = [], reasoning = [];
-    const bLvl = { 'under-10k': 1, '10k-20k': 2, '20k-30k': 3, '30k-40k': 4, '40k-50k': 5, '50k-75k': 6, '75k-100k': 7, '100k-200k': 8, '200k-400k': 9, '400k-plus': 10 }[budget] || 4;
-    const needsOffroad = terrain.includes('offroad');
-    const isWork = use === 'work';
+  const calculateResult = () => {
+    const profile = {
+      gender: answers.gender,
+      zipcode: answers.zipcode,
+      terrainZone: getTerrainFromZip(answers.zipcode),
+      age: answers.age,
+      household: answers.household,
+      occupation: answers.occupation,
+      dailyCommute: answers['daily-commute'],
+      weekendActivities: Array.isArray(answers['weekend-activities']) ? answers['weekend-activities'] : [answers['weekend-activities']],
+      cargoNeeds: Array.isArray(answers['cargo-needs']) ? answers['cargo-needs'] : [answers['cargo-needs']],
+      passengers: answers.passengers,
+      parking: Array.isArray(answers.parking) ? answers.parking : [answers.parking],
+      weather: Array.isArray(answers.weather) ? answers.weather : [answers.weather],
+      terrain: Array.isArray(answers.terrain) ? answers.terrain : [answers.terrain],
+      stylePreference: Array.isArray(answers['style-preference']) ? answers['style-preference'] : [answers['style-preference']],
+      techPriority: answers['tech-priority'],
+      performance: Array.isArray(answers.performance) ? answers.performance : [answers.performance],
+      safetyPriority: Array.isArray(answers['safety-priority']) ? answers['safety-priority'] : [answers['safety-priority']],
+      interiorPriority: Array.isArray(answers['interior-priority']) ? answers['interior-priority'] : [answers['interior-priority']],
+      budget: answers.budget,
+      ownership: answers.ownership,
+      environmental: answers.environmental,
+      speedImportance: answers['speed-importance'],
+      engineSound: answers['engine-sound'],
+      interiorExteriorPriority: answers['priority-interior-exterior'],
+      colorPreference: Array.isArray(answers['color-preference']) ? answers['color-preference'] : [answers['color-preference']]
+    };
 
-    switch(vType) {
-      case 'micro': vehicles = bLvl <= 2 ? ['Chevrolet Spark', 'Mitsubishi Mirage', 'Nissan Versa'] : ['Mini Cooper', 'Fiat 500']; description = 'Perfect for city driving with excellent fuel efficiency.'; features = ['Great MPG', 'Easy parking', 'Low costs', 'Nimble']; reasoning.push('Ideal for urban commuting'); break;
-      case 'hatchback': vehicles = bLvl <= 3 ? ['Honda Civic', 'Mazda3', 'Toyota Corolla'] : bLvl <= 5 ? ['Volkswagen Golf', 'Honda Civic', 'Mazda3'] : ['Volkswagen Golf', 'Mercedes-Benz A-Class']; description = 'Versatile hatchbacks with great cargo flexibility.'; features = ['Flexible cargo', 'Fun to drive', 'Good MPG', 'Practical']; reasoning.push('Great balance of fun and practicality'); break;
-      case 'crossover': vehicles = priorities.includes('reliability') ? ['Toyota Corolla Cross', 'Honda HR-V', 'Mazda CX-30'] : bLvl >= 6 ? ['BMW X1', 'Audi Q3', 'Volvo XC40'] : ['Mazda CX-30', 'Hyundai Kona', 'Kia Seltos', 'Subaru Crosstrek']; description = 'Compact crossovers with SUV versatility.'; features = ['Elevated seating', 'Available AWD', 'Versatile', 'Easy to maneuver']; reasoning.push('SUV capability in compact size'); break;
-      case 'sedan': vehicles = priorities.includes('reliability') ? (bLvl <= 3 ? ['Honda Civic', 'Toyota Camry', 'Mazda3'] : ['Lexus ES', 'Toyota Camry']) : bLvl >= 7 ? ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Genesis G80'] : bLvl >= 5 ? ['BMW 3 Series', 'Mercedes-Benz C-Class', 'Genesis G70'] : ['Honda Accord', 'Toyota Camry', 'Hyundai Sonata']; description = 'Comfortable sedans for daily driving.'; features = ['Comfortable', 'Good MPG', 'Refined', 'Practical trunk']; reasoning.push('Excellent for commuting'); break;
-      case 'coupe': vehicles = bLvl <= 3 ? ['Hyundai Elantra', 'Subaru BRZ', 'Toyota GR86'] : bLvl <= 5 ? ['BMW 2 Series', 'Audi A5', 'Infiniti Q60'] : ['BMW 4 Series', 'Lexus RC']; description = 'Sporty coupes with style.'; features = ['Sporty design', 'Great handling', 'Premium feel', 'Performance']; reasoning.push('Style and sport combined'); break;
-      case 'midsizeSuv': vehicles = needsOffroad ? ['Mazda CX-50', 'Subaru Forester', 'Toyota RAV4'] : priorities.includes('reliability') ? ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5'] : bLvl >= 6 ? ['BMW X3', 'Mercedes-Benz GLC', 'Porsche Macan'] : ['Honda CR-V', 'Toyota RAV4', 'Mazda CX-5', 'Hyundai Tucson']; description = 'Versatile midsize SUVs.'; features = ['Flexible cargo', 'Available AWD', 'Comfortable', 'Family-friendly']; reasoning.push('Versatile for families'); break;
-      case 'suv': vehicles = needsOffroad ? ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner', 'Land Rover Defender'] : bLvl >= 8 ? ['Cadillac Escalade', 'Lincoln Navigator', 'BMW X7', 'Range Rover'] : bLvl >= 6 ? ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7'] : ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Kia Telluride']; description = 'Full-size SUVs with maximum space.'; features = ['3-row seating', 'Strong towing', 'Commanding presence', 'Premium space']; reasoning.push('Maximum space and capability'); break;
-      case 'midsizeTruck': vehicles = needsOffroad ? ['Toyota Tacoma', 'Jeep Gladiator', 'Chevrolet Colorado', 'Ford Ranger'] : bLvl <= 3 ? ['Ford Maverick', 'Hyundai Santa Cruz', 'Nissan Frontier'] : brand === 'japanese' ? ['Toyota Tacoma', 'Honda Ridgeline', 'Nissan Frontier'] : ['Ford Ranger', 'Chevrolet Colorado', 'GMC Canyon', 'Jeep Gladiator']; description = 'Midsize trucks offer excellent capability with better maneuverability and fuel economy than full-size trucks. Ideal for off-roading, outdoor adventures, and everyday hauling.'; features = ['Versatile bed', 'Better fuel economy', 'Easier to park', 'Great off-road capability', '4WD available']; reasoning.push('Right-sized for most truck needs'); reasoning.push('More maneuverable than full-size'); if (needsOffroad) reasoning.push('Excellent off-road capability'); break;
-      case 'truck': const needsHD = towing === 'max'; vehicles = needsHD ? ['Ford F-250', 'Ram 2500', 'Chevrolet Silverado 2500'] : bLvl >= 7 ? ['Ram 1500', 'Ford F-150', 'GMC Sierra'] : isWork ? ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado'] : brand === 'japanese' ? ['Toyota Tundra', 'Nissan Titan'] : ['Ford F-150', 'Ram 1500', 'Chevrolet Silverado', 'Toyota Tundra']; description = needsHD ? 'Heavy-duty trucks for maximum towing and payload. Built for serious work demands.' : 'Full-size trucks deliver maximum towing capacity, payload, and power. Best for work use, heavy towing, or when you need the most capability.'; features = needsHD ? ['Max towing capacity', 'Heavy payload', 'Diesel available', 'Built for work'] : ['Strong towing (10,000+ lbs)', 'Large payload capacity', 'Spacious cab', 'V8 power available']; reasoning.push(needsHD ? 'Heavy-duty capability required' : 'Full-size power and capability needed'); if (isWork) reasoning.push('Built for work demands'); if (towing === 'heavy' || towing === 'max') reasoning.push('Heavy towing requirement'); if (importantFeatures.includes('power')) reasoning.push('Power and engine sound priority'); break;
-      case 'minivan': vehicles = ['Honda Odyssey', 'Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica']; description = 'Family-focused minivans.'; features = ['Sliding doors', 'Flat-folding seats', 'Maximum interior', 'Family features']; reasoning.push('Ultimate family vehicle'); break;
-      case 'van': vehicles = isWork ? ['Ford Transit', 'Mercedes-Benz Sprinter', 'Ram ProMaster'] : ['Ford Transit', 'Mercedes-Benz Sprinter']; description = 'Full-size cargo vans.'; features = ['Maximum cargo', 'Standing height', 'Commercial ready']; reasoning.push('Maximum cargo capacity'); break;
-      case 'wagon': vehicles = bLvl >= 6 ? ['Porsche Taycan', 'Audi A6 Allroad', 'Mercedes-Benz E-Class'] : ['Subaru Outback', 'Volvo V60']; description = 'Wagons: sedan driving, SUV cargo.'; features = ['Low center of gravity', 'Great cargo', 'Car handling', 'AWD available']; reasoning.push('Best of both worlds'); break;
-      case 'sport': vehicles = bLvl >= 8 ? ['Porsche 911', 'BMW M4', 'Mercedes-AMG GT', 'Audi R8'] : bLvl >= 6 ? ['Porsche 718 Cayman', 'BMW M2', 'Toyota GR Supra', 'Chevrolet Corvette'] : ['Toyota GR86', 'Subaru BRZ', 'Mazda MX-5 Miata', 'Nissan Z']; description = 'Pure driving excitement.'; features = ['Sharp handling', 'Engaging drive', 'Performance focused']; reasoning.push('Pure driving joy'); if (importantFeatures.includes('power')) reasoning.push('Power and engine sound priority'); break;
-      case 'roadster': vehicles = bLvl >= 8 ? ['Porsche 911', 'Mercedes-AMG SL', 'BMW M4'] : bLvl >= 6 ? ['Porsche 718 Boxster', 'BMW Z4', 'Jaguar F-Type'] : ['Mazda MX-5 Miata', 'Ford Mustang']; description = 'Open-air driving experience.'; features = ['Convertible top', 'Great handling', 'Head-turning']; reasoning.push('Open-air thrills'); break;
-      case 'hyper': vehicles = bLvl >= 9 ? ['Bugatti Chiron', 'Rimac Nevera', 'Ferrari SF90', 'McLaren 765LT'] : ['McLaren 720S', 'Ferrari 296', 'Lamborghini Aventador', 'Lamborghini Huracán', 'Porsche 911 Turbo S']; description = 'Pinnacle of performance.'; features = ['Extreme performance', 'Exotic engineering', 'Exclusive']; reasoning.push('Ultimate automotive experience'); if (importantFeatures.includes('power')) reasoning.push('Maximum power and engine sound'); break;
-      case 'muscle': vehicles = bLvl >= 6 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro'] : bLvl >= 4 ? ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro'] : ['Ford Mustang', 'Dodge Challenger', 'Chevrolet Camaro']; description = 'American muscle power.'; features = ['V8 power', 'Iconic styling', 'Rear-wheel drive', 'Affordable performance']; reasoning.push('Classic American muscle'); if (importantFeatures.includes('power')) reasoning.push('Power and engine sound priority'); break;
-      default: vehicles = ['Honda Accord', 'Toyota Camry', 'Honda CR-V', 'Toyota RAV4']; description = 'Reliable vehicles with great value.'; features = ['Reliability', 'Good MPG', 'Versatile'];
+    let score = {
+      sedan: 0,
+      sportSedan: 0,
+      suv: 0,
+      crossover: 0,
+      truck: 0,
+      minivan: 0,
+      luxury: 0,
+      sports: 0,
+      electric: 0,
+      hybrid: 0,
+      offroad: 0,
+      compact: 0
+    };
+
+    // Household impact
+    if (['young-family', 'teen-family'].includes(profile.household)) {
+      score.suv += 20;
+      score.minivan += 15;
+      score.crossover += 15;
+    } else if (profile.household === 'multi-gen') {
+      score.suv += 25;
+      score.minivan += 20;
+    } else if (['single', 'couple'].includes(profile.household)) {
+      score.sedan += 15;
+      score.sportSedan += 10;
+      score.compact += 10;
     }
-    
-    // Add feature-based reasoning
-    if (importantFeatures.includes('luxury')) reasoning.push('Luxury features prioritized');
-    if (importantFeatures.includes('all-terrain')) reasoning.push('All-terrain capability important');
-    if (importantFeatures.includes('comfort')) reasoning.push('Comfort and smooth ride valued');
-    if (importantFeatures.includes('off-road')) reasoning.push('Off-road performance needed');
-    
-    reasoning.push('Budget: ' + budget);
-    return { vehicleType: vType, vehicleSizeName: vehicleSizeNames[vType], vehicles: vehicles.slice(0, 5), description, features, reasoning, answers: { ...answers }, timestamp: new Date().toISOString() };
-  };
 
-  const saveResult = (r) => { const d = { ...r, id: Date.now().toString(), savedAt: new Date().toISOString() }; const e = JSON.parse(localStorage.getItem('autoWizardResults') || '[]'); e.push(d); localStorage.setItem('autoWizardResults', JSON.stringify(e)); };
-  const sendEmail = () => { setTimeout(() => { setEmailSent(true); setTimeout(() => { setShowEmailModal(false); setEmailSent(false); setEmailAddress(''); }, 2000); }, 1000); };
-  const handleAnswer = (qId, val) => { setAnswers({ ...answers, [qId]: val }); if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { const r = calculateRecommendation(); setResult(r); saveResult(r); } };
-  const handleMultiSelect = (qId: string, val: string, maxSelect?: number) => { const current = getArr(answers[qId]); let newVal; if (current.includes(val)) { newVal = current.filter((v: string) => v !== val); } else { if (maxSelect && current.length >= maxSelect) { newVal = [...current.slice(1), val]; } else { newVal = [...current, val]; } } setAnswers({ ...answers, [qId]: newVal }); };
-  const skipQuestion = () => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { const r = calculateRecommendation(); setResult(r); saveResult(r); } };
-  const resetTest = () => { setTestStep(0); setAnswers({}); setResult(null); };
-  
-  const toggleService = (val) => {
-    const current = consultForm.services || [];
-    if (current.includes(val)) {
-      setConsultForm({ ...consultForm, services: current.filter((v: any) => v !== val) });
+    // Passenger needs
+    if (profile.passengers === '7+') {
+      score.suv += 25;
+      score.minivan += 25;
+    } else if (profile.passengers === '5-6') {
+      score.suv += 20;
+      score.crossover += 15;
+    } else if (profile.passengers === '3-4') {
+      score.sedan += 10;
+      score.crossover += 15;
     } else {
-      setConsultForm({ ...consultForm, services: [...current, val] });
+      score.sedan += 15;
+      score.sportSedan += 10;
+      score.compact += 10;
     }
+
+    // Cargo needs
+    if (profile.cargoNeeds.includes('towing')) {
+      score.truck += 30;
+      score.suv += 20;
+    }
+    if (profile.cargoNeeds.includes('work-tools') || profile.cargoNeeds.includes('sports-equipment')) {
+      score.truck += 15;
+      score.suv += 20;
+    }
+    if (profile.cargoNeeds.includes('kids-gear')) {
+      score.suv += 20;
+      score.minivan += 20;
+      score.crossover += 15;
+    }
+    if (profile.cargoNeeds.includes('pets')) {
+      score.suv += 15;
+      score.crossover += 15;
+    }
+
+    // Weather and terrain
+    const hasSnow = profile.weather.includes('snow-heavy') || profile.weather.includes('snow-moderate') || profile.terrainZone === 'snow';
+    if (hasSnow) {
+      score.suv += 20;
+      score.truck += 15;
+      score.crossover += 15;
+    }
+    
+    const hasOffroad = profile.terrain.includes('gravel-dirt') || profile.terrain.includes('off-road') || profile.terrain.includes('mountain') || profile.terrainZone === 'mountain';
+    if (hasOffroad) {
+      score.offroad += 25;
+      score.truck += 20;
+      score.suv += 15;
+    }
+    
+    if (profile.terrain.includes('city-streets') && profile.parking.includes('tight-urban')) {
+      score.compact += 20;
+      score.sedan += 15;
+    }
+
+    // Commute
+    if (['long', 'very-long'].includes(profile.dailyCommute)) {
+      score.sedan += 15;
+      score.hybrid += 20;
+      score.electric += 15;
+    }
+
+    // Weekend activities
+    if (profile.weekendActivities.includes('outdoor-adventure')) {
+      score.offroad += 20;
+      score.suv += 20;
+      score.truck += 15;
+    }
+    if (profile.weekendActivities.includes('road-trips')) {
+      score.suv += 15;
+      score.crossover += 15;
+    }
+    if (profile.weekendActivities.includes('city-culture')) {
+      score.sedan += 15;
+      score.luxury += 10;
+    }
+
+    // Style preference
+    if (profile.stylePreference.includes('luxury-elegant')) {
+      score.luxury += 25;
+      score.sedan += 10;
+    }
+    if (profile.stylePreference.includes('sporty-aggressive')) {
+      score.sports += 25;
+      score.sportSedan += 20;
+    }
+    if (profile.stylePreference.includes('rugged-capable')) {
+      score.offroad += 25;
+      score.truck += 20;
+    }
+    if (profile.stylePreference.includes('modern-sleek')) {
+      score.electric += 15;
+      score.sedan += 10;
+    }
+
+    // Performance
+    if (profile.performance.includes('fuel-efficiency')) {
+      score.hybrid += 25;
+      score.electric += 20;
+      score.compact += 15;
+    }
+    if (profile.performance.includes('acceleration')) {
+      score.sports += 20;
+      score.sportSedan += 15;
+    }
+    if (profile.performance.includes('capability')) {
+      score.truck += 20;
+      score.offroad += 20;
+    }
+
+    // Environmental
+    if (profile.environmental === 'very-important') {
+      score.electric += 30;
+      score.hybrid += 25;
+    } else if (profile.environmental === 'somewhat-important') {
+      score.hybrid += 15;
+    }
+
+    // Speed importance
+    if (profile.speedImportance === 'essential') {
+      score.sports += 30;
+      score.sportSedan += 25;
+      score.luxury += 10;
+    } else if (profile.speedImportance === 'important') {
+      score.sportSedan += 15;
+      score.sports += 10;
+    } else if (profile.speedImportance === 'not-important') {
+      score.hybrid += 10;
+      score.electric += 10;
+      score.compact += 5;
+    }
+
+    // Engine sound
+    if (profile.engineSound === 'love-it') {
+      score.sports += 25;
+      score.sportSedan += 20;
+      score.truck += 10;
+      score.electric = Math.max(0, score.electric - 15); // Reduce EV score
+    } else if (profile.engineSound === 'prefer-quiet') {
+      score.electric += 20;
+      score.hybrid += 15;
+      score.luxury += 10;
+    }
+
+    // Interior vs Exterior priority
+    if (profile.interiorExteriorPriority === 'interior-much-more') {
+      score.luxury += 15;
+      score.minivan += 10;
+    } else if (profile.interiorExteriorPriority === 'exterior-much-more') {
+      score.sports += 20;
+      score.luxury += 15;
+      score.sportSedan += 10;
+    }
+
+    // Budget impact
+    if (['under-25k', '25k-35k'].includes(profile.budget)) {
+      score.compact += 15;
+      score.sedan += 10;
+      score.luxury = Math.max(0, score.luxury - 20);
+    } else if (profile.budget === 'over-75k') {
+      score.luxury += 20;
+    }
+
+    // Determine winning categories
+    const categories = Object.entries(score).sort((a, b) => b[1] - a[1]);
+    const topCategory = categories[0][0];
+    const topScore = categories[0][1];
+
+    // Generate recommendation based on top category and profile
+    let recommendation = generateRecommendation(topCategory, profile, score);
+    setResult(recommendation);
   };
-  
-  const toggleTime = (val) => {
-    const current = consultForm.times || [];
-    if (current.includes(val)) {
-      setConsultForm({ ...consultForm, times: current.filter((v: any) => v !== val) });
+
+  const generateRecommendation = (category, profile, scores) => {
+    const recommendations = {
+      suv: {
+        category: 'Midsize SUV',
+        vehicles: [],
+        description: '',
+        features: ['Three-row seating options', 'Advanced safety systems', 'Generous cargo space', 'AWD capability'],
+        reasoning: []
+      },
+      crossover: {
+        category: 'Compact Crossover',
+        vehicles: [],
+        description: '',
+        features: ['Fuel efficient', 'Easy maneuverability', 'Modern safety tech', 'Versatile cargo'],
+        reasoning: []
+      },
+      sedan: {
+        category: 'Midsize Sedan',
+        vehicles: [],
+        description: '',
+        features: ['Excellent fuel economy', 'Comfortable ride', 'Advanced tech', 'Easy parking'],
+        reasoning: []
+      },
+      sportSedan: {
+        category: 'Sport Sedan',
+        vehicles: [],
+        description: '',
+        features: ['Powerful engines', 'Sport-tuned handling', 'Premium interiors', 'Advanced tech'],
+        reasoning: []
+      },
+      truck: {
+        category: 'Pickup Truck',
+        vehicles: [],
+        description: '',
+        features: ['Maximum towing capacity', 'Bed storage', 'Off-road packages', '4WD capability'],
+        reasoning: []
+      },
+      minivan: {
+        category: 'Minivan',
+        vehicles: [],
+        description: '',
+        features: ['Maximum passenger comfort', 'Sliding doors', 'Incredible versatility', 'Family-focused features'],
+        reasoning: []
+      },
+      luxury: {
+        category: 'Luxury Vehicle',
+        vehicles: [],
+        description: '',
+        features: ['Premium materials', 'Advanced technology', 'Superior comfort', 'Prestigious brands'],
+        reasoning: []
+      },
+      sports: {
+        category: 'Sports Car',
+        vehicles: [],
+        description: '',
+        features: ['Thrilling performance', 'Precise handling', 'Eye-catching design', 'Driver-focused cockpit'],
+        reasoning: []
+      },
+      electric: {
+        category: 'Electric Vehicle',
+        vehicles: [],
+        description: '',
+        features: ['Zero emissions', 'Low operating costs', 'Instant torque', 'Cutting-edge tech'],
+        reasoning: []
+      },
+      hybrid: {
+        category: 'Hybrid Vehicle',
+        vehicles: [],
+        description: '',
+        features: ['Excellent fuel economy', 'Lower emissions', 'No range anxiety', 'Tax incentives'],
+        reasoning: []
+      },
+      offroad: {
+        category: 'Off-Road SUV',
+        vehicles: [],
+        description: '',
+        features: ['Serious 4WD systems', 'High ground clearance', 'Skid plates', 'Trail-rated capability'],
+        reasoning: []
+      },
+      compact: {
+        category: 'Compact Car',
+        vehicles: [],
+        description: '',
+        features: ['Outstanding fuel economy', 'Easy to park', 'Affordable pricing', 'Low insurance costs'],
+        reasoning: []
+      }
+    };
+
+    let result = recommendations[category];
+
+    // Customize based on specific profile
+    if (category === 'suv') {
+      if (profile.household === 'multi-gen' || profile.passengers === '7+') {
+        result.vehicles = ['Honda Pilot', 'Toyota Highlander', 'Chevrolet Traverse', 'Mazda CX-90'];
+        result.description = 'Your large family needs demand a spacious three-row SUV with room for everyone and their gear.';
+        result.reasoning.push('Your household size requires three rows of seating');
+      } else if (scores.luxury > 15) {
+        result.vehicles = ['BMW X5', 'Mercedes-Benz GLE', 'Audi Q7', 'Volvo XC90'];
+        result.description = 'A luxury SUV that combines premium comfort, advanced technology, and the space your lifestyle demands.';
+        result.reasoning.push('Your style preferences align with luxury vehicles');
+      } else {
+        result.vehicles = ['Honda CR-V', 'Toyota RAV4', 'Mazda CX-5', 'Subaru Outback'];
+        result.description = 'A versatile SUV that balances practicality, comfort, and value for your active lifestyle.';
+      }
+      
+      if (['snow-heavy', 'snow-moderate'].includes(profile.weather)) {
+        result.reasoning.push('AWD capability essential for your weather conditions');
+      }
+      if (['young-family', 'teen-family'].includes(profile.household)) {
+        result.reasoning.push('Family-friendly features and safety ratings prioritized');
+      }
+    } else if (category === 'crossover') {
+      if (profile.budget === 'under-25k') {
+        result.vehicles = ['Mazda CX-30', 'Kia Seltos', 'Hyundai Kona', 'Honda HR-V'];
+        result.description = 'An affordable compact crossover that delivers great value without compromising on features or quality.';
+        result.reasoning.push('Budget-conscious options with strong value');
+      } else if (scores.electric > 15) {
+        result.vehicles = ['Tesla Model Y', 'Volkswagen ID.4', 'Hyundai Ioniq 5', 'Ford Mustang Mach-E'];
+        result.description = 'A modern electric crossover that combines environmental consciousness with practical versatility.';
+        result.reasoning.push('Environmental priorities met with electric powertrain');
+      } else {
+        result.vehicles = ['Mazda CX-5', 'Honda CR-V', 'Toyota RAV4', 'Subaru Forester'];
+        result.description = 'The perfect balance of efficiency, practicality, and modern features for everyday life.';
+      }
+      
+      if (profile.parking.includes('tight-urban')) {
+        result.reasoning.push('Compact size ideal for urban parking challenges');
+      }
+      if (['moderate', 'long'].includes(profile.dailyCommute)) {
+        result.reasoning.push('Fuel efficiency important for your commute distance');
+      }
+    } else if (category === 'sedan') {
+      if (profile.dailyCommute === 'very-long') {
+        result.vehicles = ['Honda Accord Hybrid', 'Toyota Camry Hybrid', 'Hyundai Sonata Hybrid', 'Honda Civic'];
+        result.description = 'A fuel-efficient sedan designed to make your long commute comfortable and economical.';
+        result.reasoning.push('Hybrid efficiency crucial for extensive daily driving');
+      } else if (scores.luxury > 15) {
+        result.vehicles = ['BMW 5 Series', 'Mercedes-Benz E-Class', 'Audi A6', 'Genesis G80'];
+        result.description = 'A luxury sedan that delivers refined comfort, cutting-edge technology, and prestigious style.';
+        result.reasoning.push('Premium experience matches your style preferences');
+      } else {
+        result.vehicles = ['Honda Accord', 'Toyota Camry', 'Mazda6', 'Hyundai Sonata'];
+        result.description = 'A reliable, comfortable sedan that excels in everyday driving with modern features and efficiency.';
+      }
+      
+      if (profile.techPriority === 'essential') {
+        result.reasoning.push('Advanced connectivity and driver assistance features');
+      }
+    } else if (category === 'sportSedan') {
+      if (profile.budget === 'over-75k') {
+        result.vehicles = ['BMW M3', 'Mercedes-AMG C63', 'Audi RS5', 'Cadillac CT5-V'];
+        result.description = 'A high-performance luxury sedan that delivers exhilarating driving dynamics with everyday usability.';
+        result.reasoning.push('Performance-focused with luxury refinement');
+      } else {
+        result.vehicles = ['Volkswagen GTI', 'Honda Civic Si', 'Mazda3 Turbo', 'Subaru WRX'];
+        result.description = 'An affordable sport sedan that brings driving excitement without breaking the bank.';
+        result.reasoning.push('Sporty driving dynamics at accessible price point');
+      }
+      
+      if (profile.speedImportance === 'essential' || profile.speedImportance === 'important') {
+        result.reasoning.push('Quick acceleration and responsive performance');
+      }
+      result.reasoning.push('Your performance priorities and style preferences');
+    } else if (category === 'truck') {
+      if (profile.cargoNeeds === 'towing') {
+        result.vehicles = ['Ford F-150', 'Chevrolet Silverado 1500', 'Ram 1500', 'Toyota Tundra'];
+        result.description = 'A full-size truck with serious towing capability and the versatility to handle any job.';
+        result.reasoning.push('Maximum towing capacity for your needs');
+      } else if (scores.offroad > 15) {
+        result.vehicles = ['Toyota Tacoma TRD Pro', 'Ford Ranger Tremor', 'Chevrolet Colorado ZR2', 'Jeep Gladiator Rubicon'];
+        result.description = 'An off-road capable truck that combines adventure-ready features with practical utility.';
+        result.reasoning.push('Off-road capability for rugged terrain');
+      } else {
+        result.vehicles = ['Honda Ridgeline', 'Ford Maverick', 'Toyota Tacoma', 'Chevrolet Colorado'];
+        result.description = 'A practical midsize truck that balances capability with everyday drivability and efficiency.';
+      }
+      
+      if (profile.occupation === 'trades') {
+        result.reasoning.push('Work-ready features for professional use');
+      }
+    } else if (category === 'minivan') {
+      result.vehicles = ['Honda Odyssey', 'Chrysler Pacifica', 'Toyota Sienna', 'Kia Carnival'];
+      result.description = 'The ultimate family hauler with unmatched versatility, comfort, and convenience features.';
+      result.reasoning.push('Maximum family versatility and passenger comfort');
+      
+      if (profile.passengers === '7+' || profile.household === 'multi-gen') {
+        result.reasoning.push('Spacious seating for your large household');
+      }
+      if (profile.cargoNeeds.includes('kids-gear')) {
+        result.reasoning.push('Exceptional storage solutions for family equipment');
+      }
+    } else if (category === 'luxury') {
+      if (['single', 'couple'].includes(profile.household)) {
+        result.vehicles = ['BMW 7 Series', 'Mercedes-Benz S-Class', 'Audi A8', 'Lexus LS'];
+        result.description = 'A flagship luxury sedan offering the pinnacle of comfort, technology, and prestige.';
+      } else {
+        result.vehicles = ['BMW X7', 'Mercedes-Benz GLS', 'Cadillac Escalade', 'Lincoln Navigator'];
+        result.description = 'A luxury SUV that provides first-class comfort for you and your family with commanding presence.';
+      }
+      
+      result.reasoning.push('Premium materials and craftsmanship');
+      result.reasoning.push('Cutting-edge technology and features');
+      if (profile.interiorExteriorPriority === 'interior-much-more') {
+        result.reasoning.push('Exceptional interior quality you prioritize');
+      }
+      if (profile.interiorExteriorPriority === 'exterior-much-more') {
+        result.reasoning.push('Prestigious exterior design and presence');
+      }
+    } else if (category === 'sports') {
+      if (profile.budget === 'over-75k') {
+        result.vehicles = ['Porsche 911', 'Chevrolet Corvette', 'BMW M4', 'Audi R8'];
+        result.description = 'A high-performance sports car that delivers pure driving exhilaration with exotic appeal.';
+      } else {
+        result.vehicles = ['Mazda MX-5 Miata', 'Subaru BRZ', 'Toyota GR86', 'Ford Mustang'];
+        result.description = 'An engaging sports car that brings driving joy and performance without luxury car pricing.';
+      }
+      
+      result.reasoning.push('Driver-focused dynamics and performance');
+      if (profile.speedImportance === 'essential') {
+        result.reasoning.push('Speed and acceleration match your priorities');
+      }
+      if (profile.engineSound === 'love-it') {
+        result.reasoning.push('Exciting engine sounds and performance exhaust notes');
+      }
+      result.reasoning.push('Your sporty style preferences');
+    } else if (category === 'electric') {
+      if (profile.budget === 'over-75k') {
+        result.vehicles = ['Tesla Model S', 'Porsche Taycan', 'BMW i4', 'Mercedes-Benz EQS'];
+        result.description = 'A premium electric vehicle that combines zero-emission driving with luxury and performance.';
+        result.reasoning.push('High-end EV technology with luxury amenities');
+      } else if (scores.suv > 10) {
+        result.vehicles = ['Tesla Model Y', 'Ford Mustang Mach-E', 'Hyundai Ioniq 5', 'Volkswagen ID.4'];
+        result.description = 'An electric SUV that delivers practicality, space, and environmental benefits.';
+        result.reasoning.push('Electric efficiency with SUV versatility');
+      } else {
+        result.vehicles = ['Tesla Model 3', 'Chevrolet Bolt EV', 'Nissan Leaf', 'Hyundai Ioniq 6'];
+        result.description = 'An affordable electric vehicle that makes zero-emission driving accessible and practical.';
+      }
+      
+      result.reasoning.push('Environmental priorities with zero emissions');
+      if (['moderate', 'long'].includes(profile.dailyCommute)) {
+        result.reasoning.push('Lower operating costs for your commute distance');
+      }
+      if (profile.engineSound === 'prefer-quiet') {
+        result.reasoning.push('Whisper-quiet operation without engine noise');
+      }
+    } else if (category === 'hybrid') {
+      if (scores.suv > 15) {
+        result.vehicles = ['Toyota Highlander Hybrid', 'Honda CR-V Hybrid', 'Ford Explorer Hybrid', 'Lexus RX Hybrid'];
+        result.description = 'A hybrid SUV that combines family-friendly space with exceptional fuel efficiency.';
+        result.reasoning.push('SUV practicality with hybrid efficiency');
+      } else if (scores.luxury > 10) {
+        result.vehicles = ['Lexus ES Hybrid', 'BMW 530e', 'Mercedes-Benz E-Class Hybrid', 'Audi A6 TFSI e'];
+        result.description = 'A luxury hybrid that delivers refined comfort with environmental consciousness.';
+      } else {
+        result.vehicles = ['Toyota Camry Hybrid', 'Honda Accord Hybrid', 'Hyundai Sonata Hybrid', 'Toyota Prius'];
+        result.description = 'A practical hybrid sedan offering outstanding fuel economy without compromise.';
+      }
+      
+      result.reasoning.push('Hybrid technology for fuel savings');
+      result.reasoning.push('Environmental consideration without range anxiety');
+    } else if (category === 'offroad') {
+      result.vehicles = ['Jeep Wrangler', 'Toyota 4Runner', 'Ford Bronco', 'Land Rover Defender'];
+      result.description = 'A rugged off-road vehicle built to conquer challenging terrain while providing daily drivability.';
+      result.reasoning.push('Serious off-road capability for adventure');
+      
+      if (profile.terrain.includes('off-road') || profile.weekendActivities.includes('outdoor-adventure')) {
+        result.reasoning.push('Matches your outdoor lifestyle and terrain needs');
+      }
+      if (profile.terrain.includes('mountain') || profile.terrain.includes('gravel-dirt')) {
+        result.reasoning.push('Built for the challenging roads you navigate');
+      }
+    } else if (category === 'compact') {
+      result.vehicles = ['Honda Civic', 'Toyota Corolla', 'Mazda3', 'Hyundai Elantra'];
+      result.description = 'An efficient compact car that delivers great value, easy maneuverability, and low ownership costs.';
+      result.reasoning.push('Outstanding fuel economy and affordability');
+      
+      if (profile.parking.includes('tight-urban')) {
+        result.reasoning.push('Perfect size for urban parking challenges');
+      }
+      if (['under-25k', '25k-35k'].includes(profile.budget)) {
+        result.reasoning.push('Excellent value within your budget');
+      }
+    }
+
+    // Add general reasoning based on profile
+    if (profile.techPriority === 'essential' && !result.reasoning.find(r => r.includes('tech'))) {
+      result.reasoning.push('Modern technology features you prioritize');
+    }
+    
+    if (profile.safetyPriority.includes('all-safety') && !result.reasoning.find(r => r.includes('safety'))) {
+      result.reasoning.push('Top-tier safety ratings and features');
+    }
+
+    // Add color preference note
+    if (profile.colorPreference && !profile.colorPreference.includes('any')) {
+      const colors = profile.colorPreference
+        .filter(c => c !== 'any')
+        .map(c => c.replace('-', '/'))
+        .join(', ');
+      if (colors) {
+        result.reasoning.push(`Look for options in your preferred colors: ${colors}`);
+      }
+    }
+
+    return result;
+  };
+
+  const handleAnswer = (questionId, value) => {
+    const currentQuestion = questions[testStep];
+    
+    if (currentQuestion.multipleChoice) {
+      // For multiple choice, toggle the selection
+      const currentSelections = answers[questionId] || [];
+      let newSelections;
+      
+      if (currentSelections.includes(value)) {
+        newSelections = currentSelections.filter(v => v !== value);
+      } else {
+        newSelections = [...currentSelections, value];
+      }
+      
+      setAnswers({ ...answers, [questionId]: newSelections });
     } else {
-      setConsultForm({ ...consultForm, times: [...current, val] });
+      // For single choice, proceed to next question
+      setAnswers({ ...answers, [questionId]: value });
+      if (testStep < questions.length - 1) {
+        setTestStep(testStep + 1);
+      } else {
+        calculateResult();
+      }
     }
   };
-  
-  const addDate = (date) => {
-    if (!date) return;
-    const current = consultForm.dates || [];
-    if (!current.includes(date)) {
-      setConsultForm({ ...consultForm, dates: [...current, date] });
+
+  const handleMultipleChoiceContinue = () => {
+    const currentQuestion = questions[testStep];
+    const currentSelections = answers[currentQuestion.id] || [];
+    
+    if (currentSelections.length === 0) {
+      alert('Please select at least one option');
+      return;
+    }
+    
+    if (testStep < questions.length - 1) {
+      setTestStep(testStep + 1);
+    } else {
+      calculateResult();
     }
   };
-  
-  const removeDate = (date) => {
-    const current = consultForm.dates || [];
-    setConsultForm({ ...consultForm, dates: current.filter((d: any) => d !== date) });
+
+  const handleInputAnswer = (value) => {
+    const currentQuestion = questions[testStep];
+    handleAnswer(currentQuestion.id, value);
   };
-  
-  const handleConsult = () => { 
-    if (!consultForm.name || !consultForm.email || !consultForm.phone || consultForm.dates.length === 0 || consultForm.times.length === 0) { 
-      alert('Please fill in all required fields'); 
-      return; 
-    } 
-    alert('Thank you! We will contact you to confirm your appointment.'); 
-    setConsultForm({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] }); 
-    setCurrentPage('home'); 
+
+  const resetTest = () => {
+    setTestStep(0);
+    setAnswers({});
+    setResult(null);
   };
-  
-  const currentQ = allQuestions[testStep];
-  const isMultiple = currentQ?.type === 'multiple';
+
+  const handleConsultSubmit = () => {
+    if (!consultForm.name || !consultForm.email || !consultForm.phone || !consultForm.date || !consultForm.time) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    alert('Thank you! Your consultation request has been submitted. Our team will contact you within 24 hours.');
+    setConsultForm({ name: '', email: '', phone: '', date: '', time: '', notes: '' });
+    setCurrentPage('home');
+  };
 
   return (
-    <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Outfit', sans-serif" }}>
-      <div className="fixed inset-0 pointer-events-none overflow-hidden"><div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[120px]" /><div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[100px]" /></div>
-
-      <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setCurrentPage('home')}>
-            <div className="relative"><div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity" /><div className="relative bg-gradient-to-br from-amber-400 to-amber-500 p-2.5 rounded-xl"><Sparkles className="w-6 h-6 text-black" /></div></div>
-            <h1 className="text-2xl font-bold"><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Auto</span><span className="text-white"> Wizard</span></h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+      {/* Header */}
+      <header className="border-b border-slate-700 bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 py-5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 cursor-pointer" onClick={() => setCurrentPage('home')}>
+              <div className="bg-gradient-to-br from-amber-500 to-amber-600 p-2 rounded-lg">
+                <Car className="w-6 h-6 text-slate-900" />
+              </div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-500 bg-clip-text text-transparent">
+                Auto Wizard
+              </h1>
+            </div>
+            <nav className="flex gap-6">
+              <button
+                onClick={() => { setCurrentPage('test'); resetTest(); }}
+                className="text-slate-300 hover:text-amber-400 transition-colors"
+              >
+                Personality Test
+              </button>
+              <button
+                onClick={() => setCurrentPage('consultation')}
+                className="text-slate-300 hover:text-amber-400 transition-colors"
+              >
+                Expert Consultation
+              </button>
+            </nav>
           </div>
-          <nav className="flex items-center gap-2">
-            <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Take Test</button>
-            <button onClick={() => setCurrentPage('services')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Services</button>
-            <button onClick={() => setCurrentPage('expertise')} className="px-4 py-2 rounded-lg text-white/70 hover:text-amber-400 hover:bg-white/5 transition-all">Our Expertise</button>
-            <button onClick={() => setCurrentPage('consultation')} className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25">Book Consultation</button>
-          </nav>
         </div>
       </header>
 
-      {showEmailModal && <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"><div className="bg-zinc-900 border border-white/10 rounded-2xl p-8 max-w-md w-full"><div className="flex justify-between items-center mb-6"><h3 className="text-xl font-semibold">Email Results</h3><button onClick={() => setShowEmailModal(false)} className="text-white/50 hover:text-white"><X className="w-5 h-5" /></button></div>{emailSent ? <div className="text-center py-8"><div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-amber-400" /></div><p className="text-lg text-white">Sent!</p></div> : <><input type="email" value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} placeholder="Enter your email" className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-amber-500" /><button onClick={sendEmail} disabled={!emailAddress.includes('@')} className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 flex items-center justify-center gap-2"><Send className="w-4 h-4" />Send</button></>}</div></div>}
-
+      {/* Home Page */}
       {currentPage === 'home' && (
-        <div className="relative">
-          <section className="relative max-w-7xl mx-auto px-6 pt-20 pb-16">
-            <div className="relative text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-8"><Sparkles className="w-4 h-4 text-amber-400" />Quick & Accurate Vehicle Matching</div>
-              <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight"><span className="text-white">Find Your </span><span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Perfect</span><br /><span className="text-white">Vehicle</span></h2>
-              <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">Our quick {allQuestions.length}-question assessment analyzes your needs to recommend from 16 vehicle categories.</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onClick={() => { setCurrentPage('test'); resetTest(); }} className="group px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-2xl shadow-amber-500/30 hover:scale-105"><span className="flex items-center justify-center gap-2">Start Your Free Assessment<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span></button>
-                <button onClick={() => setCurrentPage('consultation')} className="px-8 py-4 rounded-xl border border-white/20 text-white hover:border-amber-500/50 hover:text-amber-400 transition-all">Contact One of Our Experts</button>
-              </div>
-            </div>
-            <div className="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[{ value: allQuestions.length.toString(), label: 'Questions', icon: Target }, { value: '16', label: 'Categories', icon: CarFront }, { value: '200+', label: 'Models', icon: Gauge }, { value: '100%', label: 'Free', icon: Heart }].map((s, i) => (
-                <div key={i} className="text-center p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-500/20 transition-all">
-                  <s.icon className="w-6 h-6 text-amber-400 mx-auto mb-3" />
-                  <div className="text-3xl font-bold text-white mb-1">{s.value}</div>
-                  <div className="text-sm text-white/50">{s.label}</div>
-                </div>
-              ))}
-            </div>
+        <div>
+          {/* Hero Section */}
+          <section className="max-w-7xl mx-auto px-4 py-20 text-center">
+            <h2 className="text-5xl font-bold mb-6 leading-tight">
+              Find Your Perfect Vehicle Match
+            </h2>
+            <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
+              Our comprehensive 24-question personality test analyzes your lifestyle, location, and preferences to recommend the ideal vehicle for you.
+            </p>
+            <button
+              onClick={() => { setCurrentPage('test'); resetTest(); }}
+              className="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 px-8 py-4 rounded-lg text-lg font-semibold hover:from-amber-600 hover:to-amber-700 transition-all shadow-lg hover:shadow-amber-500/25 inline-flex items-center gap-2"
+            >
+              Start Your Journey <ChevronRight className="w-5 h-5" />
+            </button>
           </section>
 
-          <section className="max-w-5xl mx-auto px-6 py-16">
-            <div className="space-y-4">
+          {/* Features */}
+          <section className="max-w-7xl mx-auto px-4 py-16">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: Car, title: 'Advanced Matching', desc: 'Sophisticated algorithm analyzes 20+ factors for precise recommendations' },
-                { icon: Users, title: 'Expert Consultation', desc: 'Schedule one-on-one sessions with automotive specialists' },
-                { icon: Wrench, title: 'Aftermarket Support', desc: 'Connect with trusted customization and accessory providers' },
-                { icon: MapPin, title: 'Dealership Network', desc: 'Direct connections to dealerships, financing, and sales' }
-              ].map((item, i) => (
-                <div key={i} className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10 hover:border-amber-500/30 transition-all">
-                  <item.icon className="w-10 h-10 text-amber-400 mb-4" strokeWidth={1.5} />
-                  <h3 className="text-xl font-semibold text-white mb-2">{item.title}</h3>
-                  <p className="text-white/60">{item.desc}</p>
+                {
+                  icon: Car,
+                  title: 'Advanced Matching',
+                  desc: 'Sophisticated algorithm analyzes 20+ factors for precise recommendations'
+                },
+                {
+                  icon: Users,
+                  title: 'Expert Consultation',
+                  desc: 'Schedule one-on-one sessions with automotive specialists'
+                },
+                {
+                  icon: Wrench,
+                  title: 'Aftermarket Support',
+                  desc: 'Connect with trusted customization and accessory providers'
+                },
+                {
+                  icon: MapPin,
+                  title: 'Dealership Network',
+                  desc: 'Direct connections to dealerships, financing, and sales'
+                }
+              ].map((feature, idx) => (
+                <div key={idx} className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 hover:border-amber-500/50 transition-all">
+                  <feature.icon className="w-10 h-10 text-amber-500 mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-slate-400 text-sm">{feature.desc}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="max-w-5xl mx-auto px-6 py-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">Comprehensive Services</h2>
-            <div className="space-y-6">
-              <div className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
-                <h3 className="text-xl font-semibold text-amber-400 mb-6">Consultation Services</h3>
-                <ul className="space-y-4">
-                  {['In-depth lifestyle analysis', 'Budget and financing guidance', 'Feature comparison and recommendations'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-white/80"><Check className="w-5 h-5 text-amber-400 flex-shrink-0" />{item}</li>
-                  ))}
+          {/* Services Section */}
+          <section className="max-w-7xl mx-auto px-4 py-16">
+            <h2 className="text-3xl font-bold text-center mb-12">Comprehensive Services</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 hover:border-amber-500/50 transition-all">
+                <h3 className="text-xl font-semibold mb-4 text-amber-400">Consultation Services</h3>
+                <ul className="space-y-3 text-slate-300">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>In-depth lifestyle analysis</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Budget and financing guidance</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Feature comparison and recommendations</span>
+                  </li>
                 </ul>
               </div>
-              <div className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
-                <h3 className="text-xl font-semibold text-amber-400 mb-6">Customization Support</h3>
-                <ul className="space-y-4">
-                  {['Aftermarket product recommendations', 'Trusted installer network', 'Style and functionality planning'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-white/80"><Check className="w-5 h-5 text-amber-400 flex-shrink-0" />{item}</li>
-                  ))}
+              <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 hover:border-amber-500/50 transition-all">
+                <h3 className="text-xl font-semibold mb-4 text-amber-400">Customization Support</h3>
+                <ul className="space-y-3 text-slate-300">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Aftermarket product recommendations</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Trusted installer network</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Style and functionality planning</span>
+                  </li>
                 </ul>
               </div>
-              <div className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
-                <h3 className="text-xl font-semibold text-amber-400 mb-6">Purchase Assistance</h3>
-                <ul className="space-y-4">
-                  {['Dealership connections', 'Financing and loan office referrals', 'Certified pre-owned options'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-white/80"><Check className="w-5 h-5 text-amber-400 flex-shrink-0" />{item}</li>
-                  ))}
+              <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 hover:border-amber-500/50 transition-all">
+                <h3 className="text-xl font-semibold mb-4 text-amber-400">Purchase Assistance</h3>
+                <ul className="space-y-3 text-slate-300">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Dealership connections</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Financing and loan office referrals</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>Certified pre-owned options</span>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -329,323 +1074,332 @@ export default function AutoWizard() {
         </div>
       )}
 
-      {currentPage === 'services' && (
-        <div className="max-w-5xl mx-auto px-6 py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">Our Services</h2>
-            <p className="text-white/60 max-w-2xl mx-auto">Comprehensive automotive guidance from selection to ownership</p>
-          </div>
-          
-          <div className="space-y-6">
-            <div className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0"><Users className="w-6 h-6 text-amber-400" /></div>
-                <div><h3 className="text-xl font-semibold text-amber-400 mb-2">Expert Consultation</h3><p className="text-white/60">One-on-one sessions with certified automotive specialists</p></div>
-              </div>
-              <ul className="space-y-3 mb-6">
-                {['In-depth lifestyle and needs analysis', 'Personalized vehicle recommendations', 'Budget optimization strategies', 'Feature comparison and prioritization', 'Customization with trim and options'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-white/80"><Check className="w-5 h-5 text-amber-400 flex-shrink-0" />{item}</li>
-                ))}
-              </ul>
-              <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <span className="text-amber-400 font-semibold text-lg">$79 / session</span>
-                <button onClick={() => setCurrentPage('consultation')} className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all">Book Now</button>
-              </div>
-            </div>
-
-            <div className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0"><Wrench className="w-6 h-6 text-amber-400" /></div>
-                <div><h3 className="text-xl font-semibold text-amber-400 mb-2">Customization Support</h3><p className="text-white/60">Personalize your vehicle with expert guidance</p></div>
-              </div>
-              <ul className="space-y-3 mb-6">
-                {['Aftermarket product recommendations', 'Trusted installer network access', 'Performance upgrade planning', 'Aesthetic customization guidance', 'Warranty-safe modification advice'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-white/80"><Check className="w-5 h-5 text-amber-400 flex-shrink-0" />{item}</li>
-                ))}
-              </ul>
-              <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <span className="text-amber-400 font-semibold text-lg">$49 / consultation</span>
-                <button onClick={() => setCurrentPage('consultation')} className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all">Get Started</button>
-              </div>
-            </div>
-
-            <div className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0"><Briefcase className="w-6 h-6 text-amber-400" /></div>
-                <div><h3 className="text-xl font-semibold text-amber-400 mb-2">Purchase Assistance</h3><p className="text-white/60">Navigate the buying process with confidence</p></div>
-              </div>
-              <ul className="space-y-3 mb-6">
-                {['Dealership introductions and connections', 'Financing and loan office referrals', 'Price negotiation strategies', 'Certified pre-owned verification', 'Paperwork and documentation guidance'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-white/80"><Check className="w-5 h-5 text-amber-400 flex-shrink-0" />{item}</li>
-                ))}
-              </ul>
-              <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <span className="text-amber-400 font-semibold text-lg">$119 / package</span>
-                <button onClick={() => setCurrentPage('consultation')} className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all">Learn More</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {currentPage === 'expertise' && (
-        <div className="max-w-5xl mx-auto px-6 py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">Our Expertise</h2>
-            <p className="text-white/60 max-w-2xl mx-auto">Helpful guides and tools for your car buying journey</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              { icon: BookOpen, title: 'Buying Guide', desc: 'Complete guide to navigating the car buying process', items: ['New vs. used comparison', 'Timing your purchase', 'Inspection checklist', 'Negotiation tips'] },
-              { icon: Calculator, title: 'Financing Options', desc: 'Understanding loans, leases, and payments', items: ['Loan vs. lease calculator', 'Credit score impact', 'Down payment strategies', 'Interest rate comparison'] },
-              { icon: RefreshCw, title: 'Trade-In Values', desc: 'Maximize the value of your current vehicle', items: ['Value estimation tools', 'Preparation tips', 'Timing strategies', 'Negotiation tactics'] },
-              { icon: Shield, title: 'Warranty & Protection', desc: 'Understanding coverage options', items: ['Factory warranty details', 'Extended warranty options', 'GAP insurance explained', 'Maintenance plans'] }
-            ].map((resource, i) => (
-              <div key={i} className="p-8 rounded-2xl bg-zinc-900/50 border border-white/10 hover:border-amber-500/30 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-4"><resource.icon className="w-6 h-6 text-amber-400" /></div>
-                <h3 className="text-xl font-semibold text-white mb-2">{resource.title}</h3>
-                <p className="text-white/60 mb-4">{resource.desc}</p>
-                <ul className="space-y-2">
-                  {resource.items.map((item, j) => (<li key={j} className="flex items-center gap-2 text-white/70 text-sm"><div className="w-1.5 h-1.5 rounded-full bg-amber-400" />{item}</li>))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
+      {/* Test Page */}
       {currentPage === 'test' && !result && (
-        <div className="max-w-3xl mx-auto px-6 py-12">
-          <div className={`transition-all duration-300 ease-out ${isAnimating ? 'opacity-0 translate-y-3 scale-[0.98]' : 'opacity-100 translate-y-0 scale-100'}`}>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-              <div className="mb-8">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-sm text-white/50">Question {testStep + 1} of {allQuestions.length}</span>
-                  <span className="text-sm font-medium text-amber-400">{Math.round(((testStep + 1) / allQuestions.length) * 100)}%</span>
-                </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-full transition-all duration-500" style={{ width: `${((testStep + 1) / allQuestions.length) * 100}%` }} />
-                </div>
+        <div className="max-w-3xl mx-auto px-4 py-12">
+          <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8">
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-sm text-slate-400">Question {testStep + 1} of {questions.length}</span>
+                <span className="text-sm text-amber-400">{Math.round(((testStep + 1) / questions.length) * 100)}% Complete</span>
               </div>
-              
-              {currentQ && (
-                <>
-                  <div className="mb-6">
-                    <span className="text-4xl mb-4 block">{currentQ.icon}</span>
-                    <h2 className="text-2xl font-semibold text-white">{currentQ.question}</h2>
-                    {isMultiple && <p className="text-amber-400/80 text-sm mt-2">{currentQ.maxSelect ? `Select up to ${currentQ.maxSelect}` : 'Select all that apply'}</p>}
-                  </div>
-                  
-                  {isMultiple ? (
-                    <div className="space-y-3">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto pr-2">
-                        {currentQ.options.map((o, i) => {
-                          const selected = getArr(answers[currentQ.id]).includes(o.value);
-                          return (
-                            <button key={i} onClick={() => handleMultiSelect(currentQ.id, o.value, currentQ.maxSelect)} className={`text-left p-3 border rounded-xl transition-all ${selected ? 'bg-amber-500/20 border-amber-500/60' : 'bg-black/30 border-white/10 hover:border-amber-500/30'}`}>
-                              <div className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-white/30'}`}>{selected && <Check className="w-3 h-3 text-black" />}</div>
-                                <span className={`text-sm ${selected ? 'text-white' : 'text-white/70'}`}>{o.label}</span>
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-                      <div className="flex gap-3 mt-4">
-                        <button onClick={() => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { const r = calculateRecommendation(); setResult(r); saveResult(r); }}} disabled={getArr(answers[currentQ.id]).length === 0} className="flex-1 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">Continue <ChevronRight className="w-5 h-5" /></button>
-                        <button onClick={skipQuestion} className="px-6 py-4 rounded-xl border border-white/20 text-white/60 hover:text-amber-400 hover:border-amber-500/50 transition-all flex items-center gap-2"><SkipForward className="w-5 h-5" />Skip</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      <div className="space-y-3 max-h-[350px] overflow-y-auto pr-2">
-                        {currentQ.options.map((o, i) => (
-                          <button key={i} onClick={() => handleAnswer(currentQ.id, o.value)} className="w-full text-left p-4 bg-black/30 border border-white/10 rounded-xl hover:border-amber-500/50 hover:bg-white/5 transition-all group">
-                            <div className="flex items-center justify-between">
-                              <span className="text-white/80 group-hover:text-white">{o.label}</span>
-                              <ChevronRight className="w-5 h-5 text-white/30 group-hover:text-amber-400 group-hover:translate-x-1 transition-all" />
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                      <button onClick={skipQuestion} className="w-full mt-4 py-3 rounded-xl border border-white/20 text-white/60 hover:text-amber-400 hover:border-amber-500/50 transition-all flex items-center justify-center gap-2"><SkipForward className="w-5 h-5" />Skip this question</button>
-                    </div>
-                  )}
-                </>
-              )}
-              
-              {testStep > 0 && <button onClick={() => setTestStep(testStep - 1)} className="mt-6 text-white/50 hover:text-amber-400 flex items-center gap-2"><ArrowLeft className="w-4 h-4" />Back</button>}
+              <div className="w-full bg-slate-700 rounded-full h-2">
+                <div
+                  className="bg-gradient-to-r from-amber-500 to-amber-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${((testStep + 1) / questions.length) * 100}%` }}
+                />
+              </div>
             </div>
-          </div>
-        </div>
-      )}
 
-      {currentPage === 'test' && result && (
-        <div className="max-w-4xl mx-auto px-6 py-12">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/20 text-amber-400 text-sm mb-4"><Check className="w-4 h-4" />Complete</div>
-            <h2 className="text-4xl font-bold text-white mb-2">Your Perfect Match</h2>
-            <p className="text-2xl font-semibold bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">{result.vehicleSizeName}</p>
-          </div>
-          
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-            <p className="text-lg text-white/70 mb-8 text-center max-w-3xl mx-auto">{result.description}</p>
+            <h2 className="text-2xl font-semibold mb-6">{questions[testStep].question}</h2>
             
-            <div className="mb-10">
-              <h3 className="text-lg font-semibold mb-4 text-amber-400 text-center">Recommended Vehicles</h3>
-              <div className="flex flex-wrap justify-center gap-3">
-                {result.vehicles.map((v, i) => (
-                  <div key={i} className="px-5 py-3 rounded-xl bg-zinc-800 border border-white/10 text-white font-medium">{v}</div>
-                ))}
+            {questions[testStep].type === 'input' ? (
+              <div className="space-y-4">
+                <input
+                  type={questions[testStep].inputType || 'text'}
+                  placeholder={questions[testStep].placeholder}
+                  className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors text-lg"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && e.target.value.trim()) {
+                      handleInputAnswer(e.target.value);
+                    }
+                  }}
+                />
+                <button
+                  onClick={(e) => {
+                    const input = e.target.previousElementSibling;
+                    if (input.value.trim()) {
+                      handleInputAnswer(input.value);
+                    }
+                  }}
+                  className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-amber-700 transition-all"
+                >
+                  Continue <ChevronRight className="w-5 h-5 inline ml-2" />
+                </button>
               </div>
-            </div>
-            
-            {result.reasoning.length > 0 && (
-              <div className="bg-black/30 rounded-xl p-6 mb-8">
-                <h3 className="text-lg font-semibold mb-4 text-amber-400 flex items-center gap-2"><Target className="w-5 h-5" />Why This Recommendation</h3>
-                <ul className="space-y-2">{result.reasoning.map((r, i) => <li key={i} className="flex items-start gap-3 text-white/70"><Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />{r}</li>)}</ul>
+            ) : questions[testStep].multipleChoice ? (
+              <div>
+                <div className="space-y-3 mb-6">
+                  {questions[testStep].options.map((option, idx) => {
+                    const isSelected = (answers[questions[testStep].id] || []).includes(option.value);
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => handleAnswer(questions[testStep].id, option.value)}
+                        className={`w-full text-left p-4 border rounded-lg transition-all group ${
+                          isSelected
+                            ? 'bg-amber-500/20 border-amber-500'
+                            : 'bg-slate-700/50 border-slate-600 hover:border-amber-500 hover:bg-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                              isSelected ? 'bg-amber-500 border-amber-500' : 'border-slate-500'
+                            }`}>
+                              {isSelected && <Check className="w-4 h-4 text-slate-900" />}
+                            </div>
+                            <span className={isSelected ? 'text-amber-400' : 'group-hover:text-amber-400 transition-colors'}>
+                              {option.label}
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                <button
+                  onClick={handleMultipleChoiceContinue}
+                  className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-amber-700 transition-all flex items-center justify-center gap-2"
+                >
+                  Continue <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {questions[testStep].options.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleAnswer(questions[testStep].id, option.value)}
+                    className="w-full text-left p-4 bg-slate-700/50 border border-slate-600 rounded-lg hover:border-amber-500 hover:bg-slate-700 transition-all group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="group-hover:text-amber-400 transition-colors">{option.label}</span>
+                      <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-amber-400 transition-colors" />
+                    </div>
+                  </button>
+                ))}
               </div>
             )}
-            
-            <div className="bg-black/30 rounded-xl p-6 mb-8">
-              <h3 className="text-lg font-semibold mb-4 text-amber-400 flex items-center gap-2"><Star className="w-5 h-5" />Key Features</h3>
-              <div className="grid md:grid-cols-2 gap-3">{result.features.map((f, i) => <div key={i} className="flex items-center gap-3 text-white/70"><div className="w-2 h-2 rounded-full bg-amber-400" />{f}</div>)}</div>
+
+            {testStep > 0 && (
+              <button
+                onClick={() => setTestStep(testStep - 1)}
+                className="mt-6 text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" /> Back
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Results Page */}
+      {currentPage === 'test' && result && (
+        <div className="max-w-5xl mx-auto px-4 py-12">
+          <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-3">Your Perfect Match</h2>
+              <p className="text-amber-400 text-xl font-semibold">{result.category}</p>
             </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button onClick={() => setShowEmailModal(true)} className="px-6 py-3 rounded-xl border border-amber-500/50 text-amber-400 hover:bg-amber-500/10 flex items-center justify-center gap-2"><Mail className="w-5 h-5" />Email</button>
-              <button onClick={() => setCurrentPage('consultation')} className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20">Schedule Consultation</button>
-              <button onClick={resetTest} className="px-6 py-3 rounded-xl border border-white/20 text-white/70 hover:border-amber-500/50 hover:text-amber-400">Retake</button>
+
+            <p className="text-slate-300 mb-8 text-center max-w-3xl mx-auto text-lg">{result.description}</p>
+
+            {result.reasoning && result.reasoning.length > 0 && (
+              <div className="bg-slate-700/30 rounded-lg p-6 mb-8">
+                <h3 className="text-lg font-semibold mb-4 text-amber-400">Why This Match?</h3>
+                <ul className="space-y-2">
+                  {result.reasoning.map((reason, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-slate-300">
+                      <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <span>{reason}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div className="bg-slate-700/30 rounded-lg p-6">
+                <h3 className="text-lg font-semibold mb-4 text-amber-400">Recommended Vehicles</h3>
+                <ul className="space-y-2">
+                  {result.vehicles.map((vehicle, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-slate-300">
+                      <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                      {vehicle}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-slate-700/30 rounded-lg p-6">
+                <h3 className="text-lg font-semibold mb-4 text-amber-400">Key Features</h3>
+                <ul className="space-y-2">
+                  {result.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-slate-300">
+                      <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-6 mb-8">
+              <h3 className="text-lg font-semibold mb-3 text-amber-400">Your Profile Summary</h3>
+              <div className="grid md:grid-cols-2 gap-4 text-sm text-slate-300">
+                <div><span className="text-slate-400">Location Zone:</span> {answers.zipcode}</div>
+                <div><span className="text-slate-400">Household:</span> {answers.household}</div>
+                <div><span className="text-slate-400">Commute:</span> {answers['daily-commute']}</div>
+                <div><span className="text-slate-400">Budget:</span> {answers.budget}</div>
+              </div>
+            </div>
+
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => setCurrentPage('consultation')}
+                className="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-amber-700 transition-all shadow-lg"
+              >
+                Schedule Expert Consultation
+              </button>
+              <button
+                onClick={resetTest}
+                className="bg-slate-700 text-slate-200 px-6 py-3 rounded-lg font-semibold hover:bg-slate-600 transition-all"
+              >
+                Retake Test
+              </button>
             </div>
           </div>
         </div>
       )}
 
+      {/* Consultation Page */}
       {currentPage === 'consultation' && (
-        <div className="max-w-4xl mx-auto px-6 py-12">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-            <div className="text-center mb-10">
-              <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mx-auto mb-6"><Calendar className="w-8 h-8 text-amber-400" /></div>
-              <h2 className="text-3xl font-bold text-white mb-3">Schedule Consultation</h2>
+        <div className="max-w-3xl mx-auto px-4 py-12">
+          <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8">
+            <div className="text-center mb-8">
+              <Calendar className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+              <h2 className="text-3xl font-bold mb-3">Schedule Expert Consultation</h2>
+              <p className="text-slate-400">Connect with our automotive specialists for personalized guidance</p>
             </div>
+
             <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium mb-3 text-white/70">Services (Select all that apply)</label>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {[
-                    { value: 'consultation', label: 'Expert Consultation - $79', icon: Car },
-                    { value: 'customization', label: 'Customization Support - $49', icon: Wrench },
-                    { value: 'purchase', label: 'Purchase Assistance - $119', icon: Briefcase },
-                    { value: 'bundle', label: 'Full Bundle - $319', icon: Star }
-                  ].map((s) => {
-                    const selected = (consultForm.services || []).includes(s.value);
-                    return (
-                      <button key={s.value} onClick={() => toggleService(s.value)} className={`p-4 rounded-xl border transition-all text-left flex items-center gap-3 ${selected ? 'bg-amber-500/15 border-amber-500/60' : 'bg-black/30 border-white/10 hover:border-amber-500/40'}`}>
-                        <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-white/30'}`}>{selected && <Check className="w-3 h-3 text-black" />}</div>
-                        <s.icon className={`w-5 h-5 ${selected ? 'text-amber-400' : 'text-white/50'}`} />
-                        <span className={selected ? 'text-amber-400' : 'text-white/70'}>{s.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-              
               <div className="grid md:grid-cols-2 gap-6">
-                <div><label className="block text-sm font-medium mb-2 text-white/70">Name *</label><input type="text" value={consultForm.name} onChange={(e) => setConsultForm({ ...consultForm, name: e.target.value })} className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500" /></div>
-                <div><label className="block text-sm font-medium mb-2 text-white/70">Email *</label><input type="email" value={consultForm.email} onChange={(e) => setConsultForm({ ...consultForm, email: e.target.value })} className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500" /></div>
-              </div>
-              
-              <div><label className="block text-sm font-medium mb-2 text-white/70">Phone *</label><input type="tel" value={consultForm.phone} onChange={(e) => setConsultForm({ ...consultForm, phone: e.target.value })} className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500" /></div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2 text-white/70">Preferred Date(s) *</label>
-                <div className="flex gap-3 mb-3">
-                  <input type="date" id="date-picker" className="flex-1 bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500" />
-                  <button onClick={() => { const input = document.getElementById('date-picker') as HTMLInputElement; if (input) { addDate(input.value); input.value = ''; } }} className="px-4 py-3 rounded-xl bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all">Add Date</button>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-slate-300">Full Name</label>
+                  <input
+                    type="text"
+                    value={consultForm.name}
+                    onChange={(e) => setConsultForm({ ...consultForm, name: e.target.value })}
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
+                    placeholder="John Doe"
+                  />
                 </div>
-                {consultForm.dates && consultForm.dates.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {consultForm.dates.map((date, i) => (
-                      <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30">
-                        <span className="text-amber-400 text-sm">{new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
-                        <button onClick={() => removeDate(date)} className="text-amber-400/60 hover:text-amber-400"><X className="w-4 h-4" /></button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-3 text-white/70">Preferred Time of Day *</label>
-                <div className="grid grid-cols-3 gap-3">
-                  {[
-                    { value: 'morning', label: 'Morning', desc: '9 AM - 12 PM' },
-                    { value: 'midday', label: 'Mid-Day', desc: '12 PM - 3 PM' },
-                    { value: 'afternoon', label: 'Afternoon', desc: '3 PM - 6 PM' }
-                  ].map((t) => {
-                    const selected = (consultForm.times || []).includes(t.value);
-                    return (
-                      <button key={t.value} onClick={() => toggleTime(t.value)} className={`p-4 rounded-xl border transition-all text-center ${selected ? 'bg-amber-500/15 border-amber-500/60' : 'bg-black/30 border-white/10 hover:border-amber-500/40'}`}>
-                        <div className="flex items-center justify-center gap-2 mb-1">
-                          <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-white/30'}`}>{selected && <Check className="w-2.5 h-2.5 text-black" />}</div>
-                          <span className={`font-medium ${selected ? 'text-amber-400' : 'text-white/70'}`}>{t.label}</span>
-                        </div>
-                        <span className="text-xs text-white/50">{t.desc}</span>
-                      </button>
-                    );
-                  })}
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-slate-300">Email</label>
+                  <input
+                    type="email"
+                    value={consultForm.email}
+                    onChange={(e) => setConsultForm({ ...consultForm, email: e.target.value })}
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
+                    placeholder="john@example.com"
+                  />
                 </div>
               </div>
-              
-              <div><label className="block text-sm font-medium mb-2 text-white/70">Notes</label><textarea value={consultForm.notes} onChange={(e) => setConsultForm({ ...consultForm, notes: e.target.value })} className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 h-24 resize-none" /></div>
-              
-              <button onClick={handleConsult} className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20">Schedule</button>
-              
-              <div className="pt-6 border-t border-white/10 flex flex-wrap justify-center gap-6">
-                <div className="flex items-center gap-2 text-white/60"><Phone className="w-4 h-4 text-amber-400" />(413) 333-8401</div>
-                <div className="flex items-center gap-2 text-white/60"><Mail className="w-4 h-4 text-amber-400" />autowizardcompany@gmail.com</div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-slate-300">Phone Number</label>
+                <input
+                  type="tel"
+                  value={consultForm.phone}
+                  onChange={(e) => setConsultForm({ ...consultForm, phone: e.target.value })}
+                  className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
+                  placeholder="(555) 123-4567"
+                />
               </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-slate-300">Preferred Date</label>
+                  <input
+                    type="date"
+                    value={consultForm.date}
+                    onChange={(e) => setConsultForm({ ...consultForm, date: e.target.value })}
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-slate-300">Preferred Time</label>
+                  <select
+                    value={consultForm.time}
+                    onChange={(e) => setConsultForm({ ...consultForm, time: e.target.value })}
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
+                  >
+                    <option value="">Select a time</option>
+                    <option value="9am">9:00 AM</option>
+                    <option value="10am">10:00 AM</option>
+                    <option value="11am">11:00 AM</option>
+                    <option value="1pm">1:00 PM</option>
+                    <option value="2pm">2:00 PM</option>
+                    <option value="3pm">3:00 PM</option>
+                    <option value="4pm">4:00 PM</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-slate-300">Additional Notes</label>
+                <textarea
+                  value={consultForm.notes}
+                  onChange={(e) => setConsultForm({ ...consultForm, notes: e.target.value })}
+                  className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors h-32 resize-none"
+                  placeholder="Tell us about your specific needs, budget, or any questions you have..."
+                />
+              </div>
+
+              <button
+                onClick={handleConsultSubmit}
+                className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 px-6 py-4 rounded-lg text-lg font-semibold hover:from-amber-600 hover:to-amber-700 transition-all shadow-lg"
+              >
+                Schedule Consultation
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      <footer className="border-t border-white/10 bg-black/80 mt-20">
-        <div className="max-w-7xl mx-auto px-6 py-12">
+      {/* Footer */}
+      <footer className="border-t border-slate-700 bg-slate-900/80 mt-20">
+        <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-gradient-to-br from-amber-400 to-amber-500 p-2 rounded-lg"><Sparkles className="w-5 h-5 text-black" /></div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-gradient-to-br from-amber-500 to-amber-600 p-2 rounded-lg">
+                  <Car className="w-5 h-5 text-slate-900" />
+                </div>
                 <span className="font-bold text-lg">Auto Wizard</span>
               </div>
-              <p className="text-white/50 text-sm">Your partner in finding the perfect vehicle.</p>
+              <p className="text-slate-400 text-sm">Your trusted partner in finding the perfect vehicle match.</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-white">Services</h4>
-              <ul className="space-y-2 text-sm text-white/50">
-                <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Expert Consultation - $79</li>
-                <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Customization Support - $49</li>
-                <li onClick={() => setCurrentPage('services')} className="hover:text-amber-400 cursor-pointer">Purchase Assistance - $119</li>
+              <h4 className="font-semibold mb-3">Services</h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>Personality Test</li>
+                <li>Expert Consultation</li>
+                <li>Dealership Network</li>
+                <li>Aftermarket Support</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-white">Our Expertise</h4>
-              <ul className="space-y-2 text-sm text-white/50">
-                <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Buying Guide</li>
-                <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Financing Options</li>
-                <li onClick={() => setCurrentPage('expertise')} className="hover:text-amber-400 cursor-pointer">Trade-In Values</li>
+              <h4 className="font-semibold mb-3">Resources</h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>Buying Guide</li>
+                <li>Financing Options</li>
+                <li>Trade-In Values</li>
+                <li>Insurance Partners</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-white">Contact</h4>
-              <ul className="space-y-2 text-sm text-white/50">
-                <li className="flex items-center gap-2"><Mail className="w-4 h-4 text-amber-400" />autowizardcompany@gmail.com</li>
-                <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-amber-400" />(413) 333-8401</li>
+              <h4 className="font-semibold mb-3">Contact</h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>info@autowizard.com</li>
+                <li>(555) AUTO-WIZ</li>
+                <li>Mon-Sat: 9AM-7PM</li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-white/10 pt-6 text-center text-white/40 text-sm">© 2026 Auto Wizard. All rights reserved.</div>
+          <div className="border-t border-slate-700 pt-6 text-center text-slate-500 text-sm">
+            © 2026 Auto Wizard. All rights reserved.
+          </div>
         </div>
       </footer>
     </div>
