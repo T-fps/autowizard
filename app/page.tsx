@@ -302,7 +302,7 @@ export default function AutoWizard() {
     }
   ];
 
-  const getTerrainFromZip = (zip) => {
+  const getTerrainFromZip = (zip: string) => {
     if (!zip || zip.length < 5) return 'suburban';
     const firstDigit = parseInt(zip.charAt(0));
     const firstTwo = parseInt(zip.substring(0, 2));
@@ -522,7 +522,7 @@ export default function AutoWizard() {
       score.sports += 25;
       score.sportSedan += 20;
       score.truck += 10;
-      score.electric = Math.max(0, score.electric - 15); // Reduce EV score
+      score.electric = Math.max(0, score.electric - 15);
     } else if (profile.engineSound === 'prefer-quiet') {
       score.electric += 20;
       score.hybrid += 15;
@@ -551,98 +551,97 @@ export default function AutoWizard() {
     // Determine winning categories
     const categories = Object.entries(score).sort((a, b) => b[1] - a[1]);
     const topCategory = categories[0][0];
-    const topScore = categories[0][1];
 
     // Generate recommendation based on top category and profile
     let recommendation = generateRecommendation(topCategory, profile, score);
     setResult(recommendation);
   };
 
-  const generateRecommendation = (category, profile, scores) => {
-    const recommendations = {
+  const generateRecommendation = (category: string, profile: any, scores: any) => {
+    const recommendations: Record<string, any> = {
       suv: {
         category: 'Midsize SUV',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Three-row seating options', 'Advanced safety systems', 'Generous cargo space', 'AWD capability'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       crossover: {
         category: 'Compact Crossover',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Fuel efficient', 'Easy maneuverability', 'Modern safety tech', 'Versatile cargo'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       sedan: {
         category: 'Midsize Sedan',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Excellent fuel economy', 'Comfortable ride', 'Advanced tech', 'Easy parking'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       sportSedan: {
         category: 'Sport Sedan',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Powerful engines', 'Sport-tuned handling', 'Premium interiors', 'Advanced tech'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       truck: {
         category: 'Pickup Truck',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Maximum towing capacity', 'Bed storage', 'Off-road packages', '4WD capability'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       minivan: {
         category: 'Minivan',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Maximum passenger comfort', 'Sliding doors', 'Incredible versatility', 'Family-focused features'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       luxury: {
         category: 'Luxury Vehicle',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Premium materials', 'Advanced technology', 'Superior comfort', 'Prestigious brands'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       sports: {
         category: 'Sports Car',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Thrilling performance', 'Precise handling', 'Eye-catching design', 'Driver-focused cockpit'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       electric: {
         category: 'Electric Vehicle',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Zero emissions', 'Low operating costs', 'Instant torque', 'Cutting-edge tech'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       hybrid: {
         category: 'Hybrid Vehicle',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Excellent fuel economy', 'Lower emissions', 'No range anxiety', 'Tax incentives'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       offroad: {
         category: 'Off-Road SUV',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Serious 4WD systems', 'High ground clearance', 'Skid plates', 'Trail-rated capability'],
-        reasoning: []
+        reasoning: [] as string[]
       },
       compact: {
         category: 'Compact Car',
-        vehicles: [],
+        vehicles: [] as string[],
         description: '',
         features: ['Outstanding fuel economy', 'Easy to park', 'Affordable pricing', 'Low insurance costs'],
-        reasoning: []
+        reasoning: [] as string[]
       }
     };
 
@@ -844,45 +843,43 @@ export default function AutoWizard() {
     }
 
     // Add general reasoning based on profile
-    if (profile.techPriority === 'essential' && !result.reasoning.find(r => r.includes('tech'))) {
+    if (profile.techPriority === 'essential' && !result.reasoning.find((r: string) => r.includes('tech'))) {
       result.reasoning.push('Modern technology features you prioritize');
     }
     
-    if (profile.safetyPriority.includes('all-safety') && !result.reasoning.find(r => r.includes('safety'))) {
+    if (profile.safetyPriority.includes('all-safety') && !result.reasoning.find((r: string) => r.includes('safety'))) {
       result.reasoning.push('Top-tier safety ratings and features');
     }
 
     // Add color preference note
     if (profile.colorPreference && !profile.colorPreference.includes('any')) {
       const colors = profile.colorPreference
-        .filter(c => c !== 'any')
-        .map(c => c.replace('-', '/'))
+        .filter((c: string) => c !== 'any')
+        .map((c: string) => c.replace('-', '/'))
         .join(', ');
       if (colors) {
-        result.reasoning.push(`Look for options in your preferred colors: ${colors}`);
+        result.reasoning.push('Look for options in your preferred colors: ' + colors);
       }
     }
 
     return result;
   };
 
-  const handleAnswer = (questionId, value) => {
+  const handleAnswer = (questionId: string, value: string) => {
     const currentQuestion = questions[testStep];
     
     if (currentQuestion.multipleChoice) {
-      // For multiple choice, toggle the selection
       const currentSelections = answers[questionId] || [];
       let newSelections;
       
       if (currentSelections.includes(value)) {
-        newSelections = currentSelections.filter(v => v !== value);
+        newSelections = currentSelections.filter((v: string) => v !== value);
       } else {
         newSelections = [...currentSelections, value];
       }
       
       setAnswers({ ...answers, [questionId]: newSelections });
     } else {
-      // For single choice, proceed to next question
       setAnswers({ ...answers, [questionId]: value });
       if (testStep < questions.length - 1) {
         setTestStep(testStep + 1);
@@ -908,7 +905,7 @@ export default function AutoWizard() {
     }
   };
 
-  const handleInputAnswer = (value) => {
+  const handleInputAnswer = (value: string) => {
     const currentQuestion = questions[testStep];
     handleAnswer(currentQuestion.id, value);
   };
@@ -1099,16 +1096,16 @@ export default function AutoWizard() {
                   type={questions[testStep].inputType || 'text'}
                   placeholder={questions[testStep].placeholder}
                   className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 transition-colors text-lg"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && e.target.value.trim()) {
-                      handleInputAnswer(e.target.value);
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter' && (e.target as HTMLInputElement).value.trim()) {
+                      handleInputAnswer((e.target as HTMLInputElement).value);
                     }
                   }}
                 />
                 <button
                   onClick={(e) => {
-                    const input = e.target.previousElementSibling;
-                    if (input.value.trim()) {
+                    const input = (e.target as HTMLElement).previousElementSibling as HTMLInputElement;
+                    if (input && input.value && input.value.trim()) {
                       handleInputAnswer(input.value);
                     }
                   }}
@@ -1120,7 +1117,7 @@ export default function AutoWizard() {
             ) : questions[testStep].multipleChoice ? (
               <div>
                 <div className="space-y-3 mb-6">
-                  {questions[testStep].options.map((option, idx) => {
+                  {questions[testStep].options?.map((option, idx) => {
                     const isSelected = (answers[questions[testStep].id] || []).includes(option.value);
                     return (
                       <button
@@ -1157,7 +1154,7 @@ export default function AutoWizard() {
               </div>
             ) : (
               <div className="space-y-3">
-                {questions[testStep].options.map((option, idx) => (
+                {questions[testStep].options?.map((option, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleAnswer(questions[testStep].id, option.value)}
@@ -1199,7 +1196,7 @@ export default function AutoWizard() {
               <div className="bg-slate-700/30 rounded-lg p-6 mb-8">
                 <h3 className="text-lg font-semibold mb-4 text-amber-400">Why This Match?</h3>
                 <ul className="space-y-2">
-                  {result.reasoning.map((reason, idx) => (
+                  {result.reasoning.map((reason: string, idx: number) => (
                     <li key={idx} className="flex items-start gap-2 text-slate-300">
                       <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
                       <span>{reason}</span>
@@ -1213,7 +1210,7 @@ export default function AutoWizard() {
               <div className="bg-slate-700/30 rounded-lg p-6">
                 <h3 className="text-lg font-semibold mb-4 text-amber-400">Recommended Vehicles</h3>
                 <ul className="space-y-2">
-                  {result.vehicles.map((vehicle, idx) => (
+                  {result.vehicles.map((vehicle: string, idx: number) => (
                     <li key={idx} className="flex items-center gap-2 text-slate-300">
                       <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
                       {vehicle}</li>
@@ -1224,7 +1221,7 @@ export default function AutoWizard() {
               <div className="bg-slate-700/30 rounded-lg p-6">
                 <h3 className="text-lg font-semibold mb-4 text-amber-400">Key Features</h3>
                 <ul className="space-y-2">
-                  {result.features.map((feature, idx) => (
+                  {result.features.map((feature: string, idx: number) => (
                     <li key={idx} className="flex items-center gap-2 text-slate-300">
                       <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
                       {feature}
