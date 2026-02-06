@@ -800,20 +800,24 @@ const commonsSearchOverrides: Record<string, string> = {
 // ============================================================================
 const directCommonsFiles: Record<string, string> = {
   // Audi variants that share Q7/Q8 Wikipedia articles
-  'Audi SQ5': 'Audi_SQ5_TDI_(Facelift)_–_Frontansicht,_27._April_2014,_Düsseldorf.jpg',
-  'Audi SQ7': 'Audi_SQ7_TDI_Facelift_IAA_2019_JM_0468.jpg',
-  'Audi SQ8': 'Audi_SQ8.jpg',
+  'Audi S3': 'Audi_S3_(8Y)_IMG_5270.jpg',
+  'Audi S5': 'Audi_S5_Sportback_F5_IMG_3424.jpg',
+  'Audi e-tron': 'Audi_e-tron_55_quattro_IMG_0331.jpg',
+  'Audi SQ5': 'Audi_SQ5_FY_IMG_0346.jpg',
+  'Audi SQ7': 'Audi_SQ7_4M_IMG_0344.jpg',
+  'Audi SQ8': 'Audi_SQ8_IMG_5258.jpg',
   'Audi RS Q8': '2020_Audi_RS_Q8_Front_(1).jpg',
 
   // BMW M variants  
   'BMW X5M': 'BMW_X5_M_Competition_(F95)_1X7A5950.jpg',
   'BMW X6M': 'BMW_X6_M_Competition_(F96)_IMG_3316.jpg',
+  'BMW X7 M60i': '2022_BMW_X7_M60i_xDrive_Auto.jpg',
 
   // Chevrolet trucks and performance variants
   'Chevrolet Silverado 1500': 'Chevrolet_Silverado_High_Country_2025.jpg',
   'Chevrolet Corvette Z06': '2023_Chevrolet_Corvette_Z06_in_Rapid_Blue,_Front_Left,_02-05-2023.jpg',
   'Chevrolet Corvette ZR1': '2025_Chevrolet_Corvette_ZR1.jpg',
-  'Chevrolet Camaro ZL1': '2020_Chevrolet_Camaro_ZL1_in_Red_Hot,_Front_Left,_02-26-2023.jpg',
+  'Chevrolet Camaro ZL1': '2023_Chevrolet_Camaro_ZL1_in_Sharkskin_Metallic,_Front_Left,_09-02-2023.jpg',
 
   // Dodge SRT / Hellcat
   'Dodge Challenger SRT Hellcat': 'White_Dodge_Challenger_SRT_three-quarter_front_view.jpg',
@@ -827,19 +831,19 @@ const directCommonsFiles: Record<string, string> = {
 
   // Ford performance variants
   'Ford Mustang Shelby GT500': '2020_Ford_Mustang_Shelby_GT500_in_Iconic_Silver,_Front_Right,_09-10-2023.jpg',
-  'Ford F-150 Raptor': '2021_Ford_F-150_Raptor_37_in_Antimatter_Blue,_Front_Left,_12-25-2021.jpg',
-  'Ford F-150 Raptor R': '2024_Ford_F-150_Raptor_R_in_Area_51,_Front_Left,_04-06-2024.jpg',
+  'Ford F-150 Raptor': '2024_Ford_F-150_Raptor_in_Iconic_Silver,_Front_Left,_05-04-2024.jpg',
+  'Ford F-150 Raptor R': '2024_Ford_F-150_Raptor_R_in_Antimatter_Blue,_Front_Left,_11-16-2024.jpg',
 
   // Genesis
   'Genesis G70 Shooting Brake': 'Genesis_G70_Shooting_Brake.jpg',
 
   // GMC variants
   'GMC Sierra 1500': '2019_GMC_Sierra_1500_Denali_au_SIAM_2019.jpg',
-  'GMC Canyon': '2023_GMC_Canyon_Elevation_in_Sterling_Metallic,_Front_Left,_08-26-2023.jpg',
-  'GMC Canyon AT4X': '2023_GMC_Canyon_AT4X_in_Summit_White,_Front_Left,_02-04-2024.jpg',
-  'GMC Yukon': '2021_GMC_Yukon_SLT_in_Dark_Sky_Metallic,_Front_Left,_12-31-2021.jpg',
-  'GMC Yukon XL': '2021_GMC_Yukon_XL_SLT_in_Onyx_Black,_Front_Left,_09-04-2021.jpg',
-  'GMC Yukon Denali Ultimate': '2023_GMC_Yukon_Denali_in_White_Frost_Tricoat,_Front_Left,_04-23-2023.jpg',
+  'GMC Canyon': '2024_GMC_Canyon_Elevation_in_Titanium_Rush_Metallic,_Front_Left,_04-13-2024.jpg',
+  'GMC Canyon AT4X': '2024_GMC_Canyon_AT4X_in_Volcanic_Red_Tintcoat,_Front_Left,_04-27-2024.jpg',
+  'GMC Yukon': '2024_GMC_Yukon_SLT_in_White_Frost_Tricoat,_Front_Left,_10-19-2024.jpg',
+  'GMC Yukon XL': '2024_GMC_Yukon_XL_SLT_in_White_Frost_Tricoat,_Front_Left,_10-19-2024.jpg',
+  'GMC Yukon Denali Ultimate': '2024_GMC_Yukon_Denali_Ultimate_in_Dark_Slate_Metallic,_Front_Left,_03-23-2024.jpg',
 
   // Honda variants
   'Honda Civic Type R': '2023_Honda_Civic_Type_R_in_Championship_White,_front_7.11.22.jpg',
@@ -890,9 +894,12 @@ const directCommonsFiles: Record<string, string> = {
   // Toyota performance variants
   'Toyota 4Runner TRD Pro': '2025_Toyota_4Runner_TRD_Pro_in_Mudbath,_Front_Left,_01-11-2025.jpg',
   'Toyota Tacoma TRD Pro': '2024_Toyota_Tacoma_TRD_Pro_in_Ice_Cap,_Front_Left,_07-06-2024.jpg',
-  'Toyota Tundra TRD Pro': '2022_Toyota_Tundra_TRD_Pro_in_Lunar_Rock,_Front_Left,_01-22-2023.jpg',
-  'Toyota GR Supra': 'Toyota_GR_Supra_at_Goodwood_Festival_of_Speed_2019.jpg',
+  'Toyota Tundra TRD Pro': '2024_Toyota_Tundra_TRD_Pro_in_Terra,_Front_Left,_01-20-2024.jpg',
+  'Toyota GR Supra': '2024_Toyota_GR_Supra_45th_Anniversary_Edition_in_Renaissance_Red_2.0,_Front_Left,_08-31-2024.jpg',
   'Toyota Land Cruiser': '2024_Toyota_Land_Cruiser_1958_Edition_in_Heritage_Blue_with_Black_Roof,_Front_Left,_09-21-2024.jpg',
+
+  // Hyundai electric
+  'Hyundai Ioniq 9': '26_Hyundai_Ioniq_9_Limited.jpg',
 };
 
 
