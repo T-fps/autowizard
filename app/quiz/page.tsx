@@ -806,7 +806,7 @@ export default function QuizPage() {
       { label: '3-4 passengers (family)', value: '4-5' },
       { label: '5+ passengers often', value: '6+' }
     ] },
-    { id: 'primary-use', question: 'What will you primarily use this vehicle for?', icon: '🎯', type: 'single', section: 'practical', options: [
+    { id: 'primary-use', question: 'What will you primarily use this vehicle for?', icon: '🎯', type: 'multiple', maxSelect: 2, section: 'practical', options: [
       { label: 'Daily commuting to work', value: 'commute' },
       { label: 'Family transportation', value: 'family' },
       { label: 'Work/business use', value: 'work' },
@@ -820,20 +820,20 @@ export default function QuizPage() {
       { label: '50+ miles', value: 'very-long' },
       { label: 'No regular commute', value: 'none' }
     ] },
-    { id: 'driving-environment', question: 'Where do you drive most often?', icon: '🏙️', type: 'single', section: 'practical', options: [
+    { id: 'driving-environment', question: 'Where do you drive most often?', icon: '🏙️', type: 'multiple', maxSelect: 2, section: 'practical', options: [
       { label: 'City streets & traffic', value: 'city' },
       { label: 'Suburban neighborhoods', value: 'suburban' },
       { label: 'Rural roads & countryside', value: 'rural' },
       { label: 'Mostly highway driving', value: 'highway' },
       { label: 'Mix of everything', value: 'mixed' }
     ] },
-    { id: 'weather', question: 'What weather do you regularly drive in?', icon: '🌤️', type: 'single', section: 'practical', options: [
+    { id: 'weather', question: 'What weather do you regularly drive in?', icon: '🌤️', type: 'multiple', maxSelect: 2, section: 'practical', options: [
       { label: 'Mostly sunny and dry', value: 'dry' },
       { label: 'Frequent rain', value: 'rain' },
       { label: 'Heavy snow and ice', value: 'snow' },
       { label: 'All seasons - everything', value: 'all' }
     ] },
-    { id: 'cargo-towing', question: 'What do you need to haul or tow?', icon: '📦', type: 'single', section: 'practical', options: [
+    { id: 'cargo-towing', question: 'What do you need to haul or tow?', icon: '📦', type: 'multiple', maxSelect: 2, section: 'practical', options: [
       { label: 'Just personal items and groceries', value: 'minimal' },
       { label: 'Sports gear, luggage, larger items', value: 'moderate' },
       { label: 'Bikes, kayaks, equipment regularly', value: 'large' },
@@ -857,7 +857,7 @@ export default function QuizPage() {
       { label: 'Efficient & economical - maximize every mile', value: 'efficient' },
       { label: 'Commanding & capable - sit high, see everything', value: 'commanding' }
     ] },
-    { id: 'vehicle-character', question: 'What personality should your vehicle have?', icon: '✨', type: 'single', section: 'values', options: [
+    { id: 'vehicle-character', question: 'What personality should your vehicle have?', icon: '✨', type: 'multiple', maxSelect: 2, section: 'values', options: [
       { label: 'Rugged & capable - ready for anything', value: 'rugged' },
       { label: 'Sleek & sophisticated - refined elegance', value: 'sophisticated' },
       { label: 'Sporty & aggressive - performance-focused', value: 'sporty' },
@@ -908,7 +908,8 @@ export default function QuizPage() {
     // ============================================
     // SECTION 3: SPECIFIC PREFERENCES (Hard filters)
     // ============================================
-    { id: 'body-style', question: "Any body styles you're specifically interested in?", icon: '🚗', type: 'multiple', section: 'preferences', maxSelect: 2, options: [
+    { id: 'body-style', question: "Any body styles you're specifically interested in?", icon: '🚗', type: 'multiple', section: 'preferences', maxSelect: 3, options: [
+      { label: 'No preference - recommend based on my answers', value: 'recommend' },
       { label: 'Sedan', value: 'sedan' },
       { label: 'SUV / Crossover', value: 'suv' },
       { label: 'Truck (Full-size or Midsize)', value: 'truck' },
@@ -917,10 +918,10 @@ export default function QuizPage() {
       { label: 'Hatchback', value: 'hatchback' },
       { label: 'Wagon', value: 'wagon' },
       { label: 'Minivan', value: 'minivan' },
-      { label: 'Convertible', value: 'convertible' },
-      { label: 'Recommend based on my answers', value: 'recommend' }
+      { label: 'Convertible', value: 'convertible' }
     ] },
     { id: 'brand', question: 'Any brands you prefer?', icon: '🏷️', type: 'multiple', section: 'preferences', options: [
+      { label: 'No preference', value: 'none' },
       { label: 'Toyota', value: 'toyota' }, { label: 'Honda', value: 'honda' }, { label: 'Ford', value: 'ford' },
       { label: 'Chevrolet', value: 'chevrolet' }, { label: 'BMW', value: 'bmw' }, { label: 'Mercedes', value: 'mercedes' },
       { label: 'Audi', value: 'audi' }, { label: 'Tesla', value: 'tesla' }, { label: 'Lexus', value: 'lexus' },
@@ -929,17 +930,17 @@ export default function QuizPage() {
       { label: 'Rolls-Royce', value: 'rolls-royce' }, { label: 'Maserati', value: 'maserati' },
       { label: 'Mazda', value: 'mazda' }, { label: 'Subaru', value: 'subaru' }, { label: 'Hyundai', value: 'hyundai' },
       { label: 'Kia', value: 'kia' }, { label: 'Jeep', value: 'jeep' }, { label: 'Ram', value: 'ram' },
-      { label: 'GMC', value: 'gmc' }, { label: 'Nissan', value: 'nissan' }, { label: 'Volvo', value: 'volvo' },
-      { label: 'No preference', value: 'none' }
+      { label: 'GMC', value: 'gmc' }, { label: 'Nissan', value: 'nissan' }, { label: 'Volvo', value: 'volvo' }
     ] },
     { id: 'powertrain', question: 'Any powertrain preference?', icon: '🔋', type: 'single', section: 'preferences', options: [
+      { label: 'No preference', value: 'any' },
       { label: 'Traditional gas - proven and convenient', value: 'gas' },
       { label: 'Hybrid - best of both worlds', value: 'hybrid' },
       { label: 'Plug-in hybrid - electric commute, gas for trips', value: 'phev' },
-      { label: 'Full electric - zero emissions', value: 'electric' },
-      { label: 'No preference', value: 'any' }
+      { label: 'Full electric - zero emissions', value: 'electric' }
     ] },
     { id: 'must-haves', question: 'Any features that are absolute must-haves?', icon: '⭐', type: 'multiple', maxSelect: 4, section: 'preferences', options: [
+      { label: 'None specifically', value: 'none' },
       { label: 'All-wheel drive / 4WD', value: 'awd' },
       { label: 'Apple CarPlay / Android Auto', value: 'carplay' },
       { label: 'Heated seats', value: 'heated-seats' },
@@ -947,8 +948,7 @@ export default function QuizPage() {
       { label: 'Premium audio system', value: 'audio' },
       { label: 'Adaptive cruise control', value: 'acc' },
       { label: 'Third row seating', value: 'third-row' },
-      { label: 'Leather interior', value: 'leather' },
-      { label: 'None specifically', value: 'none' }
+      { label: 'Leather interior', value: 'leather' }
     ] }
   ];
 
