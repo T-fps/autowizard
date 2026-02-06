@@ -2,18 +2,18 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { X, Check, Send, Menu, Scale, Home, Car, DollarSign, Target, BookOpen, Sparkles } from 'lucide-react';
+import { X, Check, Send, Menu, Scale, Home, DollarSign, Target, BookOpen, Sparkles, Search } from 'lucide-react';
 
 const LOGO_SRC = "/logo.png";
 
 // Navigation items - single source of truth
 const navItems = [
-  { href: '/', label: "Wizard's Guide", shortLabel: 'Guide', icon: Home },
-  { href: '/brands', label: 'Find My Car', shortLabel: 'Find Car', icon: Car },
-  { href: '/compare', label: 'Compare', shortLabel: 'Compare', icon: Scale },
-  { href: '/value', label: "My Car's Value", shortLabel: 'Value', icon: DollarSign },
-  { href: '/quiz', label: 'CarMatch™', shortLabel: 'CarMatch™', icon: Target },
-  { href: '/blog', label: 'Articles', shortLabel: 'Articles', icon: BookOpen },
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/brands', label: 'Search', icon: Search },
+  { href: '/compare', label: 'Compare', icon: Scale },
+  { href: '/value', label: 'Value', icon: DollarSign },
+  { href: '/quiz', label: 'CarMatch™', icon: Target },
+  { href: '/blog', label: 'Articles', icon: BookOpen },
 ];
 
 export default function Navigation() {
@@ -41,28 +41,30 @@ export default function Navigation() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-2">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group" onClick={closeMobileMenu}>
+            <Link href="/" className="flex-shrink-0" onClick={closeMobileMenu}>
               <img src={LOGO_SRC} alt="Auto Wizard" className="h-14 md:h-20 w-auto" />
             </Link>
 
-            {/* Desktop Navigation - Hidden on mobile */}
-            <nav className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-1">
-              {navItems.map((item) => (
-                <Link 
-                  key={item.href}
-                  href={item.href} 
-                  className="px-3 xl:px-4 py-2 rounded-lg text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all text-sm xl:text-base"
-                >
-                  {item.label}
-                </Link>
-              ))}
+            {/* Desktop Navigation - Centered between logo and CTA */}
+            <nav className="hidden md:flex items-center justify-center flex-1 px-4">
+              <div className="flex items-center gap-1 lg:gap-2">
+                {navItems.map((item) => (
+                  <Link 
+                    key={item.href}
+                    href={item.href} 
+                    className="px-3 lg:px-4 py-2 rounded-lg text-slate-700 font-bold hover:text-amber-600 hover:bg-amber-50 transition-all text-sm lg:text-base whitespace-nowrap"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </nav>
 
             {/* Right side: CTA + Mobile menu button */}
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <Link 
                 href="/services" 
-                className="hidden sm:block px-4 md:px-5 py-2 md:py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 text-sm"
+                className="hidden sm:block px-4 lg:px-5 py-2 lg:py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25 text-sm whitespace-nowrap"
               >
                 Premium Services
               </Link>
@@ -70,7 +72,7 @@ export default function Navigation() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg text-slate-700 hover:text-amber-600 hover:bg-amber-50 transition-all"
+                className="md:hidden p-2 rounded-lg text-slate-700 hover:text-amber-600 hover:bg-amber-50 transition-all"
                 aria-label="Toggle menu"
                 aria-expanded={mobileMenuOpen}
               >
@@ -85,7 +87,7 @@ export default function Navigation() {
 
           {/* Mobile Dropdown Menu */}
           {mobileMenuOpen && (
-            <nav className="lg:hidden mt-3 pt-3 pb-2 border-t border-slate-200 animate-in slide-in-from-top-2 duration-200">
+            <nav className="md:hidden mt-3 pt-3 pb-2 border-t border-slate-200">
               <div className="grid grid-cols-2 gap-2">
                 {navItems.map((item) => (
                   <Link
@@ -95,7 +97,7 @@ export default function Navigation() {
                     className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 font-semibold hover:text-amber-600 hover:bg-amber-50 transition-all"
                   >
                     <item.icon className="w-5 h-5 text-amber-500" />
-                    <span>{item.shortLabel}</span>
+                    <span>{item.label}</span>
                   </Link>
                 ))}
               </div>
