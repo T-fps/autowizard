@@ -311,33 +311,6 @@ export default function ComparePage() {
               })}
             </div>
 
-            {/* Suggested Competitors */}
-            {selectedVehicles.length >= 1 && selectedVehicles.length < 3 && suggestedVehicles.length > 0 && !showSearch && (
-              <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                <div className="flex items-center gap-2 mb-3">
-                  <Sparkles className="w-5 h-5 text-amber-600" />
-                  <span className="text-sm font-semibold text-slate-900">Suggested Competitors</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {suggestedVehicles.map((vehicleName) => {
-                    const vehicleData = vehicleDatabase.find(v => v.name === vehicleName);
-                    return (
-                      <button
-                        key={vehicleName}
-                        onClick={() => addVehicle(vehicleName)}
-                        className="px-4 py-2 bg-white border border-amber-300 rounded-lg text-sm text-slate-700 hover:bg-amber-100 hover:border-amber-400 transition-all flex items-center gap-2"
-                      >
-                        <span>{vehicleName}</span>
-                        {vehicleData && (
-                          <span className="text-amber-600 font-medium">{formatPrice(vehicleData.price)}</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
             {/* Search Input */}
             {showSearch && (
               <div className="relative mb-6">
@@ -362,31 +335,72 @@ export default function ComparePage() {
                   </button>
                 </div>
                 
-                {/* Search Results */}
-                {filteredVehicles.length > 0 && (
-                  <div className="absolute z-10 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
-                    {filteredVehicles.map((vehicle) => (
-                      <button
-                        key={vehicle.name}
-                        onClick={() => addVehicle(vehicle.name)}
-                        disabled={selectedVehicles.includes(vehicle.name)}
-                        className={`w-full px-4 py-3 flex items-center justify-between hover:bg-amber-50 transition-colors ${
-                          selectedVehicles.includes(vehicle.name) ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
-                      >
-                        <div className="text-left">
-                          <div className="text-slate-900 font-medium">{vehicle.name}</div>
-                          <div className="text-slate-500 text-sm">{getBodyTypeDisplay(vehicle.bodyType)} • {formatPrice(vehicle.price)}</div>
-                        </div>
-                        {selectedVehicles.includes(vehicle.name) ? (
-                          <span className="text-slate-400 text-sm">Already added</span>
-                        ) : (
-                          <span className="text-amber-600 font-medium text-sm">+ Add</span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                {/* Search Results OR Suggestions */}
+                <div className="absolute z-10 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+                  {/* Show search results if there's a query */}
+                  {filteredVehicles.length > 0 ? (
+                    <>
+                      {filteredVehicles.map((vehicle) => (
+                        <button
+                          key={vehicle.name}
+                          onClick={() => addVehicle(vehicle.name)}
+                          disabled={selectedVehicles.includes(vehicle.name)}
+                          className={`w-full px-4 py-3 flex items-center justify-between hover:bg-amber-50 transition-colors ${
+                            selectedVehicles.includes(vehicle.name) ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
+                        >
+                          <div className="text-left">
+                            <div className="text-slate-900 font-medium">{vehicle.name}</div>
+                            <div className="text-slate-500 text-sm">{getBodyTypeDisplay(vehicle.bodyType)}</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-amber-600 font-semibold">{formatPrice(vehicle.price)}</div>
+                            {selectedVehicles.includes(vehicle.name) ? (
+                              <span className="text-slate-400 text-xs">Already added</span>
+                            ) : (
+                              <span className="text-amber-600 text-xs font-medium">+ Add</span>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </>
+                  ) : suggestedVehicles.length > 0 && !searchQuery.trim() ? (
+                    <>
+                      {/* Show suggested competitors when no search query */}
+                      <div className="px-4 py-2 bg-amber-50 border-b border-amber-100 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-amber-600" />
+                        <span className="text-sm font-semibold text-slate-700">Suggested Competitors</span>
+                      </div>
+                      {suggestedVehicles.map((vehicleName) => {
+                        const vehicleData = vehicleDatabase.find(v => v.name === vehicleName);
+                        return (
+                          <button
+                            key={vehicleName}
+                            onClick={() => addVehicle(vehicleName)}
+                            className="w-full px-4 py-3 flex items-center justify-between hover:bg-amber-50 transition-colors"
+                          >
+                            <div className="text-left">
+                              <div className="text-slate-900 font-medium">{vehicleName}</div>
+                              <div className="text-slate-500 text-sm">{vehicleData ? getBodyTypeDisplay(vehicleData.bodyType) : ''}</div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-amber-600 font-semibold">{vehicleData ? formatPrice(vehicleData.price) : ''}</div>
+                              <span className="text-amber-600 text-xs font-medium">+ Add</span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </>
+                  ) : searchQuery.trim() ? (
+                    <div className="px-4 py-6 text-center text-slate-500">
+                      No vehicles found for "{searchQuery}"
+                    </div>
+                  ) : (
+                    <div className="px-4 py-6 text-center text-slate-500">
+                      Start typing to search vehicles...
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
