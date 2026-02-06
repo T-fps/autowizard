@@ -155,8 +155,8 @@ export default async function CompareVehiclesPage({ params }: { params: Promise<
         </div>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Vehicle Cards */}
-          <div className={`grid ${cardGridCols} gap-6 mb-12`}>
+          {/* Vehicle Cards - Dynamic grid based on count */}
+          <div className={`grid gap-6 mb-12 ${cardGridCols}`}>
             {vehicles.map((vehicle) => (
               <div key={vehicle.name} className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-shadow">
                 <div className={`aspect-video bg-gradient-to-br ${getBrandGradient(vehicle.brand)} relative`}>
