@@ -800,24 +800,20 @@ const commonsSearchOverrides: Record<string, string> = {
 // ============================================================================
 const directCommonsFiles: Record<string, string> = {
   // Audi variants that share Q7/Q8 Wikipedia articles
-  'Audi SQ5': 'Audi_SQ5_(FY)_IMG_0346.jpg',
-  'Audi SQ7': 'Audi_SQ7_(4M)_IMG_0344.jpg',
-  'Audi S3': 'Audi_S3_(55055899525).jpg',
-  'Audi S5': 'Audi_S5_Sportback_(F5)_Washington_DC_Metro_Area,_USA_(1).jpg',
-  'Audi e-tron': '2019_Audi_e-tron_quattro_front_NYIAS_2019.jpg',
+  'Audi SQ5': 'Audi_SQ5_TDI_(Facelift)_–_Frontansicht,_27._April_2014,_Düsseldorf.jpg',
+  'Audi SQ7': 'Audi_SQ7_TDI_Facelift_IAA_2019_JM_0468.jpg',
   'Audi SQ8': 'Audi_SQ8.jpg',
   'Audi RS Q8': '2020_Audi_RS_Q8_Front_(1).jpg',
 
   // BMW M variants  
   'BMW X5M': 'BMW_X5_M_Competition_(F95)_1X7A5950.jpg',
   'BMW X6M': 'BMW_X6_M_Competition_(F96)_IMG_3316.jpg',
-  'BMW X7 M60i': '2022_BMW_X7_M60i_xDrive_Auto.jpg',
 
   // Chevrolet trucks and performance variants
   'Chevrolet Silverado 1500': 'Chevrolet_Silverado_High_Country_2025.jpg',
   'Chevrolet Corvette Z06': '2023_Chevrolet_Corvette_Z06_in_Rapid_Blue,_Front_Left,_02-05-2023.jpg',
   'Chevrolet Corvette ZR1': '2025_Chevrolet_Corvette_ZR1.jpg',
-  'Chevrolet Camaro ZL1': '2023_Chevrolet_Camaro_ZL1_in_Sharkskin_Metallic,_Front_Left,_09-02-2023.jpg',
+  'Chevrolet Camaro ZL1': '2020_Chevrolet_Camaro_ZL1_in_Red_Hot,_Front_Left,_02-26-2023.jpg',
 
   // Dodge SRT / Hellcat
   'Dodge Challenger SRT Hellcat': 'White_Dodge_Challenger_SRT_three-quarter_front_view.jpg',
@@ -831,26 +827,23 @@ const directCommonsFiles: Record<string, string> = {
 
   // Ford performance variants
   'Ford Mustang Shelby GT500': '2020_Ford_Mustang_Shelby_GT500_in_Iconic_Silver,_Front_Right,_09-10-2023.jpg',
-  'Ford F-150 Raptor': '2019_Ford_F-150_Raptor_4x4_SuperCrew_5.5%27_Box_in_Ruby_Red_Metallic_Tinted_Clearcoat,_Front_Left,_2024-03-08.jpg',
-  'Ford F-150 Raptor R': '2024_Ford_F-150_Raptor_R_in_Antimatter_Blue,_Front_Left,_11-16-2024.jpg',
+  'Ford F-150 Raptor': '2021_Ford_F-150_Raptor_37_in_Antimatter_Blue,_Front_Left,_12-25-2021.jpg',
+  'Ford F-150 Raptor R': '2024_Ford_F-150_Raptor_R_in_Area_51,_Front_Left,_04-06-2024.jpg',
 
   // Genesis
   'Genesis G70 Shooting Brake': 'Genesis_G70_Shooting_Brake.jpg',
 
   // GMC variants
   'GMC Sierra 1500': '2019_GMC_Sierra_1500_Denali_au_SIAM_2019.jpg',
-  'GMC Canyon': '2024_GMC_Canyon_Elevation_in_Titanium_Rush_Metallic,_Front_Left,_04-13-2024.jpg',
-  'GMC Canyon AT4X': '2024_GMC_Canyon_AT4X_in_Volcanic_Red_Tintcoat,_Front_Left,_04-27-2024.jpg',
-  'GMC Yukon': '2020_GMC_Yukon_SLT_4WD_in_silver,_front_left.jpg',
-  'GMC Yukon XL': '2024_GMC_Yukon_XL_SLT_in_White_Frost_Tricoat,_Front_Left,_10-19-2024.jpg',
-  'GMC Yukon Denali Ultimate': '2024_GMC_Yukon_Denali_Ultimate_in_Dark_Slate_Metallic,_Front_Left,_03-23-2024.jpg',
+  'GMC Canyon': '2023_GMC_Canyon_Elevation_in_Sterling_Metallic,_Front_Left,_08-26-2023.jpg',
+  'GMC Canyon AT4X': '2023_GMC_Canyon_AT4X_in_Summit_White,_Front_Left,_02-04-2024.jpg',
+  'GMC Yukon': '2021_GMC_Yukon_SLT_in_Dark_Sky_Metallic,_Front_Left,_12-31-2021.jpg',
+  'GMC Yukon XL': '2021_GMC_Yukon_XL_SLT_in_Onyx_Black,_Front_Left,_09-04-2021.jpg',
+  'GMC Yukon Denali Ultimate': '2023_GMC_Yukon_Denali_in_White_Frost_Tricoat,_Front_Left,_04-23-2023.jpg',
 
   // Honda variants
   'Honda Civic Type R': '2023_Honda_Civic_Type_R_in_Championship_White,_front_7.11.22.jpg',
   'Honda Ridgeline': '2022_Honda_Ridgeline_Touring_in_Sonic_Gray_Pearl,_front_left,_2024-05-11.jpg',
-
-  // Hyundai variants
-  'Hyundai Ioniq 9': '2025_Hyundai_Ioniq_9_(Front)_at_the_2025_NYC_Auto_Show.jpg',
 
   // Jeep wagon variants
   'Jeep Grand Wagoneer': '2023_Jeep_Grand_Wagoneer_Series_III_in_Bright_White_Clear_Coat,_Front_Left,_08-05-2023.jpg',
@@ -886,9 +879,9 @@ const directCommonsFiles: Record<string, string> = {
   'Porsche 718 Cayman': '2024_Porsche_718_Cayman_GT4.jpg',
 
   // Ram variants
-  'Ram 1500 Rebel': '2020_Ram_1500_Rebel_Crew_Cab_4x4,_front_left.jpg',
-  'Ram 1500 Limited': '2022_Ram_1500_Limited_Crew_Cab_4x4,_front_left,_05-09-2023.jpg',
-  'Ram 2500': "'20_Ram_2500_Cummins_Crew_Cab.jpg",
+  'Ram 1500 Rebel': '2024_Ram_1500_Rebel_in_Hydro_Blue_Pearl_Coat,_Front_Left,_04-20-2024.jpg',
+  'Ram 1500 Limited': '2024_Ram_1500_Limited_in_Ivory_White_Tri-Coat_Pearl,_Front_Left,_07-03-2024.jpg',
+  'Ram 2500': '2024_Ram_2500_Laramie_in_Diamond_Black_Crystal_Pearl_Coat,_Front_Left,_09-28-2024.jpg',
 
   // Rolls-Royce
   'Rolls-Royce Phantom': 'Rolls-Royce_Phantom_VIII_Series_II_(front),_2024.jpg',
@@ -897,9 +890,53 @@ const directCommonsFiles: Record<string, string> = {
   // Toyota performance variants
   'Toyota 4Runner TRD Pro': '2025_Toyota_4Runner_TRD_Pro_in_Mudbath,_Front_Left,_01-11-2025.jpg',
   'Toyota Tacoma TRD Pro': '2024_Toyota_Tacoma_TRD_Pro_in_Ice_Cap,_Front_Left,_07-06-2024.jpg',
-  'Toyota Tundra TRD Pro': '2024_Toyota_Tundra_TRD_Pro_in_Terra,_Front_Left,_01-20-2024.jpg',
-  'Toyota GR Supra': 'Dülmen,_Auto_Bertels,_Toyota_GR_Supra_--_2021_--_9555.jpg',
+  'Toyota Tundra TRD Pro': '2022_Toyota_Tundra_TRD_Pro_in_Lunar_Rock,_Front_Left,_01-22-2023.jpg',
+  'Toyota GR Supra': 'Toyota_GR_Supra_at_Goodwood_Festival_of_Speed_2019.jpg',
   'Toyota Land Cruiser': '2024_Toyota_Land_Cruiser_1958_Edition_in_Heritage_Blue_with_Black_Roof,_Front_Left,_09-21-2024.jpg',
+};
+
+// ============================================================================
+// LOCAL IMAGE FILES — Self-hosted vehicle images for reliable display
+// These are stored in /public/vehicle-images/ and served directly.
+// Format: vehicleName → filename (without path, includes .webp extension)
+// Images are 1200x675 WebP format, cropped and optimized for web display.
+// ============================================================================
+const localImageFiles: Record<string, string> = {
+  // Audi
+  'Audi e-tron': 'audi_e-tron.webp',
+  'Audi S3': 'audi_s3.webp',
+  'Audi S5': 'audi_s5.webp',
+  'Audi SQ5': 'audi_sq5.webp',
+  'Audi SQ7': 'audi_sq7.webp',
+
+  // BMW
+  'BMW X7 M60i': 'bmw_x7_m60i.webp',
+
+  // Chevrolet
+  'Chevrolet Camaro ZL1': 'chevrolet_camaro_zl1.webp',
+
+  // Ford
+  'Ford F-150 Raptor': 'ford_f-150_raptor.webp',
+  'Ford F-150 Raptor R': 'ford_f-150_raptor_r.webp',
+
+  // GMC
+  'GMC Canyon': 'gmc_canyon.webp',
+  'GMC Canyon AT4X': 'gmc_canyon_at4x.webp',
+  'GMC Yukon': 'gmc_yukon.webp',
+  'GMC Yukon XL': 'gmc_yukon_xl.webp',
+  'GMC Yukon Denali Ultimate': 'gmc_yukon_denali_ultimate.webp',
+
+  // Hyundai
+  'Hyundai Ioniq 9': 'hyundai_ioniq_9.webp',
+
+  // Ram
+  'Ram 1500 Limited': 'ram_1500_limited.webp',
+  'Ram 1500 Rebel': 'ram_1500_rebel.webp',
+  'Ram 2500': 'ram_2500.webp',
+
+  // Toyota
+  'Toyota GR Supra': 'toyota_gr_supra.webp',
+  'Toyota Tundra TRD Pro': 'toyota_tundra_trd_pro.webp',
 };
 
 
@@ -968,6 +1005,21 @@ export default function CarImage({
       const wikiTitle = getWikiTitle(vehicleName);
       const hasCommonsOverride = vehicleName in commonsSearchOverrides;
       const hasDirectFile = vehicleName in directCommonsFiles;
+      const hasLocalImage = vehicleName in localImageFiles;
+
+      // ====================================================================
+      // STRATEGY LOCAL: Self-hosted images (HIGHEST PRIORITY)
+      // For vehicles with local images in /public/vehicle-images/
+      // These are guaranteed to exist and display correctly.
+      // ====================================================================
+      if (hasLocalImage) {
+        const filename = localImageFiles[vehicleName];
+        const localUrl = `/vehicle-images/${filename}`;
+        imageCache[vehicleName] = localUrl;
+        setImageUrl(localUrl);
+        setIsLoading(false);
+        return;
+      }
 
       // ====================================================================
       // STRATEGY 0: Direct Wikimedia Commons file URL (highest priority)
