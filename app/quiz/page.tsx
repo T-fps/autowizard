@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { ChevronRight, ChevronLeft, Check, ArrowLeft, ArrowRight, Shield, Clock, Mail, Target, Star, FileText, RefreshCw, X, Send } from 'lucide-react';
 import Navigation from '../components/shared/Navigation';
+import { scoreVehicles, getCategoryName, ScoredVehicle } from '../lib/vehicleScoring';
+import { vehicleDatabase } from '../lib/vehicleDatabase';
 
 export default function QuizPage() {
   const [testStep, setTestStep] = useState(0);
@@ -27,72 +29,639 @@ export default function QuizPage() {
     const cleanVehicle = vehicle.startsWith('Used ') ? vehicle.slice(5) : vehicle;
     
     const titleMappings: Record<string, string> = {
+      // Tesla
       'Tesla Model 3': 'Tesla_Model_3',
       'Tesla Model Y': 'Tesla_Model_Y',
       'Tesla Model S': 'Tesla_Model_S',
       'Tesla Model X': 'Tesla_Model_X',
       'Tesla Cybertruck': 'Tesla_Cybertruck',
+      
+      // Ford
       'Ford F-150': 'Ford_F-Series',
+      'Ford F-150 Hybrid': 'Ford_F-150',
       'Ford F-150 Lightning': 'Ford_F-150_Lightning',
+      'Ford F-150 Raptor': 'Ford_F-150_Raptor',
+      'Ford F-150 Raptor R': 'Ford_F-150_Raptor',
+      'Ford Super Duty F-250': 'Ford_Super_Duty',
+      'Ford F-250': 'Ford_Super_Duty',
+      'Ford Super Duty F-350': 'Ford_Super_Duty',
+      'Ford Mustang': 'Ford_Mustang',
+      'Ford Mustang GT': 'Ford_Mustang',
+      'Ford Mustang Dark Horse': 'Ford_Mustang',
+      'Ford Mustang Convertible': 'Ford_Mustang',
+      'Ford Mustang Shelby GT500': 'Ford_Mustang_Shelby_GT500',
       'Ford Mustang Mach-E': 'Ford_Mustang_Mach-E',
+      'Ford Bronco': 'Ford_Bronco_(sixth_generation)',
+      'Ford Bronco Sport': 'Ford_Bronco_Sport',
+      'Ford Bronco Raptor': 'Ford_Bronco_(sixth_generation)',
+      'Ford Explorer': 'Ford_Explorer',
+      'Ford Explorer Hybrid': 'Ford_Explorer',
+      'Ford Explorer ST': 'Ford_Explorer',
+      'Ford Expedition': 'Ford_Expedition',
+      'Ford Expedition MAX': 'Ford_Expedition',
+      'Ford Ranger': 'Ford_Ranger_(Americas)',
+      'Ford Maverick': 'Ford_Maverick_(2021)',
+      'Ford Escape': 'Ford_Escape',
+      'Ford Escape Hybrid': 'Ford_Escape',
+      'Ford Escape PHEV': 'Ford_Escape',
+      'Ford Edge': 'Ford_Edge',
+      'Ford Edge ST': 'Ford_Edge',
+      'Ford Transit': 'Ford_Transit',
+      'Ford Transit Connect': 'Ford_Transit_Connect',
+      
+      // Chevrolet
       'Chevrolet Corvette': 'Chevrolet_Corvette',
+      'Chevrolet Corvette E-Ray': 'Chevrolet_Corvette_(C8)',
+      'Chevrolet Corvette Z06': 'Chevrolet_Corvette_Z06',
+      'Chevrolet Corvette ZR1': 'Chevrolet_Corvette_ZR1',
       'Chevrolet Camaro': 'Chevrolet_Camaro',
-      'Chevrolet Silverado': 'Chevrolet_Silverado',
-      'Porsche 911': 'Porsche_911',
-      'Porsche Taycan': 'Porsche_Taycan',
-      'Porsche Cayenne': 'Porsche_Cayenne',
-      'Porsche Macan': 'Porsche_Macan',
-      'BMW 3 Series': 'BMW_3_Series',
-      'BMW 5 Series': 'BMW_5_Series',
-      'BMW 7 Series': 'BMW_7_Series',
-      'BMW X3': 'BMW_X3',
-      'BMW X5': 'BMW_X5',
-      'BMW X7': 'BMW_X7',
-      'BMW i4': 'BMW_i4',
-      'BMW iX': 'BMW_iX',
-      'BMW M3': 'BMW_M3',
-      'BMW M5': 'BMW_M5',
-      'Mercedes-Benz C-Class': 'Mercedes-Benz_C-Class',
-      'Mercedes-Benz E-Class': 'Mercedes-Benz_E-Class',
-      'Mercedes-Benz S-Class': 'Mercedes-Benz_S-Class',
-      'Mercedes-Benz GLE': 'Mercedes-Benz_GLE-Class',
-      'Mercedes-Benz GLS': 'Mercedes-Benz_GLS-Class',
-      'Mercedes-Benz GLC': 'Mercedes-Benz_GLC-Class',
-      'Mercedes-Benz EQS': 'Mercedes-Benz_EQS',
-      'Mercedes-Benz EQE': 'Mercedes-Benz_EQE',
-      'Mercedes-Benz AMG GT': 'Mercedes-AMG_GT',
-      'Audi A4': 'Audi_A4',
-      'Audi A6': 'Audi_A6',
-      'Audi A8': 'Audi_A8',
-      'Audi Q5': 'Audi_Q5',
-      'Audi Q7': 'Audi_Q7',
-      'Audi Q8': 'Audi_Q8',
-      'Audi e-tron': 'Audi_e-tron_(brand)',
-      'Audi e-tron GT': 'Audi_e-tron_GT',
-      'Audi R8': 'Audi_R8',
-      'Audi RS6': 'Audi_RS_6',
+      'Chevrolet Camaro ZL1': 'Chevrolet_Camaro',
+      'Chevrolet Silverado 1500': 'Chevrolet_Silverado',
+      'Chevrolet Silverado 2500HD': 'Chevrolet_Silverado',
+      'Chevrolet Silverado 3500HD': 'Chevrolet_Silverado',
+      'Chevrolet Silverado EV': 'Chevrolet_Silverado_EV',
+      'Chevrolet Silverado ZR2': 'Chevrolet_Silverado',
+      'Chevrolet Colorado': 'Chevrolet_Colorado',
+      'Chevrolet Colorado ZR2': 'Chevrolet_Colorado',
+      'Chevrolet Tahoe': 'Chevrolet_Tahoe',
+      'Chevrolet Tahoe Z71': 'Chevrolet_Tahoe',
+      'Chevrolet Suburban': 'Chevrolet_Suburban',
+      'Chevrolet Traverse': 'Chevrolet_Traverse',
+      'Chevrolet Equinox': 'Chevrolet_Equinox',
+      'Chevrolet Equinox EV': 'Chevrolet_Equinox_EV',
+      'Chevrolet Blazer': 'Chevrolet_Blazer_(crossover)',
+      'Chevrolet Blazer EV': 'Chevrolet_Blazer_EV',
+      'Chevrolet Trax': 'Chevrolet_Trax',
+      'Chevrolet Trailblazer': 'Chevrolet_Trailblazer_(crossover)',
+      'Chevrolet Bolt EUV': 'Chevrolet_Bolt',
+      'Chevrolet Spark': 'Chevrolet_Spark',
+      'Chevrolet Express': 'Chevrolet_Express',
+      
+      // GMC
+      'GMC Sierra 1500': 'GMC_Sierra',
+      'GMC Sierra 2500HD': 'GMC_Sierra',
+      'GMC Sierra 3500HD': 'GMC_Sierra',
+      'GMC Sierra EV': 'GMC_Sierra_EV',
+      'GMC Sierra AT4X': 'GMC_Sierra',
+      'GMC Canyon': 'GMC_Canyon',
+      'GMC Canyon AT4X': 'GMC_Canyon',
+      'GMC Yukon': 'GMC_Yukon',
+      'GMC Yukon XL': 'GMC_Yukon',
+      'GMC Yukon AT4': 'GMC_Yukon',
+      'GMC Yukon Denali Ultimate': 'GMC_Yukon',
+      'GMC Acadia': 'GMC_Acadia',
+      'GMC Terrain': 'GMC_Terrain',
+      'GMC Hummer EV Pickup': 'GMC_Hummer_EV',
+      'GMC Hummer EV SUV': 'GMC_Hummer_EV',
+      'GMC Hummer EV': 'GMC_Hummer_EV',
+      'GMC Savana': 'GMC_Savana',
+      
+      // Dodge/Ram
+      'Dodge Challenger': 'Dodge_Challenger',
+      'Dodge Challenger SRT Hellcat': 'Dodge_Challenger_SRT_Hellcat',
+      'Dodge Charger': 'Dodge_Charger_(seventh_generation)',
+      'Dodge Charger SRT Hellcat': 'Dodge_Charger_SRT_Hellcat',
+      'Dodge Charger Daytona': 'Dodge_Charger_Daytona_(2024)',
+      'Dodge Durango': 'Dodge_Durango',
+      'Dodge Durango SRT 392': 'Dodge_Durango',
+      'Dodge Durango SRT Hellcat': 'Dodge_Durango',
+      'Dodge Hornet': 'Dodge_Hornet_(2023)',
+      'Dodge Hornet R/T': 'Dodge_Hornet_(2023)',
+      'Ram 1500': 'Ram_1500',
+      'Ram 1500 TRX': 'Ram_1500_TRX',
+      'Ram 1500 Rebel': 'Ram_1500',
+      'Ram 1500 Limited': 'Ram_1500',
+      'Ram 1500 REV': 'Ram_1500',
+      'Ram 2500': 'Ram_2500',
+      'Ram 3500': 'Ram_3500',
+      'Ram ProMaster': 'Ram_ProMaster',
+      'Ram ProMaster City': 'Ram_ProMaster_City',
+      
+      // Jeep
+      'Jeep Wrangler': 'Jeep_Wrangler',
+      'Jeep Wrangler 4xe': 'Jeep_Wrangler_(JL)',
+      'Jeep Wrangler Rubicon 392': 'Jeep_Wrangler_(JL)',
+      'Jeep Gladiator': 'Jeep_Gladiator_(JT)',
+      'Jeep Grand Cherokee': 'Jeep_Grand_Cherokee',
+      'Jeep Grand Cherokee 4xe': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Grand Cherokee L': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Grand Cherokee Trailhawk': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Grand Cherokee Summit': 'Jeep_Grand_Cherokee_(WL)',
+      'Jeep Cherokee': 'Jeep_Cherokee_(KL)',
+      'Jeep Compass': 'Jeep_Compass',
+      'Jeep Renegade': 'Jeep_Renegade_(BU)',
+      'Jeep Wagoneer': 'Jeep_Wagoneer_(WS)',
+      'Jeep Grand Wagoneer': 'Jeep_Wagoneer_(WS)',
+      
+      // Chrysler
+      'Chrysler Pacifica': 'Chrysler_Pacifica_(minivan)',
+      'Chrysler Pacifica Hybrid': 'Chrysler_Pacifica_(minivan)',
+      'Chrysler Voyager': 'Chrysler_Voyager_(minivan)',
+      'Chrysler 300': 'Chrysler_300_(third_generation)',
+      
+      // Toyota
       'Toyota Camry': 'Toyota_Camry',
       'Toyota Corolla': 'Toyota_Corolla',
+      'Toyota Corolla Hatchback': 'Toyota_Corolla_(E210)',
+      'Toyota Corolla Hybrid': 'Toyota_Corolla',
+      'Toyota Corolla Cross': 'Toyota_Corolla_Cross',
+      'Toyota Corolla Cross Hybrid': 'Toyota_Corolla_Cross',
+      'Toyota GR Corolla': 'Toyota_GR_Corolla',
       'Toyota RAV4': 'Toyota_RAV4',
+      'Toyota RAV4 Hybrid': 'Toyota_RAV4',
+      'Toyota RAV4 Prime': 'Toyota_RAV4_Prime',
+      'Toyota RAV4 TRD Off-Road': 'Toyota_RAV4',
       'Toyota Highlander': 'Toyota_Highlander',
+      'Toyota Grand Highlander': 'Toyota_Grand_Highlander',
       'Toyota 4Runner': 'Toyota_4Runner',
+      'Toyota 4Runner TRD Pro': 'Toyota_4Runner',
+      'Toyota Sequoia': 'Toyota_Sequoia',
+      'Toyota Land Cruiser': 'Toyota_Land_Cruiser',
+      'Toyota Land Cruiser 250': 'Toyota_Land_Cruiser',
       'Toyota Tacoma': 'Toyota_Tacoma',
+      'Toyota Tacoma Hybrid': 'Toyota_Tacoma',
+      'Toyota Tacoma TRD Pro': 'Toyota_Tacoma',
       'Toyota Tundra': 'Toyota_Tundra',
-      'Toyota Supra': 'Toyota_Supra',
+      'Toyota Tundra Hybrid': 'Toyota_Tundra',
+      'Toyota Tundra TRD Pro': 'Toyota_Tundra',
+      'Toyota Crown': 'Toyota_Crown_(S230)',
+      'Toyota Crown Signia': 'Toyota_Crown_Signia',
+      'Toyota Venza': 'Toyota_Venza',
+      'Toyota Sienna': 'Toyota_Sienna',
       'Toyota Prius': 'Toyota_Prius',
+      'Toyota Prius Prime': 'Toyota_Prius_Plug-in_Hybrid',
+      'Toyota GR Supra': 'Toyota_Supra',
+      'Toyota GR86': 'Toyota_GR86',
+      'Toyota bZ4X': 'Toyota_bZ4X',
+      'Toyota Mirai': 'Toyota_Mirai',
+      
+      // Honda
       'Honda Civic': 'Honda_Civic',
+      'Honda Civic Hatchback': 'Honda_Civic',
+      'Honda Civic Hybrid': 'Honda_Civic',
+      'Honda Civic Si': 'Honda_Civic_Si',
+      'Honda Civic Type R': 'Honda_Civic_Type_R',
       'Honda Accord': 'Honda_Accord',
+      'Honda Accord Hybrid': 'Honda_Accord',
+      'Honda Accord Sport': 'Honda_Accord',
       'Honda CR-V': 'Honda_CR-V',
+      'Honda CR-V Hybrid': 'Honda_CR-V',
+      'Honda CR-V Hybrid Sport Touring': 'Honda_CR-V',
+      'Honda CR-V Sport Touring': 'Honda_CR-V',
+      'Honda HR-V': 'Honda_HR-V',
       'Honda Pilot': 'Honda_Pilot',
-      'Honda Odyssey': 'Honda_Odyssey',
+      'Honda Pilot TrailSport': 'Honda_Pilot',
+      'Honda Passport': 'Honda_Passport',
+      'Honda Passport TrailSport': 'Honda_Passport',
+      'Honda Prologue': 'Honda_Prologue',
       'Honda Ridgeline': 'Honda_Ridgeline',
+      'Honda Odyssey': 'Honda_Odyssey',
+      
+      // Lexus
       'Lexus ES': 'Lexus_ES',
-      'Lexus RX': 'Lexus_RX',
+      'Lexus ES Hybrid': 'Lexus_ES',
+      'Lexus IS': 'Lexus_IS',
+      'Lexus IS 300': 'Lexus_IS',
+      'Lexus IS 500': 'Lexus_IS',
+      'Lexus LS': 'Lexus_LS',
+      'Lexus LC': 'Lexus_LC',
+      'Lexus LC 500': 'Lexus_LC',
+      'Lexus LC 500 Convertible': 'Lexus_LC',
+      'Lexus RC': 'Lexus_RC',
+      'Lexus RC F': 'Lexus_RC_F',
+      'Lexus UX': 'Lexus_UX',
       'Lexus NX': 'Lexus_NX',
+      'Lexus NX Hybrid': 'Lexus_NX',
+      'Lexus NX 350 F Sport': 'Lexus_NX',
+      'Lexus RX': 'Lexus_RX',
+      'Lexus RX Hybrid': 'Lexus_RX',
+      'Lexus RX 350 F Sport': 'Lexus_RX',
+      'Lexus RX 500h F Sport': 'Lexus_RX',
+      'Lexus RZ': 'Lexus_RZ',
+      'Lexus TX': 'Lexus_TX',
       'Lexus GX': 'Lexus_GX',
       'Lexus LX': 'Lexus_LX',
-      'Lexus LC': 'Lexus_LC',
-      'Lexus IS': 'Lexus_IS',
+      'Lexus LM': 'Lexus_LM',
+      
+      // Acura
+      'Acura Integra': 'Acura_Integra',
+      'Acura Integra Type S': 'Acura_Integra',
+      'Acura TLX': 'Acura_TLX',
+      'Acura TLX Type S': 'Acura_TLX',
+      'Acura RDX': 'Acura_RDX',
+      'Acura RDX A-Spec': 'Acura_RDX',
+      'Acura RDX A-Spec Advance': 'Acura_RDX',
+      'Acura ADX': 'Acura_ADX',
+      'Acura ADX A-Spec': 'Acura_ADX',
+      'Acura MDX': 'Acura_MDX',
+      'Acura MDX Type S': 'Acura_MDX',
+      'Acura ZDX': 'Acura_ZDX_(2024)',
+      'Acura ZDX Type S': 'Acura_ZDX_(2024)',
+      
+      // BMW
+      'BMW 2 Series Coupe': 'BMW_2_Series',
+      'BMW 2 Series Gran Coupe': 'BMW_2_Series',
+      'BMW 3 Series': 'BMW_3_Series',
+      'BMW 4 Series Coupe': 'BMW_4_Series',
+      'BMW 4 Series': 'BMW_4_Series',
+      'BMW 4 Series Gran Coupe': 'BMW_4_Series',
+      'BMW 4 Series Convertible': 'BMW_4_Series',
+      'BMW 5 Series': 'BMW_5_Series',
+      'BMW 7 Series': 'BMW_7_Series',
+      'BMW 8 Series Coupe': 'BMW_8_Series_(G15)',
+      'BMW 8 Series Gran Coupe': 'BMW_8_Series_(G15)',
+      'BMW 8 Series Convertible': 'BMW_8_Series_(G15)',
+      'BMW M2': 'BMW_M2',
+      'BMW M3': 'BMW_M3',
+      'BMW M4': 'BMW_M4',
+      'BMW M5': 'BMW_M5',
+      'BMW M8': 'BMW_8_Series_(G15)',
+      'BMW M240i': 'BMW_2_Series',
+      'BMW M340i': 'BMW_3_Series',
+      'BMW M440i': 'BMW_4_Series',
+      'BMW M550i': 'BMW_5_Series',
+      'BMW X1': 'BMW_X1',
+      'BMW X2': 'BMW_X2',
+      'BMW X3': 'BMW_X3',
+      'BMW X3 M40i': 'BMW_X3',
+      'BMW X4': 'BMW_X4',
+      'BMW X5': 'BMW_X5',
+      'BMW X5 M50i': 'BMW_X5',
+      'BMW X5M': 'BMW_X5',
+      'BMW X6': 'BMW_X6',
+      'BMW X6M': 'BMW_X6',
+      'BMW X7': 'BMW_X7',
+      'BMW X7 M60i': 'BMW_X7',
+      'BMW XM': 'BMW_XM',
+      'BMW Z4': 'BMW_Z4',
+      'BMW i4': 'BMW_i4',
+      'BMW i5': 'BMW_i5',
+      'BMW i7': 'BMW_i7',
+      'BMW iX': 'BMW_iX',
+      
+      // Mercedes-Benz
+      'Mercedes-Benz A-Class': 'Mercedes-Benz_A-Class',
+      'Mercedes-Benz C-Class': 'Mercedes-Benz_C-Class',
+      'Mercedes-Benz CLA': 'Mercedes-Benz_CLA-Class',
+      'Mercedes-Benz CLE Coupe': 'Mercedes-Benz_CLE-Class',
+      'Mercedes-Benz CLE Cabriolet': 'Mercedes-Benz_CLE-Class',
+      'Mercedes-Benz E-Class': 'Mercedes-Benz_E-Class',
+      'Mercedes-Benz S-Class': 'Mercedes-Benz_S-Class',
+      'Mercedes-Maybach S-Class': 'Mercedes-Maybach_S-Class',
+      'Mercedes-AMG GT Coupe': 'Mercedes-AMG_GT',
+      'Mercedes-AMG SL': 'Mercedes-Benz_SL-Class',
+      'Mercedes-AMG C43': 'Mercedes-Benz_C-Class',
+      'Mercedes-AMG C63': 'Mercedes-AMG_C63',
+      'Mercedes-AMG E53': 'Mercedes-Benz_E-Class',
+      'Mercedes-AMG E63 S': 'Mercedes-Benz_E-Class',
+      'Mercedes-AMG GLC43': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-AMG GLC63': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-AMG GLE53': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-AMG GLE63 S': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-AMG GLS63': 'Mercedes-Benz_GLS-Class',
+      'Mercedes-Benz GLA': 'Mercedes-Benz_GLA-Class',
+      'Mercedes-Benz GLB': 'Mercedes-Benz_GLB-Class',
+      'Mercedes-Benz GLC': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-Benz GLC Coupe': 'Mercedes-Benz_GLC-Class',
+      'Mercedes-Benz GLE': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-Benz GLE Coupe': 'Mercedes-Benz_GLE-Class',
+      'Mercedes-Benz GLS': 'Mercedes-Benz_GLS-Class',
+      'Mercedes-Maybach GLS': 'Mercedes-Maybach_GLS',
+      'Mercedes-Benz G-Class': 'Mercedes-Benz_G-Class',
+      'Mercedes-AMG G63': 'Mercedes-Benz_G-Class',
+      'Mercedes-Benz EQB': 'Mercedes-Benz_EQB',
+      'Mercedes-Benz EQE Sedan': 'Mercedes-Benz_EQE',
+      'Mercedes-Benz EQE SUV': 'Mercedes-Benz_EQE_SUV',
+      'Mercedes-Benz EQS': 'Mercedes-Benz_EQS',
+      'Mercedes-Benz EQS Sedan': 'Mercedes-Benz_EQS',
+      'Mercedes-Benz EQS SUV': 'Mercedes-Benz_EQS_SUV',
+      'Mercedes-Benz Sprinter': 'Mercedes-Benz_Sprinter',
+      
+      // Audi
+      'Audi A3': 'Audi_A3',
+      'Audi A4': 'Audi_A4',
+      'Audi A4 Allroad': 'Audi_A4_allroad',
+      'Audi A5': 'Audi_A5',
+      'Audi A5 Sportback': 'Audi_A5',
+      'Audi A6': 'Audi_A6',
+      'Audi A6 Allroad': 'Audi_A6_allroad',
+      'Audi A7': 'Audi_A7',
+      'Audi A8': 'Audi_A8',
+      'Audi Q3': 'Audi_Q3',
+      'Audi Q4 e-tron': 'Audi_Q4_e-tron',
+      'Audi Q5': 'Audi_Q5',
+      'Audi Q5 Sportback': 'Audi_Q5',
+      'Audi Q7': 'Audi_Q7',
+      'Audi Q8': 'Audi_Q8',
+      'Audi Q8 e-tron': 'Audi_Q8_e-tron',
+      'Audi S6': 'Audi_S6',
+      'Audi S7': 'Audi_S7',
+      'Audi e-tron': 'Audi_e-tron_(brand)',
+      'Audi e-tron GT': 'Audi_e-tron_GT',
+      'Audi RS e-tron GT': 'Audi_e-tron_GT',
+      'Audi RS3': 'Audi_RS_3',
+      'Audi RS5': 'Audi_RS_5',
+      'Audi RS6 Avant': 'Audi_RS_6',
+      'Audi RS7': 'Audi_RS_7',
+      'Audi RS Q8': 'Audi_RS_Q8',
+      'Audi S3': 'Audi_S3',
+      'Audi S4': 'Audi_S4',
+      'Audi S5': 'Audi_S5',
+      'Audi SQ5': 'Audi_SQ5',
+      'Audi SQ7': 'Audi_SQ7',
+      'Audi SQ8': 'Audi_SQ8',
+      'Audi TT': 'Audi_TT',
+      'Audi R8': 'Audi_R8',
+      
+      // Porsche
+      'Porsche 718 Cayman': 'Porsche_718',
+      'Porsche 718 Boxster': 'Porsche_718',
+      'Porsche 911': 'Porsche_911',
+      'Porsche 911 Turbo': 'Porsche_911_Turbo',
+      'Porsche 911 GT3': 'Porsche_911_GT3',
+      'Porsche Panamera': 'Porsche_Panamera',
+      'Porsche Cayenne': 'Porsche_Cayenne',
+      'Porsche Cayenne Coupe': 'Porsche_Cayenne',
+      'Porsche Macan': 'Porsche_Macan',
+      'Porsche Macan Electric': 'Porsche_Macan_Electric',
+      'Porsche Taycan': 'Porsche_Taycan',
+      'Porsche Taycan Cross Turismo': 'Porsche_Taycan',
+      
+      // Hyundai
+      'Hyundai Elantra': 'Hyundai_Elantra',
+      'Hyundai Elantra Hybrid': 'Hyundai_Elantra',
+      'Hyundai Elantra N': 'Hyundai_Elantra_N',
+      'Hyundai Sonata': 'Hyundai_Sonata',
+      'Hyundai Sonata Hybrid': 'Hyundai_Sonata',
+      'Hyundai Venue': 'Hyundai_Venue',
+      'Hyundai Kona': 'Hyundai_Kona',
+      'Hyundai Kona Electric': 'Hyundai_Kona_Electric',
+      'Hyundai Kona N': 'Hyundai_Kona_N',
+      'Hyundai Tucson': 'Hyundai_Tucson',
+      'Hyundai Tucson Hybrid': 'Hyundai_Tucson',
+      'Hyundai Santa Fe': 'Hyundai_Santa_Fe',
+      'Hyundai Santa Fe Hybrid': 'Hyundai_Santa_Fe',
+      'Hyundai Palisade': 'Hyundai_Palisade',
+      'Hyundai Santa Cruz': 'Hyundai_Santa_Cruz',
+      'Hyundai Ioniq 5': 'Hyundai_Ioniq_5',
+      'Hyundai Ioniq 5 N': 'Hyundai_Ioniq_5_N',
+      'Hyundai Ioniq 6': 'Hyundai_Ioniq_6',
+      'Hyundai Ioniq 9': 'Hyundai_Ioniq_7',
+      
+      // Kia
+      'Kia Rio': 'Kia_Rio',
+      'Kia K4': 'Kia_K4',
+      'Kia K5': 'Kia_K5',
+      'Kia Stinger': 'Kia_Stinger',
+      'Kia Soul': 'Kia_Soul',
+      'Kia Seltos': 'Kia_Seltos',
+      'Kia Sportage': 'Kia_Sportage',
+      'Kia Sportage Hybrid': 'Kia_Sportage',
+      'Kia Sorento': 'Kia_Sorento',
+      'Kia Sorento Hybrid': 'Kia_Sorento',
+      'Kia Sorento SX Prestige': 'Kia_Sorento',
+      'Kia Telluride': 'Kia_Telluride',
+      'Kia Carnival': 'Kia_Carnival',
+      'Kia Niro': 'Kia_Niro',
+      'Kia Niro EV': 'Kia_Niro',
+      'Kia EV5': 'Kia_EV5',
+      'Kia EV6': 'Kia_EV6',
+      'Kia EV6 GT': 'Kia_EV6',
+      'Kia EV9': 'Kia_EV9',
+      'Kia Forte': 'Kia_Forte',
+      
+      // Genesis
+      'Genesis G70': 'Genesis_G70',
+      'Genesis G70 Shooting Brake': 'Genesis_G70',
+      'Genesis G80': 'Genesis_G80',
+      'Genesis Electrified G80': 'Genesis_G80',
+      'Genesis G90': 'Genesis_G90',
+      'Genesis GV60': 'Genesis_GV60',
+      'Genesis GV60 Performance': 'Genesis_GV60',
+      'Genesis GV70': 'Genesis_GV70',
+      'Genesis Electrified GV70': 'Genesis_GV70',
+      'Genesis GV80': 'Genesis_GV80',
+      'Genesis GV80 Coupe': 'Genesis_GV80',
+      
+      // Subaru
+      'Subaru Impreza': 'Subaru_Impreza',
+      'Subaru Legacy': 'Subaru_Legacy',
+      'Subaru Crosstrek': 'Subaru_Crosstrek',
+      'Subaru Crosstrek Hybrid': 'Subaru_Crosstrek',
+      'Subaru Crosstrek Wilderness': 'Subaru_Crosstrek',
+      'Subaru Forester': 'Subaru_Forester',
+      'Subaru Forester Wilderness': 'Subaru_Forester',
+      'Subaru Outback': 'Subaru_Outback',
+      'Subaru Outback Wilderness': 'Subaru_Outback',
+      'Subaru Ascent': 'Subaru_Ascent',
+      'Subaru Solterra': 'Subaru_Solterra',
+      'Subaru BRZ': 'Subaru_BRZ',
+      'Subaru WRX': 'Subaru_WRX',
+      'Subaru WRX TR': 'Subaru_WRX',
+      
+      // Nissan
+      'Nissan Versa': 'Nissan_Versa',
+      'Nissan Sentra': 'Nissan_Sentra',
+      'Nissan Altima': 'Nissan_Altima',
+      'Nissan Z': 'Nissan_Z',
+      'Nissan Z Nismo': 'Nissan_Z',
+      'Nissan GT-R': 'Nissan_GT-R',
+      'Nissan Kicks': 'Nissan_Kicks',
+      'Nissan Rogue': 'Nissan_Rogue',
+      'Nissan Rogue SL': 'Nissan_Rogue',
+      'Nissan Murano': 'Nissan_Murano',
+      'Nissan Pathfinder': 'Nissan_Pathfinder',
+      'Nissan Pathfinder Rock Creek': 'Nissan_Pathfinder',
+      'Nissan Armada': 'Nissan_Armada',
+      'Nissan Frontier': 'Nissan_Frontier',
+      'Nissan Leaf': 'Nissan_Leaf',
+      'Nissan Ariya': 'Nissan_Ariya',
+      'Nissan Titan': 'Nissan_Titan',
+      
+      // Mazda
+      'Mazda3 Sedan': 'Mazda3',
+      'Mazda3 Hatchback': 'Mazda3',
+      'Mazda 3': 'Mazda3',
+      'Mazda 3 Hatchback': 'Mazda3',
+      'Mazda CX-30': 'Mazda_CX-30',
+      'Mazda CX-5': 'Mazda_CX-5',
+      'Mazda CX-5 Turbo': 'Mazda_CX-5',
+      'Mazda CX-50': 'Mazda_CX-50',
+      'Mazda CX-50 Meridian': 'Mazda_CX-50',
+      'Mazda CX-50 Meridian Edition': 'Mazda_CX-50',
+      'Mazda CX-70': 'Mazda_CX-70',
+      'Mazda CX-90': 'Mazda_CX-90',
+      'Mazda CX-90 PHEV': 'Mazda_CX-90',
+      'Mazda CX-90 PHEV Premium': 'Mazda_CX-90',
+      'Mazda MX-5 Miata': 'Mazda_MX-5',
+      'Mazda MX-5 Miata RF': 'Mazda_MX-5',
+      
+      // Volkswagen
+      'Volkswagen Jetta': 'Volkswagen_Jetta',
+      'Volkswagen Jetta GLI': 'Volkswagen_Jetta',
+      'Volkswagen Jetta Sport': 'Volkswagen_Jetta',
+      'Volkswagen Arteon': 'Volkswagen_Arteon',
+      'Volkswagen Golf GTI': 'Volkswagen_Golf',
+      'Volkswagen Golf R': 'Volkswagen_Golf_R',
+      'Volkswagen Taos': 'Volkswagen_Taos',
+      'Volkswagen Tiguan': 'Volkswagen_Tiguan',
+      'Volkswagen Atlas': 'Volkswagen_Atlas',
+      'Volkswagen Atlas Cross Sport': 'Volkswagen_Atlas_Cross_Sport',
+      'Volkswagen Atlas Peak Edition': 'Volkswagen_Atlas',
+      'Volkswagen ID.4': 'Volkswagen_ID.4',
+      'Volkswagen ID.4 Pro S': 'Volkswagen_ID.4',
+      'Volkswagen ID.Buzz': 'Volkswagen_ID._Buzz',
+      'Volkswagen ID.Buzz LWB': 'Volkswagen_ID._Buzz',
+      
+      // Volvo
+      'Volvo S60': 'Volvo_S60',
+      'Volvo S60 Recharge': 'Volvo_S60',
+      'Volvo S90': 'Volvo_S90',
+      'Volvo V60': 'Volvo_V60',
+      'Volvo V60 Cross Country': 'Volvo_V60',
+      'Volvo V90': 'Volvo_V90',
+      'Volvo V90 Cross Country': 'Volvo_V90',
+      'Volvo XC40': 'Volvo_XC40',
+      'Volvo XC40 Recharge': 'Volvo_XC40',
+      'Volvo C40 Recharge': 'Volvo_C40_Recharge',
+      'Volvo XC60': 'Volvo_XC60',
+      'Volvo XC60 Recharge': 'Volvo_XC60',
+      'Volvo XC90': 'Volvo_XC90',
+      'Volvo XC90 Recharge': 'Volvo_XC90',
+      'Volvo EX30': 'Volvo_EX30',
+      'Volvo EX90': 'Volvo_EX90',
+      
+      // Cadillac
+      'Cadillac CT4': 'Cadillac_CT4',
+      'Cadillac CT4-V': 'Cadillac_CT4',
+      'Cadillac CT4-V Blackwing': 'Cadillac_CT4-V_Blackwing',
+      'Cadillac CT5': 'Cadillac_CT5',
+      'Cadillac CT5-V': 'Cadillac_CT5',
+      'Cadillac CT5-V Blackwing': 'Cadillac_CT5-V_Blackwing',
+      'Cadillac XT4': 'Cadillac_XT4',
+      'Cadillac XT5': 'Cadillac_XT5',
+      'Cadillac XT6': 'Cadillac_XT6',
+      'Cadillac Escalade': 'Cadillac_Escalade',
+      'Cadillac Escalade ESV': 'Cadillac_Escalade',
+      'Cadillac Escalade-V': 'Cadillac_Escalade',
+      'Cadillac Escalade IQ': 'Cadillac_Escalade_IQ',
+      'Cadillac Lyriq': 'Cadillac_Lyriq',
+      'Cadillac Lyriq-V': 'Cadillac_Lyriq',
+      'Cadillac Optiq': 'Cadillac_Optiq',
+      'Cadillac Vistiq': 'Cadillac_Vistiq',
+      'Cadillac Celestiq': 'Cadillac_Celestiq',
+      
+      // Lincoln
+      'Lincoln Corsair': 'Lincoln_Corsair',
+      'Lincoln Corsair Grand Touring': 'Lincoln_Corsair',
+      'Lincoln Corsair Reserve': 'Lincoln_Corsair',
+      'Lincoln Nautilus': 'Lincoln_Nautilus',
+      'Lincoln Nautilus Reserve': 'Lincoln_Nautilus',
+      'Lincoln Aviator': 'Lincoln_Aviator',
+      'Lincoln Aviator Grand Touring': 'Lincoln_Aviator',
+      'Lincoln Aviator Black Label': 'Lincoln_Aviator',
+      'Lincoln Navigator': 'Lincoln_Navigator',
+      'Lincoln Navigator Black Label': 'Lincoln_Navigator',
+      
+      // Infiniti
+      'Infiniti Q50': 'Infiniti_Q50',
+      'Infiniti Q50 Red Sport 400': 'Infiniti_Q50',
+      'Infiniti Q60': 'Infiniti_Q60',
+      'Infiniti Q60 Red Sport 400': 'Infiniti_Q60',
+      'Infiniti QX50': 'Infiniti_QX50',
+      'Infiniti QX55': 'Infiniti_QX55',
+      'Infiniti QX60': 'Infiniti_QX60',
+      'Infiniti QX80': 'Infiniti_QX80',
+      
+      // Buick
+      'Buick Envista': 'Buick_Envista',
+      'Buick Encore GX': 'Buick_Encore_GX',
+      'Buick Envision': 'Buick_Envision',
+      'Buick Enclave': 'Buick_Enclave',
+      
+      // Jaguar
+      'Jaguar F-Type': 'Jaguar_F-Type',
+      'Jaguar E-Pace': 'Jaguar_E-Pace',
+      'Jaguar F-Pace': 'Jaguar_F-Pace',
+      'Jaguar F-PACE': 'Jaguar_F-Pace',
+      'Jaguar I-Pace': 'Jaguar_I-Pace',
+      'Jaguar I-PACE': 'Jaguar_I-Pace',
+      
+      // Land Rover
+      'Land Rover Defender 90': 'Land_Rover_Defender',
+      'Land Rover Defender 110': 'Land_Rover_Defender',
+      'Land Rover Defender 130': 'Land_Rover_Defender',
+      'Land Rover Discovery': 'Land_Rover_Discovery',
+      'Range Rover Velar': 'Range_Rover_Velar',
+      'Range Rover Sport': 'Range_Rover_Sport',
+      'Range Rover': 'Range_Rover',
+      
+      // Rivian
+      'Rivian R1T': 'Rivian_R1T',
+      'Rivian R1S': 'Rivian_R1S',
+      
+      // Lucid
+      'Lucid Air': 'Lucid_Air',
+      'Lucid Air Sapphire': 'Lucid_Air',
+      
+      // Polestar
+      'Polestar 2': 'Polestar_2',
+      'Polestar 3': 'Polestar_3',
+      'Polestar 4': 'Polestar_4',
+      
+      // Exotic brands
+      'Ferrari Roma': 'Ferrari_Roma',
+      'Ferrari Roma Spider': 'Ferrari_Roma',
+      'Ferrari 296 GTB': 'Ferrari_296_GTB',
+      'Ferrari 296 GTS': 'Ferrari_296_GTS',
+      'Ferrari SF90 Stradale': 'Ferrari_SF90_Stradale',
+      'Ferrari 812 Competizione': 'Ferrari_812_Competizione',
+      'Ferrari Purosangue': 'Ferrari_Purosangue',
+      'Lamborghini Huracán': 'Lamborghini_Huracán',
+      'Lamborghini Revuelto': 'Lamborghini_Revuelto',
+      'Lamborghini Urus': 'Lamborghini_Urus',
+      'McLaren Artura': 'McLaren_Artura',
+      'McLaren GT': 'McLaren_GT',
+      'McLaren 750S': 'McLaren_750S',
+      'McLaren 750S Spider': 'McLaren_750S',
+      'Aston Martin Vantage': 'Aston_Martin_Vantage_(2018)',
+      'Aston Martin DB12': 'Aston_Martin_DB12',
+      'Aston Martin DB12 Volante': 'Aston_Martin_DB12',
+      'Aston Martin DBS': 'Aston_Martin_DBS_Superleggera',
+      'Aston Martin DBX': 'Aston_Martin_DBX',
+      'Aston Martin DBX707': 'Aston_Martin_DBX',
+      'Aston Martin Vanquish': 'Aston_Martin_Vanquish',
+      'Bentley Continental GT': 'Bentley_Continental_GT',
+      'Bentley Continental GTC': 'Bentley_Continental_GT',
+      'Bentley Flying Spur': 'Bentley_Flying_Spur',
+      'Bentley Bentayga': 'Bentley_Bentayga',
+      'Rolls-Royce Ghost': 'Rolls-Royce_Ghost',
+      'Rolls-Royce Phantom': 'Rolls-Royce_Phantom_(eighth_generation)',
+      'Rolls-Royce Cullinan': 'Rolls-Royce_Cullinan',
+      'Rolls-Royce Spectre': 'Rolls-Royce_Spectre',
+      'Maserati Ghibli': 'Maserati_Ghibli_(M157)',
+      'Maserati Quattroporte': 'Maserati_Quattroporte',
+      'Maserati GranTurismo': 'Maserati_GranTurismo',
+      'Maserati MC20': 'Maserati_MC20',
+      'Maserati Grecale': 'Maserati_Grecale',
+      'Maserati Levante': 'Maserati_Levante',
+      
+      // Others
+      'Alfa Romeo Giulia': 'Alfa_Romeo_Giulia_(952)',
+      'Alfa Romeo Giulia Quadrifoglio': 'Alfa_Romeo_Giulia_(952)',
+      'Alfa Romeo Stelvio': 'Alfa_Romeo_Stelvio',
+      'Alfa Romeo Stelvio Quadrifoglio': 'Alfa_Romeo_Stelvio',
+      'Alfa Romeo Tonale': 'Alfa_Romeo_Tonale',
+      'Mini Cooper': 'Mini_Cooper',
+      'Mini Cooper Electric': 'Mini_Cooper',
+      'Mini Convertible': 'Mini_Cooper',
+      'Mini Countryman': 'Mini_Countryman',
+      'Mini Countryman Electric': 'Mini_Countryman',
+      'Mitsubishi Mirage': 'Mitsubishi_Mirage',
+      'Mitsubishi Eclipse Cross': 'Mitsubishi_Eclipse_Cross',
+      'Mitsubishi Outlander': 'Mitsubishi_Outlander',
+      'Mitsubishi Outlander PHEV': 'Mitsubishi_Outlander_PHEV',
+      'Fiat 500e': 'Fiat_500_electric',
     };
     
     return titleMappings[cleanVehicle] || cleanVehicle.replace(/ /g, '_');
@@ -179,160 +748,6 @@ export default function QuizPage() {
     setVehicleImageIndex(0);
   }, [result]);
 
-  // Vehicle MSRP data (approximate new prices in thousands)
-  const vehiclePrices: Record<string, number> = {
-    // Acura
-    'Acura Integra': 32, 'Acura TLX': 40, 'Acura RDX': 42, 'Acura MDX': 52,
-    // Alfa Romeo
-    'Alfa Romeo Giulia': 45, 'Alfa Romeo Stelvio': 48, 'Alfa Romeo Tonale': 43,
-    // Aston Martin
-    'Aston Martin Vantage': 155, 'Aston Martin DB11': 210, 'Aston Martin DB11 Volante': 240,
-    'Aston Martin DB12': 250, 'Aston Martin DBS Superleggera': 330, 'Aston Martin DBX': 195,
-    'Aston Martin DBX707': 240,
-    // Audi
-    'Audi A4': 42, 'Audi A4 Allroad': 48, 'Audi A5': 48, 'Audi A6': 58, 'Audi A6 Allroad': 70,
-    'Audi A8': 90, 'Audi Q3': 40, 'Audi Q5': 48, 'Audi Q7': 62, 'Audi Q8': 72,
-    'Audi R8': 160, 'Audi RS5': 78, 'Audi RS6': 125, 'Audi RS e-tron GT': 150,
-    'Audi e-tron': 70, 'Audi e-tron GT': 105,
-    // Bentley
-    'Bentley Bentayga': 200, 'Bentley Continental GT': 225, 'Bentley Flying Spur': 220,
-    // BMW
-    'BMW 3 Series': 45, 'BMW 4 Series': 50, 'BMW 5 Series': 58, 'BMW 7 Series': 95,
-    'BMW M2': 65, 'BMW M3': 75, 'BMW M3/M4': 78, 'BMW M4': 78, 'BMW M5': 110,
-    'BMW X1': 40, 'BMW X3': 50, 'BMW X5': 65, 'BMW X7': 80, 'BMW Z4': 55,
-    'BMW i4': 55, 'BMW iX': 85,
-    // Bugatti
-    'Bugatti Chiron': 3500, 'Bugatti Veyron': 1900,
-    // Cadillac
-    'Cadillac CT5': 42, 'Cadillac Escalade': 85, 'Cadillac Lyriq': 60,
-    // Chevrolet
-    'Chevrolet Bolt EUV': 28, 'Chevrolet Camaro': 30, 'Chevrolet Colorado': 30,
-    'Chevrolet Corvette': 68, 'Chevrolet Equinox EV': 35, 'Chevrolet Express': 42,
-    'Chevrolet Silverado': 40, 'Chevrolet Silverado 1500': 40, 'Chevrolet Silverado 2500HD': 48,
-    'Chevrolet Silverado 3500HD': 52, 'Chevrolet Silverado EV': 75, 'Chevrolet Spark': 15,
-    'Chevrolet Suburban': 62, 'Chevrolet Tahoe': 58,
-    // Chrysler
-    'Chrysler Pacifica': 42, 'Chrysler Voyager': 35,
-    // Dodge
-    'Dodge Challenger': 35, 'Dodge Charger': 35, 'Dodge Durango': 42,
-    // Ferrari
-    'Ferrari 296 GTB': 350, 'Ferrari 812 Superfast': 380, 'Ferrari F8 Tributo': 320,
-    'Ferrari Portofino': 240, 'Ferrari Purosangue': 410, 'Ferrari Roma': 245,
-    'Ferrari SF90 Stradale': 530,
-    // Fiat
-    'Fiat 500X': 28, 'Fiat 500e': 35,
-    // Ford
-    'Ford Bronco': 38, 'Ford EcoSport': 24, 'Ford Edge': 40, 'Ford Escape': 30,
-    'Ford Expedition': 60, 'Ford Explorer': 40, 'Ford F-150': 38, 'Ford F-150 Lightning': 60,
-    'Ford Maverick': 25, 'Ford Mustang': 32, 'Ford Mustang GT': 45, 'Ford Mustang Mach-E': 48,
-    'Ford Ranger': 32, 'Ford Transit': 45, 'Ford Transit Connect': 32,
-    // Genesis
-    'Genesis G70': 45, 'Genesis G80': 58, 'Genesis G90': 92, 'Genesis GV70': 48,
-    'Genesis GV80': 58,
-    // GMC
-    'GMC Canyon': 32, 'GMC Hummer EV': 115, 'GMC Savana': 45, 'GMC Sierra 1500': 42,
-    'GMC Sierra 2500HD': 52, 'GMC Sierra 3500HD': 55, 'GMC Yukon': 62, 'GMC Yukon XL': 68,
-    // Honda
-    'Honda Accord': 30, 'Honda Civic': 25, 'Honda CR-V': 32, 'Honda HR-V': 25,
-    'Honda Odyssey': 40, 'Honda Passport': 42, 'Honda Pilot': 42, 'Honda Ridgeline': 42,
-    // Hyundai
-    'Hyundai Elantra': 22, 'Hyundai Ioniq 5': 45, 'Hyundai Ioniq 6': 48, 'Hyundai Kona': 25,
-    'Hyundai Palisade': 42, 'Hyundai Santa Fe': 35, 'Hyundai Sonata': 28, 'Hyundai Tucson': 30,
-    'Hyundai Veloster N': 35,
-    // Jaguar
-    'Jaguar E-PACE': 48, 'Jaguar F-PACE': 55, 'Jaguar F-Type': 78, 'Jaguar I-PACE': 72,
-    'Jaguar XF': 52,
-    // Jeep
-    'Jeep Cherokee': 35, 'Jeep Compass': 30, 'Jeep Gladiator': 42, 'Jeep Grand Cherokee': 45,
-    'Jeep Grand Cherokee L': 48, 'Jeep Grand Wagoneer': 95, 'Jeep Wagoneer': 72,
-    'Jeep Wrangler': 35,
-    // Kia
-    'Kia Carnival': 38, 'Kia EV6': 48, 'Kia EV9': 58, 'Kia Forte': 22, 'Kia K5': 28,
-    'Kia Niro': 30, 'Kia Seltos': 25, 'Kia Sorento': 35, 'Kia Soul': 22, 'Kia Sportage': 32,
-    'Kia Stinger': 42, 'Kia Telluride': 40,
-    // Koenigsegg
-    'Koenigsegg Agera RS': 2100, 'Koenigsegg Jesko': 3000, 'Koenigsegg Regera': 2200,
-    // Lamborghini
-    'Lamborghini Aventador': 500, 'Lamborghini Huracán': 250, 'Lamborghini Urus': 235,
-    'Lamborghini Revuelto': 600,
-    // Land Rover
-    'Land Rover Defender': 58, 'Land Rover Discovery': 62, 'Land Rover Range Rover': 105,
-    'Land Rover Range Rover Sport': 85, 'Land Rover Range Rover Velar': 62,
-    // Lexus
-    'Lexus ES': 45, 'Lexus GX': 65, 'Lexus IS': 42, 'Lexus LC': 98, 'Lexus LM': 130,
-    'Lexus LS': 82, 'Lexus LX': 98, 'Lexus NX': 42, 'Lexus RC': 48, 'Lexus RX': 52,
-    'Lexus RZ': 62, 'Lexus TX': 58, 'Lexus UX': 38,
-    // Lincoln
-    'Lincoln Aviator': 58, 'Lincoln Corsair': 42, 'Lincoln Nautilus': 48,
-    'Lincoln Navigator': 85,
-    // Lucid
-    'Lucid Air': 88,
-    // Maserati
-    'Maserati Ghibli': 82, 'Maserati GranTurismo': 185, 'Maserati Grecale': 68,
-    'Maserati Levante': 88, 'Maserati MC20': 225, 'Maserati Quattroporte': 98,
-    // Mazda
-    'Mazda 3': 25, 'Mazda CX-30': 28, 'Mazda CX-5': 32, 'Mazda CX-50': 32,
-    'Mazda CX-70': 42, 'Mazda CX-90': 45, 'Mazda MX-5 Miata': 30,
-    // McLaren
-    'McLaren 720S': 315, 'McLaren 765LT': 420, 'McLaren Artura': 250, 'McLaren GT': 225,
-    // Mercedes-Benz
-    'Mercedes-Benz A-Class': 38, 'Mercedes-Benz AMG GT': 130, 'Mercedes-Benz C-Class': 48,
-    'Mercedes-Benz CLA': 42, 'Mercedes-Benz CLE': 62, 'Mercedes-Benz E-Class': 62,
-    'Mercedes-Benz EQB': 55, 'Mercedes-Benz EQE': 80, 'Mercedes-Benz EQS': 105,
-    'Mercedes-Benz G-Class': 145, 'Mercedes-Benz GLA': 42, 'Mercedes-Benz GLB': 45,
-    'Mercedes-Benz GLC': 52, 'Mercedes-Benz GLE': 62, 'Mercedes-Benz GLS': 85,
-    'Mercedes-Benz Maybach S-Class': 195, 'Mercedes-Benz S-Class': 115,
-    'Mercedes-Benz SL': 115, 'Mercedes-Benz Sprinter': 52,
-    // Mini
-    'Mini Clubman': 32, 'Mini Convertible': 35, 'Mini Cooper': 28, 'Mini Countryman': 35,
-    // Mitsubishi
-    'Mitsubishi Eclipse Cross': 30, 'Mitsubishi Mirage': 18, 'Mitsubishi Outlander': 32,
-    // Nissan
-    'Nissan Altima': 28, 'Nissan Ariya': 48, 'Nissan Frontier': 32, 'Nissan GT-R': 125,
-    'Nissan Kicks': 22, 'Nissan Leaf': 32, 'Nissan Maxima': 40, 'Nissan Murano': 40,
-    'Nissan NV Cargo': 45, 'Nissan Pathfinder': 40, 'Nissan Rogue': 32, 'Nissan Sentra': 22,
-    'Nissan Titan': 45, 'Nissan Versa': 18, 'Nissan Z': 45,
-    // Pagani
-    'Pagani Huayra': 2600, 'Pagani Utopia': 2200,
-    // Polestar
-    'Polestar 2': 52, 'Polestar 3': 78,
-    // Porsche
-    'Porsche 718 Boxster': 75, 'Porsche 718 Cayman': 72, 'Porsche 911': 115,
-    'Porsche 911 GT3': 185, 'Porsche 911 Turbo': 185, 'Porsche Cayenne': 78,
-    'Porsche Macan': 62, 'Porsche Panamera': 98, 'Porsche Taycan': 95,
-    // Ram
-    'Ram 1500': 42, 'Ram 2500': 48, 'Ram 3500': 52, 'Ram ProMaster': 45,
-    'Ram ProMaster City': 32,
-    // Rimac
-    'Rimac Nevera': 2400,
-    // Rivian
-    'Rivian R1S': 82, 'Rivian R1T': 78,
-    // Rolls-Royce
-    'Rolls-Royce Cullinan': 365, 'Rolls-Royce Ghost': 350, 'Rolls-Royce Phantom': 480,
-    'Rolls-Royce Spectre': 430,
-    // Subaru
-    'Subaru Ascent': 38, 'Subaru BRZ': 32, 'Subaru Crosstrek': 28, 'Subaru Forester': 32,
-    'Subaru Impreza': 25, 'Subaru Legacy': 28, 'Subaru Outback': 32, 'Subaru Solterra': 48,
-    'Subaru WRX': 35,
-    // Tesla
-    'Tesla Cybertruck': 78, 'Tesla Model 3': 42, 'Tesla Model S': 82, 'Tesla Model X': 92,
-    'Tesla Model Y': 48,
-    // Toyota
-    'Toyota 4Runner': 42, 'Toyota Camry': 28, 'Toyota Corolla': 22, 'Toyota Corolla Cross': 25,
-    'Toyota Crown': 45, 'Toyota GR Corolla': 38, 'Toyota GR Supra': 55,
-    'Toyota GR86': 32, 'Toyota Grand Highlander': 48, 'Toyota Highlander': 42,
-    'Toyota Land Cruiser': 62, 'Toyota Mirai': 52, 'Toyota Prius': 32,
-    'Toyota RAV4': 32, 'Toyota Sequoia': 62, 'Toyota Sienna': 42, 'Toyota Tacoma': 32,
-    'Toyota Tundra': 42, 'Toyota Venza': 38, 'Toyota bZ4X': 48,
-    // Volkswagen
-    'Volkswagen Arteon': 45, 'Volkswagen Atlas': 40, 'Volkswagen Golf GTI': 35,
-    'Volkswagen Golf R': 48, 'Volkswagen ID.4': 42, 'Volkswagen ID.Buzz': 62,
-    'Volkswagen Jetta': 22, 'Volkswagen Taos': 28, 'Volkswagen Tiguan': 32,
-    // Volvo
-    'Volvo C40 Recharge': 58, 'Volvo EX30': 38, 'Volvo EX90': 82, 'Volvo S60': 45,
-    'Volvo S90': 58, 'Volvo V60': 48, 'Volvo V90': 58, 'Volvo XC40': 42,
-    'Volvo XC60': 48, 'Volvo XC90': 62,
-  };
 
   // Budget level mapping
   const budgetLevels: Record<string, number> = {
@@ -358,19 +773,25 @@ export default function QuizPage() {
     }
   };
 
-  // Filter vehicles by budget
+  // Filter vehicles by budget - uses prices from vehicleDatabase
   const filterVehiclesByBudget = (vehicles: string[], budgetLevel: number): string[] => {
     const maxBudget = getBudgetMax(budgetLevel);
     return vehicles.map(v => {
-      const price = vehiclePrices[v] || 50;
+      // Find vehicle in database to get accurate MSRP
+      const dbVehicle = vehicleDatabase.find(dbv => dbv.name === v);
+      const price = dbVehicle?.price || 50; // fallback to $50k if not found
       if (price <= maxBudget) return v;
       return `Used ${v}`;
     });
   };
 
-  // Questions array
+
+  // Questions array - Redesigned with Practical Needs + Personal Values
   const allQuestions = [
-    { id: 'budget', question: 'What is your budget?', icon: '💰', type: 'single', options: [
+    // ============================================
+    // SECTION 1: PRACTICAL NEEDS (What your life requires)
+    // ============================================
+    { id: 'budget', question: 'What is your budget?', icon: '💰', type: 'single', section: 'practical', options: [
       { label: 'Under $25,000', value: 'under-25k' },
       { label: '$25,000 - $35,000', value: '25k-35k' },
       { label: '$35,000 - $50,000', value: '35k-50k' },
@@ -379,109 +800,155 @@ export default function QuizPage() {
       { label: '$100,000 - $200,000', value: '100k-200k' },
       { label: '$200,000+', value: '200k-plus' }
     ] },
-    { id: 'body-style', question: 'Any specific body style preferences?', icon: '🚗', type: 'multiple', options: [
-      { label: 'Sedan', value: 'sedan' }, { label: 'SUV/Crossover', value: 'suv' }, { label: 'Truck', value: 'truck' },
-      { label: 'Coupe', value: 'coupe' }, { label: 'Hatchback', value: 'hatchback' }, { label: 'Wagon', value: 'wagon' },
-      { label: 'Minivan', value: 'minivan' }, { label: 'Convertible', value: 'convertible' }, { label: 'No preference', value: 'none' }
+    { id: 'passengers', question: 'How many passengers do you regularly transport?', icon: '👥', type: 'single', section: 'practical', options: [
+      { label: 'Just me most of the time', value: '1' },
+      { label: '1-2 passengers regularly', value: '2-3' },
+      { label: '3-4 passengers (family)', value: '4-5' },
+      { label: '5+ passengers often', value: '6+' }
     ] },
-    { id: 'brand', question: 'Any brand preferences?', icon: '🏷️', type: 'multiple', options: [
+    { id: 'primary-use', question: 'What will you primarily use this vehicle for?', icon: '🎯', type: 'single', section: 'practical', options: [
+      { label: 'Daily commuting to work', value: 'commute' },
+      { label: 'Family transportation', value: 'family' },
+      { label: 'Work/business use', value: 'work' },
+      { label: 'Weekend fun & recreation', value: 'recreation' },
+      { label: 'Adventure & exploration', value: 'adventure' }
+    ] },
+    { id: 'commute-distance', question: 'How far is your typical daily drive?', icon: '📏', type: 'single', section: 'practical', options: [
+      { label: 'Under 10 miles', value: 'short' },
+      { label: '10-30 miles', value: 'medium' },
+      { label: '30-50 miles', value: 'long' },
+      { label: '50+ miles', value: 'very-long' },
+      { label: 'No regular commute', value: 'none' }
+    ] },
+    { id: 'driving-environment', question: 'Where do you drive most often?', icon: '🏙️', type: 'single', section: 'practical', options: [
+      { label: 'City streets & traffic', value: 'city' },
+      { label: 'Suburban neighborhoods', value: 'suburban' },
+      { label: 'Rural roads & countryside', value: 'rural' },
+      { label: 'Mostly highway driving', value: 'highway' },
+      { label: 'Mix of everything', value: 'mixed' }
+    ] },
+    { id: 'weather', question: 'What weather do you regularly drive in?', icon: '🌤️', type: 'single', section: 'practical', options: [
+      { label: 'Mostly sunny and dry', value: 'dry' },
+      { label: 'Frequent rain', value: 'rain' },
+      { label: 'Heavy snow and ice', value: 'snow' },
+      { label: 'All seasons - everything', value: 'all' }
+    ] },
+    { id: 'cargo-towing', question: 'What do you need to haul or tow?', icon: '📦', type: 'single', section: 'practical', options: [
+      { label: 'Just personal items and groceries', value: 'minimal' },
+      { label: 'Sports gear, luggage, larger items', value: 'moderate' },
+      { label: 'Bikes, kayaks, equipment regularly', value: 'large' },
+      { label: 'Need to tow trailer/boat/camper', value: 'towing' },
+      { label: 'Heavy duty work hauling', value: 'heavy' }
+    ] },
+    { id: 'parking', question: "What's your parking situation?", icon: '🅿️', type: 'single', section: 'practical', options: [
+      { label: "Garage - size doesn't matter", value: 'garage' },
+      { label: 'Street parking - need to be maneuverable', value: 'street' },
+      { label: 'Parking lots - standard spaces', value: 'lot' },
+      { label: 'Tight urban spaces often', value: 'tight' }
+    ] },
+
+    // ============================================
+    // SECTION 2: PERSONAL VALUES (What matters to YOU)
+    // ============================================
+    { id: 'driving-experience', question: 'What kind of driving experience do you want?', icon: '🛞', type: 'single', section: 'values', options: [
+      { label: 'Smooth & comfortable - isolate me from the road', value: 'comfort' },
+      { label: 'Engaging & responsive - I want to feel connected', value: 'engaging' },
+      { label: 'Balanced - comfort with some fun', value: 'balanced' },
+      { label: 'Efficient & economical - maximize every mile', value: 'efficient' },
+      { label: 'Commanding & capable - sit high, see everything', value: 'commanding' }
+    ] },
+    { id: 'vehicle-character', question: 'What personality should your vehicle have?', icon: '✨', type: 'single', section: 'values', options: [
+      { label: 'Rugged & capable - ready for anything', value: 'rugged' },
+      { label: 'Sleek & sophisticated - refined elegance', value: 'sophisticated' },
+      { label: 'Sporty & aggressive - performance-focused', value: 'sporty' },
+      { label: 'Practical & sensible - reliable workhorse', value: 'practical' },
+      { label: 'Tech-forward & modern - cutting edge', value: 'tech' },
+      { label: 'Classic & timeless - proven design', value: 'classic' }
+    ] },
+    { id: 'capability-preference', question: 'How do you feel about capability you might not use daily?', icon: '🏔️', type: 'single', section: 'values', options: [
+      { label: 'Love it - I want off-road/towing power even if I rarely use it', value: 'want-capability' },
+      { label: 'Nice to have - extra capability is a bonus', value: 'like-capability' },
+      { label: "Neutral - I'll take what fits my actual needs", value: 'neutral' },
+      { label: 'Prefer efficiency - extra capability is wasted weight and money', value: 'prefer-efficiency' }
+    ] },
+    { id: 'status-image', question: 'How important is what your vehicle says about you?', icon: '👔', type: 'single', section: 'values', options: [
+      { label: 'Very important - reflects my success and taste', value: 'very-important' },
+      { label: 'Somewhat - I want something respectable', value: 'somewhat' },
+      { label: 'Not really - as long as it works well', value: 'not-really' },
+      { label: 'Anti-status - I prefer understated and practical', value: 'anti-status' }
+    ] },
+    { id: 'environmental-values', question: 'How important are environmental considerations?', icon: '🌱', type: 'single', section: 'values', options: [
+      { label: 'Top priority - must be electric or hybrid', value: 'top-priority' },
+      { label: 'Important - prefer efficient options', value: 'important' },
+      { label: 'Balanced - consider it among other factors', value: 'balanced' },
+      { label: 'Not a priority - other factors matter more', value: 'not-priority' }
+    ] },
+    { id: 'reliability-vs-innovation', question: 'Reliability vs. cutting-edge features?', icon: '🔧', type: 'single', section: 'values', options: [
+      { label: 'Proven reliability - tried and true technology', value: 'reliability' },
+      { label: 'Balanced - new features on a reliable platform', value: 'balanced' },
+      { label: "Cutting edge - I want the latest even if it's newer", value: 'innovation' }
+    ] },
+    { id: 'emotional-connection', question: 'Which statement resonates most with you?', icon: '💭', type: 'single', section: 'values', options: [
+      { label: '"I want to look forward to driving every day"', value: 'driving-joy' },
+      { label: '"I want something that handles everything life throws at it"', value: 'versatility' },
+      { label: '"I want to feel safe and protected on the road"', value: 'safety' },
+      { label: '"I want to make a smart, practical investment"', value: 'practical' },
+      { label: '"I want to stand out and express my personality"', value: 'expression' },
+      { label: '"I want adventure-ready capability even for weekends"', value: 'adventure' }
+    ] },
+    { id: 'ownership-priorities', question: 'What matters most during ownership?', icon: '📊', type: 'multiple', maxSelect: 2, section: 'values', options: [
+      { label: 'Low maintenance costs', value: 'low-maintenance' },
+      { label: 'Strong resale value', value: 'resale' },
+      { label: 'Comprehensive warranty', value: 'warranty' },
+      { label: 'Premium ownership experience', value: 'premium-experience' },
+      { label: 'Lowest total cost of ownership', value: 'low-tco' },
+      { label: 'Fun factor outweighs costs', value: 'fun-factor' }
+    ] },
+
+    // ============================================
+    // SECTION 3: SPECIFIC PREFERENCES (Hard filters)
+    // ============================================
+    { id: 'body-style', question: "Any body styles you're specifically interested in?", icon: '🚗', type: 'multiple', section: 'preferences', maxSelect: 2, options: [
+      { label: 'Sedan', value: 'sedan' },
+      { label: 'SUV / Crossover', value: 'suv' },
+      { label: 'Truck (Full-size or Midsize)', value: 'truck' },
+      { label: 'Off-Road SUV (Bronco, 4Runner, Wrangler)', value: 'offroad-suv' },
+      { label: 'Coupe / Sports Car', value: 'coupe' },
+      { label: 'Hatchback', value: 'hatchback' },
+      { label: 'Wagon', value: 'wagon' },
+      { label: 'Minivan', value: 'minivan' },
+      { label: 'Convertible', value: 'convertible' },
+      { label: 'Recommend based on my answers', value: 'recommend' }
+    ] },
+    { id: 'brand', question: 'Any brands you prefer?', icon: '🏷️', type: 'multiple', section: 'preferences', options: [
       { label: 'Toyota', value: 'toyota' }, { label: 'Honda', value: 'honda' }, { label: 'Ford', value: 'ford' },
       { label: 'Chevrolet', value: 'chevrolet' }, { label: 'BMW', value: 'bmw' }, { label: 'Mercedes', value: 'mercedes' },
       { label: 'Audi', value: 'audi' }, { label: 'Tesla', value: 'tesla' }, { label: 'Lexus', value: 'lexus' },
-      { label: 'Porsche', value: 'porsche' }, { label: 'No preference', value: 'none' }
+      { label: 'Porsche', value: 'porsche' }, { label: 'Ferrari', value: 'ferrari' }, { label: 'Lamborghini', value: 'lamborghini' },
+      { label: 'McLaren', value: 'mclaren' }, { label: 'Aston Martin', value: 'aston-martin' }, { label: 'Bentley', value: 'bentley' },
+      { label: 'Rolls-Royce', value: 'rolls-royce' }, { label: 'Maserati', value: 'maserati' },
+      { label: 'Mazda', value: 'mazda' }, { label: 'Subaru', value: 'subaru' }, { label: 'Hyundai', value: 'hyundai' },
+      { label: 'Kia', value: 'kia' }, { label: 'Jeep', value: 'jeep' }, { label: 'Ram', value: 'ram' },
+      { label: 'GMC', value: 'gmc' }, { label: 'Nissan', value: 'nissan' }, { label: 'Volvo', value: 'volvo' },
+      { label: 'No preference', value: 'none' }
     ] },
-    { id: 'gender', question: 'What is your gender?', icon: '👤', type: 'single', options: [
-      { label: 'Male', value: 'male' }, { label: 'Female', value: 'female' }, { label: 'Other', value: 'other' }, { label: 'Prefer not to say', value: 'skip' }
-    ] },
-    { id: 'zip-code', question: 'What is your zip code?', icon: '📍', type: 'text', options: [] },
-    { id: 'terrain', question: 'What terrain do you mostly drive on?', icon: '🛣️', type: 'single', options: [
-      { label: 'Paved roads only', value: 'paved' }, { label: 'Mix of paved and unpaved', value: 'mixed' },
-      { label: 'Frequent off-road/gravel', value: 'offroad' }, { label: 'Mountain/hilly terrain', value: 'mountain' }
-    ] },
-    { id: 'weather', question: 'What weather conditions do you drive in?', icon: '🌤️', type: 'single', options: [
-      { label: 'Mostly sunny/dry', value: 'dry' }, { label: 'Frequent rain', value: 'rain' },
-      { label: 'Heavy snow/ice', value: 'snow' }, { label: 'All seasons equally', value: 'all' }
-    ] },
-    { id: 'passengers', question: 'How many passengers do you typically carry?', icon: '👥', type: 'single', options: [
-      { label: 'Just me', value: '1' }, { label: '1-2 passengers', value: '2-3' },
-      { label: '3-4 passengers', value: '4-5' }, { label: '5+ passengers', value: '6+' }
-    ] },
-    { id: 'primary-use', question: 'What is the primary use of the vehicle?', icon: '🎯', type: 'single', options: [
-      { label: 'Daily commuting', value: 'commute' }, { label: 'Family transportation', value: 'family' },
-      { label: 'Work/business', value: 'work' }, { label: 'Weekend/recreation', value: 'recreation' },
-      { label: 'Adventure/off-road', value: 'adventure' }
-    ] },
-    { id: 'commute-distance', question: 'How far is your daily commute?', icon: '📏', type: 'single', options: [
-      { label: 'Under 10 miles', value: 'short' }, { label: '10-30 miles', value: 'medium' },
-      { label: '30-50 miles', value: 'long' }, { label: '50+ miles', value: 'very-long' },
-      { label: 'No regular commute', value: 'none' }
-    ] },
-    { id: 'driving-environment', question: 'Where do you drive most?', icon: '🏙️', type: 'single', options: [
-      { label: 'City/urban', value: 'city' }, { label: 'Suburban', value: 'suburban' },
-      { label: 'Rural', value: 'rural' }, { label: 'Highway', value: 'highway' }
-    ] },
-    { id: 'cargo-needs', question: 'How important is cargo space?', icon: '📦', type: 'single', options: [
-      { label: 'Minimal - personal items only', value: 'minimal' }, { label: 'Moderate - groceries and luggage', value: 'moderate' },
-      { label: 'Large - sports equipment, big items', value: 'large' }, { label: 'Maximum - hauling, moving', value: 'maximum' }
-    ] },
-    { id: 'activities', question: 'What activities require your vehicle?', icon: '🎿', type: 'multiple', options: [
-      { label: 'Road trips', value: 'road-trips' }, { label: 'Camping', value: 'camping' }, { label: 'Sports equipment', value: 'sports' },
-      { label: 'Home improvement', value: 'home' }, { label: 'Pet transportation', value: 'pets' }, { label: 'None specific', value: 'none' }
-    ] },
-    { id: 'towing', question: 'Do you need towing capability?', icon: '🚚', type: 'single', options: [
-      { label: 'No towing needed', value: 'none' }, { label: 'Light trailer/boat', value: 'light' },
-      { label: 'Medium trailer/camper', value: 'medium' }, { label: 'Heavy duty towing', value: 'heavy' }
-    ] },
-    { id: 'parking', question: 'What is your parking situation?', icon: '🅿️', type: 'single', options: [
-      { label: 'Garage - any size works', value: 'garage' }, { label: 'Street parking - prefer compact', value: 'street' },
-      { label: 'Parking lot - standard spaces', value: 'lot' }, { label: 'Mix of situations', value: 'mixed' }
-    ] },
-    { id: 'new-used', question: 'New or used vehicle preference?', icon: '✨', type: 'single', options: [
-      { label: 'New only', value: 'new' }, { label: 'Certified pre-owned', value: 'cpo' },
-      { label: 'Used is fine', value: 'used' }, { label: 'No preference', value: 'any' }
-    ] },
-    { id: 'ownership-length', question: 'How long do you plan to keep the vehicle?', icon: '📅', type: 'single', options: [
-      { label: '1-2 years', value: 'short' }, { label: '3-5 years', value: 'medium' },
-      { label: '5-10 years', value: 'long' }, { label: '10+ years', value: 'very-long' }
-    ] },
-    { id: 'fuel-priority', question: 'How important is fuel efficiency?', icon: '⛽', type: 'single', options: [
-      { label: 'Top priority', value: 'high' }, { label: 'Important but not critical', value: 'medium' },
-      { label: 'Not a major concern', value: 'low' }, { label: "Don't care at all", value: 'none' }
-    ] },
-    { id: 'powertrain', question: 'Powertrain preference?', icon: '🔋', type: 'single', options: [
-      { label: 'Traditional gas', value: 'gas' }, { label: 'Hybrid', value: 'hybrid' },
-      { label: 'Plug-in hybrid', value: 'phev' }, { label: 'Full electric', value: 'electric' },
+    { id: 'powertrain', question: 'Any powertrain preference?', icon: '🔋', type: 'single', section: 'preferences', options: [
+      { label: 'Traditional gas - proven and convenient', value: 'gas' },
+      { label: 'Hybrid - best of both worlds', value: 'hybrid' },
+      { label: 'Plug-in hybrid - electric commute, gas for trips', value: 'phev' },
+      { label: 'Full electric - zero emissions', value: 'electric' },
       { label: 'No preference', value: 'any' }
     ] },
-    { id: 'driving-style', question: 'How would you describe your driving style?', icon: '🏎️', type: 'single', options: [
-      { label: 'Relaxed and economical', value: 'relaxed' }, { label: 'Balanced and practical', value: 'balanced' },
-      { label: 'Spirited and engaging', value: 'spirited' }, { label: 'Performance-focused', value: 'performance' }
-    ] },
-    { id: 'tech-features', question: 'Which tech features matter most?', icon: '📱', type: 'multiple', maxSelect: 3, options: [
-      { label: 'Apple CarPlay/Android Auto', value: 'carplay' }, { label: 'Large touchscreen', value: 'touchscreen' },
-      { label: 'Premium audio', value: 'audio' }, { label: 'Digital instrument cluster', value: 'digital' },
-      { label: 'Head-up display', value: 'hud' }, { label: 'Wireless charging', value: 'wireless' }
-    ] },
-    { id: 'safety-features', question: 'Which safety features are essential?', icon: '🛡️', type: 'multiple', maxSelect: 3, options: [
-      { label: 'Blind spot monitoring', value: 'blind-spot' }, { label: 'Automatic emergency braking', value: 'aeb' },
-      { label: 'Adaptive cruise control', value: 'acc' }, { label: 'Lane keeping assist', value: 'lka' },
-      { label: '360° camera', value: '360-camera' }, { label: 'Parking sensors', value: 'parking' }
-    ] },
-    { id: 'comfort-features', question: 'Which comfort features are important?', icon: '🛋️', type: 'multiple', maxSelect: 3, options: [
-      { label: 'Heated seats', value: 'heated-seats' }, { label: 'Cooled/ventilated seats', value: 'cooled-seats' },
-      { label: 'Panoramic sunroof', value: 'sunroof' }, { label: 'Leather interior', value: 'leather' },
-      { label: 'Quiet cabin', value: 'quiet' }, { label: 'Adjustable suspension', value: 'suspension' }
-    ] },
-    { id: 'priorities', question: 'Rank your top 3 priorities:', icon: '⭐', type: 'multiple', maxSelect: 3, options: [
-      { label: 'Reliability', value: 'reliability' }, { label: 'Performance', value: 'performance' },
-      { label: 'Fuel efficiency', value: 'efficiency' }, { label: 'Safety', value: 'safety' },
-      { label: 'Technology', value: 'technology' }, { label: 'Comfort', value: 'comfort' },
-      { label: 'Style/appearance', value: 'style' }, { label: 'Resale value', value: 'resale' }
-    ] },
-    { id: 'image', question: 'What image do you want your car to project?', icon: '😎', type: 'single', options: [
-      { label: 'Practical and sensible', value: 'practical' }, { label: 'Sporty and fun', value: 'sporty' },
-      { label: 'Luxurious and refined', value: 'luxury' }, { label: 'Rugged and capable', value: 'rugged' },
-      { label: 'Eco-conscious', value: 'eco' }, { label: 'Unique and standout', value: 'unique' }
+    { id: 'must-haves', question: 'Any features that are absolute must-haves?', icon: '⭐', type: 'multiple', maxSelect: 4, section: 'preferences', options: [
+      { label: 'All-wheel drive / 4WD', value: 'awd' },
+      { label: 'Apple CarPlay / Android Auto', value: 'carplay' },
+      { label: 'Heated seats', value: 'heated-seats' },
+      { label: 'Sunroof / moonroof', value: 'sunroof' },
+      { label: 'Premium audio system', value: 'audio' },
+      { label: 'Adaptive cruise control', value: 'acc' },
+      { label: 'Third row seating', value: 'third-row' },
+      { label: 'Leather interior', value: 'leather' },
+      { label: 'None specifically', value: 'none' }
     ] }
   ];
 
@@ -490,196 +957,106 @@ export default function QuizPage() {
     micro: { name: 'City Car', vehicles: ['Chevrolet Spark', 'Mitsubishi Mirage', 'Fiat 500e', 'Mini Cooper', 'Nissan Versa'], description: 'Compact, fuel-efficient vehicles perfect for urban environments', features: ['Easy parking', 'Excellent fuel economy', 'Low cost of ownership', 'Perfect for city driving', 'Affordable pricing'] },
     hatchback: { name: 'Hatchback', vehicles: ['Volkswagen Golf GTI', 'Mazda 3', 'Honda Civic Hatchback', 'Toyota Corolla Hatchback', 'Hyundai Veloster N'], description: 'Versatile cars combining practicality with fun driving dynamics', features: ['Versatile cargo space', 'Fun to drive', 'Good fuel economy', 'Practical daily driver', 'Sporty handling'] },
     crossover: { name: 'Compact Crossover', vehicles: ['Mazda CX-30', 'Kia Seltos', 'Hyundai Kona', 'Toyota Corolla Cross', 'Honda HR-V'], description: 'The perfect blend of sedan efficiency and SUV versatility', features: ['Higher seating position', 'Good cargo space', 'Fuel efficient', 'Easy to maneuver', 'Modern styling'] },
-    sedan: { name: 'Sedan', vehicles: ['Honda Accord', 'Toyota Camry', 'Mazda 6', 'Hyundai Sonata', 'Nissan Altima'], description: 'Classic four-door comfort with excellent value and reliability', features: ['Comfortable ride', 'Good trunk space', 'Fuel efficient', 'Reliable', 'Smooth handling'] },
+    sedan: { name: 'Sedan', vehicles: ['Honda Accord', 'Toyota Camry', 'Mazda 6', 'Hyundai Sonata', 'Nissan Altima', 'Kia K5', 'Subaru Legacy', 'Volkswagen Passat', 'Honda Civic', 'Toyota Corolla', 'Hyundai Elantra', 'Mazda 3 Sedan'], description: 'Classic four-door comfort with excellent value and reliability', features: ['Comfortable ride', 'Good trunk space', 'Fuel efficient', 'Reliable', 'Smooth handling'] },
     coupe: { name: 'Sports Coupe', vehicles: ['Ford Mustang', 'Chevrolet Camaro', 'BMW 4 Series', 'Nissan Z', 'Toyota GR86'], description: 'Sporty two-door vehicles focused on style and performance', features: ['Head-turning style', 'Powerful engines', 'Engaging driving', 'Sport-tuned suspension', 'Premium interiors'] },
-    midsizeSuv: { name: 'Midsize SUV', vehicles: ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5', 'Ford Bronco Sport', 'Hyundai Tucson'], description: 'Popular family vehicles with excellent space and capability', features: ['Spacious interior', 'Good cargo capacity', 'Available AWD', 'Family friendly', 'Safety features'] },
-    suv: { name: 'Full-Size SUV', vehicles: ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Chevrolet Tahoe', 'Kia Telluride'], description: 'Large SUVs offering maximum space and towing capability', features: ['Third row seating', 'Towing capacity', 'Premium features', 'Commanding presence', 'Family oriented'] },
-    midsizeTruck: { name: 'Midsize Truck', vehicles: ['Toyota Tacoma', 'Ford Ranger', 'Chevrolet Colorado', 'Jeep Gladiator', 'GMC Canyon'], description: 'Versatile trucks that balance capability with daily drivability', features: ['Truck bed utility', 'Off-road capability', 'Manageable size', 'Towing capacity', 'Adventure ready'] },
-    truck: { name: 'Full-Size Truck', vehicles: ['Ford F-150', 'Chevrolet Silverado 1500', 'Ram 1500', 'Toyota Tundra', 'GMC Sierra 1500'], description: 'Maximum capability for work and play', features: ['Heavy towing', 'Large bed', 'Powerful engines', 'Work capability', 'Premium options'] },
+    midsizeSuv: { name: 'Midsize SUV', vehicles: ['Toyota RAV4', 'Honda CR-V', 'Mazda CX-5', 'Ford Bronco Sport', 'Hyundai Tucson', 'Kia Sportage', 'Subaru Forester', 'Nissan Rogue', 'Chevrolet Equinox', 'Volkswagen Tiguan', 'Jeep Cherokee', 'GMC Terrain'], description: 'Popular family vehicles with excellent space and capability', features: ['Spacious interior', 'Good cargo capacity', 'Available AWD', 'Family friendly', 'Safety features'] },
+    suv: { name: 'Full-Size SUV', vehicles: ['Toyota Highlander', 'Honda Pilot', 'Ford Explorer', 'Chevrolet Tahoe', 'Kia Telluride', 'Hyundai Palisade', 'Mazda CX-90', 'Toyota Grand Highlander', 'Jeep Grand Cherokee', 'Nissan Pathfinder', 'Subaru Ascent', 'Chevrolet Traverse', 'GMC Yukon', 'Ford Expedition'], description: 'Large SUVs offering maximum space and towing capability', features: ['Third row seating', 'Towing capacity', 'Premium features', 'Commanding presence', 'Family oriented'] },
+    midsizeTruck: { name: 'Midsize Truck', vehicles: ['Toyota Tacoma', 'Ford Ranger', 'Chevrolet Colorado', 'Jeep Gladiator', 'GMC Canyon', 'Honda Ridgeline', 'Nissan Frontier', 'Hyundai Santa Cruz'], description: 'Versatile trucks that balance capability with daily drivability', features: ['Truck bed utility', 'Off-road capability', 'Manageable size', 'Towing capacity', 'Adventure ready'] },
+    truck: { name: 'Full-Size Truck', vehicles: ['Ford F-150', 'Chevrolet Silverado 1500', 'Ram 1500', 'Toyota Tundra', 'GMC Sierra 1500', 'Nissan Titan', 'Ford F-250', 'Chevrolet Silverado 2500', 'Ram 2500', 'Toyota Tundra Hybrid'], description: 'Maximum capability for work and play', features: ['Heavy towing', 'Large bed', 'Powerful engines', 'Work capability', 'Premium options'] },
     minivan: { name: 'Minivan', vehicles: ['Honda Odyssey', 'Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica', 'Chrysler Voyager'], description: 'The ultimate family vehicle with unmatched practicality', features: ['Sliding doors', 'Maximum interior space', 'Family features', 'Comfortable seating', 'Storage solutions'] },
     van: { name: 'Cargo/Passenger Van', vehicles: ['Ford Transit', 'Mercedes-Benz Sprinter', 'Ram ProMaster', 'Chevrolet Express', 'Nissan NV Cargo'], description: 'Commercial-grade vehicles for work or conversion', features: ['Maximum cargo space', 'High roof options', 'Customizable', 'Commercial ready', 'Conversion friendly'] },
     wagon: { name: 'Wagon', vehicles: ['Volvo V60', 'Audi A4 Allroad', 'Subaru Outback', 'Volvo V90', 'Mercedes-Benz E-Class Wagon'], description: 'Car-like driving with SUV-level cargo space', features: ['Low loading floor', 'Excellent handling', 'Cargo versatility', 'Unique styling', 'Premium feel'] },
     sport: { name: 'Sports Car', vehicles: ['Chevrolet Corvette', 'Porsche 911', 'BMW M3', 'Audi RS5', 'Mercedes-AMG GT'], description: 'High-performance vehicles for enthusiasts', features: ['Thrilling performance', 'Track capable', 'Precise handling', 'Premium materials', 'Head-turning design'] },
     roadster: { name: 'Roadster', vehicles: ['Mazda MX-5 Miata', 'Porsche 718 Boxster', 'BMW Z4', 'Chevrolet Corvette Convertible', 'Jaguar F-Type'], description: 'Open-top driving pleasure in pure form', features: ['Convertible top', 'Engaging driving', 'Lightweight', 'Classic styling', 'Wind in your hair'] },
-    hyper: { name: 'Hypercar', vehicles: ['Bugatti Chiron', 'Koenigsegg Jesko', 'Lamborghini Revuelto', 'Lamborghini Aventador', 'Ferrari SF90 Stradale', 'McLaren 765LT'], description: 'The absolute pinnacle of automotive engineering and performance', features: ['Extreme performance', 'Cutting-edge tech', 'Exclusive', 'Investment grade', 'Breathtaking design'] },
+    hyper: { name: 'Hypercar', vehicles: ['Bugatti Chiron', 'Koenigsegg Jesko', 'Lamborghini Revuelto', 'Ferrari SF90 Stradale', 'McLaren 765LT'], description: 'The absolute pinnacle of automotive engineering and performance', features: ['Extreme performance', 'Cutting-edge tech', 'Exclusive', 'Investment grade', 'Breathtaking design'] },
     muscle: { name: 'Muscle Car', vehicles: ['Dodge Challenger', 'Ford Mustang GT', 'Chevrolet Camaro SS', 'Dodge Charger', 'Ford Mustang Mach 1'], description: 'American power and heritage with modern capability', features: ['V8 power', 'Aggressive styling', 'American heritage', 'Straight-line speed', 'Bold presence'] }
   };
 
-  // Calculate recommendation
+  // Calculate recommendation using new scoring system
   const calculateRecommendation = () => {
-    const scores: Record<string, number> = {};
-    Object.keys(vehicleTypes).forEach(type => { scores[type] = 0; });
+    // Map answers to preferences format - includes both practical needs AND personal values
+    const preferences = {
+      // Practical needs
+      budget: answers['budget'],
+      bodyStyle: answers['body-style'] || [],
+      brand: answers['brand'] || [],
+      passengers: answers['passengers'],
+      primaryUse: answers['primary-use'],
+      weather: answers['weather'],
+      commute: answers['commute-distance'],
+      drivingEnvironment: answers['driving-environment'],
+      cargoTowing: answers['cargo-towing'],
+      powertrain: answers['powertrain'],
+      parkingSpace: answers['parking'],
+      mustHaves: answers['must-haves'] || [],
+      
+      // Personal values - NEW
+      drivingExperience: answers['driving-experience'],
+      vehicleCharacter: answers['vehicle-character'],
+      capabilityPreference: answers['capability-preference'],
+      statusImage: answers['status-image'],
+      environmentalValues: answers['environmental-values'],
+      reliabilityVsInnovation: answers['reliability-vs-innovation'],
+      emotionalConnection: answers['emotional-connection'],
+      ownershipPriorities: answers['ownership-priorities'] || [],
+    };
 
-    // Passengers scoring
-    const passengers = answers['passengers'];
-    if (passengers === '1') { scores.micro += 3; scores.coupe += 2; scores.roadster += 3; scores.sport += 2; }
-    else if (passengers === '2-3') { scores.sedan += 2; scores.coupe += 2; scores.hatchback += 2; scores.crossover += 2; }
-    else if (passengers === '4-5') { scores.sedan += 2; scores.midsizeSuv += 3; scores.wagon += 2; scores.minivan += 1; }
-    else if (passengers === '6+') { scores.suv += 3; scores.minivan += 4; scores.van += 2; }
-
-    // Primary use scoring
-    const primaryUse = answers['primary-use'];
-    if (primaryUse === 'commute') { scores.sedan += 2; scores.hatchback += 2; scores.crossover += 2; scores.micro += 2; }
-    else if (primaryUse === 'family') { scores.midsizeSuv += 3; scores.suv += 3; scores.minivan += 4; scores.wagon += 2; }
-    else if (primaryUse === 'work') { scores.truck += 3; scores.midsizeTruck += 2; scores.van += 3; }
-    else if (primaryUse === 'recreation') { scores.coupe += 2; scores.sport += 2; scores.roadster += 2; scores.muscle += 2; }
-    else if (primaryUse === 'adventure') { scores.suv += 2; scores.midsizeTruck += 3; scores.truck += 2; }
-
-    // Commute distance scoring
-    const commuteDistance = answers['commute-distance'];
-    if (commuteDistance === 'short') { scores.micro += 2; scores.hatchback += 1; }
-    else if (commuteDistance === 'medium' || commuteDistance === 'long') { scores.sedan += 2; scores.crossover += 2; }
-    else if (commuteDistance === 'very-long') { scores.sedan += 3; scores.wagon += 2; }
-
-    // Driving environment scoring
-    const drivingEnv = answers['driving-environment'];
-    if (drivingEnv === 'city') { scores.micro += 3; scores.hatchback += 2; scores.crossover += 1; }
-    else if (drivingEnv === 'suburban') { scores.sedan += 2; scores.crossover += 2; scores.midsizeSuv += 2; }
-    else if (drivingEnv === 'rural') { scores.truck += 2; scores.suv += 2; scores.midsizeTruck += 2; }
-    else if (drivingEnv === 'highway') { scores.sedan += 2; scores.wagon += 2; scores.suv += 1; }
-
-    // Weather scoring
-    const weather = answers['weather'];
-    if (weather === 'snow') { scores.suv += 2; scores.crossover += 2; scores.midsizeSuv += 2; scores.truck += 1; }
-
-    // Terrain scoring
-    const terrain = answers['terrain'];
-    if (terrain === 'offroad' || terrain === 'mountain') { scores.suv += 3; scores.truck += 2; scores.midsizeTruck += 2; }
-
-    // Cargo needs scoring
-    const cargoNeeds = answers['cargo-needs'];
-    if (cargoNeeds === 'minimal') { scores.micro += 2; scores.coupe += 2; scores.sedan += 1; }
-    else if (cargoNeeds === 'moderate') { scores.sedan += 2; scores.crossover += 2; scores.hatchback += 2; }
-    else if (cargoNeeds === 'large') { scores.suv += 2; scores.wagon += 3; scores.midsizeSuv += 2; }
-    else if (cargoNeeds === 'maximum') { scores.truck += 3; scores.van += 4; scores.suv += 2; }
-
-    // Activities scoring
-    const activities = answers['activities'] || [];
-    if (activities.includes('road-trips')) { scores.sedan += 1; scores.suv += 2; scores.wagon += 2; }
-    if (activities.includes('camping')) { scores.suv += 2; scores.truck += 2; scores.midsizeTruck += 2; }
-    if (activities.includes('sports')) { scores.midsizeSuv += 2; scores.wagon += 2; scores.suv += 1; }
-    if (activities.includes('home')) { scores.truck += 3; scores.midsizeTruck += 2; scores.van += 2; }
-    if (activities.includes('pets')) { scores.suv += 1; scores.crossover += 1; scores.wagon += 2; }
-
-    // Towing scoring
-    const towing = answers['towing'];
-    if (towing === 'light') { scores.midsizeSuv += 2; scores.crossover += 1; }
-    else if (towing === 'medium') { scores.suv += 3; scores.truck += 2; scores.midsizeTruck += 2; }
-    else if (towing === 'heavy') { scores.truck += 4; scores.suv += 2; }
-
-    // Parking scoring
-    const parking = answers['parking'];
-    if (parking === 'street') { scores.micro += 3; scores.hatchback += 2; scores.sedan += 1; }
-
-    // Fuel priority scoring
-    const fuelPriority = answers['fuel-priority'];
-    if (fuelPriority === 'high') { scores.micro += 2; scores.hatchback += 2; scores.sedan += 1; scores.hyper -= 3; scores.muscle -= 2; }
-    else if (fuelPriority === 'none') { scores.truck += 1; scores.muscle += 2; scores.sport += 1; }
-
-    // Driving style scoring
-    const drivingStyle = answers['driving-style'];
-    if (drivingStyle === 'relaxed') { scores.sedan += 2; scores.minivan += 2; scores.crossover += 2; }
-    else if (drivingStyle === 'spirited') { scores.hatchback += 2; scores.coupe += 2; scores.sport += 1; }
-    else if (drivingStyle === 'performance') { scores.sport += 4; scores.muscle += 3; scores.coupe += 2; scores.hyper += 2; scores.roadster += 2; }
-
-    // Comfort features scoring
-    const comfortFeatures = answers['comfort-features'] || [];
-    if (comfortFeatures.includes('quiet')) { scores.sedan += 2; scores.suv += 1; }
-    if (comfortFeatures.includes('suspension')) { scores.sport += 2; scores.suv += 1; }
-
-    // Priorities scoring
-    const priorities = answers['priorities'] || [];
-    if (priorities.includes('reliability')) { scores.sedan += 2; scores.crossover += 2; }
-    if (priorities.includes('performance')) { scores.sport += 3; scores.muscle += 2; scores.coupe += 2; }
-    if (priorities.includes('efficiency')) { scores.micro += 2; scores.hatchback += 2; }
-    if (priorities.includes('safety')) { scores.suv += 2; scores.midsizeSuv += 2; }
-    if (priorities.includes('comfort')) { scores.sedan += 2; scores.suv += 2; }
-    if (priorities.includes('style')) { scores.coupe += 2; scores.sport += 2; scores.roadster += 2; }
-
-    // Image scoring
-    const image = answers['image'];
-    if (image === 'practical') { scores.sedan += 2; scores.crossover += 2; scores.minivan += 2; }
-    else if (image === 'sporty') { scores.coupe += 3; scores.sport += 3; scores.muscle += 2; scores.hatchback += 1; }
-    else if (image === 'luxury') { scores.sedan += 1; scores.suv += 2; scores.sport += 2; scores.hyper += 2; }
-    else if (image === 'rugged') { scores.truck += 3; scores.suv += 2; scores.midsizeTruck += 2; }
-    else if (image === 'eco') { scores.hatchback += 2; scores.micro += 2; scores.crossover += 1; }
-    else if (image === 'unique') { scores.roadster += 2; scores.wagon += 2; scores.hyper += 1; }
-
-    // Body style preferences
-    const bodyStyle = answers['body-style'] || [];
-    if (bodyStyle.includes('sedan')) scores.sedan += 5;
-    if (bodyStyle.includes('suv')) { scores.midsizeSuv += 3; scores.suv += 3; scores.crossover += 2; }
-    if (bodyStyle.includes('truck')) { scores.truck += 5; scores.midsizeTruck += 3; }
-    if (bodyStyle.includes('coupe')) { scores.coupe += 5; scores.sport += 2; }
-    if (bodyStyle.includes('hatchback')) scores.hatchback += 5;
-    if (bodyStyle.includes('wagon')) scores.wagon += 5;
-    if (bodyStyle.includes('minivan')) scores.minivan += 5;
-    if (bodyStyle.includes('convertible')) { scores.roadster += 5; scores.sport += 2; }
-
-    // Brand preferences
-    const brandPref = answers['brand'] || [];
-    if (brandPref.includes('porsche') || brandPref.includes('bmw') || brandPref.includes('mercedes') || brandPref.includes('audi')) {
-      scores.sport += 2; scores.coupe += 1;
-    }
-    if (brandPref.includes('tesla')) {
-      scores.sedan += 1; scores.crossover += 1; scores.suv += 1;
-    }
-
-    // Powertrain preferences
-    const powertrain = answers['powertrain'];
-    if (powertrain === 'electric') {
-      scores.sedan += 1; scores.crossover += 1; scores.suv += 1;
-    }
-
-    // Budget restrictions
-    const budgetLevel = budgetLevels[answers['budget']] || 4;
-    if (budgetLevel <= 2) { scores.hyper -= 10; scores.sport -= 3; }
-    if (budgetLevel <= 3) { scores.hyper -= 10; }
-    if (budgetLevel >= 6) { scores.micro -= 3; scores.hyper += 2; }
-    if (budgetLevel >= 7) { scores.hyper += 5; }
-
-    // Find winning type
-    let maxScore = -1;
-    let winningType = 'sedan';
-    Object.entries(scores).forEach(([type, score]) => {
-      if (score > maxScore) { maxScore = score; winningType = type; }
+    // Score all vehicles
+    const scoredVehicles = scoreVehicles(preferences);
+    
+    // Get top 10 vehicles
+    const topVehicles = scoredVehicles.slice(0, 10);
+    
+    // Get category info
+    const categoryInfo = getCategoryName(topVehicles);
+    
+    // Extract vehicle names for display
+    const vehicleNames = topVehicles.map(sv => sv.vehicle.name);
+    
+    // Collect top reasons from best matches
+    const allReasons: string[] = [];
+    topVehicles.slice(0, 3).forEach(sv => {
+      sv.matchReasons.forEach(reason => {
+        if (!allReasons.includes(reason)) {
+          allReasons.push(reason);
+        }
+      });
     });
 
-    // Generate result
-    const typeInfo = vehicleTypes[winningType as keyof typeof vehicleTypes];
-    const filteredVehicles = filterVehiclesByBudget(typeInfo.vehicles, budgetLevel);
-
-    // Generate reasoning
-    const reasoning: string[] = [];
-    if (passengers === '6+') reasoning.push('You need maximum seating capacity for 6+ passengers');
-    if (primaryUse === 'family') reasoning.push('Optimized for family transportation needs');
-    if (primaryUse === 'work') reasoning.push('Built for work and commercial use');
-    if (towing === 'heavy') reasoning.push('Heavy-duty towing capability required');
-    if (drivingStyle === 'performance') reasoning.push('Matches your performance-focused driving style');
-    if (cargoNeeds === 'maximum') reasoning.push('Maximum cargo space for hauling');
-    if (weather === 'snow') reasoning.push('Handles well in snow and winter conditions');
-    if (image === 'sporty') reasoning.push('Projects the sporty image you want');
-    if (image === 'eco') reasoning.push('Environmentally conscious choice');
+    // Generate features based on top vehicle
+    const topVehicle = topVehicles[0]?.vehicle;
+    const features = topVehicle ? [
+      topVehicle.features.includes('awd') || topVehicle.features.includes('awd-available') ? 'Available AWD' : null,
+      topVehicle.powertrain === 'ev' ? 'Electric powertrain' : topVehicle.powertrain === 'hybrid' ? 'Hybrid efficiency' : null,
+      topVehicle.seats >= 7 ? 'Third row seating' : topVehicle.seats >= 5 ? 'Comfortable seating' : null,
+      topVehicle.features.includes('cargo') ? 'Good cargo space' : null,
+      topVehicle.features.includes('towing') ? 'Towing capability' : null,
+      topVehicle.features.includes('reliable') ? 'Known for reliability' : null,
+      topVehicle.segment === 'premium' || topVehicle.segment === 'luxury' ? 'Premium quality' : null,
+    ].filter(Boolean).slice(0, 5) : ['Matched to your preferences'];
 
     return {
-      vehicleType: winningType,
-      vehicleSizeName: typeInfo.name,
-      vehicles: filteredVehicles,
-      description: typeInfo.description,
-      features: typeInfo.features,
-      reasoning: reasoning.slice(0, 5),
+      vehicleType: topVehicle?.bodyType || 'sedan',
+      vehicleSizeName: categoryInfo.name,
+      vehicles: vehicleNames.length > 0 ? vehicleNames : ['Honda Accord', 'Toyota Camry', 'Mazda 3'],
+      description: categoryInfo.description,
+      features: features as string[],
+      reasoning: allReasons.slice(0, 5),
       answers: answers,
       timestamp: new Date().toISOString(),
-      email: emailAddress
+      email: emailAddress,
+      // Include scored vehicles for potential future use
+      scoredVehicles: topVehicles,
     };
   };
+
 
   const handleAnswer = (qId: string, val: string) => {
     setAnswers({ ...answers, [qId]: val });
     if (testStep < allQuestions.length - 1) {
       setTestStep(testStep + 1);
     } else {
-      setShowEmailCollection(true);
+      showResults();
     }
   };
 
@@ -702,11 +1079,11 @@ export default function QuizPage() {
     if (testStep < allQuestions.length - 1) {
       setTestStep(testStep + 1);
     } else {
-      setShowEmailCollection(true);
+      showResults();
     }
   };
 
-  const submitEmailAndShowResults = () => {
+  const showResults = () => {
     const recommendation = calculateRecommendation();
     setResult(recommendation);
     // Save to localStorage
@@ -715,6 +1092,10 @@ export default function QuizPage() {
     } catch (e) {
       console.error('Failed to save result:', e);
     }
+  };
+
+  const submitEmailAndShowResults = () => {
+    showResults();
   };
 
   const resetTest = () => {
@@ -747,51 +1128,49 @@ export default function QuizPage() {
   const isText = currentQ?.type === 'text';
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white text-slate-900">
       <Navigation />
 
       {/* Tips Screen */}
       {showTips && (
         <div className="max-w-3xl mx-auto px-6 py-12">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12">
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8 md:p-12">
             <div className="text-center mb-10">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-500/20 mb-6">
-                <FileText className="w-8 h-8 text-amber-400" />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 mb-6">
+                <FileText className="w-8 h-8 text-amber-600" />
               </div>
-              <h2 className="text-3xl font-bold text-white mb-3">Before You Start</h2>
-              <p className="text-white/60">Follow these tips for the most accurate results</p>
+              <h2 className="text-3xl font-bold text-slate-900 mb-3">Before You Start</h2>
+              <p className="text-slate-500">Follow these tips for the most accurate results</p>
             </div>
             
-            <div className="space-y-6 mb-10">
+            <div className="space-y-4 mb-10">
               {[
-                { title: 'Answer Based on Your Daily Life', desc: 'Think about your typical week, not rare occasions or "what if" scenarios' },
-                { title: 'Be Honest About Your Needs', desc: "Don't answer based on what sounds cool - answer what actually fits your lifestyle" },
-                { title: 'Consider the Next 3-5 Years', desc: 'Will your family grow? Job change? New hobbies? Think ahead' },
-                { title: 'Budget Realistically', desc: "A $50,000 budget won't match you with a Lamborghini" },
-                { title: 'There Are No Wrong Answers', desc: "Every response helps us find YOUR perfect match - not someone else's" },
-                { title: 'All Questions Are Optional', desc: 'But with every question you answer, our results get more impressive' }
+                { title: 'Think About Daily Life', desc: 'Your typical week, not rare occasions' },
+                { title: 'Be Honest', desc: 'What fits your lifestyle, not what sounds cool' },
+                { title: 'Plan Ahead', desc: 'Consider the next 3-5 years' },
+                { title: 'All Questions Optional', desc: 'But more answers = better results' }
               ].map((tip, i) => (
                 <div key={i} className="flex gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
-                    <Check className="w-4 h-4 text-amber-400" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
+                    <Check className="w-4 h-4 text-amber-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white mb-1">{tip.title}</h3>
-                    <p className="text-white/60 text-sm">{tip.desc}</p>
+                    <h3 className="font-semibold text-slate-900 mb-1">{tip.title}</h3>
+                    <p className="text-slate-500 text-sm">{tip.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
             
             <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-4 text-white/40 text-sm mb-2">
+              <div className="flex items-center gap-4 text-slate-400 text-sm mb-2">
                 <span className="flex items-center gap-1"><Clock className="w-4 h-4" />3-5 minutes</span>
                 <span className="flex items-center gap-1"><Shield className="w-4 h-4" />Your answers are private</span>
               </div>
               <button onClick={beginAssessment} className="group px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25">
                 <span className="flex items-center justify-center gap-2">Begin Assessment<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span>
               </button>
-              <Link href="/" className="text-white/50 hover:text-amber-400 flex items-center gap-2 mt-2"><ArrowLeft className="w-4 h-4" />Back to Home</Link>
+              <Link href="/" className="text-slate-400 hover:text-amber-600 flex items-center gap-2 mt-2"><ArrowLeft className="w-4 h-4" />Back to Home</Link>
             </div>
           </div>
         </div>
@@ -801,11 +1180,11 @@ export default function QuizPage() {
       {!showTips && !result && !showEmailCollection && (
         <div className="max-w-3xl mx-auto px-6 py-12">
           <div className={`transition-opacity duration-200 ease-in-out ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
               <div className="mb-8">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="text-sm text-white/50">Question {testStep + 1} of {allQuestions.length}</span>
-                  <span className="text-sm font-medium text-amber-400">{Math.round(((testStep + 1) / allQuestions.length) * 100)}%</span>
+                  <span className="text-sm text-slate-400">Question {testStep + 1} of {allQuestions.length}</span>
+                  <span className="text-sm font-medium text-amber-600">{Math.round(((testStep + 1) / allQuestions.length) * 100)}%</span>
                 </div>
                 <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-full transition-all duration-500" style={{ width: `${((testStep + 1) / allQuestions.length) * 100}%` }} />
@@ -816,8 +1195,8 @@ export default function QuizPage() {
                 <>
                   <div className="mb-6">
                     <span className="text-4xl mb-4 block">{currentQ.icon}</span>
-                    <h2 className="text-2xl font-semibold text-white">{currentQ.question}</h2>
-                    {isMultiple && <p className="text-amber-400/80 text-sm mt-2">{currentQ.maxSelect ? `Select up to ${currentQ.maxSelect}` : 'Select all that apply'}</p>}
+                    <h2 className="text-2xl font-semibold text-slate-900">{currentQ.question}</h2>
+                    {isMultiple && <p className="text-amber-600/80 text-sm mt-2">{currentQ.maxSelect ? `Select up to ${currentQ.maxSelect}` : 'Select all that apply'}</p>}
                   </div>
                   
                   {isText ? (
@@ -828,11 +1207,11 @@ export default function QuizPage() {
                         onChange={(e) => setAnswers({ ...answers, [currentQ.id]: e.target.value })}
                         placeholder="Enter your 5-digit zip code"
                         maxLength={5}
-                        className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-4 text-white text-center text-2xl tracking-widest focus:outline-none focus:border-amber-500"
-                        onKeyDown={(e) => { if (e.key === 'Enter' && answers[currentQ.id]?.length === 5) { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else setShowEmailCollection(true); }}}
+                        className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-4 text-slate-900 text-center text-2xl tracking-widest focus:outline-none focus:border-amber-500"
+                        onKeyDown={(e) => { if (e.key === 'Enter' && answers[currentQ.id]?.length === 5) { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else showResults(); }}}
                       />
                       <button 
-                        onClick={() => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else setShowEmailCollection(true); }} 
+                        onClick={() => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else showResults(); }} 
                         disabled={!answers[currentQ.id] || answers[currentQ.id].length !== 5} 
                         className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                       >
@@ -845,26 +1224,26 @@ export default function QuizPage() {
                         {currentQ.options.map((o, i) => {
                           const selected = getArr(answers[currentQ.id]).includes(o.value);
                           return (
-                            <button key={i} onClick={() => handleMultiSelect(currentQ.id, o.value, currentQ.maxSelect)} className={`text-left p-3 border rounded-xl transition-all ${selected ? 'bg-amber-500/20 border-amber-500/60' : 'bg-black/30 border-white/10 hover:border-amber-500/30'}`}>
+                            <button key={i} onClick={() => handleMultiSelect(currentQ.id, o.value, currentQ.maxSelect)} className={`text-left p-3 border rounded-xl transition-all ${selected ? 'bg-amber-100 border-amber-500/60' : 'bg-slate-50 border-slate-200 hover:border-amber-300'}`}>
                               <div className="flex items-center gap-3">
                                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-white/30'}`}>{selected && <Check className="w-3 h-3 text-black" />}</div>
-                                <span className={`text-sm ${selected ? 'text-white' : 'text-white/70'}`}>{o.label}</span>
+                                <span className={`text-sm ${selected ? 'text-slate-900' : 'text-slate-600'}`}>{o.label}</span>
                               </div>
                             </button>
                           );
                         })}
                       </div>
                       <div className="flex gap-3 mt-4">
-                        <button onClick={() => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { setShowEmailCollection(true); }}} disabled={getArr(answers[currentQ.id]).length === 0} className="flex-1 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">Continue <ChevronRight className="w-5 h-5" /></button>
+                        <button onClick={() => { if (testStep < allQuestions.length - 1) setTestStep(testStep + 1); else { showResults(); }}} disabled={getArr(answers[currentQ.id]).length === 0} className="flex-1 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">Continue <ChevronRight className="w-5 h-5" /></button>
                       </div>
                     </div>
                   ) : (
                     <div className="space-y-3">
                       {currentQ.options.map((o, i) => (
-                        <button key={i} onClick={() => handleAnswer(currentQ.id, o.value)} className="w-full text-left p-4 bg-black/30 border border-white/10 rounded-xl hover:border-amber-500/50 hover:bg-white/5 transition-all group">
+                        <button key={i} onClick={() => handleAnswer(currentQ.id, o.value)} className="w-full text-left p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-amber-400 hover:bg-slate-50 transition-all group">
                           <div className="flex items-center justify-between">
-                            <span className="text-white/80 group-hover:text-white">{o.label}</span>
-                            <ChevronRight className="w-5 h-5 text-white/30 group-hover:text-amber-400 group-hover:translate-x-1 transition-all" />
+                            <span className="text-slate-700 group-hover:text-slate-900">{o.label}</span>
+                            <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-amber-600 group-hover:translate-x-1 transition-all" />
                           </div>
                         </button>
                       ))}
@@ -874,46 +1253,10 @@ export default function QuizPage() {
               )}
               
               <div className="mt-6 flex items-center justify-between">
-                {testStep > 0 ? <button onClick={() => setTestStep(testStep - 1)} className="text-white/50 hover:text-amber-400 flex items-center gap-2"><ArrowLeft className="w-4 h-4" />Back</button> : <div></div>}
-                {canSkip && <button onClick={skipQuestion} className="text-white/50 hover:text-amber-400 flex items-center gap-2">Skip<ArrowRight className="w-4 h-4" /></button>}
+                {testStep > 0 ? <button onClick={() => setTestStep(testStep - 1)} className="text-slate-400 hover:text-amber-600 flex items-center gap-2"><ArrowLeft className="w-4 h-4" />Back</button> : <div></div>}
+                {canSkip && <button onClick={skipQuestion} className="text-slate-400 hover:text-amber-600 flex items-center gap-2">Skip<ArrowRight className="w-4 h-4" /></button>}
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Email Collection */}
-      {showEmailCollection && !result && (
-        <div className="max-w-4xl mx-auto px-6 py-12">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-500/20 mb-6">
-                <Mail className="w-8 h-8 text-amber-400" />
-              </div>
-              <h2 className="text-3xl font-bold text-white mb-3">Almost There!</h2>
-              <p className="text-white/60 max-w-md mx-auto">Enter your email to see your personalized vehicle recommendation. We'll also send you a copy of your results.</p>
-            </div>
-            
-            <div className="max-w-md mx-auto">
-              <input 
-                type="email" 
-                value={emailAddress} 
-                onChange={(e) => setEmailAddress(e.target.value)} 
-                placeholder="Enter your email address" 
-                className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-4 text-white mb-4 focus:outline-none focus:border-amber-500 text-center"
-                onKeyDown={(e) => { if (e.key === 'Enter' && emailAddress.includes('@') && emailAddress.includes('.')) submitEmailAndShowResults(); }}
-              />
-              <button 
-                onClick={submitEmailAndShowResults} 
-                disabled={!emailAddress.includes('@') || !emailAddress.includes('.')} 
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
-              >
-                See My Results <ChevronRight className="w-5 h-5" />
-              </button>
-              <p className="text-white/40 text-xs text-center mt-4">We respect your privacy. No spam, ever.</p>
-            </div>
-            
-            <button onClick={() => { setShowEmailCollection(false); }} className="mt-8 text-white/50 hover:text-amber-400 flex items-center gap-2 mx-auto"><ArrowLeft className="w-4 h-4" />Back to questions</button>
           </div>
         </div>
       )}
@@ -922,32 +1265,32 @@ export default function QuizPage() {
       {result && (
         <div className="max-w-4xl mx-auto px-6 py-12">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/20 text-amber-400 text-sm mb-4"><Check className="w-4 h-4" />Complete</div>
-            <h2 className="text-4xl font-bold text-white mb-2">Your Perfect Match</h2>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-600 text-sm mb-4"><Check className="w-4 h-4" />Complete</div>
+            <h2 className="text-4xl font-bold text-slate-900 mb-2">Your Perfect Match</h2>
             <p className="text-2xl font-semibold bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">{result.vehicleSizeName}</p>
           </div>
           
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-            <p className="text-lg text-white/70 mb-8 text-center max-w-3xl mx-auto">{result.description}</p>
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+            <p className="text-lg text-slate-600 mb-8 text-center max-w-3xl mx-auto">{result.description}</p>
             
             <div className="mb-10">
-              <h3 className="text-lg font-semibold mb-4 text-amber-400 text-center">Recommended Vehicles</h3>
+              <h3 className="text-lg font-semibold mb-4 text-amber-600 text-center">Recommended Vehicles</h3>
               
               {/* Image Carousel */}
               <div className="relative max-w-2xl mx-auto">
-                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
+                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
                   {isImageLoading(result.vehicles[vehicleImageIndex]) && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 z-10">
+                    <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
                       <div className="flex flex-col items-center gap-3">
-                        <RefreshCw className="w-8 h-8 text-amber-400 animate-spin" />
-                        <span className="text-white/60 text-sm">Loading image...</span>
+                        <RefreshCw className="w-8 h-8 text-amber-600 animate-spin" />
+                        <span className="text-slate-500 text-sm">Loading image...</span>
                       </div>
                     </div>
                   )}
                   <img 
                     src={getVehicleImage(result.vehicles[vehicleImageIndex])} 
                     alt={result.vehicles[vehicleImageIndex]}
-                    className="w-full h-full object-contain bg-zinc-900"
+                    className="w-full h-full object-contain bg-slate-100"
                     onError={(e) => {
                       e.currentTarget.src = 'https://placehold.co/600x400/1a1a1a/ffd700?text=' + encodeURIComponent(result.vehicles[vehicleImageIndex]);
                     }}
@@ -955,25 +1298,25 @@ export default function QuizPage() {
                   
                   <button 
                     onClick={() => setVehicleImageIndex(prev => prev === 0 ? result.vehicles.length - 1 : prev - 1)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 flex items-center justify-center text-white transition-all hover:scale-110"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
                   
                   <button 
                     onClick={() => setVehicleImageIndex(prev => prev === result.vehicles.length - 1 ? 0 : prev + 1)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 flex items-center justify-center text-white transition-all hover:scale-110"
                   >
                     <ChevronRight className="w-6 h-6" />
                   </button>
                   
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 border border-white/20 text-white text-sm">
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-white text-sm">
                     {vehicleImageIndex + 1} / {result.vehicles.length}
                   </div>
                 </div>
                 
                 <div className="text-center mt-4">
-                  <h4 className="text-2xl font-bold text-white">{result.vehicles[vehicleImageIndex]}</h4>
+                  <h4 className="text-2xl font-bold text-slate-900">{result.vehicles[vehicleImageIndex]}</h4>
                 </div>
                 
                 <div className="flex justify-center gap-2 mt-4">
@@ -981,7 +1324,7 @@ export default function QuizPage() {
                     <button 
                       key={i}
                       onClick={() => setVehicleImageIndex(i)}
-                      className={`w-3 h-3 rounded-full transition-all ${i === vehicleImageIndex ? 'bg-amber-400 scale-110' : 'bg-white/30 hover:bg-white/50'}`}
+                      className={`w-3 h-3 rounded-full transition-all ${i === vehicleImageIndex ? 'bg-amber-500 scale-110' : 'bg-slate-500 hover:bg-slate-600'}`}
                     />
                   ))}
                 </div>
@@ -989,21 +1332,48 @@ export default function QuizPage() {
             </div>
             
             {result.reasoning.length > 0 && (
-              <div className="bg-black/30 rounded-xl p-6 mb-8">
-                <h3 className="text-lg font-semibold mb-4 text-amber-400 flex items-center gap-2"><Target className="w-5 h-5" />Why This Recommendation</h3>
-                <ul className="space-y-2">{result.reasoning.map((r: string, i: number) => <li key={i} className="flex items-start gap-3 text-white/70"><Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />{r}</li>)}</ul>
+              <div className="bg-slate-50 rounded-xl p-6 mb-8">
+                <h3 className="text-lg font-semibold mb-4 text-amber-600 flex items-center gap-2"><Target className="w-5 h-5" />Why This Recommendation</h3>
+                <ul className="space-y-2">{result.reasoning.map((r: string, i: number) => <li key={i} className="flex items-start gap-3 text-slate-600"><Check className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />{r}</li>)}</ul>
               </div>
             )}
             
-            <div className="bg-black/30 rounded-xl p-6 mb-8">
-              <h3 className="text-lg font-semibold mb-4 text-amber-400 flex items-center gap-2"><Star className="w-5 h-5" />Key Features</h3>
-              <div className="grid md:grid-cols-2 gap-3">{result.features.map((f: string, i: number) => <div key={i} className="flex items-center gap-3 text-white/70"><div className="w-2 h-2 rounded-full bg-amber-400" />{f}</div>)}</div>
+            <div className="bg-slate-50 rounded-xl p-6 mb-8">
+              <h3 className="text-lg font-semibold mb-4 text-amber-600 flex items-center gap-2"><Star className="w-5 h-5" />Key Features</h3>
+              <div className="grid md:grid-cols-2 gap-3">{result.features.map((f: string, i: number) => <div key={i} className="flex items-center gap-3 text-slate-600"><div className="w-2 h-2 rounded-full bg-amber-400" />{f}</div>)}</div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button onClick={() => setShowEmailModal(true)} className="px-6 py-3 rounded-xl border border-amber-500/50 text-amber-400 hover:bg-amber-500/10 flex items-center justify-center gap-2"><Mail className="w-5 h-5" />Email</button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
+              <button 
+                onClick={() => {
+                  const vehicleSlugs = result.vehicles.map((v: string) => v.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')).join(',');
+                  const params = new URLSearchParams();
+                  params.set('vehicles', vehicleSlugs);
+                  Object.entries(answers).forEach(([k, v]) => {
+                    if (v) params.set(k, Array.isArray(v) ? v.join(',') : String(v));
+                  });
+                  const url = `${window.location.origin}/results?${params.toString()}`;
+                  navigator.clipboard.writeText(url);
+                  alert('Link copied! Share it with friends.');
+                }} 
+                className="px-6 py-3 rounded-xl border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                Share Results
+              </button>
+              <button onClick={() => setShowEmailModal(true)} className="px-6 py-3 rounded-xl border border-amber-500/50 text-amber-600 hover:bg-amber-500/10 flex items-center justify-center gap-2"><Mail className="w-5 h-5" />Email</button>
               <Link href="/consultation" className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20 text-center">Schedule Consultation</Link>
-              <button onClick={resetTest} className="px-6 py-3 rounded-xl border border-white/20 text-white/70 hover:border-amber-500/50 hover:text-amber-400">Retake</button>
+              <button onClick={resetTest} className="px-6 py-3 rounded-xl border border-slate-300 text-slate-600 hover:border-amber-400 hover:text-amber-600">Retake</button>
+            </div>
+            
+            {/* View Full Results Link */}
+            <div className="mt-6 text-center">
+              <Link 
+                href={`/results?vehicles=${result.vehicles.map((v: string) => v.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')).join(',')}&${Object.entries(answers).map(([k, v]) => `${k}=${Array.isArray(v) ? v.join(',') : v}`).join('&')}`}
+                className="text-cyan-400 hover:text-cyan-300 font-medium flex items-center justify-center gap-2"
+              >
+                View Detailed Results with Comparisons →
+              </Link>
             </div>
           </div>
         </div>
@@ -1011,20 +1381,20 @@ export default function QuizPage() {
 
       {/* Email Modal */}
       {showEmailModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-white/10 rounded-2xl p-8 max-w-md w-full">
+        <div className="fixed inset-0 bg-slate-900 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-100 border border-slate-200 rounded-2xl p-8 max-w-md w-full">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-semibold">Email Results</h3>
-              <button onClick={() => setShowEmailModal(false)} className="text-white/50 hover:text-white">
+              <button onClick={() => setShowEmailModal(false)} className="text-slate-400 hover:text-slate-900">
                 <X className="w-5 h-5" />
               </button>
             </div>
             {emailSent ? (
               <div className="text-center py-8">
-                <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Check className="w-8 h-8 text-amber-400" />
+                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+                  <Check className="w-8 h-8 text-amber-600" />
                 </div>
-                <p className="text-lg text-white">Sent!</p>
+                <p className="text-lg text-slate-900">Sent!</p>
               </div>
             ) : (
               <>
@@ -1033,7 +1403,7 @@ export default function QuizPage() {
                   value={emailAddress}
                   onChange={(e) => setEmailAddress(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 mb-4 focus:outline-none focus:border-amber-500"
                 />
                 <button
                   onClick={sendEmail}
@@ -1049,38 +1419,39 @@ export default function QuizPage() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-black/80 mt-20">
+      <footer className="border-t border-slate-200 bg-slate-50 mt-20">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <img src="/logo.png" alt="Auto Wizard" className="h-16 w-auto" />
               </div>
-              <p className="text-white/50 text-sm">Your partner in finding the perfect vehicle.</p>
+              <p className="text-slate-500 text-sm">Your partner in finding the perfect vehicle.</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-white">Services</h4>
-              <ul className="space-y-2 text-sm text-white/50">
-                <li><Link href="/services" className="hover:text-amber-400">Expert Consultation - $119</Link></li>
-                <li><Link href="/services" className="hover:text-amber-400">Customization Support - $49</Link></li>
-                <li><Link href="/services" className="hover:text-amber-400">Purchase Assistance - $79</Link></li>
+              <h4 className="font-semibold mb-4 text-slate-900">Premium Services</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link href="/services" className="hover:text-amber-600">Expert Consultation</Link></li>
+                <li><Link href="/services" className="hover:text-amber-600">Customization Support</Link></li>
+                <li><Link href="/services" className="hover:text-amber-600">Purchase Assistance</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-white">Resources</h4>
-              <ul className="space-y-2 text-sm text-white/50">
-                <li><Link href="/expertise" className="hover:text-amber-400">Our Expertise</Link></li>
-                <li><Link href="/blog" className="hover:text-amber-400">Wizard's Guide</Link></li>
+              <h4 className="font-semibold mb-4 text-slate-900">Free Services</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link href="/" className="hover:text-amber-600">Wizard&apos;s Guide</Link></li>
+                <li><Link href="/compare" className="hover:text-amber-600">Compare Cars</Link></li>
+                <li><Link href="/quiz" className="hover:text-amber-600">The Car Quiz</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-white">Contact</h4>
-              <ul className="space-y-2 text-sm text-white/50">
-                <li><Link href="/consultation" className="flex items-center gap-2 hover:text-amber-400"><Mail className="w-4 h-4 text-amber-400" />autowizardcompany@gmail.com</Link></li>
+              <h4 className="font-semibold mb-4 text-slate-900">Contact</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link href="/consultation" className="flex items-center gap-2 hover:text-amber-600"><Mail className="w-4 h-4 text-amber-500" />autowizardcompany@gmail.com</Link></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-white/10 pt-6 text-center text-white/40 text-sm">© 2026 Auto Wizard. All rights reserved.</div>
+          <div className="border-t border-slate-200 pt-6 text-center text-slate-400 text-sm">© 2026 Auto Wizard. All rights reserved.</div>
         </div>
       </footer>
     </div>
