@@ -11,7 +11,6 @@ export default function ConsultationPage() {
     name: '',
     email: '',
     phone: '',
-    budget: '',
     dates: [] as string[],
     times: [] as string[],
     notes: '',
@@ -49,14 +48,38 @@ export default function ConsultationPage() {
     setConsultForm({ ...consultForm, dates: current.filter((d) => d !== date) });
   };
 
-  const handleConsult = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleConsult = async () => {
     if (!consultForm.name || !consultForm.email || !consultForm.phone || consultForm.dates.length === 0 || consultForm.times.length === 0) {
       alert('Please fill in all required fields');
       return;
     }
-    alert('Thank you! We will contact you to confirm your appointment.');
-    setConsultForm({ name: '', email: '', phone: '', budget: '', dates: [], times: [], notes: '', services: [] });
-    router.push('/');
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/consultation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(consultForm),
+      });
+
+      if (response.ok) {
+        alert('Thank you! We will contact you to confirm your appointment.');
+        setConsultForm({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
+        router.push('/');
+      } else {
+        alert('Something went wrong. Please try again or contact us directly.');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Something went wrong. Please try again or contact us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -119,26 +142,14 @@ export default function ConsultationPage() {
               </div>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium mb-2 text-slate-600">Phone *</label>
-                <input
-                  type="tel"
-                  value={consultForm.phone}
-                  onChange={(e) => setConsultForm({ ...consultForm, phone: e.target.value })}
-                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2 text-slate-600">Budget</label>
-                <input
-                  type="text"
-                  placeholder="e.g., $30,000 - $50,000"
-                  value={consultForm.budget}
-                  onChange={(e) => setConsultForm({ ...consultForm, budget: e.target.value })}
-                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-slate-600">Phone *</label>
+              <input
+                type="tel"
+                value={consultForm.phone}
+                onChange={(e) => setConsultForm({ ...consultForm, phone: e.target.value })}
+                className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500"
+              />
             </div>
             
             <div>
@@ -206,20 +217,21 @@ export default function ConsultationPage() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-2 text-slate-600">Notes</label>
+              <label className="block text-sm font-medium mb-2 text-slate-600">Brief description of what you&apos;re looking for and your budget</label>
               <textarea
                 value={consultForm.notes}
                 onChange={(e) => setConsultForm({ ...consultForm, notes: e.target.value })}
-                placeholder="Tell us about what you're looking for..."
+                placeholder="e.g., Looking for a reliable family SUV with 3 rows, budget around $45,000..."
                 className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 h-24 resize-none"
               />
             </div>
             
             <button
               onClick={handleConsult}
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white text-lg font-semibold hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20"
+              disabled={isSubmitting}
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white text-lg font-semibold hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Schedule
+              {isSubmitting ? 'Submitting...' : 'Schedule'}
             </button>
             
             <div className="pt-6 border-t border-slate-200 flex justify-center">
