@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// You can use Resend, SendGrid, Nodemailer, or any email service
-// This example uses Resend - sign up at resend.com and get an API key
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -60,51 +57,59 @@ ${notes || 'No additional notes'}
       <p>${notes || 'No additional notes'}</p>
     `;
 
-    // Option 1: Using Resend
-    // Sign up at resend.com, get API key, add to .env.local as RESEND_API_KEY
+    // Check for Resend API key
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     
-    if (RESEND_API_KEY) {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'Auto Wizard <onboarding@resend.dev>', // Use your verified domain in production
-          to: ['autowizardcompany@gmail.com'],
-          reply_to: email,
-          subject: `New Consultation Request from ${name}`,
-          text: emailContent,
-          html: htmlContent,
-        }),
+    if (!RESEND_API_KEY) {
+      console.log('=== RESEND_API_KEY NOT FOUND ===');
+      console.log('Add RESEND_API_KEY to your Vercel environment variables');
+      console.log('');
+      console.log('=== CONSULTATION REQUEST (logged only) ===');
+      console.log(emailContent);
+      console.log('==========================================');
+      
+      // Return success anyway so form works (remove this in production if you want to require email)
+      return NextResponse.json({ 
+        success: true, 
+        message: 'Submission received (email not configured yet)'
       });
-
-      if (!response.ok) {
-        const error = await response.json();
-        console.error('Resend error:', error);
-        return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
-      }
-
-      return NextResponse.json({ success: true, message: 'Email sent successfully' });
     }
 
-    // Option 2: Fallback - just log the submission (for testing without email service)
-    console.log('=== NEW CONSULTATION REQUEST ===');
-    console.log(emailContent);
-    console.log('================================');
-    
-    // In production, you'd want to return an error if no email service is configured
-    // For now, we'll return success so the form works during development
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Submission received (email service not configured)',
-      note: 'Add RESEND_API_KEY to .env.local to enable email sending'
+    // Send email via Resend
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Auto Wizard <onboarding@resend.dev>',
+        to: ['autowizardcompany@gmail.com'],
+        reply_to: email,
+        subject: `New Consultation Request from ${name}`,
+        text: emailContent,
+        html: htmlContent,
+      }),
     });
 
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      console.error('Resend API error:', responseData);
+      return NextResponse.json({ 
+        error: 'Failed to send email', 
+        details: responseData 
+      }, { status: 500 });
+    }
+
+    console.log('Email sent successfully:', responseData);
+    return NextResponse.json({ success: true, message: 'Email sent successfully' });
+
   } catch (error) {
-    console.error('API error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('API route error:', error);
+    return NextResponse.json({ 
+      error: 'Internal server error', 
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }
