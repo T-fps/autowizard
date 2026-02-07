@@ -10,7 +10,14 @@ export default function ServicesPage() {
       <div className="max-w-5xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-900 mb-4">Our Services</h1>
-          <p className="text-slate-500 max-w-2xl mx-auto">Comprehensive automotive guidance from selection to ownership</p>
+          <p className="text-slate-500 max-w-2xl mx-auto mb-8">Comprehensive automotive guidance from selection to ownership</p>
+          
+          <Link 
+            href="/consultation" 
+            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/25"
+          >
+            Book Now
+          </Link>
         </div>
         
         <div className="space-y-6">
@@ -24,17 +31,13 @@ export default function ServicesPage() {
                 <p className="text-slate-500">One-on-one sessions with certified automotive specialists</p>
               </div>
             </div>
-            <ul className="space-y-3 mb-6">
+            <ul className="space-y-3">
               {['In-depth lifestyle and needs analysis', 'Personalized vehicle recommendations', 'Dream, build, price and find my car', 'Feature comparison and prioritization', 'Customization with trim and options'].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-slate-700">
                   <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />{item}
                 </li>
               ))}
             </ul>
-            <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-              <span className="text-amber-600 font-semibold text-lg">$119 / session</span>
-              <Link href="/consultation" className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 transition-all">Book Now</Link>
-            </div>
           </div>
 
           <div className="p-8 rounded-2xl bg-slate-100 border border-slate-200">
@@ -47,17 +50,13 @@ export default function ServicesPage() {
                 <p className="text-slate-500">Personalize your vehicle with expert guidance</p>
               </div>
             </div>
-            <ul className="space-y-3 mb-6">
+            <ul className="space-y-3">
               {['Aftermarket product recommendations', 'Trusted installer network access', 'Performance upgrade planning', 'Aesthetic customization guidance', 'Warranty-safe modification advice'].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-slate-700">
                   <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />{item}
                 </li>
               ))}
             </ul>
-            <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-              <span className="text-amber-600 font-semibold text-lg">$49 / consultation</span>
-              <Link href="/consultation" className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 transition-all">Get Started</Link>
-            </div>
           </div>
 
           <div className="p-8 rounded-2xl bg-slate-100 border border-slate-200">
@@ -70,17 +69,13 @@ export default function ServicesPage() {
                 <p className="text-slate-500">Navigate the buying process with confidence</p>
               </div>
             </div>
-            <ul className="space-y-3 mb-6">
+            <ul className="space-y-3">
               {['Dealership introductions and connections', 'Financing and loan office referrals', 'Price negotiation strategies', 'Certified pre-owned verification', 'Paperwork and documentation guidance'].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-slate-700">
                   <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />{item}
                 </li>
               ))}
             </ul>
-            <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-              <span className="text-amber-600 font-semibold text-lg">$79 / vehicle</span>
-              <Link href="/consultation" className="px-6 py-2 rounded-lg bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 transition-all">Learn More</Link>
-            </div>
           </div>
         </div>
       </div>
