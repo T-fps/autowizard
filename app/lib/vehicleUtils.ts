@@ -17,16 +17,39 @@ export const brandPopularity: Record<string, number> = {
 
 // Model popularity boost (specific popular models get priority)
 export const modelPopularityBoost: Record<string, number> = {
+  // Toyota
   'Toyota RAV4': -50, 'Toyota Camry': -50, 'Toyota Corolla': -45, 'Toyota Highlander': -40,
+  'Toyota Tacoma': -40, 'Toyota Tundra': -30, 'Toyota 4Runner': -35,
+  // Honda
   'Honda CR-V': -50, 'Honda Civic': -45, 'Honda Accord': -45, 'Honda Pilot': -35,
+  // Ford
   'Ford F-150': -55, 'Ford Explorer': -40, 'Ford Bronco': -35, 'Ford Mustang': -35,
+  'Ford Ranger': -30, 'Ford Maverick': -30,
+  // Chevrolet
   'Chevrolet Silverado 1500': -50, 'Chevrolet Equinox': -35, 'Chevrolet Tahoe': -30,
+  'Chevrolet Traverse': -25, 'Chevrolet Colorado': -25,
+  // Tesla
   'Tesla Model Y': -45, 'Tesla Model 3': -45,
+  // Jeep
   'Jeep Wrangler': -40, 'Jeep Grand Cherokee': -40,
+  // Ram
   'Ram 1500': -45,
+  // Other popular models
   'Nissan Rogue': -35, 'Hyundai Tucson': -30, 'Kia Telluride': -35,
-  'Toyota Tacoma': -40, 'Toyota Tundra': -30,
   'Mazda CX-5': -30, 'Subaru Outback': -30, 'Subaru Forester': -25,
+  // Land Rover / Range Rover
+  'Range Rover': -25, 'Range Rover Sport': -30, 'Land Rover Defender 110': -25,
+  'Land Rover Discovery': -20, 'Range Rover Velar': -20, 'Range Rover Evoque': -20,
+  // Buick
+  'Buick Enclave': -15, 'Buick Envision': -10, 'Buick Encore GX': -10,
+  // Mini
+  'Mini Cooper': -20, 'Mini Countryman': -15, 'Mini Cooper S': -15,
+  // Mitsubishi
+  'Mitsubishi Outlander': -20, 'Mitsubishi Outlander PHEV': -15,
+  // Polestar
+  'Polestar 2': -20, 'Polestar 3': -15, 'Polestar 4': -10,
+  // GMC
+  'GMC Hummer EV': -15, 'GMC Hummer EV SUV': -15,
 };
 
 export function getPopularityScore(vehicle: Vehicle): number {
@@ -93,4 +116,55 @@ export const brandGradients: Record<string, string> = {
 
 export function getBrandGradient(brand: string): string {
   return brandGradients[brand] || 'from-slate-700 to-slate-900';
+}
+
+// Body type display names
+export function getBodyTypeDisplay(bodyType: string): string {
+  const displays: Record<string, string> = {
+    'sedan': 'Sedan',
+    'suv': 'SUV',
+    'crossover': 'Crossover',
+    'truck': 'Truck',
+    'hatchback': 'Hatchback',
+    'coupe': 'Coupe',
+    'wagon': 'Wagon',
+    'minivan': 'Minivan',
+    'convertible': 'Convertible',
+    'sports': 'Sports Car',
+    'van': 'Van',
+  };
+  return displays[bodyType] || bodyType;
+}
+
+// Powertrain display names
+export function getPowertrainDisplay(powertrain: string): string {
+  const displays: Record<string, string> = {
+    'gas': 'Gasoline',
+    'hybrid': 'Hybrid',
+    'phev': 'Plug-in Hybrid',
+    'ev': 'Electric',
+  };
+  return displays[powertrain] || powertrain;
+}
+
+// Reliability display
+export function getReliabilityDisplay(rating: number): string {
+  const displays: Record<number, string> = {
+    1: 'Poor',
+    2: 'Below Average',
+    3: 'Average',
+    4: 'Above Average',
+    5: 'Excellent',
+  };
+  return displays[rating] || 'Unknown';
+}
+
+// Format price from thousands to display
+export function formatPrice(price: number): string {
+  return `$${(price * 1000).toLocaleString()}`;
+}
+
+// Generate vehicle slug from name
+export function getVehicleSlug(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 }
