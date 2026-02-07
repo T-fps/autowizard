@@ -55,6 +55,15 @@ const competitorMap: Record<string, string[]> = {
   'Jeep Wrangler': ['Ford Bronco', 'Toyota 4Runner', 'Jeep Gladiator'],
   'Honda Odyssey': ['Toyota Sienna', 'Kia Carnival', 'Chrysler Pacifica'],
   'Toyota Sienna': ['Honda Odyssey', 'Kia Carnival', 'Chrysler Pacifica'],
+  // Land Rover / Range Rover
+  'Land Rover Defender 110': ['Jeep Wrangler', 'Ford Bronco', 'Toyota 4Runner', 'Land Rover Defender 90'],
+  'Land Rover Defender 90': ['Jeep Wrangler', 'Ford Bronco', 'Land Rover Defender 110'],
+  'Range Rover': ['BMW X7', 'Mercedes-Benz GLS', 'Cadillac Escalade', 'Range Rover Sport'],
+  'Range Rover Sport': ['BMW X5', 'Mercedes-Benz GLE', 'Porsche Cayenne', 'Range Rover Velar'],
+  'Range Rover Velar': ['BMW X4', 'Mercedes-Benz GLC Coupe', 'Porsche Macan'],
+  // Polestar
+  'Polestar 2': ['Tesla Model 3', 'BMW i4', 'Hyundai Ioniq 6'],
+  'Polestar 3': ['Tesla Model X', 'BMW iX', 'Mercedes-Benz EQE SUV'],
 };
 
 function getSuggestedVehicles(selectedVehicle: string, alreadySelected: string[]): string[] {
@@ -92,8 +101,44 @@ const popularComparisons = [
   { cars: ['BMW 3 Series', 'Mercedes-Benz C-Class'], category: 'Luxury Sedans' },
   { cars: ['Toyota Tacoma', 'Ford Ranger'], category: 'Midsize Trucks' },
   { cars: ['Kia Telluride', 'Hyundai Palisade'], category: '3-Row SUVs' },
-  { cars: ['Mazda CX-5', 'Subaru Forester'], category: 'Compact SUVs' },
+  { cars: ['Range Rover Sport', 'BMW X5'], category: 'Luxury SUVs' },
 ];
+
+// Selected Vehicle Card with hover X
+function SelectedVehicleCard({
+  vehicleName,
+  vehicleData,
+  onRemove
+}: {
+  vehicleName: string;
+  vehicleData: Vehicle;
+  onRemove: () => void;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      className="relative rounded-xl border-2 border-amber-400 bg-amber-50 p-4 min-h-[140px] flex flex-col items-center justify-center transition-all"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Hover X button */}
+      <button
+        onClick={onRemove}
+        className={`absolute top-2 right-2 p-1.5 bg-slate-200 hover:bg-red-500 hover:text-white rounded-full transition-all duration-200 ${
+          isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+        }`}
+        title="Remove vehicle"
+      >
+        <X className="w-4 h-4" />
+      </button>
+      <div className="text-3xl mb-2">🚗</div>
+      <h3 className="text-slate-900 font-semibold text-center">{vehicleName}</h3>
+      <p className="text-amber-600 font-medium text-sm">{formatPrice(vehicleData.price)}</p>
+      <p className="text-slate-500 text-xs">{getBodyTypeDisplay(vehicleData.bodyType)}</p>
+    </div>
+  );
+}
 
 export default function ComparePage() {
   const [selectedVehicles, setSelectedVehicles] = useState<string[]>([]);
@@ -159,7 +204,8 @@ export default function ComparePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Vehicle Selection */}
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-12">
-            <h2 className="text-xl font-bold text-slate-900 mb-6">Select Vehicles to Compare</h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Select Vehicles to Compare</h2>
+            <p className="text-sm text-slate-500 mb-6">Hover over selected vehicles to remove them</p>
             
             {/* Selected Vehicles */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -167,39 +213,31 @@ export default function ComparePage() {
                 const vehicleName = selectedVehicles[index];
                 const vehicleData = vehicleName ? vehicleDatabase.find((v: Vehicle) => v.name === vehicleName) : null;
                 
+                if (vehicleData) {
+                  return (
+                    <SelectedVehicleCard
+                      key={index}
+                      vehicleName={vehicleName}
+                      vehicleData={vehicleData}
+                      onRemove={() => removeVehicle(vehicleName)}
+                    />
+                  );
+                }
+                
                 return (
                   <div 
                     key={index}
-                    className={`relative rounded-xl border-2 border-dashed p-4 min-h-[140px] flex flex-col items-center justify-center transition-all ${
-                      vehicleData 
-                        ? 'border-amber-400 bg-amber-50' 
-                        : 'border-slate-300 hover:border-amber-300 hover:bg-amber-50/50'
-                    }`}
+                    className="relative rounded-xl border-2 border-dashed border-slate-300 hover:border-amber-300 hover:bg-amber-50/50 p-4 min-h-[140px] flex flex-col items-center justify-center transition-all"
                   >
-                    {vehicleData ? (
-                      <>
-                        <button
-                          onClick={() => removeVehicle(vehicleName)}
-                          className="absolute top-2 right-2 p-1 text-slate-400 hover:text-red-500 transition-colors"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                        <div className="text-3xl mb-2">🚗</div>
-                        <h3 className="text-slate-900 font-semibold text-center">{vehicleName}</h3>
-                        <p className="text-amber-600 font-medium text-sm">{formatPrice(vehicleData.price)}</p>
-                        <p className="text-slate-500 text-xs">{getBodyTypeDisplay(vehicleData.bodyType)}</p>
-                      </>
-                    ) : (
-                      <button
-                        onClick={() => setShowSearch(true)}
-                        className="w-full h-full flex flex-col items-center justify-center text-slate-400 hover:text-amber-600 transition-colors"
-                      >
-                        <Car className="w-8 h-8 mb-2" />
-                        <span className="text-sm">
-                          {index === 0 ? 'Add first vehicle' : index === 1 ? 'Add second vehicle' : 'Add third (optional)'}
-                        </span>
-                      </button>
-                    )}
+                    <button
+                      onClick={() => setShowSearch(true)}
+                      className="w-full h-full flex flex-col items-center justify-center text-slate-400 hover:text-amber-600 transition-colors"
+                    >
+                      <Car className="w-8 h-8 mb-2" />
+                      <span className="text-sm">
+                        {index === 0 ? 'Add first vehicle' : index === 1 ? 'Add second vehicle' : 'Add third (optional)'}
+                      </span>
+                    </button>
                   </div>
                 );
               })}
