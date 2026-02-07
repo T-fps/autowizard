@@ -506,6 +506,54 @@ export const vehicleTrims: Record<string, VehicleTrims> = {
   'Volvo XC60 Recharge': { basePrice: 58, trims: [{ name: 'Plus', price: 58, features: ['455 hp PHEV'] }, { name: 'Ultimate', price: 65, features: ['Bowers & Wilkins'] }] },
   'Volvo XC90': { basePrice: 58, trims: [{ name: 'Core', price: 58, features: ['295 hp turbo'] }, { name: 'Plus', price: 65, features: ['Premium leather'] }, { name: 'Ultimate', price: 75, features: ['Air suspension'] }] },
   'Volvo XC90 Recharge': { basePrice: 72, trims: [{ name: 'Plus', price: 72, features: ['455 hp PHEV'] }, { name: 'Ultimate', price: 82, features: ['Bowers & Wilkins'] }] },
+
+  // ==================== LAND ROVER ====================
+  'Land Rover Defender 90': { basePrice: 57, trims: [{ name: 'S', price: 57, features: ['296 hp turbo'] }, { name: 'SE', price: 62, features: ['Premium audio'] }, { name: 'X-Dynamic SE', price: 68, features: ['Dynamic styling'] }, { name: 'X', price: 78, features: ['Premium leather'] }, { name: 'V8', price: 105, features: ['493 hp V8'] }] },
+  'Land Rover Defender 110': { basePrice: 60, trims: [{ name: 'S', price: 60, features: ['296 hp turbo'] }, { name: 'SE', price: 65, features: ['Premium audio'] }, { name: 'X-Dynamic SE', price: 72, features: ['Dynamic styling'] }, { name: 'X', price: 82, features: ['Premium leather'] }, { name: 'V8', price: 108, features: ['493 hp V8'] }] },
+  'Land Rover Defender 130': { basePrice: 70, trims: [{ name: 'SE', price: 70, features: ['296 hp turbo', '8 seats'] }, { name: 'X-Dynamic SE', price: 78, features: ['Dynamic styling'] }, { name: 'X', price: 88, features: ['Premium leather'] }, { name: 'Outbound', price: 82, features: ['Adventure package'] }] },
+  'Land Rover Defender PHEV': { basePrice: 85, trims: [{ name: 'SE', price: 85, features: ['398 hp PHEV'] }, { name: 'X-Dynamic SE', price: 92, features: ['Dynamic styling'] }, { name: 'X', price: 102, features: ['Premium leather'] }] },
+  'Land Rover Discovery': { basePrice: 60, trims: [{ name: 'S', price: 60, features: ['296 hp turbo'] }, { name: 'SE', price: 68, features: ['Premium leather'] }, { name: 'HSE', price: 75, features: ['Meridian audio'] }, { name: 'Metropolitan Edition', price: 80, features: ['Unique styling'] }] },
+  'Land Rover Discovery Sport': { basePrice: 48, trims: [{ name: 'S', price: 48, features: ['246 hp turbo'] }, { name: 'SE', price: 52, features: ['Premium audio'] }, { name: 'Dynamic SE', price: 56, features: ['Sport styling'] }, { name: 'R-Dynamic HSE', price: 58, features: ['Meridian audio'] }] },
+
+  // ==================== RANGE ROVER ====================
+  'Range Rover': { basePrice: 105, trims: [{ name: 'SE', price: 105, features: ['395 hp mild-hybrid'] }, { name: 'HSE', price: 115, features: ['Meridian audio'] }, { name: 'Autobiography', price: 145, features: ['Executive seats'] }, { name: 'SV', price: 215, features: ['Handcrafted luxury'] }, { name: 'First Edition', price: 178, features: ['Exclusive options'] }] },
+  'Range Rover LWB': { basePrice: 115, trims: [{ name: 'SE', price: 115, features: ['395 hp', '7 seats'] }, { name: 'HSE', price: 125, features: ['Meridian audio'] }, { name: 'Autobiography', price: 158, features: ['Executive rear'] }, { name: 'SV', price: 225, features: ['Ultimate luxury'] }] },
+  'Range Rover PHEV': { basePrice: 115, trims: [{ name: 'SE P440e', price: 115, features: ['434 hp PHEV'] }, { name: 'HSE P440e', price: 125, features: ['Meridian audio'] }, { name: 'Autobiography P440e', price: 155, features: ['Executive seats'] }, { name: 'P510e', price: 135, features: ['503 hp PHEV'] }] },
+  'Range Rover Sport': { basePrice: 85, trims: [{ name: 'SE', price: 85, features: ['355 hp turbo'] }, { name: 'Dynamic SE', price: 92, features: ['Sport styling'] }, { name: 'Dynamic HSE', price: 98, features: ['Meridian audio'] }, { name: 'Autobiography', price: 115, features: ['Premium leather'] }, { name: 'First Edition', price: 125, features: ['Exclusive options'] }] },
+  'Range Rover Sport PHEV': { basePrice: 95, trims: [{ name: 'Autobiography P440e', price: 95, features: ['434 hp PHEV'] }, { name: 'P510e', price: 105, features: ['503 hp PHEV'] }] },
+  'Range Rover Sport SV': { basePrice: 185, trims: [{ name: 'Edition One', price: 185, features: ['626 hp twin-turbo V8'] }, { name: 'Edition Two', price: 195, features: ['Carbon fiber'] }] },
+  'Range Rover Velar': { basePrice: 60, trims: [{ name: 'S', price: 60, features: ['247 hp turbo'] }, { name: 'SE', price: 65, features: ['Premium audio'] }, { name: 'Dynamic SE', price: 70, features: ['Sport styling'] }, { name: 'Dynamic HSE', price: 78, features: ['Meridian 3D audio'] }, { name: 'R-Dynamic HSE', price: 82, features: ['Black pack'] }] },
+  'Range Rover Evoque': { basePrice: 50, trims: [{ name: 'S', price: 50, features: ['246 hp turbo'] }, { name: 'SE', price: 54, features: ['Premium leather'] }, { name: 'Dynamic SE', price: 58, features: ['Sport styling'] }, { name: 'Autobiography', price: 62, features: ['Meridian audio'] }] },
+
+  // ==================== BUICK ====================
+  'Buick Enclave': { basePrice: 48, trims: [{ name: 'Preferred', price: 48, features: ['310 hp V6'] }, { name: 'Essence', price: 52, features: ['Leather'] }, { name: 'Premium', price: 56, features: ['Bose audio'] }, { name: 'Avenir', price: 62, features: ['Premium everything'] }] },
+  'Buick Enclave Avenir': { basePrice: 62, trims: [{ name: 'Base', price: 62, features: ['310 hp V6', 'Premium luxury'] }] },
+  'Buick Encore GX': { basePrice: 28, trims: [{ name: 'Preferred', price: 28, features: ['137 hp turbo'] }, { name: 'Select', price: 30, features: ['Leatherette'] }, { name: 'Essence', price: 32, features: ['Leather'] }, { name: 'Sport Touring', price: 31, features: ['Sport styling'] }, { name: 'Avenir', price: 35, features: ['Premium package'] }] },
+  'Buick Envista': { basePrice: 25, trims: [{ name: 'Preferred', price: 25, features: ['137 hp turbo'] }, { name: 'Sport Touring', price: 27, features: ['Sport styling'] }, { name: 'Avenir', price: 30, features: ['Premium features'] }] },
+  'Buick Envision': { basePrice: 38, trims: [{ name: 'Preferred', price: 38, features: ['228 hp turbo'] }, { name: 'Essence', price: 42, features: ['Leather'] }, { name: 'Avenir', price: 48, features: ['Bose audio', 'Premium leather'] }] },
+
+  // ==================== MINI ====================
+  'Mini Cooper': { basePrice: 32, trims: [{ name: 'Classic', price: 32, features: ['161 hp turbo'] }, { name: 'Signature', price: 35, features: ['Navigation'] }, { name: 'Iconic', price: 38, features: ['Harman Kardon'] }] },
+  'Mini Cooper S': { basePrice: 36, trims: [{ name: 'Classic', price: 36, features: ['189 hp turbo'] }, { name: 'Signature', price: 39, features: ['Navigation'] }, { name: 'Iconic', price: 42, features: ['Harman Kardon'] }] },
+  'Mini Cooper Convertible': { basePrice: 38, trims: [{ name: 'Classic', price: 38, features: ['161 hp turbo'] }, { name: 'Signature', price: 41, features: ['Navigation'] }, { name: 'Iconic', price: 44, features: ['Harman Kardon'] }] },
+  'Mini Cooper SE': { basePrice: 35, trims: [{ name: 'Classic', price: 35, features: ['181 hp electric'] }, { name: 'Signature', price: 38, features: ['Navigation'] }, { name: 'Iconic', price: 42, features: ['Harman Kardon'] }] },
+  'Mini Countryman': { basePrice: 38, trims: [{ name: 'Classic', price: 38, features: ['189 hp turbo'] }, { name: 'Signature', price: 42, features: ['Navigation'] }, { name: 'Iconic', price: 46, features: ['Harman Kardon'] }] },
+  'Mini Countryman SE ALL4': { basePrice: 45, trims: [{ name: 'Classic', price: 45, features: ['221 hp PHEV'] }, { name: 'Signature', price: 48, features: ['Navigation'] }, { name: 'Iconic', price: 52, features: ['Harman Kardon'] }] },
+  'Mini John Cooper Works': { basePrice: 42, trims: [{ name: 'Base', price: 42, features: ['228 hp turbo'] }, { name: 'Iconic', price: 48, features: ['Harman Kardon', 'Premium leather'] }] },
+
+  // ==================== MITSUBISHI ====================
+  'Mitsubishi Outlander': { basePrice: 32, trims: [{ name: 'ES', price: 32, features: ['181 hp'] }, { name: 'SE', price: 35, features: ['Power liftgate'] }, { name: 'SEL', price: 38, features: ['Leather'] }, { name: 'SEL Premium', price: 42, features: ['Panoramic roof'] }, { name: 'Black Edition', price: 40, features: ['Black styling'] }] },
+  'Mitsubishi Outlander PHEV': { basePrice: 42, trims: [{ name: 'ES', price: 42, features: ['248 hp PHEV'] }, { name: 'SE', price: 46, features: ['Power liftgate'] }, { name: 'SEL', price: 50, features: ['Leather'] }, { name: 'SEL Premium', price: 55, features: ['Full premium'] }] },
+  'Mitsubishi Outlander Sport': { basePrice: 26, trims: [{ name: 'ES', price: 26, features: ['148 hp'] }, { name: 'SE', price: 28, features: ['Alloy wheels'] }, { name: 'GT', price: 32, features: ['Leather', '181 hp'] }] },
+  'Mitsubishi Eclipse Cross': { basePrice: 28, trims: [{ name: 'ES', price: 28, features: ['152 hp turbo'] }, { name: 'SE', price: 30, features: ['Moonroof'] }, { name: 'SEL', price: 34, features: ['Leather'] }] },
+  'Mitsubishi Mirage': { basePrice: 18, trims: [{ name: 'ES', price: 18, features: ['78 hp'] }, { name: 'SE', price: 20, features: ['Apple CarPlay'] }] },
+
+  // ==================== POLESTAR ====================
+  'Polestar 2': { basePrice: 48, trims: [{ name: 'Standard Range Single Motor', price: 48, features: ['272 hp', 'RWD'] }, { name: 'Long Range Single Motor', price: 52, features: ['299 hp', 'RWD'] }, { name: 'Long Range Dual Motor', price: 58, features: ['421 hp', 'AWD'] }] },
+  'Polestar 2 Performance': { basePrice: 58, trims: [{ name: 'Performance Pack', price: 58, features: ['Öhlins dampers'] }, { name: 'Performance Pack + Pilot', price: 62, features: ['Pilot Assist'] }] },
+  'Polestar 3': { basePrice: 75, trims: [{ name: 'Long Range Dual Motor', price: 75, features: ['489 hp', 'AWD'] }, { name: 'Long Range Dual Motor w/Performance', price: 82, features: ['517 hp'] }] },
+  'Polestar 4': { basePrice: 60, trims: [{ name: 'Long Range Single Motor', price: 60, features: ['272 hp', 'RWD'] }, { name: 'Long Range Dual Motor', price: 68, features: ['544 hp', 'AWD'] }] },
+
 };
 
 // Helper function to get trims for a vehicle
