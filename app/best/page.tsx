@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { vehicleDatabase } from '../lib/vehicleDatabase';
+import PageWrapper from '../components/shared/PageWrapper';
 
 export const metadata: Metadata = {
   title: 'Best Cars 2025 - Top Rated Vehicles by Category | Auto Wizard',
@@ -37,106 +38,117 @@ export default function BestCarsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      {/* Hero */}
-      <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Best Cars of 2025
-          </h1>
-          <p className="text-xl text-slate-300 mb-8 max-w-3xl">
-            Expert rankings and comparisons across every category. Find the perfect vehicle based on your needs, budget, and preferences.
-          </p>
-          
-          <div className="flex flex-wrap gap-4">
-            <Link
-              href="/quiz"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 text-lg"
-            >
-              🎯 Take the Quiz - Get Personalized Picks
-            </Link>
-            <Link
-              href="/brands"
-              className="inline-flex items-center px-8 py-4 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all duration-300 text-lg"
-            >
-              Browse by Brand
-            </Link>
-          </div>
-          
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
-            <div className="bg-slate-800/50 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold text-cyan-400">{vehicleDatabase.length}</div>
-              <div className="text-slate-400 text-sm">Vehicles Reviewed</div>
-            </div>
-            <div className="bg-slate-800/50 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold text-cyan-400">{new Set(vehicleDatabase.map(v => v.brand)).size}+</div>
-              <div className="text-slate-400 text-sm">Brands</div>
-            </div>
-            <div className="bg-slate-800/50 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold text-cyan-400">{evCount}</div>
-              <div className="text-slate-400 text-sm">Electric Options</div>
-            </div>
-            <div className="bg-slate-800/50 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold text-cyan-400">{formatPrice(Math.min(...vehicleDatabase.map(v => v.price)))}</div>
-              <div className="text-slate-400 text-sm">Starting From</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Categories Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-2xl font-bold text-white mb-8">Browse by Category</h2>
-        
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map(category => (
-            <Link
-              key={category.href}
-              href={category.href}
-              className="bg-slate-900/50 rounded-2xl p-6 border border-slate-700 hover:border-cyan-500/50 transition-all duration-300 group"
-            >
-              <div className="text-4xl mb-4">{category.icon}</div>
-              <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors mb-2">
-                {category.name}
-              </h3>
-              <p className="text-slate-400 text-sm mb-3">{category.description}</p>
-              <p className="text-cyan-400 font-medium">{category.count} vehicles →</p>
-            </Link>
-          ))}
-        </div>
-        
-        {/* Popular Searches */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold text-white mb-6">Popular Searches</h2>
-          <div className="flex flex-wrap gap-3">
-            {['3 Row SUV', 'Hybrid SUV', 'Electric SUV', 'Midsize Truck', 'Luxury Sedan', 
-              'Reliable Cars', 'Good Gas Mileage', 'AWD Cars', 'Compact SUV', 'Sports Car'].map(search => (
+    <PageWrapper>
+      <div className="min-h-screen bg-white">
+        {/* Hero */}
+        <div className="relative bg-gradient-to-br from-amber-50 via-white to-amber-50 border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            {/* Breadcrumb Navigation */}
+            <nav className="mb-6">
+              <ol className="flex items-center space-x-2 text-sm text-slate-500">
+                <li><Link href="/" className="hover:text-amber-600 transition-colors">Home</Link></li>
+                <li>/</li>
+                <li className="text-slate-900 font-medium">Best Cars 2025</li>
+              </ol>
+            </nav>
+
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Best Cars of 2025
+            </h1>
+            <p className="text-xl text-slate-600 mb-8 max-w-3xl">
+              Expert rankings and comparisons across every category. Find the perfect vehicle based on your needs, budget, and preferences.
+            </p>
+            
+            <div className="flex flex-wrap gap-4">
               <Link
-                key={search}
                 href="/quiz"
-                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-cyan-500/20 hover:text-cyan-400 transition-all duration-300"
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-lg shadow-amber-500/25"
               >
-                {search}
+                🎯 Take the Quiz - Get Personalized Picks
+              </Link>
+              <Link
+                href="/brands"
+                className="inline-flex items-center px-8 py-4 bg-white text-slate-700 font-semibold rounded-xl border border-slate-300 hover:border-amber-400 hover:bg-amber-50 transition-all duration-300"
+              >
+                Browse by Brand
+              </Link>
+            </div>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+              <div className="bg-white rounded-xl p-4 text-center border border-slate-200 shadow-sm">
+                <div className="text-3xl font-bold text-amber-600">{vehicleDatabase.length}</div>
+                <div className="text-slate-500 text-sm">Vehicles Reviewed</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 text-center border border-slate-200 shadow-sm">
+                <div className="text-3xl font-bold text-amber-600">{new Set(vehicleDatabase.map(v => v.brand)).size}+</div>
+                <div className="text-slate-500 text-sm">Brands</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 text-center border border-slate-200 shadow-sm">
+                <div className="text-3xl font-bold text-amber-600">{evCount}</div>
+                <div className="text-slate-500 text-sm">Electric Options</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 text-center border border-slate-200 shadow-sm">
+                <div className="text-3xl font-bold text-amber-600">{formatPrice(Math.min(...vehicleDatabase.map(v => v.price)))}</div>
+                <div className="text-slate-500 text-sm">Starting From</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Categories Grid */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Browse by Category</h2>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categories.map(category => (
+              <Link
+                key={category.href}
+                href={category.href}
+                className="bg-white rounded-2xl p-6 border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300 group"
+              >
+                <div className="text-4xl mb-4">{category.icon}</div>
+                <h3 className="text-xl font-semibold text-slate-900 group-hover:text-amber-600 transition-colors mb-2">
+                  {category.name}
+                </h3>
+                <p className="text-slate-500 text-sm mb-3">{category.description}</p>
+                <p className="text-amber-600 font-medium">{category.count} vehicles →</p>
               </Link>
             ))}
           </div>
-        </div>
-        
-        {/* CTA */}
-        <div className="mt-16 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl p-8 border border-cyan-500/20 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Not sure where to start?</h2>
-          <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
-            Our quiz analyzes your lifestyle, needs, and preferences to recommend the perfect vehicles for you.
-          </p>
-          <Link
-            href="/quiz"
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 text-lg"
-          >
-            Get Personalized Recommendations →
-          </Link>
+          
+          {/* Popular Searches */}
+          <div className="mt-16">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">Popular Searches</h2>
+            <div className="flex flex-wrap gap-3">
+              {['3 Row SUV', 'Hybrid SUV', 'Electric SUV', 'Midsize Truck', 'Luxury Sedan', 
+                'Reliable Cars', 'Good Gas Mileage', 'AWD Cars', 'Compact SUV', 'Sports Car'].map(search => (
+                <Link
+                  key={search}
+                  href="/quiz"
+                  className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-amber-100 hover:text-amber-700 transition-all duration-300"
+                >
+                  {search}
+                </Link>
+              ))}
+            </div>
+          </div>
+          
+          {/* CTA */}
+          <div className="mt-16 bg-gradient-to-r from-amber-100 to-amber-50 rounded-2xl p-8 border border-amber-200 text-center">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Not sure where to start?</h2>
+            <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
+              Our quiz analyzes your lifestyle, needs, and preferences to recommend the perfect vehicles for you.
+            </p>
+            <Link
+              href="/quiz"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-lg shadow-amber-500/25"
+            >
+              Get Personalized Recommendations →
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </PageWrapper>
   );
 }
