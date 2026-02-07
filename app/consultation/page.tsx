@@ -67,16 +67,19 @@ export default function ConsultationPage() {
         body: JSON.stringify(consultForm),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         alert('Thank you! We will contact you to confirm your appointment.');
         setConsultForm({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
         router.push('/');
       } else {
-        alert('Something went wrong. Please try again or contact us directly.');
+        console.error('Server error:', data);
+        alert('Something went wrong. Please try again or contact us at autowizardcompany@gmail.com');
       }
     } catch (error) {
       console.error('Submission error:', error);
-      alert('Something went wrong. Please try again or contact us directly.');
+      alert('Connection error. Please check your internet and try again, or contact us at autowizardcompany@gmail.com');
     } finally {
       setIsSubmitting(false);
     }
