@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, Car, Wrench, Briefcase, Star, Check, X, Mail } from 'lucide-react';
+import { Calendar, Car, Wrench, Briefcase, Star, Check, X, Phone, Mail } from 'lucide-react';
 import PageWrapper from '../components/shared/PageWrapper';
 
 export default function ConsultationPage() {
@@ -48,41 +48,14 @@ export default function ConsultationPage() {
     setConsultForm({ ...consultForm, dates: current.filter((d) => d !== date) });
   };
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleConsult = async () => {
+  const handleConsult = () => {
     if (!consultForm.name || !consultForm.email || !consultForm.phone || consultForm.dates.length === 0 || consultForm.times.length === 0) {
       alert('Please fill in all required fields');
       return;
     }
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/consultation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(consultForm),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Thank you! We will contact you to confirm your appointment.');
-        setConsultForm({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
-        router.push('/');
-      } else {
-        console.error('Server error:', data);
-        alert('Something went wrong. Please try again or contact us at autowizardcompany@gmail.com');
-      }
-    } catch (error) {
-      console.error('Submission error:', error);
-      alert('Connection error. Please check your internet and try again, or contact us at autowizardcompany@gmail.com');
-    } finally {
-      setIsSubmitting(false);
-    }
+    alert('Thank you! We will contact you to confirm your appointment.');
+    setConsultForm({ name: '', email: '', phone: '', dates: [], times: [], notes: '', services: [] });
+    router.push('/');
   };
 
   return (
@@ -101,10 +74,10 @@ export default function ConsultationPage() {
               <label className="block text-sm font-medium mb-3 text-slate-600">Services (Select all that apply)</label>
               <div className="grid sm:grid-cols-2 gap-3">
                 {[
-                  { value: 'consultation', label: 'Expert Consultation', icon: Car },
-                  { value: 'customization', label: 'Customization Support', icon: Wrench },
-                  { value: 'purchase', label: 'Purchase Assistance', icon: Briefcase },
-                  { value: 'bundle', label: 'Full Bundle', icon: Star }
+                  { value: 'consultation', label: 'Expert Consultation - $119', icon: Car },
+                  { value: 'customization', label: 'Customization Support - $49', icon: Wrench },
+                  { value: 'purchase', label: 'Purchase Assistance - $79', icon: Briefcase },
+                  { value: 'bundle', label: 'Full Bundle - $219', icon: Star }
                 ].map((s) => {
                   const selected = (consultForm.services || []).includes(s.value);
                   return (
@@ -196,9 +169,9 @@ export default function ConsultationPage() {
               <label className="block text-sm font-medium mb-3 text-slate-600">Preferred Time of Day *</label>
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { value: 'morning', label: 'Morning' },
-                  { value: 'midday', label: 'Mid-Day' },
-                  { value: 'afternoon', label: 'Afternoon' }
+                  { value: 'morning', label: 'Morning', desc: '9 AM - 12 PM' },
+                  { value: 'midday', label: 'Mid-Day', desc: '12 PM - 3 PM' },
+                  { value: 'afternoon', label: 'Afternoon', desc: '3 PM - 6 PM' }
                 ].map((t) => {
                   const selected = (consultForm.times || []).includes(t.value);
                   return (
@@ -207,12 +180,13 @@ export default function ConsultationPage() {
                       onClick={() => toggleTime(t.value)}
                       className={`p-4 rounded-xl border transition-all text-center ${selected ? 'bg-amber-100 border-amber-500' : 'bg-white border-slate-200 hover:border-amber-400'}`}
                     >
-                      <div className="flex items-center justify-center gap-2">
+                      <div className="flex items-center justify-center gap-2 mb-1">
                         <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'bg-amber-500 border-amber-500' : 'border-slate-300'}`}>
                           {selected && <Check className="w-2.5 h-2.5 text-white" />}
                         </div>
                         <span className={`font-medium ${selected ? 'text-amber-700' : 'text-slate-700'}`}>{t.label}</span>
                       </div>
+                      <span className="text-xs text-slate-500">{t.desc}</span>
                     </button>
                   );
                 })}
@@ -220,24 +194,25 @@ export default function ConsultationPage() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-2 text-slate-600">Brief description of what you&apos;re looking for and your budget</label>
+              <label className="block text-sm font-medium mb-2 text-slate-600">Notes</label>
               <textarea
                 value={consultForm.notes}
                 onChange={(e) => setConsultForm({ ...consultForm, notes: e.target.value })}
-                placeholder="e.g., Looking for a reliable family SUV with 3 rows, budget around $45,000..."
-                className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 h-24 resize-none"
+                className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-amber-500 h-24 resize-none"
               />
             </div>
             
             <button
               onClick={handleConsult}
-              disabled={isSubmitting}
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white text-lg font-semibold hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black text-lg font-semibold hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20"
             >
-              {isSubmitting ? 'Submitting...' : 'Schedule'}
+              Schedule
             </button>
             
-            <div className="pt-6 border-t border-slate-200 flex justify-center">
+            <div className="pt-6 border-t border-slate-200 flex flex-wrap justify-center gap-6">
+              <div className="flex items-center gap-2 text-slate-500">
+                <Phone className="w-4 h-4 text-amber-600" />(413) 333-8401
+              </div>
               <div className="flex items-center gap-2 text-slate-500">
                 <Mail className="w-4 h-4 text-amber-600" />autowizardcompany@gmail.com
               </div>

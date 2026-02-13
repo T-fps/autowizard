@@ -4,16 +4,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cdn.imagin.studio',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.carlogos.org',
-        pathname: '/**',
+        hostname: 'upload.wikimedia.org',
       },
     ],
-    unoptimized: true, // For static export compatibility
   },
 }
 

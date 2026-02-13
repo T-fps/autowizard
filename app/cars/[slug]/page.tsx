@@ -7,6 +7,8 @@ import { notFound } from 'next/navigation';
 import CarImage from '../../components/CarImage';
 import TrimSelector from '../../components/TrimSelector';
 import UsedPriceEstimator from '../../components/UsedPriceEstimator';
+import FinancingCalculator from '../../components/FinancingCalculator';
+import InsuranceEstimator from '../../components/InsuranceEstimator';
 import PageWrapper from '../../components/shared/PageWrapper';
 
 // Generate static params for all vehicles
@@ -602,6 +604,19 @@ export default async function VehiclePage({ params }: { params: Promise<{ slug: 
                   Find Your Perfect Car
                 </Link>
               </div>
+              
+              {/* Financing Calculator */}
+              <FinancingCalculator 
+                vehiclePrice={vehicle.price} 
+                vehicleName={vehicle.name}
+              />
+              
+              {/* Insurance Estimator */}
+              <InsuranceEstimator 
+                vehicleName={vehicle.name}
+                vehiclePrice={vehicle.price}
+                vehicleType={vehicle.bodyType}
+              />
               
               {/* Used Price Estimator */}
               <UsedPriceEstimator 

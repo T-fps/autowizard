@@ -1,10 +1,22 @@
 "use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { Share2, Mail, Copy, Check, ChevronDown, ChevronUp, ArrowRight, RefreshCw } from 'lucide-react';
-import { vehicleDatabase, Vehicle } from '../lib/vehicleDatabase';
+import { useParams, useRouter } from 'next/navigation';
+import { ChevronDown, X, Search, Plus } from 'lucide-react';
+import { vehicleDatabase, Vehicle } from '../../lib/vehicleDatabase';
+import { getVehicleTrims, Trim } from '../../lib/vehicleTrims';
+import CarImage from '../../components/CarImage';
+import PageWrapper from '../../components/shared/PageWrapper';
+
+// Helper functions
+function getVehicleSlug(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+}
+
+function getVehicleBySlug(slug: string): Vehicle | undefined {
+  return vehicleDatabase.find((v) => getVehicleSlug(v.name) === slug);
+}
 
 function formatPrice(price: number): string {
   return `$${(price * 1000).toLocaleString()}`;
@@ -19,502 +31,580 @@ function getBodyTypeDisplay(bodyType: string): string {
   return displays[bodyType] || bodyType;
 }
 
-function getVehicleSlug(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+function getPowertrainDisplay(powertrain: string): string {
+  const displays: Record<string, string> = {
+    'gas': 'Gasoline', 'hybrid': 'Hybrid', 'phev': 'Plug-in Hybrid', 'ev': 'Electric',
+  };
+  return displays[powertrain] || powertrain;
 }
 
-// Generate match reasons based on user preferences and vehicle attributes
-function generateMatchReasons(vehicle: Vehicle, params: URLSearchParams): string[] {
-  const reasons: string[] = [];
-  
-  const budget = params.get('budget');
-  const passengers = params.get('passengers');
-  const primaryUse = params.get('use');
-  const weather = params.get('weather');
-  const powertrain = params.get('powertrain');
-  const drivingExp = params.get('driving');
-  const character = params.get('character');
-  const capability = params.get('capability');
-  const environmental = params.get('environmental');
-  const emotional = params.get('emotional');
-  
-  // Budget match
-  if (budget) {
-    const budgetNum = parseInt(budget);
-    if (vehicle.price <= budgetNum * 0.85) {
-      reasons.push(`Well within your budget at ${formatPrice(vehicle.price)}, leaving room for options or accessories`);
-    } else if (vehicle.price <= budgetNum) {
-      reasons.push(`Fits your ${formatPrice(budgetNum * 1000)} budget at ${formatPrice(vehicle.price)}`);
-    }
-  }
-  
-  // Passenger capacity
-  if (passengers) {
-    const passNum = parseInt(passengers);
-    if (vehicle.seats >= passNum) {
-      if (vehicle.seats > passNum + 2) {
-        reasons.push(`Seats ${vehicle.seats} passengers — extra room for friends or cargo`);
-      } else {
-        reasons.push(`Comfortably seats your ${passNum} regular passengers`);
-      }
-    }
-  }
-  
-  // Primary use alignment
-  if (primaryUse) {
-    const useReasons: Record<string, string[]> = {
-      'commute': ['Excellent for daily commuting', 'Great fuel efficiency for your commute', 'Comfortable for everyday driving'],
-      'family': ['Perfect for family duties', 'Family-friendly features and space', 'Safe and practical for families'],
-      'adventure': ['Built for adventure', 'Ready for weekend getaways', 'Adventure-ready capability'],
-      'work': ['Work-ready capability', 'Professional and practical', 'Built for your work needs'],
-      'luxury': ['Luxury experience you\'re looking for', 'Premium comfort and features', 'Refined driving experience'],
-    };
-    if (useReasons[primaryUse]) {
-      const matching = useReasons[primaryUse].find(r => 
-        (primaryUse === 'commute' && (vehicle.features.includes('efficient') || vehicle.powertrain === 'hybrid' || vehicle.powertrain === 'ev')) ||
-        (primaryUse === 'family' && vehicle.useCases.includes('family')) ||
-        (primaryUse === 'adventure' && vehicle.features.includes('offroad')) ||
-        (primaryUse === 'work' && (vehicle.features.includes('towing') || vehicle.bodyType === 'truck')) ||
-        (primaryUse === 'luxury' && (vehicle.segment === 'luxury' || vehicle.segment === 'premium'))
-      );
-      if (matching) reasons.push(matching);
-    }
-  }
-  
-  // Weather/AWD
-  if (weather === 'snow' && vehicle.features.includes('awd')) {
-    reasons.push('All-wheel drive for confident handling in snow and rain');
-  }
-  
-  // Powertrain preference
-  if (powertrain === 'ev' && vehicle.powertrain === 'ev') {
-    reasons.push('Zero emissions electric powertrain you wanted');
-  } else if (powertrain === 'hybrid' && (vehicle.powertrain === 'hybrid' || vehicle.powertrain === 'phev')) {
-    reasons.push('Hybrid efficiency without range anxiety');
-  }
-  
-  // Driving experience
-  if (drivingExp === 'engaging' && vehicle.features.includes('performance')) {
-    reasons.push('Engaging driving dynamics for enthusiasts');
-  } else if (drivingExp === 'comfort' && vehicle.features.includes('comfort')) {
-    reasons.push('Smooth, comfortable ride quality you prefer');
-  } else if (drivingExp === 'commanding' && (vehicle.bodyType === 'suv' || vehicle.bodyType === 'truck')) {
-    reasons.push('Commanding driving position with great visibility');
-  }
-  
-  // Vehicle character
-  if (character === 'rugged' && vehicle.features.includes('offroad')) {
-    reasons.push('Rugged character with genuine off-road capability');
-  } else if (character === 'sophisticated' && (vehicle.segment === 'luxury' || vehicle.segment === 'premium')) {
-    reasons.push('Sophisticated design and premium materials');
-  } else if (character === 'sporty' && vehicle.features.includes('performance')) {
-    reasons.push('Sporty character with dynamic performance');
-  } else if (character === 'practical' && vehicle.useCases.includes('family')) {
-    reasons.push('Practical design maximizes everyday usability');
-  }
-  
-  // Capability preference
-  if (capability === 'want-capability' && (vehicle.features.includes('offroad') || vehicle.features.includes('towing'))) {
-    reasons.push('The capability you want, even if you don\'t need it daily');
-  }
-  
-  // Environmental values
-  if (environmental === 'top-priority' && vehicle.powertrain === 'ev') {
-    reasons.push('Aligns with your environmental priorities — zero tailpipe emissions');
-  } else if (environmental === 'important' && (vehicle.powertrain === 'hybrid' || vehicle.powertrain === 'ev')) {
-    reasons.push('Eco-friendly option that reduces your carbon footprint');
-  }
-  
-  // Emotional connection
-  if (emotional === 'adventure' && vehicle.features.includes('offroad')) {
-    reasons.push('Perfect for the adventures you crave');
-  } else if (emotional === 'driving-joy' && vehicle.features.includes('performance')) {
-    reasons.push('Delivers the driving joy you\'re looking for');
-  } else if (emotional === 'safety' && vehicle.useCases.includes('family')) {
-    reasons.push('Strong safety focus for peace of mind');
-  }
-  
-  // Brand reputation
-  const reliableBrands = ['Toyota', 'Lexus', 'Honda', 'Acura', 'Mazda'];
-  if (reliableBrands.includes(vehicle.brand)) {
-    reasons.push(`${vehicle.brand}'s excellent reliability reputation`);
-  }
-  
-  // Warranty
-  if (['Hyundai', 'Kia', 'Genesis'].includes(vehicle.brand)) {
-    reasons.push('Industry-leading warranty coverage');
-  }
-  
-  // Ensure we have at least 3 reasons
-  if (reasons.length < 3) {
-    if (vehicle.features.includes('tech')) reasons.push('Modern technology and connectivity features');
-    if (vehicle.features.includes('cargo')) reasons.push('Generous cargo space for your needs');
-    if (reasons.length < 3) reasons.push(`Strong value in the ${getBodyTypeDisplay(vehicle.bodyType).toLowerCase()} segment`);
-  }
-  
-  return reasons.slice(0, 5);
+function getReliabilityDisplay(rating: number): string {
+  const displays: Record<number, string> = {
+    1: 'Poor', 2: 'Below Average', 3: 'Average', 4: 'Above Average', 5: 'Excellent',
+  };
+  return displays[rating] || 'Unknown';
 }
 
-// Parse results from URL
-function parseResultsFromUrl(params: URLSearchParams): Vehicle[] {
-  const vehicleNames = params.get('vehicles')?.split(',') || [];
-  return vehicleNames
-    .map(name => vehicleDatabase.find(v => getVehicleSlug(v.name) === name))
-    .filter(Boolean) as Vehicle[];
+function getReliabilityStars(rating: number): string {
+  return '★'.repeat(rating) + '☆'.repeat(5 - rating);
 }
 
-function ResultsContent() {
-  const searchParams = useSearchParams();
-  const [copied, setCopied] = useState(false);
-  const [expandedVehicle, setExpandedVehicle] = useState<string | null>(null);
-  const [selectedForCompare, setSelectedForCompare] = useState<string[]>([]);
-  
-  const vehicles = parseResultsFromUrl(searchParams);
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
-  
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(currentUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
-  
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'My Auto Wizard Results',
-          text: `Check out my personalized car recommendations from Auto Wizard!`,
-          url: currentUrl,
-        });
-      } catch (err) {
-        console.error('Share failed:', err);
-      }
-    } else {
-      handleCopyLink();
-    }
-  };
-  
-  const handleEmailResults = () => {
-    const subject = encodeURIComponent('My Auto Wizard Car Recommendations');
-    const body = encodeURIComponent(
-      `I took the Auto Wizard quiz and here are my top matches:\n\n` +
-      vehicles.slice(0, 5).map((v, i) => `${i + 1}. ${v.name} - ${formatPrice(v.price)}`).join('\n') +
-      `\n\nSee full results: ${currentUrl}`
-    );
-    window.open(`mailto:?subject=${subject}&body=${body}`);
-  };
-  
-  const toggleCompare = (vehicleName: string) => {
-    if (selectedForCompare.includes(vehicleName)) {
-      setSelectedForCompare(selectedForCompare.filter(v => v !== vehicleName));
-    } else if (selectedForCompare.length < 3) {
-      setSelectedForCompare([...selectedForCompare, vehicleName]);
-    }
-  };
-  
-  const compareUrl = selectedForCompare.length >= 2
-    ? `/compare/${selectedForCompare.map(getVehicleSlug).join('-vs-')}`
-    : null;
+// Brand gradients
+const brandGradients: Record<string, string> = {
+  'Toyota': 'from-red-600 to-red-800',
+  'Honda': 'from-red-500 to-red-700',
+  'Ford': 'from-blue-600 to-blue-800',
+  'Chevrolet': 'from-yellow-500 to-yellow-700',
+  'BMW': 'from-blue-600 to-blue-800',
+  'Mercedes-Benz': 'from-slate-600 to-slate-800',
+  'Audi': 'from-slate-700 to-slate-900',
+  'Tesla': 'from-red-600 to-slate-800',
+  'Lexus': 'from-slate-700 to-slate-900',
+  'Hyundai': 'from-blue-600 to-blue-800',
+  'Kia': 'from-red-600 to-red-800',
+  'Mazda': 'from-red-600 to-red-800',
+  'Subaru': 'from-blue-600 to-blue-800',
+  'Jeep': 'from-green-700 to-green-900',
+  'Land Rover': 'from-green-700 to-green-900',
+  'Mini': 'from-slate-700 to-slate-900',
+  'Mitsubishi': 'from-red-600 to-red-800',
+  'Buick': 'from-slate-600 to-slate-800',
+  'Polestar': 'from-amber-500 to-amber-700',
+  'GMC': 'from-red-700 to-red-900',
+};
 
-  if (vehicles.length === 0) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="text-center p-8">
-          <div className="text-6xl mb-4">🚗</div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">No Results Found</h1>
-          <p className="text-slate-400 mb-6">Take our quiz to get personalized vehicle recommendations.</p>
-          <Link
-            href="/quiz"
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl"
-          >
-            Take the Quiz →
-          </Link>
-        </div>
-      </div>
-    );
+function getBrandGradient(brand: string): string {
+  return brandGradients[brand] || 'from-slate-700 to-slate-900';
+}
+
+function allSame(values: number[]): boolean {
+  return values.every(v => v === values[0]);
+}
+
+// Trim selector component
+function TrimSelector({ 
+  vehicleName, 
+  selectedTrim, 
+  onTrimChange 
+}: { 
+  vehicleName: string; 
+  selectedTrim: Trim | null;
+  onTrimChange: (trim: Trim | null) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const trimData = getVehicleTrims(vehicleName);
+  
+  if (!trimData || trimData.trims.length <= 1) {
+    return null;
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      {/* Hero */}
-      <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-                Your Perfect Matches 🎯
-              </h1>
-              <p className="text-lg text-slate-300">
-                Based on your preferences, here are the {vehicles.length} best vehicles for you.
-              </p>
-            </div>
-            
-            {/* Share Actions */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleCopyLink}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors"
-              >
-                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copied ? 'Copied!' : 'Copy Link'}
-              </button>
-              <button
-                onClick={handleShare}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors"
-              >
-                <Share2 className="w-4 h-4" />
-                Share
-              </button>
-              <button
-                onClick={handleEmailResults}
-                className="flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                Email
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Compare Selection Bar */}
-        {selectedForCompare.length > 0 && (
-          <div className="sticky top-4 z-10 mb-6 bg-slate-800 rounded-xl border border-slate-600 p-4 flex items-center justify-between shadow-lg">
-            <div className="flex items-center gap-2">
-              <span className="text-slate-300">
-                {selectedForCompare.length} selected for comparison
-              </span>
-              {selectedForCompare.map(name => (
-                <span key={name} className="px-2 py-1 bg-cyan-500/20 text-cyan-600 rounded text-sm">
-                  {name}
-                </span>
-              ))}
-            </div>
-            {compareUrl ? (
-              <Link
-                href={compareUrl}
-                className="flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 transition-colors"
-              >
-                Compare Now <ArrowRight className="w-4 h-4" />
-              </Link>
-            ) : (
-              <span className="text-slate-400 text-sm">Select 1 more to compare</span>
-            )}
-          </div>
-        )}
-
-        {/* Results Grid */}
-        <div className="space-y-6">
-          {vehicles.map((vehicle, index) => {
-            const isExpanded = expandedVehicle === vehicle.name;
-            const reasons = generateMatchReasons(vehicle, searchParams);
-            const isSelected = selectedForCompare.includes(vehicle.name);
-            
-            return (
-              <div
-                key={vehicle.name}
-                className={`bg-slate-900/50 rounded-2xl border transition-all ${
-                  isSelected ? 'border-cyan-500' : 'border-slate-700'
-                }`}
-              >
-                {/* Main Card */}
-                <div className="p-6">
-                  <div className="flex flex-col md:flex-row gap-6">
-                    {/* Rank Badge & Image */}
-                    <div className="flex flex-col items-center">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-4 ${
-                        index === 0 ? 'bg-amber-500 text-black' :
-                        index === 1 ? 'bg-slate-400 text-black' :
-                        index === 2 ? 'bg-amber-700 text-slate-900' :
-                        'bg-slate-200 text-slate-900'
-                      }`}>
-                        #{index + 1}
-                      </div>
-                      <div className="w-32 h-20 bg-slate-800 rounded-lg flex items-center justify-center">
-                        <span className="text-4xl">🚗</span>
-                      </div>
-                    </div>
-                    
-                    {/* Vehicle Info */}
-                    <div className="flex-1">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                        <div>
-                          <h2 className="text-2xl font-bold text-slate-900">{vehicle.name}</h2>
-                          <p className="text-slate-400">
-                            {getBodyTypeDisplay(vehicle.bodyType)} • {vehicle.seats} seats • {vehicle.size}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-cyan-600">{formatPrice(vehicle.price)}</div>
-                          <div className="text-slate-400 text-sm">Starting MSRP</div>
-                        </div>
-                      </div>
-                      
-                      {/* Quick Match Reasons */}
-                      <div className="mb-4">
-                        <h3 className="text-sm font-semibold text-amber-600 mb-2">Why This Matches You:</h3>
-                        <ul className="space-y-1">
-                          {reasons.slice(0, 3).map((reason, i) => (
-                            <li key={i} className="flex items-start gap-2 text-slate-300 text-sm">
-                              <span className="text-green-700 mt-0.5">✓</span>
-                              {reason}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      
-                      {/* Action Buttons */}
-                      <div className="flex flex-wrap gap-3">
-                        <Link
-                          href={`/cars/${getVehicleSlug(vehicle.name)}`}
-                          className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all text-sm"
-                        >
-                          View Details
-                        </Link>
-                        <button
-                          onClick={() => toggleCompare(vehicle.name)}
-                          className={`px-4 py-2 border rounded-lg font-medium text-sm transition-all ${
-                            isSelected 
-                              ? 'border-cyan-500 bg-cyan-500/20 text-cyan-600' 
-                              : 'border-slate-600 text-slate-300 hover:border-slate-500'
-                          }`}
-                        >
-                          {isSelected ? '✓ Selected' : 'Compare'}
-                        </button>
-                        <button
-                          onClick={() => setExpandedVehicle(isExpanded ? null : vehicle.name)}
-                          className="flex items-center gap-1 px-4 py-2 text-slate-400 hover:text-slate-700 transition-colors text-sm"
-                        >
-                          {isExpanded ? 'Less Details' : 'More Details'}
-                          {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Expanded Details */}
-                {isExpanded && (
-                  <div className="border-t border-slate-700 p-6 bg-slate-800/30">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* All Match Reasons */}
-                      <div>
-                        <h3 className="text-lg font-semibold text-slate-900 mb-3">Complete Match Analysis</h3>
-                        <ul className="space-y-2">
-                          {reasons.map((reason, i) => (
-                            <li key={i} className="flex items-start gap-2 text-slate-300">
-                              <span className="text-green-700 mt-0.5">✓</span>
-                              {reason}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      
-                      {/* Key Features */}
-                      <div>
-                        <h3 className="text-lg font-semibold text-slate-900 mb-3">Key Features</h3>
-                        <div className="flex flex-wrap gap-2">
-                          {vehicle.features.slice(0, 8).map(feature => (
-                            <span 
-                              key={feature}
-                              className="px-3 py-1 bg-slate-200 text-slate-300 rounded-full text-sm capitalize"
-                            >
-                              {feature.replace(/-/g, ' ')}
-                            </span>
-                          ))}
-                        </div>
-                        
-                        <h3 className="text-lg font-semibold text-slate-900 mt-4 mb-3">Best For</h3>
-                        <div className="flex flex-wrap gap-2">
-                          {vehicle.useCases.map(useCase => (
-                            <span 
-                              key={useCase}
-                              className="px-3 py-1 bg-cyan-500/20 text-cyan-600 rounded-full text-sm capitalize"
-                            >
-                              {useCase}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Actions */}
-        <div className="mt-12 grid md:grid-cols-2 gap-6">
-          {/* Retake Quiz */}
-          <div className="bg-slate-900/50 rounded-xl border border-slate-700 p-6 text-center">
-            <RefreshCw className="w-8 h-8 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">Want Different Results?</h3>
-            <p className="text-slate-400 text-sm mb-4">Adjust your preferences and see new recommendations.</p>
-            <Link
-              href="/quiz"
-              className="inline-flex items-center px-6 py-3 bg-slate-200 text-slate-900 font-medium rounded-lg hover:bg-slate-300 transition-colors"
-            >
-              Retake Quiz
-            </Link>
-          </div>
-          
-          {/* Save Results */}
-          <div className="bg-gradient-to-br from-amber-500/10 to-amber-600/5 rounded-xl border border-amber-500/20 p-6 text-center">
-            <Mail className="w-8 h-8 text-amber-600 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">Save Your Results</h3>
-            <p className="text-slate-400 text-sm mb-4">Email yourself these recommendations to review later.</p>
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between px-3 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg text-sm transition-colors"
+      >
+        <span className="text-slate-700 truncate">
+          {selectedTrim ? selectedTrim.name : 'Select Trim'}
+        </span>
+        <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      
+      {isOpen && (
+        <div className="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+          {trimData.trims.map((trim) => (
             <button
-              onClick={handleEmailResults}
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium rounded-lg hover:from-amber-400 hover:to-amber-500 transition-colors"
+              key={trim.name}
+              onClick={() => {
+                onTrimChange(trim);
+                setIsOpen(false);
+              }}
+              className={`w-full px-3 py-2 text-left text-sm hover:bg-amber-50 transition-colors flex justify-between items-center ${
+                selectedTrim?.name === trim.name ? 'bg-amber-100 text-amber-800' : 'text-slate-700'
+              }`}
             >
-              Email My Results
+              <span className="truncate">{trim.name}</span>
+              <span className="text-amber-600 font-medium ml-2">{formatPrice(trim.price)}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Vehicle Search Modal
+function VehicleSearchModal({
+  isOpen,
+  onClose,
+  onSelect,
+  excludeVehicles
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelect: (vehicleName: string) => void;
+  excludeVehicles: string[];
+}) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredVehicles = useMemo(() => {
+    if (!searchQuery.trim()) return vehicleDatabase.filter(v => !excludeVehicles.includes(v.name)).slice(0, 10);
+    const query = searchQuery.toLowerCase();
+    return vehicleDatabase
+      .filter(v => 
+        !excludeVehicles.includes(v.name) &&
+        (v.name.toLowerCase().includes(query) || v.brand.toLowerCase().includes(query))
+      )
+      .slice(0, 10);
+  }, [searchQuery, excludeVehicles]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+        <div className="p-4 border-b border-slate-200">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-slate-900">Add Vehicle to Compare</h3>
+            <button onClick={onClose} className="p-1 hover:bg-slate-100 rounded-full transition-colors">
+              <X className="w-5 h-5 text-slate-500" />
             </button>
           </div>
-        </div>
-
-        {/* Explore More */}
-        <div className="mt-12 bg-slate-900/50 rounded-xl border border-slate-700 p-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Explore More Options</h3>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/best/suvs" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
-              Browse All SUVs
-            </Link>
-            <Link href="/best/trucks" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
-              Browse All Trucks
-            </Link>
-            <Link href="/best/sedans" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
-              Browse All Sedans
-            </Link>
-            <Link href="/best/electric" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
-              Electric Vehicles
-            </Link>
-            <Link href="/brands" className="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors">
-              Browse by Brand
-            </Link>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search vehicles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+              className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
+            />
           </div>
+        </div>
+        <div className="overflow-y-auto max-h-[50vh]">
+          {filteredVehicles.map((vehicle) => (
+            <button
+              key={vehicle.name}
+              onClick={() => {
+                onSelect(vehicle.name);
+                onClose();
+              }}
+              className="w-full px-4 py-3 flex items-center justify-between hover:bg-amber-50 transition-colors border-b border-slate-100 last:border-0"
+            >
+              <div className="text-left">
+                <div className="text-slate-900 font-medium">{vehicle.name}</div>
+                <div className="text-slate-500 text-sm">{getBodyTypeDisplay(vehicle.bodyType)}</div>
+              </div>
+              <div className="text-right">
+                <div className="text-amber-600 font-semibold">{formatPrice(vehicle.price)}</div>
+                <span className="text-amber-600 text-xs font-medium">+ Add</span>
+              </div>
+            </button>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-export default function ResultsPage() {
+// Vehicle Card with hover remove button
+function VehicleCard({
+  vehicle,
+  effectivePrice,
+  selectedTrim,
+  onTrimChange,
+  onRemove,
+  canRemove
+}: {
+  vehicle: Vehicle;
+  effectivePrice: number;
+  selectedTrim: Trim | null;
+  onTrimChange: (trim: Trim | null) => void;
+  onRemove: () => void;
+  canRemove: boolean;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const trimData = getVehicleTrims(vehicle.name);
+  const hasTrimOptions = trimData && trimData.trims.length > 1;
+
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-slate-400">Loading your results...</p>
-        </div>
+    <div 
+      className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-shadow"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`aspect-video bg-gradient-to-br ${getBrandGradient(vehicle.brand)} relative`}>
+        <CarImage 
+          vehicleName={vehicle.name}
+          brandColor={getBrandGradient(vehicle.brand)}
+          isExotic={vehicle.segment === 'exotic'}
+          bodyType={vehicle.bodyType}
+        />
+        {/* Hover X button */}
+        {canRemove && (
+          <button
+            onClick={onRemove}
+            className={`absolute top-3 right-3 p-2 bg-black/60 hover:bg-red-600 rounded-full transition-all duration-200 ${
+              isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+            }`}
+            title="Remove from comparison"
+          >
+            <X className="w-5 h-5 text-white" />
+          </button>
+        )}
       </div>
-    }>
-      <ResultsContent />
-    </Suspense>
+      <div className="p-6 bg-white">
+        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">{vehicle.name}</h2>
+        
+        {/* Trim Selector */}
+        {hasTrimOptions && (
+          <div className="mb-3">
+            <TrimSelector
+              vehicleName={vehicle.name}
+              selectedTrim={selectedTrim}
+              onTrimChange={onTrimChange}
+            />
+          </div>
+        )}
+        
+        {/* Price display */}
+        <div className="mb-4">
+          <p className="text-2xl md:text-3xl font-bold text-amber-600">
+            {formatPrice(effectivePrice)}
+          </p>
+          {selectedTrim && selectedTrim.features && (
+            <p className="text-xs text-slate-500 mt-1">
+              {selectedTrim.features.join(' • ')}
+            </p>
+          )}
+        </div>
+        
+        <div className="flex flex-wrap gap-2 mb-4">
+          <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">{getBodyTypeDisplay(vehicle.bodyType)}</span>
+          <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">{vehicle.seats} seats</span>
+          <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">{getPowertrainDisplay(vehicle.powertrain)}</span>
+        </div>
+        <Link href={`/cars/${getVehicleSlug(vehicle.name)}`} className="text-amber-600 hover:text-amber-500 font-medium">
+          View Full Details →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+// Add Vehicle Card placeholder
+function AddVehicleCard({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="bg-white rounded-2xl overflow-hidden border-2 border-dashed border-slate-300 hover:border-amber-400 hover:bg-amber-50/50 transition-all min-h-[400px] flex flex-col items-center justify-center gap-3"
+    >
+      <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
+        <Plus className="w-8 h-8 text-amber-600" />
+      </div>
+      <span className="text-slate-600 font-medium">Add Vehicle</span>
+      <span className="text-slate-400 text-sm">Compare up to 3 vehicles</span>
+    </button>
+  );
+}
+
+export default function CompareVehiclesPage() {
+  const params = useParams();
+  const router = useRouter();
+  const vehiclesParam = params.vehicles as string;
+  
+  const [selectedTrims, setSelectedTrims] = useState<Record<string, Trim | null>>({});
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  
+  // Parse vehicle slugs and find vehicles
+  const slugs = vehiclesParam ? vehiclesParam.split('-vs-') : [];
+  const vehicles = slugs.map(getVehicleBySlug).filter(Boolean) as Vehicle[];
+  
+  // Initialize trims on mount
+  useEffect(() => {
+    const initialTrims: Record<string, Trim | null> = {};
+    vehicles.forEach(v => {
+      const trimData = getVehicleTrims(v.name);
+      if (trimData && trimData.trims.length > 0) {
+        initialTrims[v.name] = trimData.trims[0];
+      } else {
+        initialTrims[v.name] = null;
+      }
+    });
+    setSelectedTrims(initialTrims);
+  }, [vehiclesParam]);
+  
+  // Get effective prices based on selected trims
+  const effectivePrices = useMemo(() => {
+    return vehicles.map(v => {
+      const trim = selectedTrims[v.name];
+      return trim ? trim.price : v.price;
+    });
+  }, [vehicles, selectedTrims]);
+
+  // Remove vehicle and navigate to new URL
+  const removeVehicle = (vehicleName: string) => {
+    const remaining = vehicles.filter(v => v.name !== vehicleName);
+    if (remaining.length >= 2) {
+      const newUrl = `/compare/${remaining.map(v => getVehicleSlug(v.name)).join('-vs-')}`;
+      router.push(newUrl);
+    } else if (remaining.length === 1) {
+      // Only one vehicle left, show search modal to add another
+      setShowSearchModal(true);
+    } else {
+      // No vehicles left, go back to compare page
+      router.push('/compare');
+    }
+  };
+
+  // Add vehicle and navigate to new URL
+  const addVehicle = (vehicleName: string) => {
+    const newVehicles = [...vehicles.map(v => v.name), vehicleName];
+    const newUrl = `/compare/${newVehicles.map(getVehicleSlug).join('-vs-')}`;
+    router.push(newUrl);
+  };
+  
+  if (vehicles.length < 2) {
+    return (
+      <PageWrapper>
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-slate-900 mb-4">Vehicles Not Found</h1>
+            <p className="text-slate-600 mb-6">Please select at least 2 vehicles to compare.</p>
+            <Link href="/compare" className="text-amber-600 hover:text-amber-500 font-medium">
+              ← Back to Compare
+            </Link>
+          </div>
+        </div>
+      </PageWrapper>
+    );
+  }
+
+  const year = new Date().getFullYear();
+  const numVehicles = vehicles.length;
+  const canAddMore = numVehicles < 3;
+  
+  // Calculate best values
+  const lowestPrice = Math.min(...effectivePrices);
+  const highestSeats = Math.max(...vehicles.map(v => v.seats));
+  const highestHP = Math.max(...vehicles.map(v => v.hp));
+  const highestMPGCity = Math.max(...vehicles.map(v => v.mpgCity));
+  const highestMPGHwy = Math.max(...vehicles.map(v => v.mpgHighway));
+  const highestReliability = Math.max(...vehicles.map(v => v.reliability));
+
+  // Dynamic grid classes
+  const gridCols = numVehicles === 2 ? 'grid-cols-3' : 'grid-cols-4';
+  const cardGridCols = numVehicles === 2 
+    ? (canAddMore ? 'md:grid-cols-3' : 'md:grid-cols-2')
+    : 'md:grid-cols-3';
+
+  return (
+    <PageWrapper>
+      <div className="min-h-screen bg-white">
+        {/* Hero */}
+        <div className="relative bg-gradient-to-br from-slate-100 via-slate-50 to-white border-b border-slate-200">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <nav className="mb-6">
+              <ol className="flex items-center space-x-2 text-sm text-slate-500">
+                <li><Link href="/" className="hover:text-amber-600 transition-colors">Home</Link></li>
+                <li>/</li>
+                <li><Link href="/compare" className="hover:text-amber-600 transition-colors">Compare</Link></li>
+                <li>/</li>
+                <li className="text-slate-700 truncate max-w-xs">{vehicles.map(v => v.name).join(' vs ')}</li>
+              </ol>
+            </nav>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              {vehicles.map((v, i) => (
+                <span key={v.name}>
+                  {v.name}
+                  {i < vehicles.length - 1 && <span className="text-amber-600"> vs </span>}
+                </span>
+              ))}
+            </h1>
+            <p className="text-lg text-slate-600">Side-by-side comparison of {year} models • Hover over vehicles to remove • Select trims for accurate pricing</p>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Vehicle Cards */}
+          <div className={`grid gap-6 mb-12 ${cardGridCols}`}>
+            {vehicles.map((vehicle, index) => (
+              <VehicleCard
+                key={vehicle.name}
+                vehicle={vehicle}
+                effectivePrice={effectivePrices[index]}
+                selectedTrim={selectedTrims[vehicle.name] || null}
+                onTrimChange={(trim) => setSelectedTrims(prev => ({ ...prev, [vehicle.name]: trim }))}
+                onRemove={() => removeVehicle(vehicle.name)}
+                canRemove={vehicles.length > 1}
+              />
+            ))}
+            {canAddMore && (
+              <AddVehicleCard onClick={() => setShowSearchModal(true)} />
+            )}
+          </div>
+
+          {/* Comparison Table */}
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <div className="p-6 border-b border-slate-200 bg-slate-50">
+              <h3 className="text-xl font-bold text-slate-900">Specifications Comparison</h3>
+              <p className="text-sm text-slate-500 mt-1">Prices update based on selected trims</p>
+            </div>
+            
+            <div className="divide-y divide-slate-200 overflow-x-auto">
+              {/* Price Row */}
+              <div className={`grid ${gridCols} p-4 bg-amber-50/50 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Starting MSRP</div>
+                {vehicles.map((v, i) => {
+                  const price = effectivePrices[i];
+                  const isLowest = price === lowestPrice && !allSame(effectivePrices);
+                  return (
+                    <div key={v.name} className={`text-center font-bold ${isLowest ? 'text-green-600' : 'text-slate-900'}`}>
+                      {formatPrice(price)}
+                      {isLowest && <span className="ml-2 text-xs">✓ Lower</span>}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Selected Trim Row */}
+              <div className={`grid ${gridCols} p-4 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Selected Trim</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className="text-center text-slate-900">
+                    {selectedTrims[v.name]?.name || 'Base'}
+                  </div>
+                ))}
+              </div>
+
+              {/* Horsepower Row */}
+              <div className={`grid ${gridCols} p-4 bg-slate-50/50 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Horsepower</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className={`text-center font-medium ${v.hp === highestHP && !allSame(vehicles.map(x => x.hp)) ? 'text-green-600' : 'text-slate-900'}`}>
+                    {v.hp.toLocaleString()} hp
+                    {v.hp === highestHP && !allSame(vehicles.map(x => x.hp)) && <span className="ml-2 text-xs">✓ More</span>}
+                  </div>
+                ))}
+              </div>
+
+              {/* MPG City Row */}
+              <div className={`grid ${gridCols} p-4 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">MPG City</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className={`text-center font-medium ${v.mpgCity === highestMPGCity && !allSame(vehicles.map(x => x.mpgCity)) ? 'text-green-600' : 'text-slate-900'}`}>
+                    {v.powertrain === 'ev' ? `${v.mpgCity} MPGe` : `${v.mpgCity} mpg`}
+                    {v.mpgCity === highestMPGCity && !allSame(vehicles.map(x => x.mpgCity)) && <span className="ml-2 text-xs">✓ Better</span>}
+                  </div>
+                ))}
+              </div>
+
+              {/* MPG Highway Row */}
+              <div className={`grid ${gridCols} p-4 bg-slate-50/50 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">MPG Highway</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className={`text-center font-medium ${v.mpgHighway === highestMPGHwy && !allSame(vehicles.map(x => x.mpgHighway)) ? 'text-green-600' : 'text-slate-900'}`}>
+                    {v.powertrain === 'ev' ? `${v.mpgHighway} MPGe` : `${v.mpgHighway} mpg`}
+                    {v.mpgHighway === highestMPGHwy && !allSame(vehicles.map(x => x.mpgHighway)) && <span className="ml-2 text-xs">✓ Better</span>}
+                  </div>
+                ))}
+              </div>
+
+              {/* Reliability Row */}
+              <div className={`grid ${gridCols} p-4 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Reliability Rating</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className={`text-center ${v.reliability === highestReliability && !allSame(vehicles.map(x => x.reliability)) ? 'text-green-600' : 'text-slate-900'}`}>
+                    <div className="text-amber-500 text-lg">{getReliabilityStars(v.reliability)}</div>
+                    <div className="text-sm font-medium">{getReliabilityDisplay(v.reliability)}</div>
+                    {v.reliability === highestReliability && !allSame(vehicles.map(x => x.reliability)) && <span className="text-xs text-green-600">✓ Better</span>}
+                  </div>
+                ))}
+              </div>
+
+              {/* Body Style */}
+              <div className={`grid ${gridCols} p-4 bg-slate-50/50 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Body Style</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className="text-center text-slate-900">{getBodyTypeDisplay(v.bodyType)}</div>
+                ))}
+              </div>
+
+              {/* Seating */}
+              <div className={`grid ${gridCols} p-4 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Seating Capacity</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className={`text-center font-medium ${v.seats === highestSeats && !allSame(vehicles.map(x => x.seats)) ? 'text-green-600' : 'text-slate-900'}`}>
+                    {v.seats} passengers
+                    {v.seats === highestSeats && !allSame(vehicles.map(x => x.seats)) && <span className="ml-2 text-xs">✓ More</span>}
+                  </div>
+                ))}
+              </div>
+
+              {/* Powertrain */}
+              <div className={`grid ${gridCols} p-4 bg-slate-50/50 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Powertrain</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className="text-center text-slate-900">{getPowertrainDisplay(v.powertrain)}</div>
+                ))}
+              </div>
+
+              {/* Size */}
+              <div className={`grid ${gridCols} p-4 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Size Class</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className="text-center text-slate-900 capitalize">{v.size}</div>
+                ))}
+              </div>
+
+              {/* Segment */}
+              <div className={`grid ${gridCols} p-4 bg-slate-50/50 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Market Segment</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className="text-center text-slate-900 capitalize">{v.segment}</div>
+                ))}
+              </div>
+
+              {/* AWD */}
+              <div className={`grid ${gridCols} p-4 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">AWD Available</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className={`text-center font-medium ${v.features.includes('awd') || v.features.includes('awd-available') ? 'text-green-600' : 'text-slate-400'}`}>
+                    {v.features.includes('awd') || v.features.includes('awd-available') ? '✓ Yes' : '✗ No'}
+                  </div>
+                ))}
+              </div>
+
+              {/* Towing */}
+              <div className={`grid ${gridCols} p-4 bg-slate-50/50 min-w-[600px]`}>
+                <div className="text-slate-600 font-medium">Towing Capable</div>
+                {vehicles.map((v) => (
+                  <div key={v.name} className={`text-center font-medium ${v.features.includes('towing') || v.features.includes('heavy-towing') ? 'text-green-600' : 'text-slate-400'}`}>
+                    {v.features.includes('towing') || v.features.includes('heavy-towing') ? '✓ Yes' : '✗ No'}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-12 text-center">
+            <p className="text-slate-600 mb-4">Not sure which one is right for you?</p>
+            <Link href="/quiz" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg hover:shadow-xl">
+              🎯 Take Our Quiz for Personalized Recommendations
+            </Link>
+          </div>
+        </div>
+
+        {/* Search Modal */}
+        <VehicleSearchModal
+          isOpen={showSearchModal}
+          onClose={() => setShowSearchModal(false)}
+          onSelect={addVehicle}
+          excludeVehicles={vehicles.map(v => v.name)}
+        />
+      </div>
+    </PageWrapper>
   );
 }

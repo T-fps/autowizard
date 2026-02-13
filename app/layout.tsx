@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import NewsletterPopup from './components/NewsletterPopup'
 
 export const metadata: Metadata = {
   title: 'Auto Wizard | Car Matchmaking & Research',
@@ -250,7 +251,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
         />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        {/* Newsletter Popup - triggers after 30s or on exit intent */}
+        <NewsletterPopup delay={30000} exitIntent={true} />
+      </body>
     </html>
   )
 }

@@ -2,113 +2,11 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ChevronRight, BookOpen, ChevronLeft, SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { ChevronRight, BookOpen, ChevronLeft, SlidersHorizontal } from 'lucide-react';
 import PageWrapper from '../components/shared/PageWrapper';
 
 const blogPosts = [
-  // NEW FEBRUARY 2026 ARTICLES - PART 2 (Feb 8-12)
-  {
-    slug: 'car-tariffs-guide-2026',
-    title: 'Car Tariffs Guide 2026: How the 25% Import Tax Is Really Affecting Prices',
-    description: 'Everything you need to know about how the 25% auto tariffs are impacting car prices in 2026—and what buyers can do about it.',
-    category: 'Market Alert',
-    categoryColor: 'rose',
-    date: 'February 12, 2026',
-    dateSort: '2026-02-12',
-    readTime: '11 min read'
-  },
-  {
-    slug: 'dodge-charger-hemi-v8-return',
-    title: 'The Hemi V8 is Back: How Dodge\'s Electric Gamble Failed',
-    description: 'The Charger Daytona EV flopped. Now Dodge is bringing back the Hemi V8. Here\'s everything you need to know about Stellantis\'s dramatic reversal.',
-    category: 'Industry News',
-    categoryColor: 'rose',
-    date: 'February 11, 2026',
-    dateSort: '2026-02-11',
-    readTime: '10 min read'
-  },
-  {
-    slug: 'best-selling-cars-2025',
-    title: 'Best-Selling Cars of 2025: The Complete Rankings',
-    description: 'From the Ford F-Series\' 44th consecutive year at #1 to the Chevy Equinox\'s 40% surge—here\'s what Americans actually bought in 2025.',
-    category: 'Market Data',
-    categoryColor: 'blue',
-    date: 'February 10, 2026',
-    dateSort: '2026-02-10',
-    readTime: '9 min read'
-  },
-  {
-    slug: '2026-toyota-rav4-guide',
-    title: '2026 Toyota RAV4: Complete Guide to America\'s Best-Selling SUV',
-    description: 'The sixth-generation RAV4 is here—and it\'s hybrid-only. Here\'s everything you need to know about the redesigned compact SUV.',
-    category: 'New Model',
-    categoryColor: 'green',
-    date: 'February 9, 2026',
-    dateSort: '2026-02-09',
-    readTime: '14 min read'
-  },
-  {
-    slug: 'best-suvs-2026',
-    title: 'Best SUVs of 2026: Our Top Picks in Every Category',
-    description: 'From affordable subcompacts to luxury three-rows, here are the standouts worth your money in 2026.',
-    category: 'Best Cars',
-    categoryColor: 'amber',
-    date: 'February 8, 2026',
-    dateSort: '2026-02-08',
-    readTime: '16 min read'
-  },
-  // NEW FEBRUARY 2026 ARTICLES - PART 1 (Feb 1-7)
-  {
-    slug: 'consumer-reports-top-10-2026',
-    title: 'Consumer Reports Top 10 Cars of 2026: Every Single Pick is Electrified',
-    description: 'For the first time in history, every vehicle on CR\'s prestigious list is a hybrid or EV. Here\'s what that means for car buyers.',
-    category: 'Best Cars',
-    categoryColor: 'amber',
-    date: 'February 7, 2026',
-    dateSort: '2026-02-07',
-    readTime: '10 min read'
-  },
-  {
-    slug: 'used-ev-buying-guide-2026',
-    title: 'Why 2026 is the Best Year to Buy a Used EV',
-    description: 'A flood of lease returns is about to crash used EV prices. Here\'s how to take advantage of the coming "EV avalanche."',
-    category: 'Used Cars',
-    categoryColor: 'emerald',
-    date: 'February 5, 2026',
-    dateSort: '2026-02-05',
-    readTime: '12 min read'
-  },
-  {
-    slug: 'best-hybrid-cars-2026',
-    title: 'Best Hybrid Cars of 2026: The Complete Buyer\'s Guide',
-    description: 'Hybrids are having a moment. Here\'s everything you need to know about this year\'s best options across every category.',
-    category: 'Best Cars',
-    categoryColor: 'green',
-    date: 'February 4, 2026',
-    dateSort: '2026-02-04',
-    readTime: '15 min read'
-  },
-  {
-    slug: 'honda-civic-vs-camry-hybrid',
-    title: 'Honda Civic Hybrid vs Toyota Camry Hybrid: Which Wins?',
-    description: 'Both just earned Consumer Reports Top Picks. Here\'s our head-to-head breakdown of 2026\'s two best hybrid sedans.',
-    category: 'Comparison',
-    categoryColor: 'cyan',
-    date: 'February 3, 2026',
-    dateSort: '2026-02-03',
-    readTime: '11 min read'
-  },
-  {
-    slug: 'ev-tax-credit-guide-2026',
-    title: 'The $7,500 EV Tax Credit is Gone: What Buyers Need to Know',
-    description: 'The federal EV incentive ended September 30, 2025. Here\'s what changed, what still exists, and how to still get a good deal.',
-    category: 'Car Finance',
-    categoryColor: 'green',
-    date: 'February 1, 2026',
-    dateSort: '2026-02-01',
-    readTime: '9 min read'
-  },
-  // EXISTING ARTICLES
+  // NEW - Financing Guide
   {
     slug: 'car-financing-guide',
     title: 'Car Financing Guide: Loans, Leasing & Budgeting Explained',
@@ -119,6 +17,7 @@ const blogPosts = [
     dateSort: '2026-01-29',
     readTime: '18 min read'
   },
+  // Best Used Cars Article
   {
     slug: 'best-used-cars-2026',
     title: 'Best Used Cars to Buy in 2026: Top Picks by Generation',
@@ -129,6 +28,7 @@ const blogPosts = [
     dateSort: '2026-01-29',
     readTime: '12 min read'
   },
+  // SEO Articles - Spaced every 2-3 days
   {
     slug: 'how-much-car-can-i-afford',
     title: 'How Much Car Can I Afford? Complete 2026 Guide',
@@ -229,6 +129,7 @@ const blogPosts = [
     dateSort: '2025-12-30',
     readTime: '7 min read'
   },
+  // Previous Articles - Earlier December dates
   {
     slug: 'most-improved-cars-2026',
     title: 'Most Improved Cars of 2026: Major Upgrades Worth Knowing',
@@ -310,9 +211,9 @@ const blogPosts = [
     readTime: '10 min read'
   },
   {
-    slug: 'first-time-buyer-guide',
-    title: 'First-Time Car Buyer\'s Complete Guide',
-    description: 'Never bought a car before? Here\'s everything you need to know, step by step.',
+    slug: 'first-car-buying-guide',
+    title: 'First Car Buying Guide: Tips for New Drivers',
+    description: 'Everything first-time car buyers need to know about insurance, financing, and more.',
     category: 'First-Time Buyers',
     categoryColor: 'rose',
     date: 'December 3, 2025',
@@ -364,12 +265,9 @@ const getCategories = () => {
     .map(([name, count]) => ({ name, count }));
 };
 
-const ARTICLES_PER_PAGE = 10;
-
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
-  const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
   
   const categories = useMemo(() => getCategories(), []);
   
@@ -388,21 +286,6 @@ export default function BlogPage() {
       return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
     });
   }, [selectedCategory, sortOrder]);
-
-  // Reset visible count when filters change
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    setVisibleCount(ARTICLES_PER_PAGE);
-  };
-
-  const handleSortChange = (order: 'newest' | 'oldest') => {
-    setSortOrder(order);
-    setVisibleCount(ARTICLES_PER_PAGE);
-  };
-
-  const visiblePosts = filteredAndSortedPosts.slice(0, visibleCount);
-  const hasMorePosts = visibleCount < filteredAndSortedPosts.length;
-  const remainingPosts = filteredAndSortedPosts.length - visibleCount;
 
   return (
     <PageWrapper>
@@ -432,7 +315,7 @@ export default function BlogPage() {
           {/* Category Filter */}
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => handleCategoryChange('All')}
+              onClick={() => setSelectedCategory('All')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 selectedCategory === 'All'
                   ? 'bg-amber-100 text-amber-700 border border-amber-200'
@@ -444,7 +327,7 @@ export default function BlogPage() {
             {categories.map((cat) => (
               <button
                 key={cat.name}
-                onClick={() => handleCategoryChange(cat.name)}
+                onClick={() => setSelectedCategory(cat.name)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   selectedCategory === cat.name
                     ? 'bg-amber-100 text-amber-700 border border-amber-200'
@@ -461,7 +344,7 @@ export default function BlogPage() {
             <SlidersHorizontal className="w-4 h-4 text-slate-400" />
             <select
               value={sortOrder}
-              onChange={(e) => handleSortChange(e.target.value as 'newest' | 'oldest')}
+              onChange={(e) => setSortOrder(e.target.value as 'newest' | 'oldest')}
               className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-amber-500"
             >
               <option value="newest">Newest First</option>
@@ -472,13 +355,13 @@ export default function BlogPage() {
 
         {/* Results Count */}
         <p className="text-sm text-slate-500 mb-6">
-          Showing {visiblePosts.length} of {filteredAndSortedPosts.length} article{filteredAndSortedPosts.length !== 1 ? 's' : ''}
+          Showing {filteredAndSortedPosts.length} article{filteredAndSortedPosts.length !== 1 ? 's' : ''}
           {selectedCategory !== 'All' && ` in "${selectedCategory}"`}
         </p>
 
         {/* Articles Grid */}
-        <div className="space-y-6 mb-8">
-          {visiblePosts.map((post) => (
+        <div className="space-y-6 mb-16">
+          {filteredAndSortedPosts.map((post) => (
             <Link 
               key={post.slug}
               href={`/blog/${post.slug}`}
@@ -509,32 +392,12 @@ export default function BlogPage() {
           ))}
         </div>
 
-        {/* See More Button */}
-        {hasMorePosts && (
-          <div className="text-center mb-16">
-            <button
-              onClick={() => setVisibleCount(prev => prev + ARTICLES_PER_PAGE)}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-semibold hover:bg-slate-200 hover:border-slate-300 transition-all"
-            >
-              <ChevronDown className="w-5 h-5" />
-              See More Articles ({remainingPosts} remaining)
-            </button>
-          </div>
-        )}
-
-        {/* No More Articles Message */}
-        {!hasMorePosts && filteredAndSortedPosts.length > ARTICLES_PER_PAGE && (
-          <div className="text-center mb-16">
-            <p className="text-slate-500 text-sm">You&apos;ve reached the end! {filteredAndSortedPosts.length} articles total.</p>
-          </div>
-        )}
-
         {/* No Results */}
         {filteredAndSortedPosts.length === 0 && (
           <div className="text-center py-12">
             <p className="text-slate-500 mb-4">No articles found in this category.</p>
             <button
-              onClick={() => handleCategoryChange('All')}
+              onClick={() => setSelectedCategory('All')}
               className="text-amber-600 hover:text-amber-500 font-medium"
             >
               View all articles
