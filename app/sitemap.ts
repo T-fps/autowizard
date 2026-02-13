@@ -12,7 +12,7 @@ function brandToSlug(brand: string): string {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://autowizard-eta.vercel.app'
+  const baseUrl = 'https://autowizard.org'
   
   // Static pages
   const staticPages = [
