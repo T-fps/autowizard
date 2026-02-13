@@ -89,7 +89,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
   
   // Extract unique brands from vehicle database
-  const uniqueBrands = [...new Set(vehicleDatabase.map(v => v.brand))]
+  const uniqueBrands = Array.from(new Set(vehicleDatabase.map(v => v.brand)))
   
   const brandPages = [
     { url: `${baseUrl}/brands`, changeFrequency: 'weekly' as const, priority: 0.8 },
