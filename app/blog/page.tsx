@@ -6,7 +6,58 @@ import { ChevronRight, BookOpen, ChevronLeft, SlidersHorizontal, ChevronDown } f
 import PageWrapper from '../components/shared/PageWrapper';
 
 const blogPosts = [
-  // NEW FEBRUARY 2026 ARTICLES
+  // NEW FEBRUARY 2026 ARTICLES - PART 2 (Feb 8-12)
+  {
+    slug: 'car-tariffs-guide-2026',
+    title: 'Car Tariffs Guide 2026: How the 25% Import Tax Is Really Affecting Prices',
+    description: 'Everything you need to know about how the 25% auto tariffs are impacting car prices in 2026—and what buyers can do about it.',
+    category: 'Market Alert',
+    categoryColor: 'rose',
+    date: 'February 12, 2026',
+    dateSort: '2026-02-12',
+    readTime: '11 min read'
+  },
+  {
+    slug: 'dodge-charger-hemi-v8-return',
+    title: 'The Hemi V8 is Back: How Dodge\'s Electric Gamble Failed',
+    description: 'The Charger Daytona EV flopped. Now Dodge is bringing back the Hemi V8. Here\'s everything you need to know about Stellantis\'s dramatic reversal.',
+    category: 'Industry News',
+    categoryColor: 'rose',
+    date: 'February 11, 2026',
+    dateSort: '2026-02-11',
+    readTime: '10 min read'
+  },
+  {
+    slug: 'best-selling-cars-2025',
+    title: 'Best-Selling Cars of 2025: The Complete Rankings',
+    description: 'From the Ford F-Series\' 44th consecutive year at #1 to the Chevy Equinox\'s 40% surge—here\'s what Americans actually bought in 2025.',
+    category: 'Market Data',
+    categoryColor: 'blue',
+    date: 'February 10, 2026',
+    dateSort: '2026-02-10',
+    readTime: '9 min read'
+  },
+  {
+    slug: '2026-toyota-rav4-guide',
+    title: '2026 Toyota RAV4: Complete Guide to America\'s Best-Selling SUV',
+    description: 'The sixth-generation RAV4 is here—and it\'s hybrid-only. Here\'s everything you need to know about the redesigned compact SUV.',
+    category: 'New Model',
+    categoryColor: 'green',
+    date: 'February 9, 2026',
+    dateSort: '2026-02-09',
+    readTime: '14 min read'
+  },
+  {
+    slug: 'best-suvs-2026',
+    title: 'Best SUVs of 2026: Our Top Picks in Every Category',
+    description: 'From affordable subcompacts to luxury three-rows, here are the standouts worth your money in 2026.',
+    category: 'Best Cars',
+    categoryColor: 'amber',
+    date: 'February 8, 2026',
+    dateSort: '2026-02-08',
+    readTime: '16 min read'
+  },
+  // NEW FEBRUARY 2026 ARTICLES - PART 1 (Feb 1-7)
   {
     slug: 'consumer-reports-top-10-2026',
     title: 'Consumer Reports Top 10 Cars of 2026: Every Single Pick is Electrified',
