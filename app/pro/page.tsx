@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Check, X, Zap, Shield, Clock, Users, ArrowRight, Star } from 'lucide-react';
-import Navigation from '../components/shared/Navigation';
+import PageWrapper from '../components/shared/PageWrapper';
 
 export default function WizardProPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly');
@@ -113,9 +113,7 @@ export default function WizardProPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <Navigation />
-
+    <PageWrapper>
       {/* Hero */}
       <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 text-white py-20">
         <div className="max-w-5xl mx-auto px-6 text-center">
@@ -365,18 +363,6 @@ export default function WizardProPage() {
           </p>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-slate-50 py-8">
-        <div className="max-w-7xl mx-auto px-6 text-center text-slate-500 text-sm">
-          <p>© 2026 Auto Wizard. All rights reserved.</p>
-          <div className="flex justify-center gap-6 mt-4">
-            <Link href="/privacy" className="hover:text-amber-600">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-amber-600">Terms of Service</Link>
-            <Link href="/contact" className="hover:text-amber-600">Contact</Link>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </PageWrapper>
   );
 }
