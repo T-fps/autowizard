@@ -1,9 +1,0 @@
-# Auto Wizard Robots.txt
-User-agent: *
-Allow: /
-
-# Sitemap location
-Sitemap: https://autowizard.org/sitemap.xml
-
-# Crawl-delay for polite crawling
-Crawl-delay: 1
