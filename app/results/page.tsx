@@ -4,10 +4,10 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { ChevronDown, X, Search, Plus } from 'lucide-react';
-import { vehicleDatabase, Vehicle } from '../../lib/vehicleDatabase';
-import { getVehicleTrims, Trim } from '../../lib/vehicleTrims';
-import CarImage from '../../components/CarImage';
-import PageWrapper from '../../components/shared/PageWrapper';
+import { vehicleDatabase, Vehicle } from '../lib/vehicleDatabase';
+import { getVehicleTrims, Trim } from '../lib/vehicleTrims';
+import CarImage from '../components/CarImage';
+import PageWrapper from '../components/shared/PageWrapper';
 
 // Helper functions
 function getVehicleSlug(name: string): string {
