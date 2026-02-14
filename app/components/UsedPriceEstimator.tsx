@@ -32,10 +32,17 @@ const brandDepreciationRates: Record<string, number> = {
   'Ram': 0.15,
   'Jeep': 0.15,
   'Dodge': 0.16,
+  'Buick': 0.16,
+  'Chrysler': 0.17,
+  'Mini': 0.16,
+  'Mitsubishi': 0.17,
+  'Fiat': 0.18,
+  'Scout': 0.16,
   
   // Higher depreciation (luxury brands)
   'BMW': 0.17,
   'Mercedes-Benz': 0.17,
+  'Mercedes-AMG': 0.17,
   'Audi': 0.17,
   'Volvo': 0.17,
   'Infiniti': 0.18,
@@ -45,11 +52,13 @@ const brandDepreciationRates: Record<string, number> = {
   'Land Rover': 0.19,
   'Alfa Romeo': 0.19,
   'Maserati': 0.20,
+  'Lotus': 0.18,
   
   // EVs (higher depreciation due to tech changes)
   'Tesla': 0.16,
   'Rivian': 0.18,
   'Lucid': 0.19,
+  'Polestar': 0.18,
   
   // Exotics (can vary wildly, using moderate rate)
   'Ferrari': 0.10,
@@ -58,6 +67,9 @@ const brandDepreciationRates: Record<string, number> = {
   'Aston Martin': 0.18,
   'Bentley': 0.17,
   'Rolls-Royce': 0.15,
+  'Bugatti': 0.08,
+  'Koenigsegg': 0.08,
+  'Pagani': 0.08,
 };
 
 export default function UsedPriceEstimator({ vehicleName, basePrice, brand }: UsedPriceEstimatorProps) {
