@@ -1003,8 +1003,23 @@ export default function QuizPage() {
     // Score all vehicles
     const scoredVehicles = scoreVehicles(preferences);
     
-    // Get top 10 vehicles
-    const topVehicles = scoredVehicles.slice(0, 10);
+    // Select top 5 vehicles from at most 2 body styles
+    // This keeps results focused and avoids overwhelming the user
+    const bodyStyleCounts: Record<string, number> = {};
+    const topVehicles: typeof scoredVehicles = [];
+    
+    for (const sv of scoredVehicles) {
+      if (topVehicles.length >= 5) break;
+      
+      const bt = sv.vehicle.bodyType;
+      const currentStyles = Object.keys(bodyStyleCounts).filter(k => bodyStyleCounts[k] > 0);
+      
+      // Allow this vehicle if its body style is already included, or we haven't hit 2 styles yet
+      if (bodyStyleCounts[bt] || currentStyles.length < 2) {
+        bodyStyleCounts[bt] = (bodyStyleCounts[bt] || 0) + 1;
+        topVehicles.push(sv);
+      }
+    }
     
     // Get category info
     const categoryInfo = getCategoryName(topVehicles);
