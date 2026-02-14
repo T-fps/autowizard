@@ -555,6 +555,153 @@ export const vehicleTrims: Record<string, VehicleTrims> = {
 
   // ==================== GMC HUMMER EV SUV (only SUV - pickup already exists) ====================
   'GMC Hummer EV SUV': { basePrice: 105, trims: [{ name: 'EV2', price: 95, features: ['625 hp dual motor'] }, { name: 'EV2X', price: 100, features: ['830 hp tri motor'] }, { name: 'EV3X', price: 105, features: ['830 hp'] }, { name: 'Edition 1', price: 110, features: ['Fully loaded'] }] },
+
+  // ==================== NEW ADDITIONS ====================
+  // ACURA NEW
+  'Acura ADX': { basePrice: 36, trims: [{ name: 'ADX', price: 36 }, { name: 'A-Spec', price: 40, features: ['Sport styling', '19-in wheels'] }, { name: 'A-Spec Advance', price: 43, features: ['B&O audio', 'Panoramic moonroof'] }] },
+  'Acura ZDX': { basePrice: 65, trims: [{ name: 'A-Spec RWD', price: 65, features: ['358 hp', '313 mi range'] }, { name: 'A-Spec AWD', price: 69, features: ['490 hp', '304 mi range'] }] },
+  'Acura ZDX Type S': { basePrice: 74, trims: [{ name: 'Type S', price: 74, features: ['499 hp', 'Air suspension'] }, { name: 'Type S Performance', price: 75, features: ['Performance wheels'] }] },
+  
+  // ALFA ROMEO NEW
+  'Alfa Romeo Tonale': { basePrice: 37, trims: [{ name: 'Sprint', price: 37 }, { name: 'Ti', price: 41, features: ['Leather'] }, { name: 'Veloce', price: 44, features: ['Sport suspension'] }] },
+  'Alfa Romeo Tonale PHEV': { basePrice: 44, trims: [{ name: 'Sprint PHEV', price: 44, features: ['Plug-in hybrid'] }, { name: 'Ti PHEV', price: 48, features: ['Leather', 'PHEV'] }, { name: 'Veloce PHEV', price: 50, features: ['Sport suspension', 'PHEV'] }] },
+  
+  // AUDI NEW
+  'Audi A3': { basePrice: 36, trims: [{ name: 'Premium', price: 36 }, { name: 'Premium Plus', price: 40, features: ['Virtual cockpit'] }, { name: 'Prestige', price: 44, features: ['B&O audio'] }] },
+  'Audi Q4 e-tron': { basePrice: 50, trims: [{ name: 'Premium', price: 50, features: ['RWD'] }, { name: 'Premium Plus', price: 54, features: ['Virtual cockpit'] }, { name: 'Prestige', price: 58, features: ['B&O audio'] }] },
+  'Audi Q6 e-tron': { basePrice: 63, trims: [{ name: 'Premium', price: 63 }, { name: 'Premium Plus', price: 68, features: ['Matrix LED'] }, { name: 'Prestige', price: 74, features: ['B&O audio'] }] },
+  'Audi Q8 e-tron': { basePrice: 74, trims: [{ name: 'Premium', price: 74 }, { name: 'Premium Plus', price: 79, features: ['Air suspension'] }, { name: 'Prestige', price: 84, features: ['B&O 3D audio'] }] },
+  'Audi RS3': { basePrice: 62, trims: [{ name: 'RS 3', price: 62, features: ['401 hp 5-cyl turbo'] }] },
+  'Audi RS5': { basePrice: 76, trims: [{ name: 'RS 5', price: 76, features: ['444 hp twin-turbo V6'] }] },
+  'Audi RS6 Avant': { basePrice: 120, trims: [{ name: 'RS 6 Avant', price: 120, features: ['621 hp twin-turbo V8'] }, { name: 'RS 6 Avant Performance', price: 132, features: ['630 hp'] }] },
+  'Audi RS7': { basePrice: 122, trims: [{ name: 'RS 7', price: 122, features: ['621 hp twin-turbo V8'] }, { name: 'RS 7 Performance', price: 134, features: ['630 hp'] }] },
+  'Audi RS e-tron GT': { basePrice: 148, trims: [{ name: 'RS e-tron GT', price: 148, features: ['637 hp dual motor'] }, { name: 'RS e-tron GT Performance', price: 160, features: ['912 hp boost'] }] },
+  
+  // BMW NEW
+  'BMW 2 Series': { basePrice: 39, trims: [{ name: '230i', price: 39, features: ['255 hp'] }, { name: 'M240i', price: 52, features: ['382 hp', 'AWD'] }] },
+  'BMW X2': { basePrice: 40, trims: [{ name: 'sDrive28i', price: 40 }, { name: 'xDrive28i', price: 42, features: ['AWD'] }, { name: 'M35i', price: 50, features: ['312 hp'] }] },
+  'BMW X4': { basePrice: 56, trims: [{ name: 'xDrive30i', price: 56 }, { name: 'M40i', price: 66, features: ['382 hp'] }] },
+  'BMW X6': { basePrice: 72, trims: [{ name: 'xDrive40i', price: 72 }, { name: 'M60i', price: 92, features: ['523 hp V8'] }, { name: 'X6 M', price: 112, features: ['617 hp'] }] },
+  'BMW i5': { basePrice: 67, trims: [{ name: 'eDrive40', price: 67, features: ['335 hp RWD'] }, { name: 'xDrive40', price: 70, features: ['389 hp AWD'] }, { name: 'M60', price: 85, features: ['593 hp'] }] },
+  'BMW i7': { basePrice: 106, trims: [{ name: 'xDrive60', price: 106, features: ['536 hp'] }, { name: 'M70', price: 120, features: ['650 hp'] }] },
+  'BMW M2': { basePrice: 64, trims: [{ name: 'M2', price: 64, features: ['453 hp', '6-speed manual avail'] }] },
+  'BMW M5': { basePrice: 113, trims: [{ name: 'M5', price: 113, features: ['717 hp PHEV'] }] },
+  'BMW XM': { basePrice: 111, trims: [{ name: 'XM', price: 111, features: ['644 hp'] }, { name: 'XM Label Red', price: 160, features: ['738 hp'] }] },
+  'BMW 8 Series': { basePrice: 88, trims: [{ name: '840i', price: 88 }, { name: 'M850i', price: 102, features: ['523 hp V8'] }, { name: 'M8', price: 135, features: ['617 hp'] }] },
+  
+  // CADILLAC NEW
+  'Cadillac CT4': { basePrice: 35, trims: [{ name: 'Luxury', price: 35 }, { name: 'Premium Luxury', price: 39 }, { name: 'Sport', price: 40 }, { name: 'V-Series', price: 47, features: ['325 hp turbo'] }] },
+  'Cadillac CT4-V Blackwing': { basePrice: 62, trims: [{ name: 'V Blackwing', price: 62, features: ['472 hp twin-turbo V6', 'Manual avail'] }] },
+  'Cadillac CT5-V Blackwing': { basePrice: 91, trims: [{ name: 'V Blackwing', price: 91, features: ['668 hp supercharged V8', 'Manual avail'] }] },
+  'Cadillac XT4': { basePrice: 41, trims: [{ name: 'Premium Luxury', price: 41 }, { name: 'Sport', price: 42 }] },
+  'Cadillac XT5': { basePrice: 46, trims: [{ name: 'Premium Luxury', price: 46 }, { name: 'Sport', price: 47 }] },
+  'Cadillac XT6': { basePrice: 53, trims: [{ name: 'Premium Luxury', price: 53 }, { name: 'Sport', price: 55 }] },
+  'Cadillac Optiq': { basePrice: 54, trims: [{ name: 'Luxury', price: 53 }, { name: 'Sport', price: 54 }] },
+  'Cadillac Celestiq': { basePrice: 340, trims: [{ name: 'Celestiq', price: 340, features: ['Hand-built', 'Ultra luxury EV'] }] },
+  'Cadillac Escalade IQ': { basePrice: 130, trims: [{ name: 'Luxury', price: 130 }, { name: 'Sport', price: 135 }, { name: 'V-Series', price: 150, features: ['750+ hp'] }] },
+  
+  // CHEVROLET NEW
+  'Chevrolet Trax': { basePrice: 22, trims: [{ name: 'LS', price: 22 }, { name: 'LT', price: 24 }, { name: 'RS', price: 26, features: ['Sport styling'] }, { name: 'Activ', price: 27, features: ['Rugged styling'] }] },
+  'Chevrolet Trailblazer': { basePrice: 24, trims: [{ name: 'LS', price: 24 }, { name: 'LT', price: 26 }, { name: 'RS', price: 28, features: ['Sport styling'] }, { name: 'Activ', price: 29, features: ['Off-road styling'] }] },
+  'Chevrolet Blazer': { basePrice: 38, trims: [{ name: 'LT', price: 38 }, { name: 'RS', price: 42, features: ['Sport styling'] }, { name: 'Premier', price: 44, features: ['Leather'] }] },
+  'Chevrolet Blazer EV': { basePrice: 52, trims: [{ name: 'LT', price: 47, features: ['FWD'] }, { name: 'RS', price: 52, features: ['AWD'] }, { name: 'SS', price: 62, features: ['557 hp'] }] },
+  'Chevrolet Equinox EV': { basePrice: 35, trims: [{ name: 'LT FWD', price: 35, features: ['319 mi range'] }, { name: 'LT AWD', price: 38, features: ['307 mi range'] }, { name: 'RS', price: 42, features: ['Sport styling'] }] },
+  'Chevrolet Corvette E-Ray': { basePrice: 113, trims: [{ name: '1LZ', price: 113 }, { name: '3LZ', price: 122, features: ['Full leather', 'Performance exhaust'] }] },
+  
+  // CHRYSLER NEW
+  'Chrysler 300': { basePrice: 35, trims: [{ name: 'Touring', price: 35 }, { name: 'Touring L', price: 37 }, { name: '300S', price: 41, features: ['Sport styling'] }, { name: '300C', price: 53, features: ['6.4L V8'] }] },
+  
+  // DODGE NEW
+  'Dodge Hornet': { basePrice: 33, trims: [{ name: 'GT', price: 33 }, { name: 'GT Plus', price: 36, features: ['Dual-pane sunroof'] }] },
+  'Dodge Hornet R/T': { basePrice: 41, trims: [{ name: 'R/T', price: 41, features: ['PHEV'] }, { name: 'R/T Plus', price: 44, features: ['PHEV', 'Premium audio'] }] },
+  
+  // FORD NEW
+  'Ford E-Transit': { basePrice: 50, trims: [{ name: 'Cargo Van Low Roof', price: 50 }, { name: 'Cargo Van High Roof', price: 55 }, { name: 'Cutaway', price: 52 }] },
+  'Ford Mustang Dark Horse': { basePrice: 60, trims: [{ name: 'Dark Horse', price: 60, features: ['500 hp 5.0L V8'] }, { name: 'Dark Horse Premium', price: 64, features: ['Recaro seats'] }] },
+  
+  // GENESIS NEW
+  'Genesis GV60': { basePrice: 52, trims: [{ name: 'Advanced', price: 52, features: ['314 hp AWD'] }, { name: 'Performance', price: 62, features: ['429 hp AWD'] }] },
+  'Genesis Electrified G80': { basePrice: 80, trims: [{ name: 'Electrified G80', price: 80, features: ['365 hp', '282 mi range'] }] },
+  'Genesis Electrified GV70': { basePrice: 66, trims: [{ name: 'Electrified Advanced', price: 66, features: ['429 hp AWD'] }, { name: 'Electrified Prestige', price: 72, features: ['Premium audio'] }] },
+  
+  // GMC NEW
+  'GMC Acadia': { basePrice: 40, trims: [{ name: 'SLE', price: 40 }, { name: 'SLT', price: 44, features: ['Leather'] }, { name: 'AT4', price: 47, features: ['Off-road package'] }, { name: 'Denali', price: 52, features: ['Premium luxury'] }] },
+  
+  // HONDA NEW
+  'Honda Prologue': { basePrice: 48, trims: [{ name: 'EX', price: 48 }, { name: 'Touring', price: 52, features: ['B&O audio'] }, { name: 'Elite', price: 55, features: ['Panoramic roof'] }] },
+  
+  // HYUNDAI NEW
+  'Hyundai Venue': { basePrice: 20, trims: [{ name: 'SE', price: 20 }, { name: 'SEL', price: 22, features: ['Sunroof'] }, { name: 'Limited', price: 24, features: ['Leather'] }] },
+  'Hyundai Elantra Hybrid': { basePrice: 29, trims: [{ name: 'Blue', price: 29 }, { name: 'SEL', price: 30 }, { name: 'Limited', price: 33, features: ['Leather', 'Premium audio'] }] },
+  'Hyundai Elantra N': { basePrice: 35, trims: [{ name: 'N', price: 35, features: ['276 hp turbo', 'Manual avail'] }] },
+  'Hyundai Ioniq 5 N': { basePrice: 67, trims: [{ name: 'N', price: 67, features: ['641 hp', 'E-shift', 'Track mode'] }] },
+  'Hyundai Tucson Hybrid': { basePrice: 35, trims: [{ name: 'Blue', price: 35 }, { name: 'SEL', price: 37 }, { name: 'Limited', price: 42, features: ['Leather', 'Panoramic roof'] }] },
+  'Hyundai Santa Fe Hybrid': { basePrice: 42, trims: [{ name: 'SE', price: 42 }, { name: 'SEL', price: 44 }, { name: 'Limited', price: 49, features: ['Leather', 'Premium audio'] }] },
+  
+  // INFINITI NEW
+  'Infiniti QX50': { basePrice: 43, trims: [{ name: 'Pure', price: 43 }, { name: 'Luxe', price: 47 }, { name: 'Sport', price: 49, features: ['Sport tuned'] }] },
+  'Infiniti QX55': { basePrice: 48, trims: [{ name: 'Luxe', price: 48 }, { name: 'Essential', price: 52, features: ['ProPilot Assist'] }, { name: 'Sensory', price: 57, features: ['Bose audio'] }] },
+  'Infiniti QX60': { basePrice: 51, trims: [{ name: 'Pure', price: 51 }, { name: 'Luxe', price: 55 }, { name: 'Sensory', price: 60 }, { name: 'Autograph', price: 63, features: ['Semi-aniline leather'] }] },
+  'Infiniti QX80': { basePrice: 75, trims: [{ name: 'Sensory', price: 75 }, { name: 'Autograph', price: 85, features: ['Massaging seats'] }] },
+  
+  // KIA NEW
+  'Kia Niro EV': { basePrice: 40, trims: [{ name: 'Wind', price: 40 }, { name: 'Wave', price: 44, features: ['Premium audio'] }] },
+  'Kia Niro PHEV': { basePrice: 34, trims: [{ name: 'LX', price: 34 }, { name: 'EX', price: 37 }, { name: 'SX Touring', price: 40, features: ['Premium audio'] }] },
+  'Kia K4': { basePrice: 24, trims: [{ name: 'LX', price: 24 }, { name: 'LXS', price: 25 }, { name: 'EX', price: 27 }, { name: 'GT-Line', price: 28, features: ['Sport styling'] }] },
+  'Kia EV3': { basePrice: 31, trims: [{ name: 'Light', price: 31 }, { name: 'Air', price: 35, features: ['Larger battery'] }, { name: 'Earth', price: 38, features: ['Premium features'] }] },
+  
+  // LEXUS NEW
+  'Lexus RC': { basePrice: 46, trims: [{ name: 'RC 300', price: 46 }, { name: 'RC 350', price: 50, features: ['311 hp V6'] }, { name: 'RC F', price: 66, features: ['472 hp V8'] }] },
+  'Lexus LS': { basePrice: 81, trims: [{ name: 'LS 500', price: 81 }, { name: 'LS 500 F Sport', price: 85, features: ['Sport tuned'] }, { name: 'LS 500h', price: 84, features: ['Hybrid'] }] },
+  'Lexus RZ': { basePrice: 56, trims: [{ name: 'RZ 300e', price: 56, features: ['FWD'] }, { name: 'RZ 450e', price: 60, features: ['308 hp AWD'] }] },
+  'Lexus UX': { basePrice: 37, trims: [{ name: 'UX 250h', price: 37 }, { name: 'UX 250h Premium', price: 40 }, { name: 'UX 250h Luxury', price: 42, features: ['Mark Levinson audio'] }] },
+  'Lexus LC 500h': { basePrice: 102, trims: [{ name: 'LC 500h', price: 102 }, { name: 'LC 500h Inspiration Series', price: 116, features: ['Limited edition'] }] },
+  
+  // MERCEDES-BENZ NEW
+  'Mercedes-Benz CLA': { basePrice: 40, trims: [{ name: 'CLA 250', price: 40 }, { name: 'CLA 250 4MATIC', price: 42, features: ['AWD'] }, { name: 'AMG CLA 35', price: 48, features: ['302 hp'] }] },
+  'Mercedes-Benz EQE': { basePrice: 75, trims: [{ name: 'EQE 350+', price: 75, features: ['288 hp RWD'] }, { name: 'EQE 350 4MATIC', price: 79, features: ['AWD'] }, { name: 'AMG EQE', price: 105, features: ['617 hp'] }] },
+  'Mercedes-Benz EQE SUV': { basePrice: 78, trims: [{ name: 'EQE 350+ SUV', price: 78 }, { name: 'EQE 350 4MATIC SUV', price: 82, features: ['AWD'] }] },
+  'Mercedes-Benz EQS SUV': { basePrice: 105, trims: [{ name: 'EQS 450+', price: 105, features: ['355 hp RWD'] }, { name: 'EQS 450 4MATIC', price: 110, features: ['AWD'] }, { name: 'EQS 580 4MATIC', price: 130, features: ['536 hp'] }] },
+  'Mercedes-Maybach GLS 600': { basePrice: 175, trims: [{ name: 'GLS 600 4MATIC', price: 175, features: ['550 hp twin-turbo V8', 'Ultra luxury'] }] },
+  'Mercedes-AMG GT Coupe': { basePrice: 140, trims: [{ name: 'AMG GT 55', price: 140, features: ['469 hp'] }, { name: 'AMG GT 63', price: 165, features: ['577 hp'] }] },
+  'Mercedes-AMG SL': { basePrice: 137, trims: [{ name: 'AMG SL 43', price: 110, features: ['375 hp'] }, { name: 'AMG SL 55', price: 137, features: ['469 hp'] }, { name: 'AMG SL 63', price: 178, features: ['577 hp'] }] },
+  
+  // NISSAN NEW
+  'Nissan Maxima': { basePrice: 39, trims: [{ name: 'SV', price: 39 }, { name: 'SR', price: 42, features: ['Sport tuned'] }, { name: 'Platinum', price: 45, features: ['Premium audio'] }] },
+  
+  // PORSCHE NEW
+  'Porsche 911 Turbo S': { basePrice: 235, trims: [{ name: 'Turbo S', price: 235, features: ['640 hp'] }, { name: 'Turbo S Cabriolet', price: 248, features: ['Convertible'] }] },
+  'Porsche 911 GT3': { basePrice: 195, trims: [{ name: 'GT3', price: 195, features: ['502 hp NA flat-six'] }, { name: 'GT3 RS', price: 230, features: ['518 hp', 'Active aero'] }] },
+  'Porsche Cayenne Coupe': { basePrice: 83, trims: [{ name: 'Cayenne Coupe', price: 83 }, { name: 'Cayenne S Coupe', price: 100, features: ['468 hp'] }, { name: 'Cayenne Turbo GT', price: 195, features: ['631 hp'] }] },
+  'Porsche Macan Electric': { basePrice: 75, trims: [{ name: 'Macan', price: 75, features: ['335 hp'] }, { name: 'Macan 4', price: 80, features: ['402 hp AWD'] }, { name: 'Macan Turbo', price: 105, features: ['630 hp'] }] },
+  
+  // SUBARU NEW
+  'Subaru Solterra': { basePrice: 45, trims: [{ name: 'Premium', price: 45, features: ['AWD'] }, { name: 'Limited', price: 48, features: ['Leather'] }, { name: 'Touring', price: 52, features: ['Harman Kardon audio'] }] },
+  
+  // TOYOTA NEW
+  'Toyota Prius Prime': { basePrice: 33, trims: [{ name: 'SE', price: 33 }, { name: 'XSE', price: 36, features: ['Larger display'] }, { name: 'XSE Premium', price: 39, features: ['Premium audio'] }] },
+  'Toyota RAV4 Hybrid': { basePrice: 33, trims: [{ name: 'LE', price: 33 }, { name: 'XLE', price: 35 }, { name: 'XLE Premium', price: 38 }, { name: 'SE', price: 38, features: ['Sport tuned'] }, { name: 'XSE', price: 39, features: ['Two-tone roof'] }, { name: 'Limited', price: 41, features: ['Premium audio'] }] },
+  'Toyota RAV4 Prime': { basePrice: 44, trims: [{ name: 'SE', price: 44 }, { name: 'XSE', price: 48, features: ['Larger display'] }, { name: 'XSE Premium', price: 50, features: ['Premium audio'] }] },
+  'Toyota Corolla Cross Hybrid': { basePrice: 30, trims: [{ name: 'S', price: 30 }, { name: 'SE', price: 33, features: ['Sport styling'] }, { name: 'XSE', price: 35, features: ['Premium features'] }] },
+  'Toyota Corolla Hybrid': { basePrice: 24, trims: [{ name: 'LE', price: 24 }, { name: 'SE', price: 26, features: ['Sport styling'] }, { name: 'XLE', price: 28, features: ['Premium features'] }] },
+  'Toyota Camry Hybrid': { basePrice: 30, trims: [{ name: 'LE', price: 30 }, { name: 'SE', price: 31, features: ['Sport styling'] }, { name: 'XLE', price: 35, features: ['Leather'] }, { name: 'XSE', price: 35, features: ['Sport + premium'] }] },
+  'Toyota Highlander Hybrid': { basePrice: 43, trims: [{ name: 'LE', price: 43 }, { name: 'XLE', price: 46 }, { name: 'Limited', price: 50, features: ['JBL audio'] }, { name: 'Platinum', price: 52, features: ['Digital rearview mirror'] }] },
+  'Toyota Tundra Hybrid': { basePrice: 44, trims: [{ name: 'SR', price: 44 }, { name: 'SR5', price: 47 }, { name: 'Limited', price: 56 }, { name: 'Platinum', price: 62, features: ['JBL audio'] }, { name: '1794 Edition', price: 63, features: ['Western luxury'] }] },
+  
+  // VOLKSWAGEN NEW
+  'Volkswagen Atlas Cross Sport': { basePrice: 35, trims: [{ name: 'S', price: 35 }, { name: 'SE', price: 38 }, { name: 'SE Technology', price: 41 }, { name: 'SEL', price: 44, features: ['Digital cockpit'] }, { name: 'SEL Premium R-Line', price: 48, features: ['Sport styling'] }] },
+  'Volkswagen ID.7': { basePrice: 50, trims: [{ name: 'Pro S', price: 50, features: ['340 mi range'] }, { name: 'Pro S Plus', price: 55, features: ['Premium audio'] }] },
+  
+  // VOLVO NEW
+  'Volvo EX40': { basePrice: 38, trims: [{ name: 'Core', price: 38 }, { name: 'Plus', price: 42, features: ['Pixel LED'] }, { name: 'Ultimate', price: 45, features: ['Harman Kardon'] }] },
+  'Volvo EC40': { basePrice: 42, trims: [{ name: 'Core', price: 42 }, { name: 'Plus', price: 45, features: ['Pixel LED'] }, { name: 'Ultimate', price: 48, features: ['Harman Kardon'] }] },
+  
+  // FIAT
+  'Fiat 500e': { basePrice: 34, trims: [{ name: 'Pop', price: 34 }, { name: 'Inspired By', price: 37 }, { name: 'La Prima', price: 40, features: ['Premium interior'] }] },
+  
+  // SCOUT
+  'Scout Terra': { basePrice: 50, trims: [{ name: 'Base', price: 50 }, { name: 'Trail', price: 55, features: ['Off-road package'] }, { name: 'Adventure', price: 60, features: ['Premium features'] }] },
+  'Scout Traveler': { basePrice: 52, trims: [{ name: 'Base', price: 52 }, { name: 'Trail', price: 57, features: ['Off-road package'] }, { name: 'Adventure', price: 62, features: ['Premium features'] }] },
 };
 
 // Helper function to get trims for a vehicle

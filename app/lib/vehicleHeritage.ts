@@ -275,6 +275,149 @@ export const vehicleHeritage: Record<string, string> = {
   'Buick Envision': 'Compact luxury SUV with excellent value.',
   'Chrysler Pacifica': 'The only plug-in hybrid minivan, family innovation.',
   'Chrysler 300': 'Rear-drive sedan with bold American style.',
+  
+  // NEW ADDITIONS - Comprehensive Heritage Entries
+  // Acura
+  'Acura ADX': 'Acura\'s newest and most affordable SUV, bringing premium features to the subcompact luxury segment starting 2025.',
+  'Acura ZDX': 'Acura\'s first all-electric SUV, built on GM\'s Ultium platform with up to 313 miles of range.',
+  'Acura ZDX Type S': 'The most powerful Acura SUV ever made, delivering 499 hp in an all-electric performance package.',
+  
+  // Alfa Romeo
+  'Alfa Romeo Tonale': 'Alfa Romeo\'s entry into the subcompact luxury SUV segment, blending Italian passion with everyday practicality.',
+  'Alfa Romeo Tonale PHEV': 'Alfa Romeo\'s first plug-in hybrid, combining electric efficiency with signature Italian driving dynamics.',
+  
+  // Audi
+  'Audi A3': 'Gateway to the Audi lineup, a premium compact sedan with virtual cockpit technology and quattro heritage.',
+  'Audi Q4 e-tron': 'Audi\'s affordable electric SUV entry, making premium EV ownership accessible to more buyers.',
+  'Audi Q6 e-tron': 'Built on the new PPE platform, delivering next-gen electric performance with Audi refinement.',
+  'Audi Q8 e-tron': 'Flagship electric SUV showcasing Audi\'s EV technology with luxurious appointments.',
+  'Audi RS3': 'The pocket rocket with a legendary 5-cylinder turbo engine, delivering supercar-rivaling performance.',
+  'Audi RS5': 'High-performance grand tourer with twin-turbo V6 power and quattro all-wheel drive grip.',
+  'Audi RS6 Avant': 'The ultimate performance wagon, a unicorn combining 621 hp with family-hauling practicality.',
+  'Audi RS7': 'Four-door GT with supercar speed, blending stunning design with brutal twin-turbo V8 performance.',
+  'Audi RS e-tron GT': 'Audi\'s electric supercar sedan, sharing its platform with the Porsche Taycan for blistering EV performance.',
+  
+  // BMW
+  'BMW 2 Series': 'The last rear-drive BMW coupe, cherished by enthusiasts for its pure driving character.',
+  'BMW X2': 'Sporty subcompact crossover with coupe-like styling, perfect for urban driving with BMW dynamics.',
+  'BMW X4': 'Sports Activity Coupe blending crossover utility with coupe aesthetics and M-tuned performance.',
+  'BMW X6': 'The original SUV-coupe that created a segment, combining bold design with powerful performance.',
+  'BMW i5': 'Electric version of the iconic 5 Series, proving luxury sedans thrive in the EV era.',
+  'BMW i7': 'BMW\'s electric flagship, a technological showcase with theater screen and 536 hp of silent power.',
+  'BMW M2': 'The purist\'s BMW, a rear-drive coupe that captures the essence of what M cars are about.',
+  'BMW M5': 'The legendary super sedan, now a plug-in hybrid with 717 hp while maintaining its grand touring character.',
+  'BMW XM': 'BMW M\'s first standalone vehicle since the M1, a controversial luxury performance hybrid SUV.',
+  'BMW 8 Series': 'BMW\'s flagship grand tourer, combining elegant design with powerful performance.',
+  
+  // Cadillac
+  'Cadillac CT4': 'Compact luxury sedan offering rear-wheel drive dynamics at an accessible price point.',
+  'Cadillac CT4-V Blackwing': 'The fastest and most powerful compact Cadillac ever, with a twin-turbo V6 and manual option.',
+  'Cadillac CT5-V Blackwing': 'The hand-built 668-hp supercharged V8 super sedan — the last of its kind and a future collector\'s car.',
+  'Cadillac XT4': 'Cadillac\'s compact luxury crossover entry, offering premium features in a city-friendly size.',
+  'Cadillac XT5': 'Midsize luxury crossover that replaced the iconic SRX, balancing comfort with modern tech.',
+  'Cadillac XT6': 'Three-row luxury SUV offering Cadillac refinement for families who need more space.',
+  'Cadillac Optiq': 'Cadillac\'s electric compact crossover, bringing Super Cruise technology to a more accessible price.',
+  'Cadillac Escalade IQ': 'The all-electric Escalade with 680 hp, redefining American luxury for the electric age.',
+  
+  // Chevrolet
+  'Chevrolet Trax': 'America\'s most affordable SUV, completely redesigned for 2024 with modern styling and tech.',
+  'Chevrolet Trailblazer': 'Subcompact SUV with available AWD and off-road capability at a budget-friendly price.',
+  'Chevrolet Blazer': 'Revived nameplate as a sporty midsize crossover with bold Camaro-inspired styling.',
+  'Chevrolet Blazer EV': 'Electric version of the Blazer built on GM\'s Ultium platform with up to 320 miles of range.',
+  'Chevrolet Equinox EV': 'The most affordable way into an electric SUV with 300+ mile range, a game-changer for EV adoption.',
+  'Chevrolet Corvette E-Ray': 'First all-wheel-drive Corvette in history, combining the V8 with an electric front motor.',
+  
+  // Dodge
+  'Dodge Hornet': 'Dodge\'s return to the compact segment, injecting performance DNA into a practical daily driver.',
+  'Dodge Hornet R/T': 'The first-ever electrified Dodge, a plug-in hybrid with Direct Connection performance upgrades.',
+  
+  // Ford
+  'Ford E-Transit': 'Ford\'s all-electric commercial van, leading the charge in fleet electrification.',
+  'Ford Mustang Dark Horse': 'Track-focused Mustang with the most powerful naturally aspirated 5.0L V8 in Mustang history.',
+  
+  // Genesis
+  'Genesis GV60': 'Genesis\'s compact electric crossover, offering premium EV features with striking design.',
+  'Genesis Electrified G80': 'Electric luxury sedan that maintains the G80\'s elegance while delivering zero-emission performance.',
+  'Genesis Electrified GV70': 'Electric version of the award-winning GV70, adding instant torque to an already excellent package.',
+  
+  // GMC
+  'GMC Acadia': 'Three-row midsize SUV offering professional-grade features and family-friendly versatility.',
+  
+  // Honda
+  'Honda Prologue': 'Honda\'s first mass-market EV for America, built on GM\'s Ultium platform as a bridge to Honda\'s own EV future.',
+  
+  // Hyundai
+  'Hyundai Venue': 'Hyundai\'s most affordable crossover, punching above its weight in features and value.',
+  'Hyundai Elantra Hybrid': 'Hybrid version of the award-winning Elantra, delivering 50+ mpg combined efficiency.',
+  'Hyundai Elantra N': 'Hot sedan that rivals the Civic Type R, offering 276 hp of turbocharged excitement.',
+  'Hyundai Ioniq 5 N': 'The world\'s first high-performance electric hatchback, redefining what EVs can feel like with simulated gear shifts.',
+  'Hyundai Tucson Hybrid': 'Efficient hybrid crossover combining practicality with fuel-sipping technology.',
+  'Hyundai Santa Fe Hybrid': 'Hybrid family SUV with bold new design and impressive fuel efficiency.',
+  
+  // Infiniti
+  'Infiniti QX50': 'Features the world\'s first production variable compression turbo engine, a technological marvel.',
+  'Infiniti QX55': 'Coupe-inspired crossover with sleek design and Infiniti\'s innovative VC-Turbo engine.',
+  'Infiniti QX60': 'Premium three-row family SUV redesigned with upscale materials and modern tech.',
+  'Infiniti QX80': 'Full-size luxury SUV completely redesigned for 2025 with twin-turbo V6 power and stunning new design.',
+  
+  // Kia
+  'Kia Niro EV': 'Purpose-built electrified crossover offering pure electric driving with practical range.',
+  'Kia Niro PHEV': 'Plug-in hybrid Niro combining electric commuting capability with gas-powered road trip flexibility.',
+  'Kia K4': 'Replaced the Forte as Kia\'s compact sedan, bringing fresh design and technology to the segment.',
+  'Kia EV3': 'Kia\'s most affordable electric SUV, bringing the EV9\'s design language to a compact package.',
+  
+  // Lexus
+  'Lexus RC': 'Luxury sport coupe offering refined grand touring with Lexus\'s legendary reliability.',
+  'Lexus LS': 'Lexus\'s flagship sedan, the car that launched the brand and redefined Japanese luxury.',
+  'Lexus RZ': 'Lexus\'s first dedicated electric vehicle, a premium crossover built on the e-TNGA platform.',
+  'Lexus UX': 'Urban-focused subcompact crossover, now hybrid-only, perfect for city luxury driving.',
+  'Lexus LC 500h': 'Stunning grand tourer with hybrid power, combining breathtaking design with Lexus craftsmanship.',
+  
+  // Mercedes-Benz
+  'Mercedes-Benz CLA': 'Gateway to the Mercedes-Benz lineup, a sleek four-door coupe with premium appeal.',
+  'Mercedes-Benz EQE': 'Electric luxury sedan positioned below the EQS, offering impressive range and technology.',
+  'Mercedes-Benz EQE SUV': 'Electric midsize SUV with Mercedes\' hyperscreen technology and up to 305 miles of range.',
+  'Mercedes-Benz EQS SUV': 'Electric full-size luxury SUV offering three rows of seating with zero emissions.',
+  'Mercedes-Maybach GLS 600': 'The pinnacle of Mercedes luxury SUVs, a hand-finished ultra-luxury masterpiece.',
+  'Mercedes-AMG GT Coupe': 'Four-door supercar with handcrafted AMG power, the ultimate performance grand tourer.',
+  'Mercedes-AMG SL': 'Reinvented roadster icon, now with AMG DNA from birth and 2+2 seating for the first time.',
+  
+  // Nissan
+  'Nissan Maxima': 'The 4-door sports car, a nameplate that served enthusiasts for decades before its 2023 retirement.',
+  
+  // Porsche
+  'Porsche 911 Turbo S': 'The benchmark for all-weather supercar performance, 640 hp of twin-turbo flat-six fury.',
+  'Porsche 911 GT3': 'Naturally aspirated track weapon with a spine-tingling flat-six that revs to 9,000 RPM.',
+  'Porsche Cayenne Coupe': 'Sportier take on the Cayenne with a swooping roofline and more aggressive character.',
+  'Porsche Macan Electric': 'All-new electric Macan, Porsche\'s first fully electric SUV built on the PPE platform.',
+  
+  // Subaru
+  'Subaru Solterra': 'Subaru\'s first all-electric vehicle, developed with Toyota and featuring symmetrical AWD heritage.',
+  
+  // Toyota hybrids
+  'Toyota Prius Prime': 'Plug-in Prius with dramatic new styling and the ability to drive 40+ miles on electricity alone.',
+  'Toyota RAV4 Hybrid': 'The hybrid that outsells most gas-only competitors, proving efficiency and practicality coexist.',
+  'Toyota RAV4 Prime': 'The quickest RAV4 ever made, a plug-in hybrid with 302 hp and 42 miles of electric range.',
+  'Toyota Corolla Cross Hybrid': 'Hybrid crossover bringing Toyota\'s efficient hybrid tech to the popular Corolla Cross.',
+  'Toyota Corolla Hybrid': 'The most fuel-efficient Corolla ever, delivering 50+ mpg combined with legendary reliability.',
+  'Toyota Camry Hybrid': 'Now the standard powertrain for 2025, proving hybrid efficiency is the future of family sedans.',
+  'Toyota Highlander Hybrid': 'Three-row hybrid SUV that makes fuel efficiency practical for the whole family.',
+  'Toyota Tundra Hybrid': 'Full-size hybrid truck proving you can tow heavy loads while saving fuel.',
+  
+  // Volkswagen
+  'Volkswagen Atlas Cross Sport': 'Sportier two-row version of the Atlas, offering more style without sacrificing space.',
+  'Volkswagen ID.7': 'VW\'s electric flagship sedan with up to 340 miles of range and a spacious interior.',
+  
+  // Volvo
+  'Volvo EX40': 'Rebranded XC40 Recharge, Volvo\'s compact electric crossover with Scandinavian design.',
+  'Volvo EC40': 'Coupe-styled electric crossover offering sporty design with Volvo\'s safety-first approach.',
+  
+  // Fiat
+  'Fiat 500e': 'The iconic Italian city car gone electric, bringing retro charm to zero-emission driving.',
+  
+  // Scout
+  'Scout Terra': 'Revival of the legendary Scout name by VW Group, an electric truck for modern adventurers.',
+  'Scout Traveler': 'Electric SUV reviving the classic Traveler nameplate, built for outdoor exploration.',
 };
 
 // Get vehicle heritage description, with fallback

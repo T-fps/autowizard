@@ -63,6 +63,7 @@ const offroadVehicles = [
   'Rivian R1T', 'Rivian R1S',
   'GMC Hummer EV Pickup', 'GMC Hummer EV SUV',
   'Subaru Outback Wilderness', 'Subaru Forester Wilderness', 'Subaru Crosstrek Wilderness',
+  'Scout Terra', 'Scout Traveler', 'Subaru Solterra',
 ];
 
 // Body type mapping from user selection to database types

@@ -13,6 +13,7 @@ export const brandPopularity: Record<string, number> = {
   'Polestar': 36, 'Maserati': 37, 'Lotus': 38, 'Aston Martin': 39, 'Bentley': 40,
   'Ferrari': 41, 'Lamborghini': 42, 'McLaren': 43, 'Rolls-Royce': 44,
   'Bugatti': 45, 'Pagani': 46, 'Koenigsegg': 47,
+  'Fiat': 48, 'Scout': 49,
 };
 
 // Model popularity boost (specific popular models get priority)
@@ -50,6 +51,17 @@ export const modelPopularityBoost: Record<string, number> = {
   'Polestar 2': -20, 'Polestar 3': -15, 'Polestar 4': -10,
   // GMC
   'GMC Hummer EV': -15, 'GMC Hummer EV SUV': -15,
+  // New popular models
+  'Chevrolet Trax': -30, 'Chevrolet Trailblazer': -20, 'Chevrolet Blazer': -20,
+  'Chevrolet Equinox EV': -25, 'Toyota RAV4 Hybrid': -50, 'Toyota RAV4 Prime': -40,
+  'Toyota Camry Hybrid': -40, 'Toyota Corolla Hybrid': -30, 'Toyota Prius Prime': -25,
+  'Toyota Highlander Hybrid': -30, 'Toyota Tundra Hybrid': -20,
+  'Honda Prologue': -20, 'Hyundai Ioniq 5 N': -25,
+  'Hyundai Elantra Hybrid': -15, 'Hyundai Tucson Hybrid': -20,
+  'Kia K4': -20, 'Kia Niro EV': -15,
+  'Acura ADX': -15, 'Cadillac Escalade IQ': -15,
+  'Volkswagen Atlas Cross Sport': -15, 'GMC Acadia': -20,
+  'Infiniti QX60': -10, 'Infiniti QX80': -10,
 };
 
 export function getPopularityScore(vehicle: Vehicle): number {
@@ -112,6 +124,8 @@ export const brandGradients: Record<string, string> = {
   'Toyota': 'from-red-600 to-red-800',
   'Volkswagen': 'from-blue-600 to-blue-800',
   'Volvo': 'from-blue-700 to-blue-900',
+  'Fiat': 'from-red-600 to-red-800',
+  'Scout': 'from-green-700 to-amber-800',
 };
 
 export function getBrandGradient(brand: string): string {
