@@ -31,7 +31,6 @@ export const vehicleHeritage: Record<string, string> = {
   'Honda Ridgeline': 'The pickup truck for people who don\'t want a traditional truck, with unibody construction and car-like ride.',
   'Honda Passport': 'Adventure-ready SUV positioned between CR-V and Pilot for those who need more capability.',
   'Honda Civic Type R': 'The ultimate front-wheel-drive performance car, a track weapon in hot hatch clothing.',
-  'Honda Prologue': 'Honda\'s electric future built on GM\'s Ultium platform.',
   
   // Ford
   'Ford F-150': 'America\'s best-selling vehicle for 40+ years, the truck that built a nation.',
@@ -51,15 +50,12 @@ export const vehicleHeritage: Record<string, string> = {
   // Chevrolet  
   'Chevrolet Silverado': 'Bow-tie truck heritage dating back to 1918, rivaling F-150 in capability.',
   'Chevrolet Corvette': 'America\'s sports car since 1953, the C8 generation moved the engine behind the driver for the first time.',
-  'Chevrolet Corvette E-Ray': 'The fastest Corvette ever made, combining V8 power with electric AWD for 2.5-second 0-60.',
   'Chevrolet Camaro': 'Muscle car icon and Mustang rival since 1966, a pure performance machine.',
   'Chevrolet Tahoe': 'Full-size SUV workhorse, the Suburban\'s slightly smaller sibling.',
   'Chevrolet Suburban': 'The longest-running nameplate in automotive history, in production since 1935.',
   'Chevrolet Equinox': 'Compact crossover offering great value and now available as an affordable EV.',
   'Chevrolet Traverse': 'Three-row family crossover with one of the largest cargo areas in its class.',
   'Chevrolet Colorado': 'Mid-size truck with available off-road ZR2 trim that rivals dedicated rock crawlers.',
-  'Chevrolet Blazer': 'Sporty mid-size SUV reviving a legendary nameplate with modern style.',
-  'Chevrolet Trailblazer': 'Subcompact SUV punching above its weight class in features and style.',
   'Chevrolet Bolt EV': 'Affordable long-range EV that helped democratize electric cars.',
   'Chevrolet Bolt EUV': 'Stretched Bolt with more space and available Super Cruise hands-free driving.',
   
@@ -79,10 +75,8 @@ export const vehicleHeritage: Record<string, string> = {
   'BMW X7': 'Full-size luxury SUV with presence and the brand\'s signature driving feel.',
   'BMW M3': 'The iconic performance sedan, track-capable from the factory.',
   'BMW M4': 'Two-door M3 variant continuing BMW\'s motorsport legacy.',
-  'BMW M5': 'Super sedan disguised as an executive car, capable of embarrassing supercars.',
   'BMW i4': 'Electric sedan with true BMW driving character and up to 300 miles of range.',
   'BMW iX': 'Flagship electric SUV showcasing BMW\'s sustainable future vision.',
-  'BMW i7': 'Electric 7 Series offering silent luxury and cutting-edge technology.',
   'BMW Z4': 'Open-top roadster developed alongside the Toyota Supra.',
   
   // Mercedes-Benz
@@ -94,7 +88,6 @@ export const vehicleHeritage: Record<string, string> = {
   'Mercedes-Benz GLS': 'The S-Class of SUVs, full-size luxury for discerning families.',
   'Mercedes-Benz AMG GT': 'Hand-built performance machine with racing DNA.',
   'Mercedes-Benz EQS': 'The most aerodynamic production car ever made, all-electric S-Class luxury.',
-  'Mercedes-Benz EQE': 'Electric E-Class equivalent with impressive range and technology.',
   'Mercedes-Benz G-Class': 'Iconic off-road legend since 1979, the original luxury SUV.',
   
   // Porsche
@@ -138,9 +131,7 @@ export const vehicleHeritage: Record<string, string> = {
   'Lexus LX': 'The luxury Land Cruiser, capable of going anywhere in supreme comfort.',
   'Lexus IS': 'Sport sedan bringing driving excitement to Lexus.',
   'Lexus LC': 'Stunning grand tourer showcasing Lexus design and craftsmanship.',
-  'Lexus LS': 'Flagship sedan that launched the brand in 1989, redefining luxury expectations.',
   'Lexus TX': 'New three-row luxury SUV filling the gap between RX and LX.',
-  'Lexus RZ': 'First dedicated Lexus EV, marking the brand\'s electric transition.',
   
   // Jeep
   'Jeep Wrangler': 'The original off-roader since 1941, unchanged in spirit for 80+ years.',
@@ -173,7 +164,6 @@ export const vehicleHeritage: Record<string, string> = {
   'Genesis G90': 'Flagship luxury sedan at half the price of German rivals.',
   'Genesis GV70': 'Compact luxury SUV with bold styling and standard features.',
   'Genesis GV80': 'Luxury SUV that announced Genesis as a serious player.',
-  'Genesis GV60': 'Electric crossover with advanced technology and face recognition.',
   
   // Subaru
   'Subaru Outback': 'The original lifted wagon, defining the outdoorsy lifestyle.',
@@ -183,7 +173,6 @@ export const vehicleHeritage: Record<string, string> = {
   'Subaru Impreza': 'Affordable AWD for those who need all-weather confidence.',
   'Subaru Ascent': 'Three-row family SUV with standard AWD.',
   'Subaru BRZ': 'Rear-drive sports car developed with Toyota, pure driving joy.',
-  'Subaru Solterra': 'Subaru\'s first electric SUV, developed with Toyota.',
   
   // Mazda
   'Mazda3': 'Premium feel at mainstream prices, best-driving compact car.',
@@ -204,9 +193,6 @@ export const vehicleHeritage: Record<string, string> = {
   'Nissan Leaf': 'The EV that started it all, first mass-market electric car.',
   'Infiniti Q50': 'Sport sedan with available twin-turbo V6 power.',
   'Infiniti Q60': 'Stylish coupe with up to 400 horsepower.',
-  'Infiniti QX50': 'Compact luxury SUV with innovative variable compression engine.',
-  'Infiniti QX60': 'Three-row luxury crossover focused on family comfort.',
-  'Infiniti QX80': 'Full-size luxury SUV with bold presence.',
   
   // Others
   'Volkswagen ID.4': 'VW\'s mainstream electric SUV with excellent value.',
@@ -225,20 +211,16 @@ export const vehicleHeritage: Record<string, string> = {
   'Dodge Charger': 'Four-door muscle car, one of the last V8 sedans.',
   'Dodge Challenger': 'Retro muscle car keeping the V8 dream alive.',
   'Dodge Durango': 'Three-row SUV with available Hellcat power.',
-  'Dodge Hornet': 'Compact performance SUV marking Dodge\'s electrified future.',
   'Ram 1500': 'Full-size truck known for smooth ride and luxurious interior.',
   'Ram 2500': 'Heavy-duty truck for serious work.',
   'Ram 3500': 'Maximum capability for the heaviest towing needs.',
   'GMC Sierra': 'Premium full-size truck with exclusive MultiPro tailgate.',
   'GMC Yukon': 'Full-size SUV with GMC\'s professional-grade features.',
-  'GMC Acadia': 'Three-row crossover offering value and versatility.',
   'GMC Terrain': 'Compact SUV with bold styling.',
   'GMC Hummer EV': 'Electric supertruck with 1,000 horsepower and CrabWalk.',
   'Cadillac Escalade': 'The original luxury SUV icon, defining American opulence.',
   'Cadillac CT5': 'Rear-drive luxury sedan with available supercharged V8.',
   'Cadillac Lyriq': 'Cadillac\'s electric future, elegant SUV design.',
-  'Cadillac XT5': 'Compact luxury crossover, Cadillac\'s best-seller.',
-  'Cadillac XT6': 'Three-row luxury SUV for families.',
   'Lincoln Navigator': 'Full-size luxury SUV competing with Escalade.',
   'Lincoln Aviator': 'Mid-size luxury SUV with available plug-in hybrid.',
   'Lincoln Nautilus': 'Compact luxury crossover with serene interior.',
@@ -247,10 +229,8 @@ export const vehicleHeritage: Record<string, string> = {
   'Acura RDX': 'Compact luxury SUV with sporty handling.',
   'Acura TLX': 'Sport sedan with available Type S performance.',
   'Acura Integra': 'Revived nameplate bringing back enthusiast spirit.',
-  'Acura ZDX': 'Electric luxury SUV built on GM Ultium platform.',
   'Alfa Romeo Giulia': 'Italian passion in sedan form, genuine driving emotion.',
   'Alfa Romeo Stelvio': 'SUV with sports car handling, named after a famous mountain pass.',
-  'Alfa Romeo Tonale': 'Compact plug-in hybrid SUV with Italian style.',
   'Land Rover Range Rover': 'The original luxury SUV, defining the category since 1970.',
   'Land Rover Range Rover Sport': 'Performance-focused Range Rover.',
   'Land Rover Defender': 'Reborn off-road icon with modern luxury.',

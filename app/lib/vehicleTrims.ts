@@ -175,7 +175,6 @@ export const vehicleTrims: Record<string, VehicleTrims> = {
   'Genesis G70 Shooting Brake': { basePrice: 45, trims: [{ name: '2.0T', price: 45 }, { name: '3.3T Sport', price: 55, features: ['365 hp'] }] },
   'Genesis G80': { basePrice: 55, trims: [{ name: '2.5T', price: 55 }, { name: '2.5T Prestige', price: 62 }, { name: '3.5T Sport', price: 68, features: ['375 hp'] }, { name: 'E', price: 82, features: ['Electric'] }] },
   'Genesis G90': { basePrice: 90, trims: [{ name: '3.5T', price: 90 }, { name: '3.5T E-Supercharger', price: 100, features: ['Mild hybrid'] }, { name: 'Long Wheelbase', price: 105 }] },
-  'Genesis GV60': { basePrice: 55, trims: [{ name: 'Advanced', price: 55 }, { name: 'Performance', price: 68, features: ['429 hp', 'Boost mode'] }] },
   'Genesis GV60 Performance': { basePrice: 68, trims: [{ name: 'Base', price: 68, features: ['429 hp dual motor'] }] },
   'Genesis GV70': { basePrice: 45, trims: [{ name: '2.5T', price: 45 }, { name: '2.5T Prestige', price: 52 }, { name: '3.5T Sport', price: 58, features: ['375 hp'] }, { name: 'Electrified', price: 68, features: ['429 hp'] }] },
   'Genesis GV80': { basePrice: 58, trims: [{ name: '2.5T', price: 58 }, { name: '2.5T Prestige', price: 65 }, { name: '3.5T Sport', price: 75, features: ['375 hp'] }, { name: '3.5T Prestige', price: 78 }] },
