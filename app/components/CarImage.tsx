@@ -22,12 +22,16 @@ const wikiTitleMappings: Record<string, string> = {
   'Acura RDX': 'Acura_RDX',
   'Acura RDX A-Spec Advance': 'Acura_RDX',
   'Acura TLX': 'Acura_TLX',
+  'Acura ADX': 'Acura_ADX',
+  'Acura ZDX': 'Acura_ZDX_(2024)',
+  'Acura ZDX Type S': 'Acura_ZDX_(2024)',
   'Acura NSX': 'Honda_NSX_(second_generation)',
 
   // ==================== ALFA ROMEO ====================
   'Alfa Romeo Giulia': 'Alfa_Romeo_Giulia_(952)',
   'Alfa Romeo Stelvio': 'Alfa_Romeo_Stelvio',
   'Alfa Romeo Tonale': 'Alfa_Romeo_Tonale',
+  'Alfa Romeo Tonale PHEV': 'Alfa_Romeo_Tonale',
 
   // ==================== ASTON MARTIN ====================
   'Aston Martin DB11': 'Aston_Martin_DB11',
@@ -52,8 +56,10 @@ const wikiTitleMappings: Record<string, string> = {
   'Audi Q3': 'Audi_Q3',
   'Audi Q4 e-tron': 'Audi_Q4_e-tron',
   'Audi Q5': 'Audi_Q5',
+  'Audi Q6 e-tron': 'Audi_Q6_e-tron',
   'Audi Q7': 'Audi_Q7',
   'Audi Q8': 'Audi_Q8',
+  'Audi Q8 e-tron': 'Audi_Q8_e-tron',
   'Audi e-tron': 'Audi_e-tron_(brand)',                     // FIXED: was Audi_e-tron_(2018)
   'Audi e-tron GT': 'Audi_e-tron_GT',
   'Audi S3': 'Audi_S3',
@@ -65,9 +71,12 @@ const wikiTitleMappings: Record<string, string> = {
   'Audi SQ7': 'Audi_Q7',                                    // FIXED: SQ7 redirects to Q7
   'Audi SQ8': 'Audi_Q8',                                    // FIXED: SQ8 redirects to Q8
   'Audi RS Q8': 'Audi_RS_Q8',
+  'Audi RS3': 'Audi_RS3',
   'Audi RS5': 'Audi_RS5',
   'Audi RS6': 'Audi_RS6',
+  'Audi RS6 Avant': 'Audi_RS6',
   'Audi RS7': 'Audi_RS7',
+  'Audi RS e-tron GT': 'Audi_e-tron_GT',
   'Audi R8': 'Audi_R8',
   'Audi TT': 'Audi_TT',
 
@@ -111,6 +120,7 @@ const wikiTitleMappings: Record<string, string> = {
   'BMW M4': 'BMW_M4',
   'BMW M5': 'BMW_M5',
   'BMW M8': 'BMW_M8',
+  'BMW XM': 'BMW_XM',
   'BMW M240i': 'BMW_2_Series_(G42)',
   'BMW M340i': 'BMW_3_Series_(G20)',
   'BMW M440i': 'BMW_4_Series_(G22)',
@@ -124,18 +134,24 @@ const wikiTitleMappings: Record<string, string> = {
 
   // ==================== BUICK ====================
   'Buick Enclave': 'Buick_Enclave',
+  'Buick Enclave Avenir': 'Buick_Enclave',
   'Buick Encore': 'Buick_Encore',
   'Buick Encore GX': 'Buick_Encore_GX',
   'Buick Envision': 'Buick_Envision',
+  'Buick Envista': 'Buick_Envista',
 
   // ==================== CADILLAC ====================
   'Cadillac CT4': 'Cadillac_CT4',
+  'Cadillac CT4-V Blackwing': 'Cadillac_CT4-V_Blackwing',
   'Cadillac CT5': 'Cadillac_CT5',
+  'Cadillac CT5-V Blackwing': 'Cadillac_CT5-V_Blackwing',
   'Cadillac Celestiq': 'Cadillac_Celestiq',
   'Cadillac Escalade': 'Cadillac_Escalade',
   'Cadillac Escalade-V': 'Cadillac_Escalade',
+  'Cadillac Escalade IQ': 'Cadillac_Escalade_IQ',
   'Cadillac Lyriq': 'Cadillac_Lyriq',
   'Cadillac Lyriq-V': 'Cadillac_Lyriq',
+  'Cadillac Optiq': 'Cadillac_Optiq',
   'Cadillac Vistiq': 'Cadillac_Vistiq',
   'Cadillac XT4': 'Cadillac_XT4',
   'Cadillac XT5': 'Cadillac_XT5',
@@ -143,6 +159,7 @@ const wikiTitleMappings: Record<string, string> = {
 
   // ==================== CHEVROLET ====================
   'Chevrolet Blazer': 'Chevrolet_Blazer_(crossover)',
+  'Chevrolet Blazer EV': 'Chevrolet_Blazer_EV',
   'Chevrolet Bolt': 'Chevrolet_Bolt',
   'Chevrolet Bolt EUV': 'Chevrolet_Bolt_EUV',
   'Chevrolet Camaro': 'Chevrolet_Camaro_(sixth_generation)',
@@ -150,9 +167,11 @@ const wikiTitleMappings: Record<string, string> = {
   'Chevrolet Colorado': 'Chevrolet_Colorado',
   'Chevrolet Colorado ZR2': 'Chevrolet_Colorado',
   'Chevrolet Corvette': 'Chevrolet_Corvette_(C8)',
+  'Chevrolet Corvette E-Ray': 'Chevrolet_Corvette_(C8)',
   'Chevrolet Corvette Z06': 'Chevrolet_Corvette_Z06',
   'Chevrolet Corvette ZR1': 'Chevrolet_Corvette_ZR1_(C8)',       // FIXED: specific gen
   'Chevrolet Equinox': 'Chevrolet_Equinox',
+  'Chevrolet Equinox EV': 'Chevrolet_Equinox_EV',
   'Chevrolet Express': 'Chevrolet_Express',
   'Chevrolet Malibu': 'Chevrolet_Malibu',
   'Chevrolet Silverado': 'Chevrolet_Silverado',
@@ -182,6 +201,7 @@ const wikiTitleMappings: Record<string, string> = {
   'Dodge Durango SRT 392': 'Dodge_Durango',
   'Dodge Durango SRT Hellcat': 'Dodge_Durango',
   'Dodge Hornet': 'Dodge_Hornet_(2023)',
+  'Dodge Hornet R/T': 'Dodge_Hornet_(2023)',
 
   // ==================== FERRARI ====================
   'Ferrari 296 GTB': 'Ferrari_296_GTB',
@@ -198,10 +218,14 @@ const wikiTitleMappings: Record<string, string> = {
   'Ferrari SF90 Stradale': 'Ferrari_SF90_Stradale',
   'Ferrari SF90 Spider': 'Ferrari_SF90_Stradale',
 
+  // ==================== FIAT ====================
+  'Fiat 500e': 'Fiat_New_500',
+
   // ==================== FORD ====================
   'Ford Bronco': 'Ford_Bronco_(sixth_generation)',
   'Ford Bronco Raptor': 'Ford_Bronco_Raptor',                 // FIXED: has own article
   'Ford Bronco Sport': 'Ford_Bronco_Sport',
+  'Ford E-Transit': 'Ford_E-Transit',
   'Ford Edge': 'Ford_Edge',
   'Ford Edge ST': 'Ford_Edge',
   'Ford Escape': 'Ford_Escape',
@@ -215,6 +239,7 @@ const wikiTitleMappings: Record<string, string> = {
   'Ford F-250': 'Ford_Super_Duty',
   'Ford Maverick': 'Ford_Maverick_(2022)',
   'Ford Mustang': 'Ford_Mustang_(seventh_generation)',
+  'Ford Mustang Dark Horse': 'Ford_Mustang_(seventh_generation)',
   'Ford Mustang GT': 'Ford_Mustang_(seventh_generation)',
   'Ford Mustang Mach-E': 'Ford_Mustang_Mach-E',
   'Ford Mustang Shelby GT500': 'Shelby_Mustang',              // FIXED: better article
@@ -222,6 +247,8 @@ const wikiTitleMappings: Record<string, string> = {
   'Ford Transit': 'Ford_Transit',
 
   // ==================== GENESIS ====================
+  'Genesis Electrified G80': 'Genesis_Electrified_G80',
+  'Genesis Electrified GV70': 'Genesis_GV70',
   'Genesis G70': 'Genesis_G70',
   'Genesis G70 Shooting Brake': 'Genesis_G70',
   'Genesis G80': 'Genesis_G80',
@@ -236,6 +263,7 @@ const wikiTitleMappings: Record<string, string> = {
   'GMC Canyon': 'GMC_Canyon',
   'GMC Canyon AT4X': 'GMC_Canyon',
   'GMC Hummer EV': 'GMC_Hummer_EV',
+  'GMC Hummer EV SUV': 'GMC_Hummer_EV',
   'GMC Sierra': 'GMC_Sierra',
   'GMC Sierra 1500': 'GMC_Sierra',
   'GMC Sierra 2500HD': 'GMC_Sierra',
@@ -267,7 +295,10 @@ const wikiTitleMappings: Record<string, string> = {
 
   // ==================== HYUNDAI ====================
   'Hyundai Elantra': 'Hyundai_Elantra',
+  'Hyundai Elantra Hybrid': 'Hyundai_Elantra',
+  'Hyundai Elantra N': 'Hyundai_Elantra_N',
   'Hyundai Ioniq 5': 'Hyundai_Ioniq_5',
+  'Hyundai Ioniq 5 N': 'Hyundai_Ioniq_5_N',
   'Hyundai Ioniq 6': 'Hyundai_Ioniq_6',
   'Hyundai Ioniq 9': 'Hyundai_Ioniq_9',                       // FIXED: was Hyundai_Ioniq_7
   'Hyundai Kona': 'Hyundai_Kona',
@@ -275,8 +306,10 @@ const wikiTitleMappings: Record<string, string> = {
   'Hyundai Palisade': 'Hyundai_Palisade',
   'Hyundai Santa Cruz': 'Hyundai_Santa_Cruz',
   'Hyundai Santa Fe': 'Hyundai_Santa_Fe',
+  'Hyundai Santa Fe Hybrid': 'Hyundai_Santa_Fe',
   'Hyundai Sonata': 'Hyundai_Sonata',
   'Hyundai Tucson': 'Hyundai_Tucson',
+  'Hyundai Tucson Hybrid': 'Hyundai_Tucson',
   'Hyundai Venue': 'Hyundai_Venue',
 
   // ==================== INFINITI ====================
@@ -312,12 +345,16 @@ const wikiTitleMappings: Record<string, string> = {
 
   // ==================== KIA ====================
   'Kia Carnival': 'Kia_Carnival',
+  'Kia EV3': 'Kia_EV3',
   'Kia EV5': 'Kia_EV5',
   'Kia EV6': 'Kia_EV6',
   'Kia EV9': 'Kia_EV9',
   'Kia Forte': 'Kia_Forte',
+  'Kia K4': 'Kia_K4',
   'Kia K5': 'Kia_K5',
   'Kia Niro': 'Kia_Niro',
+  'Kia Niro EV': 'Kia_Niro',
+  'Kia Niro PHEV': 'Kia_Niro',
   'Kia Seltos': 'Kia_Seltos',
   'Kia Sorento': 'Kia_Sorento',
   'Kia Sorento SX Prestige': 'Kia_Sorento',
@@ -333,6 +370,7 @@ const wikiTitleMappings: Record<string, string> = {
   'Koenigsegg Regera': 'Koenigsegg_Regera',
 
   // ==================== LAMBORGHINI ====================
+  'Lamborghini Aventador': 'Lamborghini_Aventador',
   'Lamborghini Huracán': 'Lamborghini_Huracán',
   'Lamborghini Huracán STO': 'Lamborghini_Huracán_STO',
   'Lamborghini Huracán Sterrato': 'Lamborghini_Huracán_Sterrato',
@@ -340,6 +378,14 @@ const wikiTitleMappings: Record<string, string> = {
   'Lamborghini Revuelto': 'Lamborghini_Revuelto',
   'Lamborghini Urus': 'Lamborghini_Urus',
   'Lamborghini Urus SE': 'Lamborghini_Urus_SE',                  // FIXED: try unique
+
+  // ==================== LAND ROVER ====================
+  'Land Rover Defender 90': 'Land_Rover_Defender_(L663)',
+  'Land Rover Defender 110': 'Land_Rover_Defender_(L663)',
+  'Land Rover Defender 130': 'Land_Rover_Defender_(L663)',
+  'Land Rover Defender PHEV': 'Land_Rover_Defender_(L663)',
+  'Land Rover Discovery': 'Land_Rover_Discovery',
+  'Land Rover Discovery Sport': 'Land_Rover_Discovery_Sport',
 
   // ==================== LEXUS ====================
   'Lexus ES': 'Lexus_ES',
@@ -351,6 +397,8 @@ const wikiTitleMappings: Record<string, string> = {
   'Lexus LC': 'Lexus_LC',
   'Lexus LC 500': 'Lexus_LC',
   'Lexus LC 500 Convertible': 'Lexus_LC',
+  'Lexus LC 500h': 'Lexus_LC',
+  'Lexus LS': 'Lexus_LS',
   'Lexus LX': 'Lexus_LX',
   'Lexus NX': 'Lexus_NX',
   'Lexus NX 350 F Sport': 'Lexus_NX',
@@ -359,6 +407,7 @@ const wikiTitleMappings: Record<string, string> = {
   'Lexus RX': 'Lexus_RX',
   'Lexus RX 350 F Sport': 'Lexus_RX',
   'Lexus RX 500h F Sport': 'Lexus_RX',
+  'Lexus RZ': 'Lexus_RZ',
   'Lexus TX': 'Lexus_TX',
   'Lexus UX': 'Lexus_UX',
 
@@ -434,7 +483,9 @@ const wikiTitleMappings: Record<string, string> = {
   'Mercedes-Benz E-Class': 'Mercedes-Benz_E-Class_(W214)',
   'Mercedes-Benz EQB': 'Mercedes-Benz_EQB',
   'Mercedes-Benz EQE': 'Mercedes-Benz_EQE',
+  'Mercedes-Benz EQE SUV': 'Mercedes-Benz_EQE_SUV',
   'Mercedes-Benz EQS': 'Mercedes-Benz_EQS',
+  'Mercedes-Benz EQS SUV': 'Mercedes-Benz_EQS_SUV',
   'Mercedes-Benz G-Class': 'Mercedes-Benz_G-Class',
   'Mercedes-Benz GLA': 'Mercedes-Benz_GLA-Class_(H247)',      // FIXED: specify gen
   'Mercedes-Benz GLB': 'Mercedes-Benz_GLB-Class',
@@ -442,6 +493,7 @@ const wikiTitleMappings: Record<string, string> = {
   'Mercedes-Benz GLE': 'Mercedes-Benz_GLE-Class_(W167)',      // FIXED: specify gen
   'Mercedes-Benz GLS': 'Mercedes-Benz_GLS-Class_(X167)',      // FIXED: specify gen
   'Mercedes-Benz S-Class': 'Mercedes-Benz_S-Class_(W223)',
+  'Mercedes-Maybach GLS 600': 'Mercedes-Maybach_GLS-Class',
   'Mercedes-AMG C43': 'Mercedes-Benz_C-Class_(W206)',          // FIXED: redirect to C-Class
   'Mercedes-AMG C63': 'Mercedes-AMG_C63',
   'Mercedes-AMG E53': 'Mercedes-Benz_E-Class_(W214)',          // AMG variants covered in base
@@ -452,7 +504,24 @@ const wikiTitleMappings: Record<string, string> = {
   'Mercedes-AMG GLE63 S': 'Mercedes-AMG_GLE63',
   'Mercedes-AMG GLS63': 'Mercedes-AMG_GLS63',
   'Mercedes-AMG GT': 'Mercedes-AMG_GT',
+  'Mercedes-AMG GT Coupe': 'Mercedes-AMG_GT',
   'Mercedes-AMG SL': 'Mercedes-Benz_SL-Class_(R232)',
+
+  // ==================== MINI ====================
+  'Mini Cooper': 'Mini_Cooper',
+  'Mini Cooper Convertible': 'Mini_Cooper',
+  'Mini Cooper S': 'Mini_Cooper',
+  'Mini Cooper SE': 'Mini_Electric',
+  'Mini Countryman': 'Mini_Countryman',
+  'Mini Countryman SE ALL4': 'Mini_Countryman',
+  'Mini John Cooper Works': 'John_Cooper_Works',
+
+  // ==================== MITSUBISHI ====================
+  'Mitsubishi Eclipse Cross': 'Mitsubishi_Eclipse_Cross',
+  'Mitsubishi Mirage': 'Mitsubishi_Mirage',
+  'Mitsubishi Outlander': 'Mitsubishi_Outlander',
+  'Mitsubishi Outlander PHEV': 'Mitsubishi_Outlander_PHEV',
+  'Mitsubishi Outlander Sport': 'Mitsubishi_Outlander_Sport',
 
   // ==================== NISSAN ====================
   'Nissan Altima': 'Nissan_Altima',
@@ -460,6 +529,7 @@ const wikiTitleMappings: Record<string, string> = {
   'Nissan Frontier': 'Nissan_Frontier',
   'Nissan Kicks': 'Nissan_Kicks',
   'Nissan Leaf': 'Nissan_Leaf',
+  'Nissan Maxima': 'Nissan_Maxima',
   'Nissan Murano': 'Nissan_Murano',
   'Nissan Pathfinder': 'Nissan_Pathfinder',
   'Nissan Pathfinder Rock Creek': 'Nissan_Pathfinder',
@@ -476,12 +546,22 @@ const wikiTitleMappings: Record<string, string> = {
   'Pagani Huayra Roadster': 'Pagani_Huayra',
   'Pagani Utopia': 'Pagani_Utopia',
 
+  // ==================== POLESTAR ====================
+  'Polestar 2': 'Polestar_2',
+  'Polestar 2 Performance': 'Polestar_2',
+  'Polestar 3': 'Polestar_3',
+  'Polestar 4': 'Polestar_4',
+
   // ==================== PORSCHE ====================
   'Porsche 718 Boxster': 'Porsche_Boxster/Cayman_(982)',       // FIXED: combined article
   'Porsche 718 Cayman': 'Porsche_Boxster/Cayman_(982)',        // FIXED: combined article
   'Porsche 911': 'Porsche_911',
+  'Porsche 911 GT3': 'Porsche_911_GT3',
+  'Porsche 911 Turbo S': 'Porsche_911',
   'Porsche Cayenne': 'Porsche_Cayenne',
+  'Porsche Cayenne Coupe': 'Porsche_Cayenne',
   'Porsche Macan': 'Porsche_Macan',
+  'Porsche Macan Electric': 'Porsche_Macan_(electric)',
   'Porsche Panamera': 'Porsche_Panamera',
   'Porsche Taycan': 'Porsche_Taycan',
 
@@ -492,6 +572,16 @@ const wikiTitleMappings: Record<string, string> = {
   'Ram 1500 TRX': 'Ram_1500_TRX',
   'Ram 2500': 'Ram_pickup',
   'Ram 3500': 'Ram_pickup',
+
+  // ==================== RANGE ROVER ====================
+  'Range Rover': 'Range_Rover_(L460)',
+  'Range Rover Evoque': 'Range_Rover_Evoque',
+  'Range Rover LWB': 'Range_Rover_(L460)',
+  'Range Rover PHEV': 'Range_Rover_(L460)',
+  'Range Rover Sport': 'Range_Rover_Sport_(L461)',
+  'Range Rover Sport PHEV': 'Range_Rover_Sport_(L461)',
+  'Range Rover Sport SV': 'Range_Rover_Sport_(L461)',
+  'Range Rover Velar': 'Range_Rover_Velar',
 
   // ==================== RIVIAN ====================
   'Rivian R1S': 'Rivian_R1S',
@@ -506,6 +596,10 @@ const wikiTitleMappings: Record<string, string> = {
   'Rolls-Royce Phantom': 'Rolls-Royce_Phantom_(VIII)',
   'Rolls-Royce Phantom Extended': 'Rolls-Royce_Phantom_(VIII)',
   'Rolls-Royce Spectre': 'Rolls-Royce_Spectre',
+
+  // ==================== SCOUT ====================
+  'Scout Terra': 'Scout_Terra',
+  'Scout Traveler': 'Scout_Traveler',
 
   // ==================== SUBARU ====================
   'Subaru Ascent': 'Subaru_Ascent',
@@ -533,9 +627,12 @@ const wikiTitleMappings: Record<string, string> = {
   'Toyota 4Runner': 'Toyota_4Runner',
   'Toyota 4Runner TRD Pro': 'Toyota_4Runner',
   'Toyota Camry': 'Toyota_Camry',
+  'Toyota Camry Hybrid': 'Toyota_Camry',
   'Toyota Corolla': 'Toyota_Corolla_(E210)',
   'Toyota Corolla Cross': 'Toyota_Corolla_Cross',
+  'Toyota Corolla Cross Hybrid': 'Toyota_Corolla_Cross',
   'Toyota Corolla Hatchback': 'Toyota_Corolla_(E210)',
+  'Toyota Corolla Hybrid': 'Toyota_Corolla_(E210)',
   'Toyota Crown': 'Toyota_Crown_(S230)',
   'Toyota Crown Signia': 'Toyota_Crown_Signia',               // FIXED: has own article
   'Toyota GR Corolla': 'Toyota_GR_Corolla',
@@ -543,22 +640,28 @@ const wikiTitleMappings: Record<string, string> = {
   'Toyota GR86': 'Toyota_GR86',
   'Toyota Grand Highlander': 'Toyota_Grand_Highlander',
   'Toyota Highlander': 'Toyota_Highlander',
+  'Toyota Highlander Hybrid': 'Toyota_Highlander',
   'Toyota Land Cruiser': 'Toyota_Land_Cruiser_(J300)',
   'Toyota Land Cruiser 250': 'Toyota_Land_Cruiser_Prado',
   'Toyota Prius': 'Toyota_Prius_(XW60)',
+  'Toyota Prius Prime': 'Toyota_Prius_Plug-in_Hybrid',
   'Toyota RAV4': 'Toyota_RAV4',
+  'Toyota RAV4 Hybrid': 'Toyota_RAV4',
+  'Toyota RAV4 Prime': 'Toyota_RAV4_Prime',
   'Toyota RAV4 TRD Off-Road': 'Toyota_RAV4',
   'Toyota Sequoia': 'Toyota_Sequoia',
   'Toyota Sienna': 'Toyota_Sienna',
   'Toyota Tacoma': 'Toyota_Tacoma_(N300)',                     // FIXED: latest gen
   'Toyota Tacoma TRD Pro': 'Toyota_Tacoma_(N300)',
   'Toyota Tundra': 'Toyota_Tundra_(XK70)',                    // FIXED: latest gen
+  'Toyota Tundra Hybrid': 'Toyota_Tundra_(XK70)',
   'Toyota Tundra TRD Pro': 'Toyota_Tundra_(XK70)',
   'Toyota Venza': 'Toyota_Venza',
   'Toyota bZ4X': 'Toyota_bZ4X',
 
   // ==================== VOLKSWAGEN ====================
   'Volkswagen Atlas': 'Volkswagen_Atlas',
+  'Volkswagen Atlas Cross Sport': 'Volkswagen_Atlas_Cross_Sport',
   'Volkswagen Atlas Peak Edition': 'Volkswagen_Atlas',
   'Volkswagen Golf': 'Volkswagen_Golf_Mk8',
   'Volkswagen Golf GTI': 'Volkswagen_Golf_GTI',
@@ -567,6 +670,7 @@ const wikiTitleMappings: Record<string, string> = {
   'Volkswagen ID.4 Pro S': 'Volkswagen_ID.4',
   'Volkswagen ID.Buzz': 'Volkswagen_ID._Buzz',
   'Volkswagen ID.Buzz LWB': 'Volkswagen_ID._Buzz',
+  'Volkswagen ID.7': 'Volkswagen_ID.7',
   'Volkswagen Jetta': 'Volkswagen_Jetta',
   'Volkswagen Jetta Sport': 'Volkswagen_Jetta',
   'Volkswagen Taos': 'Volkswagen_Taos',
@@ -574,7 +678,9 @@ const wikiTitleMappings: Record<string, string> = {
 
   // ==================== VOLVO ====================
   'Volvo C40 Recharge': 'Volvo_C40',
+  'Volvo EC40': 'Volvo_C40',
   'Volvo EX30': 'Volvo_EX30',
+  'Volvo EX40': 'Volvo_XC40',
   'Volvo EX90': 'Volvo_EX90',
   'Volvo S60': 'Volvo_S60',
   'Volvo S90': 'Volvo_S90',
@@ -594,6 +700,13 @@ const wikiTitleMappings: Record<string, string> = {
 // a UNIQUE photo from Wikimedia Commons (not the same as the base model).
 // ============================================================================
 const commonsSearchOverrides: Record<string, string> = {
+  // Acura
+  'Acura ADX': '"Acura ADX" 2025 SUV',
+  'Acura ZDX Type S': '"Acura ZDX Type S" electric 2024',
+
+  // Alfa Romeo
+  'Alfa Romeo Tonale PHEV': '"Alfa Romeo Tonale" PHEV plug-in hybrid',
+
   // Aston Martin
   'Aston Martin DB12 Volante': '"Aston Martin DB12" Volante convertible',
   'Aston Martin Vantage Roadster': '"Aston Martin Vantage" Roadster 2024',
@@ -601,6 +714,10 @@ const commonsSearchOverrides: Record<string, string> = {
 
   // Audi variants
   'Audi A4 Allroad': '"Audi A4 allroad" quattro',
+  'Audi Q8 e-tron': '"Audi Q8 e-tron" SUV 2024',
+  'Audi RS3': '"Audi RS3" Sportback 2024',
+  'Audi RS6 Avant': '"Audi RS6 Avant" 2024',
+  'Audi RS e-tron GT': '"Audi RS e-tron GT" 2024',
   'Audi e-tron': '"Audi e-tron" SUV 55 quattro',
   'Audi S3': '"Audi S3" Sportback 2024',
   'Audi S4': '"Audi S4" B9 Avant sedan',
@@ -620,6 +737,7 @@ const commonsSearchOverrides: Record<string, string> = {
 
   // BMW variants
   'BMW 4 Series': '"BMW 4 Series" Gran Coupe G26',
+  'BMW XM': '"BMW XM" SUV 2024',
   'BMW M440i': '"BMW M440i" Gran Coupe',
   'BMW X5 M50i': '"BMW X5" M50i M Sport',
   'BMW X5M': '"BMW X5 M" Competition F95',
@@ -632,9 +750,12 @@ const commonsSearchOverrides: Record<string, string> = {
   // Cadillac variants
   'Cadillac Escalade-V': '"Cadillac Escalade-V" 2024',
   'Cadillac Lyriq-V': '"Cadillac Lyriq" 2025',
+  'Cadillac CT4-V Blackwing': '"Cadillac CT4-V Blackwing"',
+  'Cadillac CT5-V Blackwing': '"Cadillac CT5-V Blackwing"',
 
   // Chevrolet variants
   'Chevrolet Camaro ZL1': '"Chevrolet Camaro ZL1" 2023',
+  'Chevrolet Corvette E-Ray': '"Chevrolet Corvette E-Ray" hybrid AWD',
   'Chevrolet Corvette Z06': '"Chevrolet Corvette Z06" C8',
   'Chevrolet Corvette ZR1': '"Chevrolet Corvette ZR1" C8 2025',
   'Chevrolet Tahoe Z71': '"Chevrolet Tahoe" Z71 2024',
@@ -650,6 +771,7 @@ const commonsSearchOverrides: Record<string, string> = {
   'Dodge Charger SRT Hellcat': '"Dodge Charger" SRT Hellcat',
   'Dodge Durango SRT 392': '"Dodge Durango SRT" 392',
   'Dodge Durango SRT Hellcat': '"Dodge Durango SRT Hellcat"',
+  'Dodge Hornet R/T': '"Dodge Hornet" R/T PHEV plug-in hybrid',
 
   // Ferrari variants
   'Ferrari 296 GTS': '"Ferrari 296 GTS" spider',
@@ -658,6 +780,7 @@ const commonsSearchOverrides: Record<string, string> = {
   'Ferrari SF90 Spider': '"Ferrari SF90" Spider',
 
   // Ford variants
+  'Ford Mustang Dark Horse': '"Ford Mustang Dark Horse" 2024 S650',
   'Ford Mustang GT': '"Ford Mustang GT" 2024 S650 seventh generation',
   'Ford Mustang Shelby GT500': '"Ford Mustang Shelby GT500" 2020',
   'Ford Edge ST': '"Ford Edge ST" 2024',
@@ -665,10 +788,13 @@ const commonsSearchOverrides: Record<string, string> = {
   'Ford F-150 Raptor R': '"Ford F-150 Raptor R" V8',
 
   // Genesis
+  'Genesis Electrified G80': '"Genesis Electrified G80" 2024',
+  'Genesis Electrified GV70': '"Genesis Electrified GV70" electric',
   'Genesis G70 Shooting Brake': '"Genesis G70" "Shooting Brake"',
 
   // GMC variants
   'GMC Canyon AT4X': '"GMC Canyon" AT4X off-road',
+  'GMC Hummer EV SUV': '"GMC Hummer EV" SUV',
   'GMC Sierra 2500HD': '"GMC Sierra" 2500HD heavy duty',
   'GMC Sierra AT4X': '"GMC Sierra" AT4X',
   'GMC Yukon AT4': '"GMC Yukon" AT4 2024',
@@ -682,6 +808,8 @@ const commonsSearchOverrides: Record<string, string> = {
   'Honda Ridgeline': '"Honda Ridgeline" 2022 Touring front',
 
   // Hyundai
+  'Hyundai Elantra N': '"Hyundai Elantra N" 2024 performance',
+  'Hyundai Ioniq 5 N': '"Hyundai Ioniq 5 N" 2025 performance',
   'Hyundai Ioniq 9': '"Hyundai Ioniq 9" electric SUV',
   'Hyundai Kona Electric': '"Hyundai Kona Electric" 2024',
 
@@ -696,6 +824,8 @@ const commonsSearchOverrides: Record<string, string> = {
   'Jeep Grand Wagoneer': '"Jeep Grand Wagoneer" 2023 L',
 
   // Kia
+  'Kia EV3': '"Kia EV3" electric compact 2025',
+  'Kia K4': '"Kia K4" sedan 2025',
   'Kia K5': '"Kia K5" 2024 sedan',
   'Kia Soul': '"Kia Soul" 2020 2023 SK3 front',
   'Kia EV5': '"Kia EV5" electric',
@@ -750,6 +880,10 @@ const commonsSearchOverrides: Record<string, string> = {
   'Mercedes-Benz GLA': '"Mercedes-Benz GLA" H247 2024',
   'Mercedes-Benz GLB': '"Mercedes-Benz GLB" 2024',
   'Mercedes-Benz GLS': '"Mercedes-Benz GLS" X167',
+  'Mercedes-Benz EQE SUV': '"Mercedes-Benz EQE SUV" electric',
+  'Mercedes-Benz EQS SUV': '"Mercedes-Benz EQS SUV" electric',
+  'Mercedes-Maybach GLS 600': '"Mercedes-Maybach GLS" 600 4MATIC',
+  'Mercedes-AMG GT Coupe': '"Mercedes-AMG GT" Coupe 2024',
   'Mercedes-AMG C43': '"Mercedes-AMG C43" W206',
   'Mercedes-AMG C63': '"Mercedes-AMG C 63" W206 front',
   'Mercedes-AMG E53': '"Mercedes-AMG E53" W214',
@@ -763,12 +897,31 @@ const commonsSearchOverrides: Record<string, string> = {
   // Porsche (718 Boxster vs Cayman need different images)
   'Porsche 718 Boxster': '"Porsche 718 Boxster" front 2023',
   'Porsche 718 Cayman': '"Porsche 718 Cayman" GT4 coupe',
+  'Porsche 911 GT3': '"Porsche 911 GT3" 992 2024',
+  'Porsche 911 Turbo S': '"Porsche 911 Turbo S" 992 2024',
+  'Porsche Cayenne Coupe': '"Porsche Cayenne" Coupe 2024',
+  'Porsche Macan Electric': '"Porsche Macan" electric 2025',
 
   // Ram variants
   'Ram 1500 Rebel': '"Ram 1500" Rebel off-road',
   'Ram 1500 Limited': '"Ram 1500" Limited luxury',
   'Ram 2500': '"Ram 2500" 2024 Heavy Duty Laramie front',
   'Ram 3500': '"Ram 3500" dually Heavy Duty',
+
+  // Land Rover variants
+  'Land Rover Defender 90': '"Land Rover Defender" 90 2024',
+  'Land Rover Defender 130': '"Land Rover Defender" 130 2024',
+  'Land Rover Defender PHEV': '"Land Rover Defender" PHEV hybrid',
+
+  // Range Rover variants
+  'Range Rover LWB': '"Range Rover" LWB "Long Wheelbase" 2024',
+  'Range Rover PHEV': '"Range Rover" PHEV plug-in hybrid',
+  'Range Rover Sport PHEV': '"Range Rover Sport" PHEV plug-in',
+  'Range Rover Sport SV': '"Range Rover Sport SV" 2024',
+
+  // Scout
+  'Scout Terra': '"Scout Terra" pickup 2026 VW',
+  'Scout Traveler': '"Scout Traveler" SUV 2026 VW',
 
   // Rolls-Royce
   'Rolls-Royce Phantom': '"Rolls-Royce Phantom VIII" front',
@@ -778,18 +931,30 @@ const commonsSearchOverrides: Record<string, string> = {
   'Subaru BRZ': '"Subaru BRZ" 2024 coupe',
 
   // Toyota variants
+  'Toyota Camry Hybrid': '"Toyota Camry" hybrid 2025',
+  'Toyota Corolla Cross Hybrid': '"Toyota Corolla Cross" hybrid 2024',
+  'Toyota Corolla Hybrid': '"Toyota Corolla" hybrid 2024',
   'Toyota Crown Signia': '"Toyota Crown Signia" 2025 crossover',
   'Toyota GR Supra': '"Toyota GR Supra" A90 2024',
+  'Toyota Highlander Hybrid': '"Toyota Highlander" hybrid 2024',
   'Toyota Land Cruiser': '"Toyota Land Cruiser" 2024 J300',
+  'Toyota Prius Prime': '"Toyota Prius Prime" plug-in 2024',
+  'Toyota RAV4 Hybrid': '"Toyota RAV4" hybrid 2024',
+  'Toyota RAV4 Prime': '"Toyota RAV4 Prime" plug-in 2024',
   'Toyota Tacoma TRD Pro': '"Toyota Tacoma" "TRD Pro" 2024 N300',
+  'Toyota Tundra Hybrid': '"Toyota Tundra" hybrid i-FORCE MAX',
   'Toyota Tundra TRD Pro': '"Toyota Tundra" "TRD Pro" 2024',
 
   // Volkswagen
+  'Volkswagen Atlas Cross Sport': '"Volkswagen Atlas Cross Sport" 2024',
   'Volkswagen Golf GTI': '"Volkswagen Golf GTI" Mk8 2024',
   'Volkswagen Golf R': '"Volkswagen Golf R" Mk8 2024',
+  'Volkswagen ID.7': '"Volkswagen ID.7" electric sedan 2024',
 
   // Volvo
   'Volvo C40 Recharge': '"Volvo C40" Recharge electric',
+  'Volvo EC40': '"Volvo EC40" electric 2025',
+  'Volvo EX40': '"Volvo EX40" electric 2025',
 };
 
 // ============================================================================
