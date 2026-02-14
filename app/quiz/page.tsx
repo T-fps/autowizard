@@ -920,17 +920,16 @@ export default function QuizPage() {
       { label: 'Minivan', value: 'minivan' },
       { label: 'Convertible', value: 'convertible' }
     ] },
-    { id: 'brand', question: 'Any brands you prefer?', icon: '🏷️', type: 'multiple', section: 'preferences', options: [
-      { label: 'No preference', value: 'none' },
-      { label: 'Toyota', value: 'toyota' }, { label: 'Honda', value: 'honda' }, { label: 'Ford', value: 'ford' },
-      { label: 'Chevrolet', value: 'chevrolet' }, { label: 'BMW', value: 'bmw' }, { label: 'Mercedes', value: 'mercedes' },
-      { label: 'Audi', value: 'audi' }, { label: 'Tesla', value: 'tesla' }, { label: 'Lexus', value: 'lexus' },
-      { label: 'Porsche', value: 'porsche' }, { label: 'Ferrari', value: 'ferrari' }, { label: 'Lamborghini', value: 'lamborghini' },
-      { label: 'McLaren', value: 'mclaren' }, { label: 'Aston Martin', value: 'aston-martin' }, { label: 'Bentley', value: 'bentley' },
-      { label: 'Rolls-Royce', value: 'rolls-royce' }, { label: 'Maserati', value: 'maserati' },
-      { label: 'Mazda', value: 'mazda' }, { label: 'Subaru', value: 'subaru' }, { label: 'Hyundai', value: 'hyundai' },
-      { label: 'Kia', value: 'kia' }, { label: 'Jeep', value: 'jeep' }, { label: 'Ram', value: 'ram' },
-      { label: 'GMC', value: 'gmc' }, { label: 'Nissan', value: 'nissan' }, { label: 'Volvo', value: 'volvo' }
+    { id: 'brand', question: 'What type of brands interest you?', icon: '🏷️', type: 'multiple', section: 'preferences', maxSelect: 3, options: [
+      { label: 'No preference - open to anything', value: 'none' },
+      { label: 'Japanese Reliable — Toyota, Honda, Mazda, Subaru, Nissan', value: 'japanese' },
+      { label: 'Korean Value & Tech — Hyundai, Kia, Genesis', value: 'korean' },
+      { label: 'American Muscle & Capability — Ford, Chevy, Ram, Jeep, Dodge, Cadillac, GMC', value: 'american' },
+      { label: 'German Engineering — BMW, Mercedes, Audi, Porsche, VW', value: 'german' },
+      { label: 'European Style — Volvo, Alfa Romeo, Jaguar, Land Rover, Mini, Fiat', value: 'european' },
+      { label: 'Electric Pioneers — Tesla, Rivian, Lucid, Polestar', value: 'electric-brand' },
+      { label: 'Exotic & Ultra-Luxury — Ferrari, Lamborghini, Bentley, Rolls-Royce, McLaren, Aston Martin', value: 'exotic' },
+      { label: 'Premium Japanese — Lexus, Acura, Infiniti', value: 'japanese-luxury' }
     ] },
     { id: 'powertrain', question: 'Any powertrain preference?', icon: '🔋', type: 'single', section: 'preferences', options: [
       { label: 'No preference', value: 'any' },
