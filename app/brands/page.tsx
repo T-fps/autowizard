@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp, X, SlidersHorizontal, Car, Search, RotateCcw } from 'lucide-react';
 import { vehicleDatabase, Vehicle } from '../lib/vehicleDatabase';
@@ -331,6 +331,30 @@ function getBrandGradient(brand: string): string {
   return brandGradients[brand] || brandGradients.default;
 }
 
+// Filter Section Component - defined outside main component
+interface FilterSectionProps {
+  title: string;
+  section: string;
+  expanded: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}
+
+function FilterSection({ title, section, expanded, onToggle, children }: FilterSectionProps) {
+  return (
+    <div className="border-b border-slate-200 pb-4 mb-4">
+      <button
+        onClick={onToggle}
+        className="flex items-center justify-between w-full text-left font-semibold text-slate-900 mb-3"
+      >
+        {title}
+        {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+      </button>
+      {expanded && children}
+    </div>
+  );
+}
+
 export default function FindMyCarPage() {
   // Filter states
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
@@ -356,9 +380,9 @@ export default function FindMyCarPage() {
   
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  const toggleSection = (section: string) => {
+  const toggleSection = useCallback((section: string) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
+  }, []);
 
   const toggleArrayFilter = <T,>(array: T[], value: T, setter: (arr: T[]) => void) => {
     if (array.includes(value)) {
@@ -472,23 +496,10 @@ export default function FindMyCarPage() {
     return results;
   }, [selectedBrands, selectedBodyTypes, selectedPowertrains, selectedSegments, selectedSeats, selectedPriceRange, hasAWD, searchQuery, sortBy]);
 
-  // Filter section component
-  const FilterSection = ({ title, section, children }: { title: string; section: string; children: React.ReactNode }) => (
-    <div className="border-b border-slate-200 pb-4 mb-4">
-      <button
-        onClick={() => toggleSection(section)}
-        className="flex items-center justify-between w-full text-left font-semibold text-slate-900 mb-3"
-      >
-        {title}
-        {expandedSections[section] ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-      </button>
-      {expandedSections[section] && children}
-    </div>
-  );
-
-  const FiltersPanel = () => (
+  // Filters content - rendered inline instead of as a recreated function
+  const filtersContent = (
     <div className="space-y-2">
-      {/* Search */}
+      {/* Search - Now directly in the JSX, not in a function that gets recreated */}
       <div className="mb-6">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -514,7 +525,12 @@ export default function FindMyCarPage() {
       )}
 
       {/* Body Type */}
-      <FilterSection title="Body Style" section="bodyType">
+      <FilterSection 
+        title="Body Style" 
+        section="bodyType"
+        expanded={expandedSections.bodyType}
+        onToggle={() => toggleSection('bodyType')}
+      >
         <div className="grid grid-cols-2 gap-2">
           {filterOptions.bodyTypes.map(type => (
             <button
@@ -533,7 +549,12 @@ export default function FindMyCarPage() {
       </FilterSection>
 
       {/* Price Range */}
-      <FilterSection title="Price Range" section="price">
+      <FilterSection 
+        title="Price Range" 
+        section="price"
+        expanded={expandedSections.price}
+        onToggle={() => toggleSection('price')}
+      >
         <div className="space-y-2">
           {priceRanges.map((range, i) => (
             <button
@@ -556,7 +577,12 @@ export default function FindMyCarPage() {
       </FilterSection>
 
       {/* Powertrain */}
-      <FilterSection title="Powertrain" section="powertrain">
+      <FilterSection 
+        title="Powertrain" 
+        section="powertrain"
+        expanded={expandedSections.powertrain}
+        onToggle={() => toggleSection('powertrain')}
+      >
         <div className="space-y-2">
           {filterOptions.powertrains.map(powertrain => (
             <button
@@ -575,7 +601,12 @@ export default function FindMyCarPage() {
       </FilterSection>
 
       {/* Brand */}
-      <FilterSection title="Brand" section="brand">
+      <FilterSection 
+        title="Brand" 
+        section="brand"
+        expanded={expandedSections.brand}
+        onToggle={() => toggleSection('brand')}
+      >
         <div className="max-h-64 overflow-y-auto space-y-1">
           {filterOptions.brands.map(brand => (
             <button
@@ -594,7 +625,12 @@ export default function FindMyCarPage() {
       </FilterSection>
 
       {/* Segment */}
-      <FilterSection title="Segment" section="segment">
+      <FilterSection 
+        title="Segment" 
+        section="segment"
+        expanded={expandedSections.segment}
+        onToggle={() => toggleSection('segment')}
+      >
         <div className="space-y-2">
           {filterOptions.segments.map(segment => (
             <button
@@ -613,7 +649,12 @@ export default function FindMyCarPage() {
       </FilterSection>
 
       {/* Seating */}
-      <FilterSection title="Seating Capacity" section="seats">
+      <FilterSection 
+        title="Seating Capacity" 
+        section="seats"
+        expanded={expandedSections.seats}
+        onToggle={() => toggleSection('seats')}
+      >
         <div className="flex flex-wrap gap-2">
           {filterOptions.seatingOptions.map(seats => (
             <button
@@ -632,7 +673,12 @@ export default function FindMyCarPage() {
       </FilterSection>
 
       {/* Features */}
-      <FilterSection title="Features" section="features">
+      <FilterSection 
+        title="Features" 
+        section="features"
+        expanded={expandedSections.features}
+        onToggle={() => toggleSection('features')}
+      >
         <div className="space-y-2">
           <button
             onClick={() => setHasAWD(hasAWD === true ? null : true)}
@@ -697,7 +743,7 @@ export default function FindMyCarPage() {
                 <SlidersHorizontal className="w-5 h-5 text-slate-700" />
                 <h2 className="font-bold text-slate-900">Filters</h2>
               </div>
-              <FiltersPanel />
+              {filtersContent}
             </div>
           </div>
 
@@ -860,7 +906,7 @@ export default function FindMyCarPage() {
                 </button>
               </div>
               <div className="p-4">
-                <FiltersPanel />
+                {filtersContent}
               </div>
               <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4">
                 <button
