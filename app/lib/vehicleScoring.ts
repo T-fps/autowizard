@@ -82,6 +82,17 @@ const bodyTypeMapping: Record<string, string[]> = {
 
 // Brand name normalization
 const brandNormalization: Record<string, string[]> = {
+  // Brand groups (from quiz)
+  'japanese': ['Toyota', 'Honda', 'Mazda', 'Subaru', 'Nissan', 'Mitsubishi'],
+  'korean': ['Hyundai', 'Kia', 'Genesis'],
+  'american': ['Ford', 'Chevrolet', 'GMC', 'Ram', 'Jeep', 'Dodge', 'Chrysler', 'Buick', 'Lincoln', 'Cadillac', 'Scout'],
+  'german': ['BMW', 'Mercedes-Benz', 'Mercedes-AMG', 'Audi', 'Porsche', 'Volkswagen'],
+  'european': ['Volvo', 'Alfa Romeo', 'Jaguar', 'Land Rover', 'Maserati', 'Mini', 'Fiat'],
+  'electric-brand': ['Tesla', 'Rivian', 'Lucid', 'Polestar'],
+  'exotic': ['Ferrari', 'Lamborghini', 'McLaren', 'Aston Martin', 'Bentley', 'Rolls-Royce', 'Lotus', 'Bugatti', 'Koenigsegg', 'Pagani'],
+  'japanese-luxury': ['Lexus', 'Acura', 'Infiniti'],
+
+  // Legacy individual brand values (backwards compatibility with shared links / saved results)
   'toyota': ['Toyota'],
   'honda': ['Honda'],
   'ford': ['Ford'],
@@ -130,6 +141,7 @@ const brandNormalization: Record<string, string[]> = {
   'polestar': ['Polestar'],
   'lotus': ['Lotus'],
   'pagani': ['Pagani'],
+  'scout': ['Scout'],
 };
 
 // Determine recommended body styles based on values (when user selects "recommend")
