@@ -131,7 +131,7 @@ export default function HomePage() {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">The Wizard&apos;s Guide</h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Everything you need to find your perfect car. Browse 300+ vehicles, compare specs, or read our expert guides.
+            Everything you need to find your perfect car. Browse 400+ vehicles, compare specs, or read our expert guides.
           </p>
         </div>
 
