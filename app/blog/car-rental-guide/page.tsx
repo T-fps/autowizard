@@ -35,11 +35,12 @@ export default function BlogPost() {
           <p className="text-slate-600 mb-4">This guide is your cheat code. We&apos;ll cover which rental companies are actually worth using, how to handle the insurance question without getting fleeced, and city-specific tips for the most popular rental destinations in the U.S.</p>
 
           {/* Hero Image - Aerial car lot */}
-          <div className="rounded-2xl overflow-hidden my-8">
+          <div className="float-right ml-6 mb-4 w-1/2 rounded-2xl overflow-hidden">
             <img src="/blog/rental-car-guide/car-lot.avif" alt="Aerial view of a rental car lot with rows of vehicles" className="w-full h-auto object-cover" />
           </div>
 
           {/* === SECTION 1: COMPANY RANKINGS === */}
+          <div className="clear-both" />
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">🏆 The Best Rental Car Companies, Ranked</h2>
           <p className="text-slate-600 mb-4">There are really only three parent companies that control most of the market: Enterprise Holdings (Enterprise, National, Alamo), Avis Budget Group (Avis, Budget), and Hertz (Hertz, Dollar, Thrifty). Here&apos;s how the individual brands stack up based on J.D. Power&apos;s 2025 satisfaction study, Consumer Reports data, and real-world feedback.</p>
 
@@ -117,11 +118,12 @@ export default function BlogPost() {
           <p className="text-slate-600 mb-4">Our take: unless you&apos;re extremely budget-constrained, the few extra dollars for a Tier 1 or 2 company are worth it in experience alone.</p>
 
           {/* Car key handoff image */}
-          <div className="rounded-2xl overflow-hidden my-8">
+          <div className="float-left mr-6 mb-4 w-1/2 rounded-2xl overflow-hidden">
             <img src="/blog/rental-car-guide/key-handoff.avif" alt="Handing over car keys at a rental counter" className="w-full h-auto object-cover" />
           </div>
 
           {/* === SECTION 2: THE INSURANCE GAME === */}
+          <div className="clear-both" />
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">🛡️ Rental Car Insurance: The Complete Breakdown</h2>
           <p className="text-slate-600 mb-4">This is where rental companies make a killing — and where you can save the most money. The agent at the counter will offer you multiple types of coverage, and they&apos;re trained to make you feel like you&apos;d be insane to decline. Here&apos;s what&apos;s actually going on.</p>
 
@@ -340,11 +342,12 @@ export default function BlogPost() {
           </div>
 
           {/* Miami aerial cityscape image */}
-          <div className="rounded-2xl overflow-hidden my-8">
+          <div className="float-right ml-6 mb-4 w-1/2 rounded-2xl overflow-hidden">
             <img src="/blog/rental-car-guide/miami-aerial.avif" alt="Aerial view of Miami Beach coastline and city streets" className="w-full h-auto object-cover" />
           </div>
 
           {/* === SECTION 4: MONEY-SAVING PLAYBOOK === */}
+          <div className="clear-both" />
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">💡 The Money-Saving Playbook</h2>
           <p className="text-slate-600 mb-4">These tips work every single time, everywhere:</p>
 
