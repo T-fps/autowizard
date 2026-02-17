@@ -35,11 +35,12 @@ export default function BlogPost() {
           <p className="text-slate-600 mb-4">This guide breaks down every major maintenance task by how often you need it, what it&apos;ll cost, and what happens if you ignore it. Bookmark this one.</p>
 
           {/* Hero Image - Mechanic checking oil */}
-          <div className="rounded-2xl overflow-hidden my-8">
+          <div className="float-right ml-6 mb-4 w-1/2 rounded-2xl overflow-hidden">
             <img src="/blog/maintenance-checklist/oil-check.avif" alt="Mechanic checking engine oil with a dipstick" className="w-full h-auto object-cover" />
           </div>
 
           {/* === SECTION 1: THE REGULARS === */}
+          <div className="clear-both" />
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">🔧 The Regulars: Every 5,000–7,500 Miles</h2>
           <p className="text-slate-600 mb-4">These are your bread-and-butter services. Think of them like brushing your teeth — skip them and things get ugly fast.</p>
 
@@ -91,11 +92,12 @@ export default function BlogPost() {
           <p className="text-slate-600 mb-4">Underinflated tires hurt your gas mileage, wear unevenly, and can blow out on the highway. Your TPMS light is a warning, not a suggestion. Check the sticker on your driver&apos;s door jamb for the correct PSI — not the number on the tire sidewall (that&apos;s the maximum, not the target).</p>
 
           {/* Tire pressure gauge image */}
-          <div className="rounded-2xl overflow-hidden my-8">
+          <div className="float-left mr-6 mb-4 w-1/2 rounded-2xl overflow-hidden">
             <img src="/blog/maintenance-checklist/tire-pressure.avif" alt="Checking tire pressure with a gauge" className="w-full h-auto object-cover" />
           </div>
 
           {/* === SECTION 2: EVERY 15,000–30,000 MILES === */}
+          <div className="clear-both" />
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">🛞 The Semi-Regulars: Every 15,000–30,000 Miles</h2>
           <p className="text-slate-600 mb-4">These pop up once or twice a year for most drivers. Not as frequent, but just as important.</p>
 
@@ -150,11 +152,12 @@ export default function BlogPost() {
           <p className="text-slate-600 mb-4">Cheap, easy to replace yourself, and absolutely critical for visibility. If they&apos;re streaking or chattering, swap them. Most auto parts stores will even install them for free when you buy them there.</p>
 
           {/* Wheel and brake closeup image */}
-          <div className="rounded-2xl overflow-hidden my-8">
+          <div className="float-right ml-6 mb-4 w-1/2 rounded-2xl overflow-hidden">
             <img src="/blog/maintenance-checklist/brakes-wheel.avif" alt="Close-up of a car wheel showing brake rotor and caliper" className="w-full h-auto object-cover" />
           </div>
 
           {/* === SECTION 3: THE BIG ONES === */}
+          <div className="clear-both" />
           <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">⚙️ The Big Ones: Every 30,000–100,000 Miles</h2>
           <p className="text-slate-600 mb-4">These services are less frequent but more expensive. They&apos;re the ones that catch people off guard because they forget to budget for them.</p>
 
