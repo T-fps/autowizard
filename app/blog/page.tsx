@@ -6,6 +6,27 @@ import { ChevronRight, BookOpen, ChevronLeft, SlidersHorizontal, ChevronDown } f
 import PageWrapper from '../components/shared/PageWrapper';
 
 const blogPosts = [
+  // NEW FEBRUARY 2026 ARTICLES - PART 3 (Feb 15-17)
+  {
+    slug: 'rental-car-guide',
+    title: 'Best Rental Car Companies in 2026: Rankings, Insurance Tips & City-by-City Guide',
+    description: 'Which rental companies are actually worth using, how to handle insurance without getting fleeced, and city-specific tips for the most popular destinations.',
+    category: 'How-To Guide',
+    categoryColor: 'blue',
+    date: 'February 17, 2026',
+    dateSort: '2026-02-17',
+    readTime: '14 min read'
+  },
+  {
+    slug: 'maintenance-checklist',
+    title: 'The Complete Car Maintenance Checklist: What to Do, When to Do It & What It Costs',
+    description: 'Every maintenance task your car needs, organized by mileage interval—with real cost ranges and warnings about what happens if you skip them.',
+    category: 'How-To Guide',
+    categoryColor: 'blue',
+    date: 'February 15, 2026',
+    dateSort: '2026-02-15',
+    readTime: '10 min read'
+  },
   // NEW FEBRUARY 2026 ARTICLES - PART 2 (Feb 8-12)
   {
     slug: 'car-tariffs-guide-2026',
