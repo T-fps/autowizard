@@ -6,7 +6,17 @@ import { ChevronRight, BookOpen, ChevronLeft, SlidersHorizontal, ChevronDown } f
 import PageWrapper from '../components/shared/PageWrapper';
 
 const blogPosts = [
-  // NEW FEBRUARY 2026 ARTICLES - PART 3 (Feb 15-17)
+  // NEW FEBRUARY 2026 ARTICLES - PART 3 (Feb 15-18)
+  {
+    slug: 'best-jeep-accessories',
+    title: 'Best Jeep Wrangler Accessories in 2026: The Ultimate Upgrade Guide',
+    description: 'From trail-ready performance mods to head-turning appearance upgrades — organized by popularity, performance, looks, and budget.',
+    category: 'Accessories',
+    categoryColor: 'orange',
+    date: 'February 18, 2026',
+    dateSort: '2026-02-18',
+    readTime: '14 min read'
+  },
   {
     slug: 'rental-car-guide',
     title: 'Best Rental Car Companies in 2026: Rankings, Insurance Tips & City-by-City Guide',
